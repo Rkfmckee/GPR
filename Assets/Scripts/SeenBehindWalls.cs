@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SeenBehindWalls : MonoBehaviour
 {
-    private new GameObject camera;
+    private new Camera camera;
 
     private GameObject currentObjectHit;
     private GameObject previousObjectHit;
@@ -14,14 +14,25 @@ public class SeenBehindWalls : MonoBehaviour
     private Material wallMaterialTranslucent;
 
     void Awake() {
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        camera = Camera.main;
 
         wallMaterialSolid = Resources.Load("Materials/WallMaterial") as Material;
         wallMaterialTranslucent = Resources.Load("Materials/WallMaterialTranslucent") as Material;
     }
 
     void Update() {
-        seeObjectThroughWalls();
+        checkIfValidObjectToSeeThroughWalls();
+    }
+
+    private void checkIfValidObjectToSeeThroughWalls() {
+        var isPlayer = gameObject.tag == "Player";
+        var isPlayerAndBeingControlled = false;
+        
+        if (isPlayer) isPlayerAndBeingControlled = gameObject.GetComponent<PlayerBehaviour>().currentlyBeingControlled;
+
+        if (isPlayerAndBeingControlled || !isPlayer) {
+            seeObjectThroughWalls();
+        }
     }
 
     private void seeObjectThroughWalls() {

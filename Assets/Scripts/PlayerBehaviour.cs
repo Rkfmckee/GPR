@@ -6,6 +6,7 @@ public class PlayerBehaviour : MonoBehaviour
 {
     #region Properties
 
+    public bool currentlyBeingControlled;
     public float movementSpeed;
 
     private new Rigidbody rigidbody;
@@ -26,7 +27,9 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     private void Update() {
-        calculateMovement();
+        if (currentlyBeingControlled) {
+            calculateMovement();
+        }
     }
 
     #endregion
@@ -35,6 +38,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void setupInstanceVariables() {
         rigidbody = GetComponent<Rigidbody>();
+        movementSpeed = movementSpeed * Time.deltaTime;
     }
 
     private void calculateMovement() {
@@ -43,7 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
         movementAmount = new Vector3(xSpeed, 0, zSpeed);
         var newPosition = transform.position + movementAmount;
 
-        rigidbody.velocity = movementAmount;
+        rigidbody.MovePosition(newPosition);
         transform.LookAt(newPosition);
     }
 
