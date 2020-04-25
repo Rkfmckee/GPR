@@ -24,15 +24,8 @@ public class SeenBehindWalls : MonoBehaviour
         checkIfValidObjectToSeeThroughWalls();
     }
 
-    private void checkIfValidObjectToSeeThroughWalls() {
-        var isPlayer = gameObject.tag == "Player";
-        var isPlayerAndBeingControlled = false;
-        
-        if (isPlayer) isPlayerAndBeingControlled = gameObject.GetComponent<PlayerBehaviour>().currentlyBeingControlled;
-
-        if (isPlayerAndBeingControlled || !isPlayer) {
-            seeObjectThroughWalls();
-        }
+    private void checkIfValidObjectToSeeThroughWalls() {        
+        seeObjectThroughWalls();
     }
 
     private void seeObjectThroughWalls() {
