@@ -2758,7 +2758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectsToHighlight:
   - {fileID: 2826720512233779191, guid: 1d4dcd664aa5f974f9a4ef741b4a408c, type: 3}
-  - {fileID: 1879528370}
+  hightlightColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &1594604650
 Transform:
   m_ObjectHideFlags: 0
@@ -2942,7 +2942,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh13938
+  m_Name: pb_Mesh13946
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

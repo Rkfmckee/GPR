@@ -21,6 +21,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Awake() {
         setupInstanceVariables();
+        changeMassIfNotBeingControlled();
     }
 
     private void Start() {
@@ -36,6 +37,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     #region Methods
 
+    public void setCurrentlyBeingControlled(bool isControlled) {
+        currentlyBeingControlled = isControlled;
+        changeMassIfNotBeingControlled();
+    }
+
     private void setupInstanceVariables() {
         rigidbody = GetComponent<Rigidbody>();
         movementSpeed = movementSpeed * Time.deltaTime;
@@ -49,6 +55,14 @@ public class PlayerBehaviour : MonoBehaviour
 
         rigidbody.MovePosition(newPosition);
         transform.LookAt(newPosition);
+    }
+
+    private void changeMassIfNotBeingControlled() {
+        if (currentlyBeingControlled) {
+            rigidbody.mass = 1;
+        } else {
+            rigidbody.mass = 10;
+        }
     }
 
     #endregion

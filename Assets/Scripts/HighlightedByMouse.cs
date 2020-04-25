@@ -59,9 +59,11 @@ public class HighlightedByMouse : MonoBehaviour
         if (objectHighlighted != null) {
             if (objectHighlighted.tag == "Player") {
                 if (Input.GetMouseButtonDown(0)) {
-                    foreach (GameObject player in allPlayerObjects) { player.GetComponent<PlayerBehaviour>().currentlyBeingControlled = false; }
+                    foreach (GameObject player in allPlayerObjects) {
+                        player.GetComponent<PlayerBehaviour>().setCurrentlyBeingControlled(false);
+                    }
 
-                    objectHighlighted.GetComponent<PlayerBehaviour>().currentlyBeingControlled = true;
+                    objectHighlighted.GetComponent<PlayerBehaviour>().setCurrentlyBeingControlled(true);
                 }
             }
         }
