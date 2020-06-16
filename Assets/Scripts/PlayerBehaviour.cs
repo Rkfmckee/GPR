@@ -10,54 +10,71 @@ public class PlayerBehaviour : MonoBehaviour
     public float movementSpeed;
 
     private new Rigidbody rigidbody;
+    private GameObject gameController;
 
     private Vector3 movementAmount;
-    private float zSpeed;
-    private float xSpeed;
+    private Vector3 directionVector;
 
     #endregion
 
     #region Events
 
     private void Awake() {
-        setupInstanceVariables();
-        changeMassIfNotBeingControlled();
+        References.players.Add(gameObject);
     }
 
     private void Start() {
+        SetupInstanceVariables();
+        ChangeMassIfNotBeingControlled();
     }
 
     private void Update() {
         if (currentlyBeingControlled) {
-            calculateMovement();
+            GetMovementDirection();
         }
+    }
+
+    private void FixedUpdate() {
+        CalculateMovement();
     }
 
     #endregion
 
     #region Methods
 
-    public void setCurrentlyBeingControlled(bool isControlled) {
+    public void SetCurrentlyBeingControlled(bool isControlled) {
         currentlyBeingControlled = isControlled;
-        changeMassIfNotBeingControlled();
+        ChangeMassIfNotBeingControlled();
+
+        var cameraController = Camera.main.GetComponent<CameraController>();
+
+        if (cameraController != null) {
+            cameraController.SetCurrentlyControlledPlayer(gameObject);
+        }
     }
 
-    private void setupInstanceVariables() {
+    private void SetupInstanceVariables() {
         rigidbody = GetComponent<Rigidbody>();
-        movementSpeed = movementSpeed * Time.deltaTime;
+        gameController = References.gameController;
     }
 
-    private void calculateMovement() {
-        zSpeed = Input.GetAxis("Vertical") * movementSpeed;
-        xSpeed = Input.GetAxis("Horizontal") * movementSpeed;
-        movementAmount = new Vector3(xSpeed, 0, zSpeed);
+    private void GetMovementDirection() {
+        var zDirection = Input.GetAxis("Vertical");
+        var xDirection = Input.GetAxis("Horizontal");
+        directionVector = new Vector3(xDirection, 0, zDirection).normalized;
+    }
+
+    private void CalculateMovement() {
+        movementAmount = directionVector * (movementSpeed * Time.deltaTime);
         var newPosition = transform.position + movementAmount;
 
         rigidbody.MovePosition(newPosition);
         transform.LookAt(newPosition);
+
+        print(movementAmount);
     }
 
-    private void changeMassIfNotBeingControlled() {
+    private void ChangeMassIfNotBeingControlled() {
         if (currentlyBeingControlled) {
             rigidbody.mass = 1;
         } else {

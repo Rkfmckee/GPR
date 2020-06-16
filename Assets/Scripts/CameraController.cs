@@ -4,36 +4,49 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public float cameraTransitionSpeed;
+
     private new Camera camera;
-    private GameObject player;
+    private List<GameObject> allPlayers;
+    private GameObject currentPlayer;
 
     private float cameraDifferenceToPlayerZPosition;
-    private float cameraTransitionSpeed;
+
+    #region Events
 
     void Start()
     {
-        findCurrentPlayer();
-
+        allPlayers = References.players;
         camera = Camera.main;
-        cameraDifferenceToPlayerZPosition = player.transform.position.z - camera.transform.position.z;
-        cameraTransitionSpeed = 1 * Time.deltaTime;
+        cameraTransitionSpeed = cameraTransitionSpeed * Time.deltaTime;
+
+        FindStartingPlayer();
+
+        cameraDifferenceToPlayerZPosition = currentPlayer.transform.position.z - camera.transform.position.z;
     }
 
     void Update()
     {
-        findCurrentPlayer();
-
-        Vector3 newCameraPosition = new Vector3(player.transform.position.x, camera.transform.position.y, player.transform.position.z - cameraDifferenceToPlayerZPosition);
+        Vector3 newCameraPosition = new Vector3(currentPlayer.transform.position.x, camera.transform.position.y, currentPlayer.transform.position.z - cameraDifferenceToPlayerZPosition);
         camera.transform.position = Vector3.Lerp(camera.transform.position, newCameraPosition, cameraTransitionSpeed);
     }
 
-    private void findCurrentPlayer() {
-        var allPlayers = GameObject.FindGameObjectsWithTag("Player");
+    #endregion
+
+    #region Methods
+
+    public void SetCurrentlyControlledPlayer(GameObject player) {
+        currentPlayer = player;
+    }
+
+    private void FindStartingPlayer() {
         foreach (var currentPlayer in allPlayers) {
             if (currentPlayer.GetComponent<PlayerBehaviour>().currentlyBeingControlled) {
-                player = currentPlayer;
+                this.currentPlayer = currentPlayer;
                 return;
             }
         }
     }
+
+    #endregion
 }

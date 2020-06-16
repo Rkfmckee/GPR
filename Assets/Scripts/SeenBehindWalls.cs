@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SeenBehindWalls : MonoBehaviour
 {
+    public bool drawDebugLines;
+
     private new Camera camera;
 
     private GameObject currentObjectHit;
@@ -53,10 +55,10 @@ public class SeenBehindWalls : MonoBehaviour
                 }
             }
 
-            Debug.DrawRay(camera.transform.position, fromCameraToObject * hit.distance, Color.yellow);
+            if (drawDebugLines) Debug.DrawRay(camera.transform.position, fromCameraToObject * hit.distance, Color.yellow);
 
         } else {
-            Debug.DrawRay(camera.transform.position, fromCameraToObject * 1000, Color.white);
+            if (drawDebugLines) Debug.DrawRay(camera.transform.position, fromCameraToObject * 1000, Color.white);
         }
     }
 }
