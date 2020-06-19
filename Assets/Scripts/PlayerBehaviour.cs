@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -31,6 +33,8 @@ public class PlayerBehaviour : MonoBehaviour
     private void Update() {
         if (currentlyBeingControlled) {
             GetMovementDirection();
+        } else {
+            directionVector = Vector3.zero;
         }
     }
 
@@ -61,7 +65,9 @@ public class PlayerBehaviour : MonoBehaviour
     private void GetMovementDirection() {
         var zDirection = Input.GetAxis("Vertical");
         var xDirection = Input.GetAxis("Horizontal");
-        directionVector = new Vector3(xDirection, 0, zDirection).normalized;
+        directionVector = new Vector3(xDirection, 0, zDirection);
+
+        directionVector = NormaliseVectorToKeepDeceleration(directionVector);
     }
 
     private void CalculateMovement() {
@@ -70,8 +76,17 @@ public class PlayerBehaviour : MonoBehaviour
 
         rigidbody.MovePosition(newPosition);
         transform.LookAt(newPosition);
+    }
 
-        print(movementAmount);
+    private Vector3 NormaliseVectorToKeepDeceleration(Vector3 vector) {
+        // Normalizing a decimal vector rounds it to 1, which causes weird deceleration
+        // So don't do that if it's between 1 and -1
+
+        if ((vector.magnitude > 1) || (vector.magnitude < -1)) {
+            vector = vector.normalized;
+        }
+
+        return vector;
     }
 
     private void ChangeMassIfNotBeingControlled() {

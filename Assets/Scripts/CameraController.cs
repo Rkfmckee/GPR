@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float cameraTransitionSpeed;
+    public float cameraTransitionTime;
 
     private new Camera camera;
+    private Vector3 velocity;
     private List<GameObject> allPlayers;
     private GameObject currentPlayer;
 
@@ -18,7 +19,7 @@ public class CameraController : MonoBehaviour
     {
         allPlayers = References.players;
         camera = Camera.main;
-        cameraTransitionSpeed = cameraTransitionSpeed * Time.deltaTime;
+        velocity = Vector3.one;
 
         FindStartingPlayer();
 
@@ -28,7 +29,8 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         Vector3 newCameraPosition = new Vector3(currentPlayer.transform.position.x, camera.transform.position.y, currentPlayer.transform.position.z - cameraDifferenceToPlayerZPosition);
-        camera.transform.position = Vector3.Lerp(camera.transform.position, newCameraPosition, cameraTransitionSpeed);
+
+        camera.transform.position = ChangePosition(newCameraPosition);
     }
 
     #endregion
@@ -46,6 +48,21 @@ public class CameraController : MonoBehaviour
                 return;
             }
         }
+    }
+
+    private Vector3 ChangePosition(Vector3 newPosition) {
+        // Only use smooth transition if the distance is greater than 0.1
+
+        float transitionTime = 0;
+        float xDifference = camera.transform.position.x - newPosition.x;
+        float zDifference = camera.transform.position.z - newPosition.z;
+        Vector3 differenceToNewPosition = new Vector3(xDifference, 0, zDifference);
+
+        if (differenceToNewPosition.magnitude > 0.25) {
+            transitionTime = cameraTransitionTime;
+        }
+
+        return Vector3.SmoothDamp(camera.transform.position, newPosition, ref velocity, transitionTime);
     }
 
     #endregion
