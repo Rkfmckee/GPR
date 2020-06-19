@@ -2730,7 +2730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6d887941cbd4740a1d60078f7d1d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTransitionSpeed: 2
+  cameraTransitionTime: 0.3
 --- !u!43 &967074244
 Mesh:
   m_ObjectHideFlags: 0

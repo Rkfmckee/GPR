@@ -19,6 +19,8 @@ public class HighlightedByMouse : MonoBehaviour
     }
 
     void Update() {
+        if (camera == null) return;
+
         RaycastHit hit;
         Ray cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
         validObjectHit = null;
