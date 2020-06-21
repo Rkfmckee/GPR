@@ -9,6 +9,7 @@ public class FieldOfView : MonoBehaviour
     public float viewRadius;
     [Range(0, 360)]
     public float viewAngle;
+    public float viewHeightOffset;
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -20,6 +21,7 @@ public class FieldOfView : MonoBehaviour
     public int edgeResolveIterations;
     private float edgeDistanceThreshold = 0.5f;
 
+    [HideInInspector]
     public MeshFilter viewMeshFilter;
     private Mesh viewMesh;
 
@@ -28,6 +30,8 @@ public class FieldOfView : MonoBehaviour
     #region Events
 
     private void Start() {
+        CreateViewVisualisationChild();
+
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
@@ -42,6 +46,22 @@ public class FieldOfView : MonoBehaviour
     #endregion
 
     #region Methods
+
+    private void CreateViewVisualisationChild() {
+        GameObject viewVisualisation = new GameObject();
+        viewVisualisation.transform.parent = gameObject.transform;
+        viewVisualisation.name = "View Visualisation boi";
+        viewVisualisation.transform.position = gameObject.transform.position + new Vector3(0, viewHeightOffset, 0);
+
+        var visualisationFilter = viewVisualisation.AddComponent<MeshFilter>();
+        var visualisationRenderer = viewVisualisation.AddComponent<MeshRenderer>();
+        visualisationRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        visualisationRenderer.receiveShadows = false;
+
+        visualisationRenderer.material = Resources.Load("Materials/ViewVisualisation") as Material;
+
+        viewMeshFilter = visualisationFilter;
+    }
 
     public Vector3 DirectionFromAngle(float angleInDegrees, bool angleIsGlobal) {        
         if (!angleIsGlobal) {
