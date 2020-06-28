@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -2764079132982555797}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -313,7 +313,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &284316509897691253
 BoxCollider:
@@ -356,6 +356,7 @@ MonoBehaviour:
   viewRadius: 10
   viewAngle: 45
   viewHeightOffset: 1
+  shouldDrawFieldOfView: 0
   targetMask:
     serializedVersion: 2
     m_Bits: 512

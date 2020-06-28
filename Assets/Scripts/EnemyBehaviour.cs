@@ -52,8 +52,6 @@ public class EnemyBehaviour : MonoBehaviour
         Vector3 newPosition = transform.position + movementAmount;
         rigidbody.MovePosition(newPosition);
         transform.LookAt(newPosition);
-
-        print(movementAmount);
     }
 
     private GameObject FindNearestPlayer() {
