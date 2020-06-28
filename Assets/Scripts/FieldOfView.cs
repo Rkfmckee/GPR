@@ -10,6 +10,7 @@ public class FieldOfView : MonoBehaviour
     [Range(0, 360)]
     public float viewAngle;
     public float viewHeightOffset;
+    public bool shouldDrawFieldOfView;
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -40,7 +41,7 @@ public class FieldOfView : MonoBehaviour
     }
 
     private void LateUpdate() {
-        DrawFieldOfView();
+         DrawFieldOfView(shouldDrawFieldOfView);
     }
 
     #endregion
@@ -93,54 +94,59 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-    private void DrawFieldOfView() {
+    private void DrawFieldOfView(bool shouldDraw) {
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
         float stepAngleSize = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
         ViewCastInfo oldViewCast = new ViewCastInfo();
 
-        for (int i = 0; i <= stepCount; i++) {
-            float angle = transform.eulerAngles.y - viewAngle / 2 + (stepAngleSize * i);
-            ViewCastInfo newViewCast = ViewCast(angle);
+        if (shouldDraw) {
+            for (int i = 0; i <= stepCount; i++) {
+                float angle = transform.eulerAngles.y - viewAngle / 2 + (stepAngleSize * i);
+                ViewCastInfo newViewCast = ViewCast(angle);
 
-            if (i > 0) {
-                bool edgeDistanceThresholdExceeded = Mathf.Abs(oldViewCast.distance - newViewCast.distance) > edgeDistanceThreshold;
-                if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDistanceThresholdExceeded)) {
-                    EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
+                if (i > 0) {
+                    bool edgeDistanceThresholdExceeded = Mathf.Abs(oldViewCast.distance - newViewCast.distance) > edgeDistanceThreshold;
+                    if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDistanceThresholdExceeded)) {
+                        EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
 
-                    if (edge.pointA != Vector3.zero) {
-                        viewPoints.Add(edge.pointA);
+                        if (edge.pointA != Vector3.zero) {
+                            viewPoints.Add(edge.pointA);
+                        }
+
+                        if (edge.pointB != Vector3.zero) {
+                            viewPoints.Add(edge.pointB);
+                        }
                     }
+                }
 
-                    if (edge.pointB != Vector3.zero) {
-                        viewPoints.Add(edge.pointB);
-                    }
+                viewPoints.Add(newViewCast.point);
+                oldViewCast = newViewCast;
+            }
+
+            int vertexCount = viewPoints.Count + 1;
+            Vector3[] vertices = new Vector3[vertexCount];
+            int[] triangles = new int[(vertexCount - 2) * 3];
+
+            vertices[0] = Vector3.zero;
+            for (int i = 0; i < vertexCount - 1; i++) {
+                vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
+
+                if (i < vertexCount - 2) {
+                    triangles[i * 3] = 0;
+                    triangles[i * 3 + 1] = i + 1;
+                    triangles[i * 3 + 2] = i + 2;
                 }
             }
 
-            viewPoints.Add(newViewCast.point);
-            oldViewCast = newViewCast;
+            viewMesh.Clear();
+            viewMesh.vertices = vertices;
+            viewMesh.triangles = triangles;
+            viewMesh.RecalculateNormals();
+        } else {
+            viewMesh.Clear();
+            viewMesh.RecalculateNormals();
         }
-
-        int vertexCount = viewPoints.Count + 1;
-        Vector3[] vertices = new Vector3[vertexCount];
-        int[] triangles = new int[(vertexCount - 2) * 3];
-
-        vertices[0] = Vector3.zero;
-        for (int i = 0; i < vertexCount - 1; i++) {
-            vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
-
-            if (i < vertexCount - 2) {
-                triangles[i * 3] = 0;
-                triangles[i * 3 + 1] = i + 1;
-                triangles[i * 3 + 2] = i + 2;
-            }
-        }
-
-        viewMesh.Clear();
-        viewMesh.vertices = vertices;
-        viewMesh.triangles = triangles;
-        viewMesh.RecalculateNormals();
     }
 
     private ViewCastInfo ViewCast(float globalAngle) {

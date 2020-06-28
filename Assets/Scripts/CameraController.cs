@@ -58,7 +58,7 @@ public class CameraController : MonoBehaviour
         float zDifference = camera.transform.position.z - newPosition.z;
         Vector3 differenceToNewPosition = new Vector3(xDifference, 0, zDifference);
 
-        if (differenceToNewPosition.magnitude > 0.25) {
+        if (differenceToNewPosition.magnitude > 0.5) {
             transitionTime = cameraTransitionTime;
         }
 
