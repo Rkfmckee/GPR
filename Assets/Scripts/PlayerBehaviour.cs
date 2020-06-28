@@ -71,7 +71,7 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     private void CalculateMovement() {
-        movementAmount = directionVector * (movementSpeed * Time.deltaTime);
+        movementAmount = directionVector * (movementSpeed * Time.fixedDeltaTime);
         var newPosition = transform.position + movementAmount;
 
         rigidbody.MovePosition(newPosition);
