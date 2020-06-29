@@ -45,13 +45,16 @@ public class SpikeTrapController : MonoBehaviour
 
             MoveSpikes();
         }
-
-        print(currentState);
     }
 
     public void CollisionDetected(Collision collision) {
         if (currentState == SpikeState.SPIKESDOWN) {
             currentState = SpikeState.EXTENDING;
+
+            var targetsHealthSystem = null as HealthSystem;
+            if ((targetsHealthSystem = collision.gameObject.GetComponent<HealthSystem>()) != null) {
+                targetsHealthSystem.TakeDamageOverTime(5, 10);
+            }
         }
     }
 

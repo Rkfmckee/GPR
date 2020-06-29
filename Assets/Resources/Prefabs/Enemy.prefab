@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 284316509897691253}
   - component: {fileID: 284316509897691272}
   - component: {fileID: -2764079132982555797}
+  - component: {fileID: -1661709091858411561}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -367,3 +368,16 @@ MonoBehaviour:
   meshResolution: 1
   edgeResolveIterations: 0
   viewMeshFilter: {fileID: 0}
+--- !u!114 &-1661709091858411561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284316509897691254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a8fc368a1026b4cb994a3dcb67eca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
