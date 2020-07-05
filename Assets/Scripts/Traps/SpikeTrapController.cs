@@ -53,7 +53,7 @@ public class SpikeTrapController : MonoBehaviour
 
             var targetsHealthSystem = null as HealthSystem;
             if ((targetsHealthSystem = collision.gameObject.GetComponent<HealthSystem>()) != null) {
-                targetsHealthSystem.TakeDamageOverTime(5, 10);
+                targetsHealthSystem.TakeDamageOverTime(5, 3);
             }
         }
     }
