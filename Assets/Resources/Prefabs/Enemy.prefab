@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 284316509897691253}
   - component: {fileID: 284316509897691272}
   - component: {fileID: -2764079132982555797}
+  - component: {fileID: -1661709091858411561}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -313,7 +314,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &284316509897691253
 BoxCollider:
@@ -356,6 +357,7 @@ MonoBehaviour:
   viewRadius: 10
   viewAngle: 45
   viewHeightOffset: 1
+  shouldDrawFieldOfView: 0
   targetMask:
     serializedVersion: 2
     m_Bits: 512
@@ -366,3 +368,16 @@ MonoBehaviour:
   meshResolution: 1
   edgeResolveIterations: 0
   viewMeshFilter: {fileID: 0}
+--- !u!114 &-1661709091858411561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284316509897691254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a8fc368a1026b4cb994a3dcb67eca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
