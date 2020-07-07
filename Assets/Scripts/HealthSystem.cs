@@ -31,7 +31,7 @@ public class HealthSystem : MonoBehaviour
         healthBarController = healthBar.GetComponent<HealthBarController>();
     }
 
-    private void Update() {
+    private void LateUpdate() {
         healthBar.transform.position = camera.WorldToScreenPoint(transform.position + new Vector3(0, 1, 0));
         healthBarController.ShowHealthFraction(currentHealth / maxHealth);
     }
