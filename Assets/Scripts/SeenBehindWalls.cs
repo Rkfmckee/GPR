@@ -18,8 +18,8 @@ public class SeenBehindWalls : MonoBehaviour
     void Awake() {
         camera = Camera.main;
 
-        wallMaterialSolid = Resources.Load("Materials/WallMaterial") as Material;
-        wallMaterialTranslucent = Resources.Load("Materials/WallMaterialTranslucent") as Material;
+        wallMaterialSolid = Resources.Load("Materials/Terrain/WallMaterial") as Material;
+        wallMaterialTranslucent = Resources.Load("Materials/Terrain/WallMaterialTranslucent") as Material;
     }
 
     void Update() {
