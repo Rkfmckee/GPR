@@ -14,44 +14,68 @@ public class EnemyBehaviour : MonoBehaviour
 
     private List<GameObject> allPlayers;
     private GameObject targetPlayer;
+    private Vector3 movementDirection;
 
     #endregion
 
     #region Events
 
-    private void Start() {
+    private void Awake() {
         rigidbody = GetComponent<Rigidbody>();
         fieldOfView = GetComponent<FieldOfView>();
 
+        movementDirection = transform.forward;
+    }
+
+    private void Start() {
         allPlayers = References.players;
     }
 
     private void FixedUpdate() {
-        MoveTowardsNearestPlayer();
+        MoveTowardsTarget();
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Wall") {
+            var direction = collision.contacts[0].normal;
+
+            direction = Quaternion.AngleAxis(Random.Range(-70.0f, 70.0f), Vector3.up) * direction;
+
+            movementDirection = direction;
+            transform.rotation = Quaternion.LookRotation(movementDirection);
+        }
     }
 
     #endregion
 
     #region Methods
 
-    private void MoveTowardsNearestPlayer() {
+    private void MoveTowardsTarget() {
         targetPlayer = FindNearestPlayer();
-        Vector3 directionToTarget;
 
         if (targetPlayer != null) {
-            float xDirectionToTarget = targetPlayer.transform.position.x - transform.position.x;
-            float zDirectionToTarget = targetPlayer.transform.position.z - transform.position.z;
-
-            directionToTarget = new Vector3(xDirectionToTarget, 0, zDirectionToTarget);
-            directionToTarget = directionToTarget.normalized;
-        } else {
-            directionToTarget = transform.forward;
+            movementDirection = DirectionToNearestPlayer();
         }
 
-        Vector3 movementAmount = directionToTarget * (movementSpeed * Time.deltaTime);
+        Vector3 movementAmount = movementDirection * (movementSpeed * Time.deltaTime);
         Vector3 newPosition = transform.position + movementAmount;
         rigidbody.MovePosition(newPosition);
         transform.LookAt(newPosition);
+    }
+
+    private Vector3 WalkForward() {
+        var directionToTarget = transform.forward;
+        return directionToTarget;
+    }
+
+    private Vector3 DirectionToNearestPlayer() {
+        float xDirectionToTarget = targetPlayer.transform.position.x - transform.position.x;
+        float zDirectionToTarget = targetPlayer.transform.position.z - transform.position.z;
+
+        var directionToTarget = new Vector3(xDirectionToTarget, 0, zDirectionToTarget);
+        directionToTarget = directionToTarget.normalized;
+
+        return directionToTarget;
     }
 
     private GameObject FindNearestPlayer() {
