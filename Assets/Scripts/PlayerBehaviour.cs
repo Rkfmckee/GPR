@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -16,26 +17,31 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Vector3 movementAmount;
     private Vector3 directionVector;
+    private GameObject heldObject;
+    private Vector3 throwVerticalOffset;
 
     #endregion
 
     #region Events
 
     private void Awake() {
-        References.players.Add(gameObject);
+        SetupAwakeInstanceVariables();
     }
 
     private void Start() {
-        SetupInstanceVariables();
+        SetupStartInstanceVariables();
         ChangeMassIfNotBeingControlled();
     }
 
     private void Update() {
-        if (currentlyBeingControlled) {
-            GetMovementDirection();
-        } else {
+        if (!currentlyBeingControlled) {
             directionVector = Vector3.zero;
+            return;
         }
+
+        GetMovementDirection();
+
+        UseHeldObjectIfPressed();
     }
 
     private void FixedUpdate() {
@@ -48,6 +54,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void SetCurrentlyBeingControlled(bool isControlled) {
         currentlyBeingControlled = isControlled;
+        if (currentlyBeingControlled) { References.currentPlayer = gameObject; }
+
         ChangeMassIfNotBeingControlled();
 
         var cameraController = Camera.main.GetComponent<CameraController>();
@@ -57,8 +65,20 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    private void SetupInstanceVariables() {
+    public void SetHeldObject(GameObject objectHeld) {
+        heldObject = objectHeld;
+        heldObject.transform.parent = transform;
+    }
+
+    private void SetupAwakeInstanceVariables() {
+        References.players.Add(gameObject);
+        if (currentlyBeingControlled) { References.currentPlayer = gameObject; }
         rigidbody = GetComponent<Rigidbody>();
+
+        throwVerticalOffset = transform.up / 10;
+    }
+
+    private void SetupStartInstanceVariables() {
         gameController = References.gameController;
     }
 
@@ -94,6 +114,18 @@ public class PlayerBehaviour : MonoBehaviour
             rigidbody.mass = 1;
         } else {
             rigidbody.mass = 10;
+        }
+    }
+
+    private void UseHeldObjectIfPressed() {
+        if (heldObject == null) return;
+
+        if (Input.GetButtonDown("Fire1")) {
+            heldObject.GetComponent<ObstacleController>().SetCurrentState(ObstacleController.State.THROWN);
+            heldObject.GetComponent<Rigidbody>().AddForce((transform.forward + throwVerticalOffset) * 5000);
+
+            heldObject.transform.parent = null;
+            heldObject = null;
         }
     }
 
