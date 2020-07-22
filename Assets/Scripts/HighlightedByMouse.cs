@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class HighlightedByMouse : MonoBehaviour
 {
     #region Properties
 
+    public Material hightlightMaterial;
+
     private new Renderer renderer;
-    private Shader startShader;
-    private Shader hightlightShader;
+    private Material startMaterial;
     private bool currentlyHightlightingMe;
 
     private Dictionary<string, Action> methodsForEachType;
@@ -21,8 +24,7 @@ public class HighlightedByMouse : MonoBehaviour
 
     private void Awake() {
         renderer = gameObject.GetComponent<Renderer>();
-        startShader = renderer.material.shader;
-        hightlightShader = Shader.Find("Outline");
+        startMaterial = renderer.material;
         currentlyHightlightingMe = false;
 
         methodsForEachType = new Dictionary<string, Action>();
@@ -35,24 +37,63 @@ public class HighlightedByMouse : MonoBehaviour
     }
 
     private void LateUpdate() {
+        if (DontSelect()) return;
+
         if (currentlyHightlightingMe) {
             methodsForEachType[gameObject.tag]();
         }
     }
 
     private void OnMouseEnter() {
+        if (DontSelect()) return;
+
         currentlyHightlightingMe = true;
-        renderer.material.shader = hightlightShader;
+        renderer.material = hightlightMaterial;
     }
 
     private void OnMouseExit() {
         currentlyHightlightingMe = false;
-        renderer.material.shader = startShader;
+        renderer.material = startMaterial;
     }
 
     #endregion
 
     #region Methods
+
+    private bool DontSelect() {
+        bool dontSelect = false;
+        
+        switch (gameObject.tag) {
+            case "Player":
+                dontSelect = DontSelectPlayer();
+                break;
+            case "Obstacle":
+                dontSelect = DontSelectObstacle();
+                break;
+        }
+
+        return dontSelect;
+    }
+
+    private bool DontSelectPlayer() {
+        // Dont select a player if they are the currently controlled player
+
+        PlayerBehaviour behaviour = gameObject.GetComponent<PlayerBehaviour>();
+
+        bool dontSelect = behaviour.currentlyBeingControlled;
+
+        return dontSelect;
+    }
+
+    private bool DontSelectObstacle() {
+        // Dont select an obstacle if they are being held
+
+        ObstacleController controller = gameObject.GetComponent<ObstacleController>();
+
+        bool dontSelect = controller.currentState == ObstacleController.State.Held;
+
+        return dontSelect;
+    }
 
     private void playerAllowSwitching() {
         PlayerBehaviour behaviour = gameObject.GetComponent<PlayerBehaviour>();

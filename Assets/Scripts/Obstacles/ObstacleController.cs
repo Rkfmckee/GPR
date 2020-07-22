@@ -7,8 +7,9 @@ public class ObstacleController : MonoBehaviour
     #region Properties
 
     public bool canBePickedUp;
+    [HideInInspector]
+    public State currentState;
 
-    private State currentState;
     private Vector3 verticalPositionOffset;
 
     private new Rigidbody rigidbody;
@@ -29,6 +30,7 @@ public class ObstacleController : MonoBehaviour
         if (currentState == State.Held) {
             transform.localPosition = verticalPositionOffset;
             transform.eulerAngles = Vector3.zero;
+            rigidbody.velocity = Vector3.zero;
         }
 
         print(rigidbody.velocity);
