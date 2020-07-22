@@ -1,73 +1,90 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HighlightedByMouse : MonoBehaviour
 {
-    public GameObject[] objectsToHighlight;
-    public Color hightlightColour;
+    #region Properties
 
-    private new Camera camera;
-    private Shader outlineShader;
+    private new Renderer renderer;
+    private Shader startShader;
+    private Shader hightlightShader;
+    private bool currentlyHightlightingMe;
 
-    private GameObject currentObjectHit;
-    private GameObject previousObjectHit;
-    private GameObject validObjectHit;
+    private Dictionary<string, Action> methodsForEachType;
+    private List<GameObject> allPlayers;
 
-    void Awake() {
-        camera = Camera.main;
+    #endregion
+
+    #region Events
+
+    private void Awake() {
+        renderer = gameObject.GetComponent<Renderer>();
+        startShader = renderer.material.shader;
+        hightlightShader = Shader.Find("Outline");
+        currentlyHightlightingMe = false;
+
+        methodsForEachType = new Dictionary<string, Action>();
+        methodsForEachType.Add("Player", playerAllowSwitching);
+        methodsForEachType.Add("Obstacle", obstacleCanBePickedUp);
     }
 
-    void Update() {
-        if (camera == null) return;
+    private void Start() {
+        allPlayers = References.players;
+    }
 
-        RaycastHit hit;
-        Ray cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
-        validObjectHit = null;
-
-        if (Physics.Raycast(cameraToMouseRay, out hit)) {
-
-            foreach(var objectToHighlight in objectsToHighlight) {
-                if (hit.collider.gameObject.tag == objectToHighlight.tag) {
-                    validObjectHit = hit.collider.gameObject;
-                    break;
-                }
-            }
-
-            if (validObjectHit != currentObjectHit) {
-                previousObjectHit = currentObjectHit;
-                currentObjectHit = validObjectHit;
-
-                if (previousObjectHit != null) {
-                    previousObjectHit.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
-                }
-
-                if (currentObjectHit != null) {
-                    currentObjectHit.GetComponent<Renderer>().material.shader = Shader.Find("Outline");
-                }
-            }
-
-            ifObjectIsPlayerAllowSwitching(validObjectHit);
-
-            Debug.DrawRay(cameraToMouseRay.origin, cameraToMouseRay.direction, Color.yellow);
-        } else {
-            Debug.DrawRay(cameraToMouseRay.origin, cameraToMouseRay.direction, Color.white);
+    private void LateUpdate() {
+        if (currentlyHightlightingMe) {
+            methodsForEachType[gameObject.tag]();
         }
     }
 
-    private void ifObjectIsPlayerAllowSwitching(GameObject objectHighlighted) {
-        var allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
+    private void OnMouseEnter() {
+        currentlyHightlightingMe = true;
+        renderer.material.shader = hightlightShader;
+    }
 
-        if (objectHighlighted != null) {
-            if (objectHighlighted.tag == "Player") {
-                if (Input.GetMouseButtonDown(0)) {
-                    foreach (GameObject player in allPlayerObjects) {
-                        player.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(false);
-                    }
+    private void OnMouseExit() {
+        currentlyHightlightingMe = false;
+        renderer.material.shader = startShader;
+    }
 
-                    objectHighlighted.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(true);
-                }
+    #endregion
+
+    #region Methods
+
+    private void playerAllowSwitching() {
+        PlayerBehaviour behaviour = gameObject.GetComponent<PlayerBehaviour>();
+        
+        if (behaviour == null) {
+            print(gameObject + "doesn't have a PlayerBehaviour");
+            return;
+        }
+
+        if (Input.GetButtonDown("Fire1")) {
+            foreach(var player in allPlayers) {
+                player.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(false);
+            }
+
+            behaviour.SetCurrentlyBeingControlled(true);
+        }
+    }
+
+    private void obstacleCanBePickedUp() {
+        ObstacleController controller = gameObject.GetComponent<ObstacleController>();
+
+        if (controller == null) {
+            print(gameObject + "doesn't have an ObstacleController");
+            return;
+        }
+
+        if (Input.GetButtonDown("Fire1")) {
+            if (controller.canBePickedUp) {
+                controller.SetCurrentState(ObstacleController.State.Held);
             }
         }
     }
+
+    #endregion
 }
