@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Obstacle
   - Floor
+  - Trap
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - 
   - Obstacle
   - Player
-  - 
+  - Terrain
   - 
   - 
   - 

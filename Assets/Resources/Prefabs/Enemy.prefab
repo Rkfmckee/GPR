@@ -356,8 +356,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewRadius: 10
   viewAngle: 45
-  viewHeightOffset: 1
-  shouldDrawFieldOfView: 0
+  viewHeightOffset: 0.9
+  shouldDrawFieldOfView: 1
   targetMask:
     serializedVersion: 2
     m_Bits: 512

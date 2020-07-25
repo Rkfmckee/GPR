@@ -48,7 +48,7 @@ public class HealthSystem : MonoBehaviour
         currentHealth = maxHealth;
 
         camera = Camera.main;
-        healthBarPrefab = Resources.Load("Prefabs/HealthBar") as GameObject;
+        healthBarPrefab = Resources.Load("Prefabs/UI/HealthBar") as GameObject;
     }
 
     public void TakeDamage(float damage) {

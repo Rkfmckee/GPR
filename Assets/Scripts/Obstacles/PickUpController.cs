@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleController : MonoBehaviour
+public class PickUpController : MonoBehaviour
 {
     #region Properties
 
-    public bool canBePickedUp;
     [HideInInspector]
     public State currentState;
+    public bool canBeThrown;
 
-    private Vector3 verticalPositionOffset;
+    private Vector3 heldHeight;
 
     private new Rigidbody rigidbody;
 
@@ -21,20 +21,22 @@ public class ObstacleController : MonoBehaviour
     private void Awake() {
         rigidbody = gameObject.GetComponent<Rigidbody>();
 
-        canBePickedUp = true;
         currentState = State.Idle;
-        verticalPositionOffset = new Vector3(0, 3, 0);
+        heldHeight = new Vector3(0, 3, 0);
+
+        if (gameObject.tag == "Trap") {
+            canBeThrown = false;
+        } else {
+            canBeThrown = true;
+        }
     }
 
     private void Update() {
         if (currentState == State.Held) {
-            transform.localPosition = verticalPositionOffset;
+            transform.localPosition = heldHeight;
             transform.eulerAngles = Vector3.zero;
-            rigidbody.velocity = Vector3.zero;
+            if (rigidbody != null) rigidbody.velocity = Vector3.zero;
         }
-
-        print(rigidbody.velocity);
-        print(currentState);
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -51,10 +53,10 @@ public class ObstacleController : MonoBehaviour
         currentState = state;
 
         if (currentState == State.Held) {
-            rigidbody.useGravity = false;
-            References.currentPlayer.GetComponent<PlayerBehaviour>().SetHeldObject(gameObject);
+             if (rigidbody != null) rigidbody.useGravity = false;
+            References.currentPlayer.GetComponent<HoldObjectController>().SetHeldObject(gameObject);
         } else {
-            rigidbody.useGravity = true;
+            if (rigidbody != null) rigidbody.useGravity = true;
         }
     }
 
@@ -65,7 +67,7 @@ public class ObstacleController : MonoBehaviour
     public enum State {
         Idle,
         Held,
-        THROWN
+        Thrown
     }
 
     #endregion

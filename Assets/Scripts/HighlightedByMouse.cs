@@ -10,6 +10,7 @@ public class HighlightedByMouse : MonoBehaviour
     #region Properties
 
     public Material hightlightMaterial;
+    public bool checkParentForInteractScript;
 
     private new Renderer renderer;
     private Material startMaterial;
@@ -30,6 +31,7 @@ public class HighlightedByMouse : MonoBehaviour
         methodsForEachType = new Dictionary<string, Action>();
         methodsForEachType.Add("Player", playerAllowSwitching);
         methodsForEachType.Add("Obstacle", obstacleCanBePickedUp);
+        methodsForEachType.Add("Trap", obstacleCanBePickedUp);
     }
 
     private void Start() {
@@ -37,9 +39,9 @@ public class HighlightedByMouse : MonoBehaviour
     }
 
     private void LateUpdate() {
-        if (DontSelect()) return;
+        if (currentlyHightlightingMe && Input.GetButtonDown("Fire1")) {
+            if (DontSelect()) return;
 
-        if (currentlyHightlightingMe) {
             methodsForEachType[gameObject.tag]();
         }
     }
@@ -70,6 +72,9 @@ public class HighlightedByMouse : MonoBehaviour
             case "Obstacle":
                 dontSelect = DontSelectObstacle();
                 break;
+            case "Trap":
+                dontSelect = DontSelectTrap();
+                break;
         }
 
         return dontSelect;
@@ -78,7 +83,13 @@ public class HighlightedByMouse : MonoBehaviour
     private bool DontSelectPlayer() {
         // Dont select a player if they are the currently controlled player
 
-        PlayerBehaviour behaviour = gameObject.GetComponent<PlayerBehaviour>();
+        PlayerBehaviour behaviour;
+
+        if (checkParentForInteractScript) {
+            behaviour = gameObject.transform.parent.GetComponent<PlayerBehaviour>();
+        } else {
+            behaviour = gameObject.GetComponent<PlayerBehaviour>();
+        }
 
         bool dontSelect = behaviour.currentlyBeingControlled;
 
@@ -88,43 +99,75 @@ public class HighlightedByMouse : MonoBehaviour
     private bool DontSelectObstacle() {
         // Dont select an obstacle if they are being held
 
-        ObstacleController controller = gameObject.GetComponent<ObstacleController>();
+        PickUpController pickup;
 
-        bool dontSelect = controller.currentState == ObstacleController.State.Held;
+        if (checkParentForInteractScript) {
+            pickup = gameObject.transform.parent.GetComponent<PickUpController>();
+        } else {
+            pickup = gameObject.GetComponent<PickUpController>();
+        }
+
+        bool dontSelect = pickup.currentState == PickUpController.State.Held;
 
         return dontSelect;
     }
 
+    private bool DontSelectTrap() {
+        SpikeTrapController spikeTrap;
+        bool dontSelect = false;
+
+        if (checkParentForInteractScript) {
+            spikeTrap = gameObject.transform.parent.GetComponent<SpikeTrapController>();
+        } else {
+            spikeTrap = gameObject.GetComponent<SpikeTrapController>();
+        }
+
+        if (spikeTrap != null) {
+            // If the type of trap we're picking up is a spike trap
+            if (spikeTrap.currentState != SpikeTrapController.SpikeState.SpikesDown) {
+                dontSelect = true;
+            }
+        }
+
+        return dontSelect || DontSelectObstacle();
+    }
+
     private void playerAllowSwitching() {
-        PlayerBehaviour behaviour = gameObject.GetComponent<PlayerBehaviour>();
-        
+        PlayerBehaviour behaviour;
+
+        if (checkParentForInteractScript) {
+            behaviour = gameObject.transform.parent.GetComponent<PlayerBehaviour>();
+        } else {
+            behaviour = gameObject.GetComponent<PlayerBehaviour>();
+        }
+
         if (behaviour == null) {
             print(gameObject + "doesn't have a PlayerBehaviour");
             return;
         }
 
-        if (Input.GetButtonDown("Fire1")) {
-            foreach(var player in allPlayers) {
-                player.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(false);
-            }
-
-            behaviour.SetCurrentlyBeingControlled(true);
+        foreach(var player in allPlayers) {
+            player.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(false);
         }
+
+        behaviour.SetCurrentlyBeingControlled(true);
     }
 
     private void obstacleCanBePickedUp() {
-        ObstacleController controller = gameObject.GetComponent<ObstacleController>();
+        PickUpController pickup;
 
-        if (controller == null) {
-            print(gameObject + "doesn't have an ObstacleController");
+        if (checkParentForInteractScript) {
+            pickup = gameObject.transform.parent.GetComponent<PickUpController>();
+        } else {
+            pickup = gameObject.GetComponent<PickUpController>();
+        }
+
+        if (pickup == null) {
+            print(gameObject + "can't be picked up");
             return;
         }
 
-        if (Input.GetButtonDown("Fire1")) {
-            if (controller.canBePickedUp) {
-                controller.SetCurrentState(ObstacleController.State.Held);
-            }
-        }
+        pickup.SetCurrentState(PickUpController.State.Held);
     }
 
     #endregion

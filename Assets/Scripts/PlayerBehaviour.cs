@@ -17,8 +17,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Vector3 movementAmount;
     private Vector3 directionVector;
-    private GameObject heldObject;
-    private Vector3 throwVerticalOffset;
 
     #endregion
 
@@ -40,8 +38,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         GetMovementDirection();
-
-        UseHeldObjectIfPressed();
     }
 
     private void FixedUpdate() {
@@ -65,17 +61,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void SetHeldObject(GameObject objectHeld) {
-        heldObject = objectHeld;
-        heldObject.transform.parent = transform;
-    }
-
     private void SetupAwakeInstanceVariables() {
         References.players.Add(gameObject);
         if (currentlyBeingControlled) { References.currentPlayer = gameObject; }
         rigidbody = GetComponent<Rigidbody>();
-
-        throwVerticalOffset = transform.up / 10;
     }
 
     private void SetupStartInstanceVariables() {
@@ -114,18 +103,6 @@ public class PlayerBehaviour : MonoBehaviour
             rigidbody.mass = 1;
         } else {
             rigidbody.mass = 10;
-        }
-    }
-
-    private void UseHeldObjectIfPressed() {
-        if (heldObject == null) return;
-
-        if (Input.GetButtonDown("Fire1")) {
-            heldObject.GetComponent<ObstacleController>().SetCurrentState(ObstacleController.State.THROWN);
-            heldObject.GetComponent<Rigidbody>().AddForce((transform.forward + throwVerticalOffset) * 5000);
-
-            heldObject.transform.parent = null;
-            heldObject = null;
         }
     }
 

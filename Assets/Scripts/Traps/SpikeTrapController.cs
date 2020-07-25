@@ -16,40 +16,44 @@ public class SpikeTrapController : MonoBehaviour
     private Vector3 spikesUpPosition;
     private Vector3 spikesDownPosition;
 
-    private Vector3 velocity;
-
     private Transform spikeChild;
+    private GameObject spikeChildPrefab;
 
     #region Events
 
     private void Awake() {
         setupInstanceVariables();
-
-        spikeChild.position = spikesDownPosition;
     }
 
     private void Update() {
-        if (currentState == SpikeState.EXTENDING) {
+        if (currentState == SpikeState.Extending) {
             currentTimeExtending += Time.deltaTime;
             
             MoveSpikes();
-        } else if (currentState == SpikeState.SPIKESUP) {
+        } else if (currentState == SpikeState.SpikesUp) {
             currentTimeExtended += Time.deltaTime;
 
             if (currentTimeExtended >= timeToStayExtended) {
-                currentState = SpikeState.RETRACTING;
+                currentState = SpikeState.Retracting;
                 currentTimeExtended = 0;
             }
-        } else if (currentState == SpikeState.RETRACTING) {
+        } else if (currentState == SpikeState.Retracting) {
             currentTimeRetracting += Time.deltaTime;
 
             MoveSpikes();
+        } else if (currentState == SpikeState.SpikesDown) {
+            if (spikeChild != null) {
+                Destroy(spikeChild.gameObject);
+            }
         }
     }
 
     public void CollisionDetected(Collision collision) {
-        if (currentState == SpikeState.SPIKESDOWN) {
-            currentState = SpikeState.EXTENDING;
+        spikeChild = Instantiate(spikeChildPrefab, transform).transform;
+        spikeChild.localPosition = spikesDownPosition;
+        
+        if (currentState == SpikeState.SpikesDown) {
+            currentState = SpikeState.Extending;
 
             var targetsHealthSystem = null as HealthSystem;
             if ((targetsHealthSystem = collision.gameObject.GetComponent<HealthSystem>()) != null) {
@@ -63,31 +67,31 @@ public class SpikeTrapController : MonoBehaviour
     #region Methods
 
     private void setupInstanceVariables() {
-        spikeChild = transform.GetChild(0);
-        spikesUpPosition = new Vector3(transform.position.x, 0, transform.position.z);
-        spikesDownPosition = new Vector3(transform.position.x, -0.5f, transform.position.z);
-        velocity = Vector3.one;
+        spikesUpPosition = new Vector3(0, 0, 0);
+        spikesDownPosition = new Vector3(0, -0.5f, 0);
+
+        spikeChildPrefab = Resources.Load("Prefabs/Traps/Spikes") as GameObject;
 
         currentTimeExtending = 0;
         currentTimeRetracting = 0;
         currentTimeExtended = 0;
 
-        currentState = SpikeState.SPIKESDOWN;
+        currentState = SpikeState.SpikesDown;
     }
 
     private void MoveSpikes() {
-        if (currentState == SpikeState.EXTENDING) {
-            spikeChild.position = Vector3.Lerp(spikesDownPosition, spikesUpPosition, currentTimeExtending / extendingTime);
+        if (currentState == SpikeState.Extending) {
+            spikeChild.localPosition = Vector3.Lerp(spikesDownPosition, spikesUpPosition, currentTimeExtending / extendingTime);
 
-            if (spikeChild.position == spikesUpPosition) {
-                currentState = SpikeState.SPIKESUP;
+            if (spikeChild.localPosition == spikesUpPosition) {
+                currentState = SpikeState.SpikesUp;
                 currentTimeExtending = 0;
             }
-        } else if (currentState == SpikeState.RETRACTING) {
-            spikeChild.position = Vector3.Lerp(spikesUpPosition, spikesDownPosition, currentTimeRetracting / retractingTime);
+        } else if (currentState == SpikeState.Retracting) {
+            spikeChild.localPosition = Vector3.Lerp(spikesUpPosition, spikesDownPosition, currentTimeRetracting / retractingTime);
 
-            if (spikeChild.position == spikesDownPosition) {
-                currentState = SpikeState.SPIKESDOWN;
+            if (spikeChild.localPosition == spikesDownPosition) {
+                currentState = SpikeState.SpikesDown;
                 currentTimeRetracting = 0;
             }
         }
@@ -98,10 +102,10 @@ public class SpikeTrapController : MonoBehaviour
     #region Enums
 
     public enum SpikeState {
-        SPIKESDOWN,
-        SPIKESUP,
-        EXTENDING,
-        RETRACTING
+        SpikesDown,
+        SpikesUp,
+        Extending,
+        Retracting
     }
 
     #endregion
