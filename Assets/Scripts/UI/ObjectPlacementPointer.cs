@@ -2,19 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPlacementPointer : MonoBehaviour
-{
+public class ObjectPlacementPointer : MonoBehaviour {
     #region Properties
 
     [HideInInspector]
     public bool validPlacement;
+    [HideInInspector]
+    public RaycastHit hitInformation;
     public float maxPlacementDistance;
-    public LayerMask floorMask;
     public Color invalidPositionColour;
-    
+    public TrapController.Type? trapType;
+
     private new Camera camera;
     private Ray cameraToMouseRay;
     private Color defaultColour;
+    private int terrainMask;
+    private int floorMask;
+    private int wallMask;
 
     private new MeshRenderer renderer;
 
@@ -26,26 +30,14 @@ public class ObjectPlacementPointer : MonoBehaviour
         camera = Camera.main;
         renderer = gameObject.GetComponent<MeshRenderer>();
         defaultColour = renderer.material.color;
-        validPlacement = true;
+
+        floorMask = 1 << LayerMask.NameToLayer("Floor");
+        wallMask = 1 << LayerMask.NameToLayer("Wall");
+        terrainMask = floorMask | wallMask;
     }
 
     private void Update() {
-        RaycastHit hit;
-        cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(cameraToMouseRay, out hit)) {
-            Vector3 pointHit = hit.point;
-
-            if (hit.collider.gameObject.tag == "Floor") {
-                validPlacement = true;
-
-                pointHit = GetValidFloorPosition(pointHit);
-            } else {
-                validPlacement = false;
-            }
-
-            transform.position = pointHit;
-        }
+        CheckForRaycastHit();
 
         ChangeColourIfNotValidPlacement();
     }
@@ -54,14 +46,33 @@ public class ObjectPlacementPointer : MonoBehaviour
 
     #region Methods
 
-    private Vector3 GetValidFloorPosition(Vector3 pointHit) {
-        Vector3 playerToPointHit = pointHit - References.currentPlayer.transform.position;
+    private void CheckForRaycastHit() {
+        RaycastHit hit;
+        cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
+        validPlacement = true;
+
+        if (Physics.Raycast(cameraToMouseRay, out hit, Mathf.Infinity, terrainMask)) {
+            hitInformation = hit;
+            Vector3 pointHit = hit.point;
+
+            if (trapType == null || hit.collider.gameObject.tag == trapType.ToString()) {
+                validPlacement = GetValidPosition(pointHit);
+            } else {
+                validPlacement = false;
+            }
+
+            transform.position = pointHit;
+        }
+    }
+
+    private bool GetValidPosition(Vector3 pointHit) {
+        bool valid = true;
 
         if (Vector3.Distance(References.currentPlayer.transform.position, pointHit) > maxPlacementDistance) {
-            pointHit = References.currentPlayer.transform.position + (playerToPointHit.normalized * maxPlacementDistance);
+            valid = false;
         }
 
-        return pointHit;
+        return valid;
     }
 
     private void ChangeColourIfNotValidPlacement() {

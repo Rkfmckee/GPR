@@ -93,8 +93,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   validPlacement: 0
-  maxPlacementDistance: 3
-  floorMask:
-    serializedVersion: 2
-    m_Bits: 1024
+  maxPlacementDistance: 10
   invalidPositionColour: {r: 0.4528302, g: 0, b: 0, a: 0.15686275}

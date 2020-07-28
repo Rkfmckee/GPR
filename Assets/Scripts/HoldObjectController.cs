@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoldObjectController : MonoBehaviour
-{
+public class HoldObjectController : MonoBehaviour {
     #region Properties
 
     private GameObject heldObject;
@@ -32,10 +32,14 @@ public class HoldObjectController : MonoBehaviour
     public void SetHeldObject(GameObject objectHeld) {
         heldObject = objectHeld;
         heldObject.transform.parent = transform;
-
         heldObjectController = heldObject.GetComponent<PickUpController>();
 
-        References.gameController.GetComponent<GameController>().EnableWorldMousePointer(heldObject.tag == "Trap");
+        TrapController.Type? trapType = null;
+        if (heldObject.tag == "Trap") {
+            trapType = heldObject.GetComponent<TrapController>().GetTrapType();
+        }
+
+        References.gameController.GetComponent<GameController>().EnableWorldMousePointer(trapType);
     }
 
     private void UseHeldObjectIfPressed() {
@@ -43,7 +47,7 @@ public class HoldObjectController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1")) {
             if (References.gameController.GetComponent<GameController>().worldMousePointer.GetComponent<ObjectPlacementPointer>().validPlacement) {
-                SetDownObject();
+                PlaceObject();
             }
         } else if (Input.GetButtonDown("Fire2")) {
             if (heldObjectController.canBeThrown) {
@@ -52,20 +56,33 @@ public class HoldObjectController : MonoBehaviour
         }
     }
 
-    private void SetDownObject() {
+    private void PlaceObject() {
         GameObject worldPointer = References.gameController.GetComponent<GameController>().worldMousePointer;
+        ObjectPlacementPointer worldPointerScript = worldPointer.GetComponent<ObjectPlacementPointer>();
         float xPosition = worldPointer.transform.position.x;
+        float yPosition = worldPointer.transform.position.y;
         float zPosition = worldPointer.transform.position.z;
-        float yPosition;
+        Quaternion rotation = heldObject.transform.rotation;
 
-        if (heldObject.tag == "Trap") {
-            yPosition = 1;
-        } else {
-            yPosition = 3;
+        TrapController trapController = heldObject.GetComponent<TrapController>();
+        if (trapController != null) {
+            if (trapController.GetTrapType() == TrapController.Type.Wall) {
+                Vector3 hitNormal = worldPointerScript.hitInformation.normal;
+                rotation = Quaternion.LookRotation(worldPointerScript.hitInformation.normal);
+
+                if (Math.Abs(hitNormal.x) == 1) {
+                    xPosition = worldPointerScript.hitInformation.point.x;
+                } else if (Math.Abs(hitNormal.z) == 1) {
+                    zPosition = worldPointerScript.hitInformation.point.z;
+                }
+            } else {
+                yPosition = 0;
+            }
         }
 
         heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.Idle);
         heldObject.transform.position = new Vector3(xPosition, yPosition, zPosition);
+        heldObject.transform.rotation = rotation;
 
         ForgetHeldObject();
         References.gameController.GetComponent<GameController>().DisableWorldMousePointer();

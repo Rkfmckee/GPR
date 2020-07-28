@@ -23,13 +23,14 @@ public class GameController : MonoBehaviour
 
     #region Methods
 
-    public void EnableWorldMousePointer(bool trapHeld) {
+    public void EnableWorldMousePointer(TrapController.Type? trapType) {
             if (worldMousePointer == null) {
                 worldMousePointer = Instantiate(worldMousePointerPrefab);
                 worldMousePointer.transform.parent = gameObject.transform;
+                worldMousePointer.GetComponent<ObjectPlacementPointer>().trapType = trapType;
             }
 
-        References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText(trapHeld);
+        References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText(trapType != null);
     }
 
     public void DisableWorldMousePointer() {

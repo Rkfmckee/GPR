@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Floor
   - Trap
+  - Trigger
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - 
   - Obstacle
   - Player
-  - Terrain
-  - 
+  - Floor
+  - Wall
   - 
   - 
   - 

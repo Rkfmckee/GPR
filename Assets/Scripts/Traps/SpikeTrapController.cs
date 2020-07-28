@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpikeTrapController : MonoBehaviour
+public class SpikeTrapController : TrapController
 {
+    [HideInInspector]
     public SpikeState currentState;
     public float extendingTime;
     public float retractingTime;
@@ -28,7 +29,7 @@ public class SpikeTrapController : MonoBehaviour
     private void Update() {
         if (currentState == SpikeState.Extending) {
             currentTimeExtending += Time.deltaTime;
-            
+
             MoveSpikes();
         } else if (currentState == SpikeState.SpikesUp) {
             currentTimeExtended += Time.deltaTime;
@@ -48,25 +49,26 @@ public class SpikeTrapController : MonoBehaviour
         }
     }
 
-    public void CollisionDetected(Collision collision) {
-        spikeChild = Instantiate(spikeChildPrefab, transform).transform;
-        spikeChild.localPosition = spikesDownPosition;
-        
+    #endregion
+
+    #region Methods
+    public override void TriggerTrap(Collider triggeredBy) {
         if (currentState == SpikeState.SpikesDown) {
+            spikeChild = Instantiate(spikeChildPrefab, transform).transform;
+            spikeChild.localPosition = spikesDownPosition;
+
             currentState = SpikeState.Extending;
 
             var targetsHealthSystem = null as HealthSystem;
-            if ((targetsHealthSystem = collision.gameObject.GetComponent<HealthSystem>()) != null) {
+            if ((targetsHealthSystem = triggeredBy.gameObject.GetComponent<HealthSystem>()) != null) {
                 targetsHealthSystem.TakeDamageOverTime(5, 3);
             }
         }
     }
 
-    #endregion
-
-    #region Methods
-
     private void setupInstanceVariables() {
+        trapType = Type.Floor;
+
         spikesUpPosition = new Vector3(0, 0, 0);
         spikesDownPosition = new Vector3(0, -0.5f, 0);
 

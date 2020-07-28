@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SpikeTrapBodyTexture_Outlined
+  m_Name: OldSpikeTrapBodyTexture_Outlined
   m_Shader: {fileID: 4800000, guid: eff95283d0167da4dbe1c00ea7d7e071, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

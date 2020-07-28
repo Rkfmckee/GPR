@@ -13,7 +13,6 @@ public class FieldOfView : MonoBehaviour
     public bool shouldDrawFieldOfView;
 
     public LayerMask targetMask;
-    public LayerMask obstacleMask;
 
     [HideInInspector]
     public List<GameObject> visibleTargets = new List<GameObject>();
@@ -21,6 +20,10 @@ public class FieldOfView : MonoBehaviour
     public float meshResolution;
     public int edgeResolveIterations;
     private float edgeDistanceThreshold = 0.5f;
+
+    private int blockingMask;
+    private int obstacleMask;
+    private int wallMask;
 
     [HideInInspector]
     public MeshFilter viewMeshFilter;
@@ -32,6 +35,10 @@ public class FieldOfView : MonoBehaviour
 
     private void Start() {
         CreateViewVisualisationChild();
+
+        obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
+        wallMask = 1 << LayerMask.NameToLayer("Wall");
+        blockingMask = obstacleMask | wallMask;
 
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
@@ -87,7 +94,7 @@ public class FieldOfView : MonoBehaviour
             if (Vector3.Angle(transform.forward, directionToTarget) < viewAngle / 2) {
                 float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
 
-                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstacleMask)) {
+                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, blockingMask)) {
                     visibleTargets.Add(target);
                 }
             }
@@ -153,7 +160,7 @@ public class FieldOfView : MonoBehaviour
         Vector3 direction = DirectionFromAngle(globalAngle, true);
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, direction, out hit, viewRadius, obstacleMask)) {
+        if (Physics.Raycast(transform.position, direction, out hit, viewRadius, blockingMask)) {
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         } else {
             return new ViewCastInfo(false, transform.position + direction * viewRadius, viewRadius, globalAngle);
