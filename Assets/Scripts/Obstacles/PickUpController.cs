@@ -24,7 +24,7 @@ public class PickUpController : MonoBehaviour
         currentState = State.Idle;
         heldHeight = new Vector3(0, 3, 0);
 
-        if (gameObject.tag == "Trap") {
+        if (gameObject.tag == "Trap" || gameObject.tag == "Trigger") {
             canBeThrown = false;
         } else {
             canBeThrown = true;

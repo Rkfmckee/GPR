@@ -7,58 +7,58 @@ public class SeenBehindWalls : MonoBehaviour
     public bool drawDebugLines;
 
     private new Camera camera;
-
-    private GameObject currentObjectHit;
-    private GameObject previousObjectHit;
-    private GameObject nextObjectHit;
-
-    private Material wallMaterialSolid;
-    private Material wallMaterialTranslucent;
+    private List<GameObject> hiddenObjects;
+    private int hiddenLayers;
 
     void Awake() {
         camera = Camera.main;
+        hiddenObjects = new List<GameObject>();
 
-        wallMaterialSolid = Resources.Load("Materials/Terrain/WallMaterial") as Material;
-        wallMaterialTranslucent = Resources.Load("Materials/Terrain/WallMaterialTranslucent") as Material;
+        int wallMask = 1 << LayerMask.NameToLayer("Wall");
+        int wallDecMask = 1 << LayerMask.NameToLayer("WallDecoration");
+
+        hiddenLayers = wallMask | wallDecMask;
     }
 
     void Update() {
-        checkIfValidObjectToSeeThroughWalls();
-    }
-
-    private void checkIfValidObjectToSeeThroughWalls() {        
         seeObjectThroughWalls();
     }
 
     private void seeObjectThroughWalls() {
-        RaycastHit hit;
-        Vector3 fromCameraToObject = -(camera.transform.position - transform.position);
+        Vector3 direction = transform.position - camera.transform.position;
+        float distance = direction.magnitude;
 
-        if (Physics.Raycast(camera.transform.position, fromCameraToObject, out hit)) {
-            
-            nextObjectHit = hit.collider.gameObject;
+        RaycastHit[] hits = Physics.RaycastAll(camera.transform.position, direction, distance, hiddenLayers);
 
-            if (nextObjectHit != currentObjectHit) {
-                previousObjectHit = currentObjectHit;
-                currentObjectHit = nextObjectHit;
+        foreach(RaycastHit hit in hits) {
+            GameObject currentHit = hit.transform.gameObject;
 
-                if (previousObjectHit != null) {
-                    if (previousObjectHit.tag == "Wall") {
-                        previousObjectHit.GetComponent<Renderer>().material = wallMaterialSolid;
-                    }
-                }
+            if (!hiddenObjects.Contains(currentHit)) {
+                hiddenObjects.Add(currentHit);
+                currentHit.GetComponent<Renderer>().enabled = false;
+            }
+        }
 
-                if (currentObjectHit != null) {
-                    if (currentObjectHit.tag == "Wall") {
-                        currentObjectHit.GetComponent<Renderer>().material = wallMaterialTranslucent;
-                    }
+        CleanInappropriateMembers(hits);
+    }
+
+    private void CleanInappropriateMembers(RaycastHit[] hits) {
+        for (int i = 0; i < hiddenObjects.Count; i++) {
+            bool isHit = false;
+
+            for (int j = 0; j < hits.Length; j++) {
+                if (hits[j].transform.gameObject == hiddenObjects[i]) {
+                    isHit = true;
+                    break;
                 }
             }
 
-            if (drawDebugLines) Debug.DrawRay(camera.transform.position, fromCameraToObject * hit.distance, Color.yellow);
-
-        } else {
-            if (drawDebugLines) Debug.DrawRay(camera.transform.position, fromCameraToObject * 1000, Color.white);
+            if (!isHit) {
+                GameObject wasHidden = hiddenObjects[i];
+                wasHidden.GetComponent<Renderer>().enabled = true;
+                hiddenObjects.RemoveAt(i);
+                i--;
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -6496422195296533043}
   - component: {fileID: -3041991364365151955}
   - component: {fileID: -7006435695994595497}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall-Arch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
