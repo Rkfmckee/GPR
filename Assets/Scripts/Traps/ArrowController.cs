@@ -6,20 +6,20 @@ public class ArrowController : MonoBehaviour
 {
     #region Properties
 
-    private float speed = 100;
+    private float speed;
     private new Rigidbody rigidbody;
+    private Collider[] collidersToIgnore;
 
     #endregion
 
     #region Events
 
     private void Awake() {
-        float speedPerFrame = speed * Time.deltaTime;
         rigidbody = gameObject.GetComponent<Rigidbody>();
+    }
 
-        rigidbody.velocity = transform.forward * speedPerFrame;
-
-        print(rigidbody.velocity);
+    private void Update() {
+        transform.rotation = Quaternion.LookRotation(rigidbody.velocity);
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -30,8 +30,12 @@ public class ArrowController : MonoBehaviour
 
     #region Methods
 
-    public void SetSpeed(float value) {
-        speed = value;
+    public void SetCollidersToIgnore(Collider[] colliders) {
+        collidersToIgnore = colliders;
+
+        foreach(Collider collider in collidersToIgnore) {
+            Physics.IgnoreCollision(GetComponent<Collider>(), collider);
+        }
     }
 
     #endregion

@@ -28,10 +28,19 @@ public class ArrowTrapController : TrapController {
     public override void TriggerTrap(Collider triggeredBy) {
         foreach(GameObject arrowSlot in arrowSlots) {
             GameObject arrow = Instantiate(arrowPrefab);
-            arrow.transform.eulerAngles = new Vector3(0, arrowSlot.transform.rotation.y + 180, 0);
-            arrow.transform.position = arrowSlot.transform.position + (arrow.transform.forward);
-            arrow.transform.LookAt(-arrowSlot.transform.forward*3);
-            arrow.GetComponent<ArrowController>().SetSpeed(10);
+            ArrowController arrowController = arrow.GetComponent<ArrowController>();
+            Rigidbody arrowRigidbody = arrow.GetComponent<Rigidbody>();
+
+            arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
+            arrow.transform.position = arrowSlot.transform.position;
+
+            if (arrowController != null) {
+                arrowController.SetCollidersToIgnore(Physics.OverlapSphere(arrow.transform.position, 1));
+            }
+
+            if (arrowRigidbody != null) {
+                arrowRigidbody.velocity = arrow.transform.forward * 30;
+            }
         }
     }
 }
