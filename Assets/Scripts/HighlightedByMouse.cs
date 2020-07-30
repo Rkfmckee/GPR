@@ -9,14 +9,14 @@ public class HighlightedByMouse : MonoBehaviour
 {
     #region Properties
 
+    [HideInInspector]
+    public bool currentlyHightlightingMe;
     public Material hightlightMaterial;
 
     private new Renderer renderer;
     private Material startMaterial;
-    private bool currentlyHightlightingMe;
 
     private Dictionary<string, Action> methodsForEachType;
-    private List<GameObject> allPlayers;
 
     #endregion
 
@@ -35,28 +35,19 @@ public class HighlightedByMouse : MonoBehaviour
 
     }
 
-    private void Start() {
-        allPlayers = References.players;
-    }
+    private void Update() {
+        if (currentlyHightlightingMe) {
+            if (renderer.material == startMaterial) {
+                renderer.material = hightlightMaterial;
+            }
 
-    private void LateUpdate() {
-        if (currentlyHightlightingMe && Input.GetButtonDown("Fire1")) {
-            if (DontSelect()) return;
-
-            methodsForEachType[gameObject.tag]();
+            if (Input.GetButtonDown("Fire1")) {
+                if (DontSelect()) return;
+                methodsForEachType[gameObject.tag]();
+            }
+        } else {
+            renderer.material = startMaterial;
         }
-    }
-
-    private void OnMouseEnter() {
-        if (DontSelect()) return;
-
-        currentlyHightlightingMe = true;
-        renderer.material = hightlightMaterial;
-    }
-
-    private void OnMouseExit() {
-        currentlyHightlightingMe = false;
-        renderer.material = startMaterial;
     }
 
     #endregion
@@ -126,7 +117,7 @@ public class HighlightedByMouse : MonoBehaviour
             return;
         }
 
-        foreach(var player in allPlayers) {
+        foreach(var player in References.players) {
             player.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(false);
         }
 

@@ -78,6 +78,8 @@ public class HoldObjectController : MonoBehaviour {
             } else {
                 yPosition = 0;
             }
+        } else {
+            yPosition = heldObject.GetComponentInChildren<Collider>().bounds.size.y / 2;
         }
 
         heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.Idle);

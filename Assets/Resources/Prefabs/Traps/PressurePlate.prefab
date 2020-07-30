@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4095922709850232268}
   - component: {fileID: 5264195032394953091}
   - component: {fileID: 3717668718850789606}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: PressurePlate
   m_TagString: Trigger
   m_Icon: {fileID: 0}
@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trapToTrigger: {fileID: 0}
+  canTrigger: 0
 --- !u!114 &5264195032394953091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentlyHightlightingMe: 0
   hightlightMaterial: {fileID: 2100000, guid: 4cceb78c3604190488a8df130048445a, type: 2}
 --- !u!114 &3717668718850789606
 MonoBehaviour:

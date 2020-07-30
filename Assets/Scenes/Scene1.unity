@@ -567,7 +567,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14048
+  m_Name: pb_Mesh-2572
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3032,6 +3032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1594604650}
   - component: {fileID: 1594604652}
+  - component: {fileID: 1594604649}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -3039,6 +3040,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1594604649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594604648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec34ae68989636458f4b6511905e2c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1594604650
 Transform:
   m_ObjectHideFlags: 0
@@ -3879,7 +3892,7 @@ PrefabInstance:
     - target: {fileID: 3075038472099686742, guid: 0d61a8d616d205e4fa27879eb088aceb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.07
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3075038472099686742, guid: 0d61a8d616d205e4fa27879eb088aceb,
         type: 3}
@@ -3889,7 +3902,7 @@ PrefabInstance:
     - target: {fileID: 3075038472099686742, guid: 0d61a8d616d205e4fa27879eb088aceb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3075038472099686742, guid: 0d61a8d616d205e4fa27879eb088aceb,
         type: 3}

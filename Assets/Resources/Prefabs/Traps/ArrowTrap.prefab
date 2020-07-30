@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7968621459718745433}
   - component: {fileID: 7968621459718745431}
   - component: {fileID: 7968621459718745430}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ArrowSlot
   m_TagString: Trap
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7968621460233683902}
   - component: {fileID: 7968621460233683903}
   - component: {fileID: 6696139514403931795}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ArrowTrap
   m_TagString: Trap
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 7968621461315035872}
   - component: {fileID: 7968621461315035870}
   - component: {fileID: 7968621461315035873}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ArrowSlot
   m_TagString: Trap
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 7968621461350966289}
   - component: {fileID: 3181408305540705463}
   - component: {fileID: 4805678403554591367}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ArrowSlot
   m_TagString: Trap
   m_Icon: {fileID: 0}
@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentlyHightlightingMe: 0
   hightlightMaterial: {fileID: 2100000, guid: 4cceb78c3604190488a8df130048445a, type: 2}
 --- !u!64 &4805678403554591367
 MeshCollider:

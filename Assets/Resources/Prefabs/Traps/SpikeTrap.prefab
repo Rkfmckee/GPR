@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 966986011339538130}
   - component: {fileID: 8521885357203590130}
   - component: {fileID: 8850091359316326038}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Body
   m_TagString: Trap
   m_Icon: {fileID: 0}
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentlyHightlightingMe: 0
   hightlightMaterial: {fileID: 2100000, guid: 4cceb78c3604190488a8df130048445a, type: 2}
 --- !u!114 &8850091359316326038
 MonoBehaviour:
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trapToTrigger: {fileID: -4314062379480498207}
+  canTrigger: 1
 --- !u!1 &9186663741576256738
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +134,7 @@ GameObject:
   - component: {fileID: 8373956781556975192}
   - component: {fileID: -4314062379480498207}
   - component: {fileID: 2284379860388701042}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SpikeTrap
   m_TagString: Trap
   m_Icon: {fileID: 0}

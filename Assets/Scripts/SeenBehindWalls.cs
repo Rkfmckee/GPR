@@ -16,8 +16,8 @@ public class SeenBehindWalls : MonoBehaviour
 
         int wallMask = 1 << LayerMask.NameToLayer("Wall");
         int wallDecMask = 1 << LayerMask.NameToLayer("WallDecoration");
-
-        hiddenLayers = wallMask | wallDecMask;
+        int wallIgnoreMask = 1 << LayerMask.NameToLayer("WallIgnoreRaycast");
+        hiddenLayers = wallMask | wallDecMask | wallIgnoreMask;
     }
 
     void Update() {
@@ -36,13 +36,14 @@ public class SeenBehindWalls : MonoBehaviour
             if (!hiddenObjects.Contains(currentHit)) {
                 hiddenObjects.Add(currentHit);
                 currentHit.GetComponent<Renderer>().enabled = false;
+                currentHit.layer = LayerMask.NameToLayer("WallIgnoreRaycast");
             }
         }
 
-        CleanInappropriateMembers(hits);
+        ClearInappropriateMembers(hits);
     }
 
-    private void CleanInappropriateMembers(RaycastHit[] hits) {
+    private void ClearInappropriateMembers(RaycastHit[] hits) {
         for (int i = 0; i < hiddenObjects.Count; i++) {
             bool isHit = false;
 
@@ -56,6 +57,11 @@ public class SeenBehindWalls : MonoBehaviour
             if (!isHit) {
                 GameObject wasHidden = hiddenObjects[i];
                 wasHidden.GetComponent<Renderer>().enabled = true;
+
+                if (wasHidden.layer == LayerMask.NameToLayer("WallIgnoreRaycast")) {
+                    wasHidden.layer = LayerMask.NameToLayer("Wall");
+                }
+
                 hiddenObjects.RemoveAt(i);
                 i--;
             }

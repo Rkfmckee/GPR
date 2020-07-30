@@ -7,6 +7,7 @@ public class TrapTriggerController : MonoBehaviour
     #region Properties
 
     public TrapController trapToTrigger;
+    public CanTrigger canTrigger;
 
     #endregion
 
@@ -19,7 +20,7 @@ public class TrapTriggerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision) {
         Collider triggeredBy = collision.collider;
 
-        if (triggeredBy.gameObject.tag == "Player") {
+        if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
             if (trapToTrigger != null) {
                 trapToTrigger.TriggerTrap(triggeredBy);
             }
@@ -27,11 +28,20 @@ public class TrapTriggerController : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider triggeredBy) {
-        if (triggeredBy.gameObject.tag == "Player") {
+        if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
             if (trapToTrigger != null) {
                 trapToTrigger.TriggerTrap(triggeredBy);
             }
         }
+    }
+
+    #endregion
+
+    #region Enums
+
+    public enum CanTrigger {
+        Player,
+        Enemy
     }
 
     #endregion
