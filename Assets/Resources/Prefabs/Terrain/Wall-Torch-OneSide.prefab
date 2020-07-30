@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6852090024597291338}
-  m_Layer: 0
-  m_Name: Wall
-  m_TagString: Untagged
+  m_Layer: 11
+  m_Name: Wall-Torch-OneSide
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,6 +39,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6852090024597291338}
     m_Modifications:
+    - target: {fileID: 6758337317036352724, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758337317391409907, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6758337317441033666, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -98,6 +108,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Torch
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758337317441033693, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758337317655864073, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758337318542525539, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758337318704213789, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758337318930689208, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8319559307328133507, guid: 20e52913b6b7d7b4f972b40a1a9a0427,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20e52913b6b7d7b4f972b40a1a9a0427, type: 3}

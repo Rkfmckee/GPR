@@ -12,6 +12,10 @@ public class TrapTriggerController : MonoBehaviour
 
     #region Events
 
+    private void Awake() {
+        
+    }
+
     private void OnCollisionEnter(Collision collision) {
         Collider triggeredBy = collision.collider;
 
