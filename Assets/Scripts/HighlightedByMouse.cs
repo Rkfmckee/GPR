@@ -11,10 +11,11 @@ public class HighlightedByMouse : MonoBehaviour
 
     [HideInInspector]
     public bool currentlyHightlightingMe;
-    public Material hightlightMaterial;
+    public float maxDistanceFromPlayer;
 
     private new Renderer renderer;
-    private Material startMaterial;
+    private Shader startShader;
+    private Shader highlightShader;
 
     private Dictionary<string, Action> methodsForEachType;
 
@@ -24,21 +25,23 @@ public class HighlightedByMouse : MonoBehaviour
 
     private void Awake() {
         renderer = gameObject.GetComponent<Renderer>();
-        startMaterial = renderer.material;
         currentlyHightlightingMe = false;
+
+        startShader = renderer.material.shader;
+        highlightShader = Shader.Find("Outlined/Custom");
 
         methodsForEachType = new Dictionary<string, Action>();
         methodsForEachType.Add("Player", playerAllowSwitching);
         methodsForEachType.Add("Obstacle", obstacleCanBePickedUp);
         methodsForEachType.Add("Trap", obstacleCanBePickedUp);
         methodsForEachType.Add("Trigger", obstacleCanBePickedUp);
-
+        methodsForEachType.Add("Chest", chestCanBeOpened);
     }
 
     private void Update() {
         if (currentlyHightlightingMe) {
-            if (renderer.material == startMaterial) {
-                renderer.material = hightlightMaterial;
+            if (renderer.material.shader == startShader) {
+                renderer.material.shader = highlightShader;
             }
 
             if (Input.GetButtonDown("Fire1")) {
@@ -46,7 +49,7 @@ public class HighlightedByMouse : MonoBehaviour
                 methodsForEachType[gameObject.tag]();
             }
         } else {
-            renderer.material = startMaterial;
+            renderer.material.shader = startShader;
         }
     }
 
@@ -69,6 +72,9 @@ public class HighlightedByMouse : MonoBehaviour
                 break;
             case "Trigger":
                 dontSelect = DontSelectObstacle();
+                break;
+            case "Chest":
+                dontSelect = DontSelectChest();
                 break;
         }
 
@@ -96,8 +102,8 @@ public class HighlightedByMouse : MonoBehaviour
     }
 
     private bool DontSelectTrap() {
-        SpikeTrapController spikeTrap = gameObject.GetComponentInParent<SpikeTrapController>();
         bool dontSelect = false;
+        SpikeTrapController spikeTrap = gameObject.GetComponentInParent<SpikeTrapController>();
 
         if (spikeTrap != null) {
             // If the type of trap we're picking up is a spike trap
@@ -107,6 +113,17 @@ public class HighlightedByMouse : MonoBehaviour
         }
 
         return dontSelect || DontSelectObstacle();
+    }
+
+    private bool DontSelectChest() {
+        bool dontSelect = false;
+        ChestController controller = GetComponentInParent<ChestController>();
+
+        if (controller.GetCurrentState() == ChestController.ChestState.Open) {
+            dontSelect = true;
+        }
+
+        return dontSelect;
     }
 
     private void playerAllowSwitching() {
@@ -133,6 +150,16 @@ public class HighlightedByMouse : MonoBehaviour
         }
 
         pickup.SetCurrentState(PickUpController.State.Held);
+    }
+
+    private void chestCanBeOpened() {
+        ChestController controller = GetComponentInParent<ChestController>();
+
+        if (controller.GetCurrentState() == ChestController.ChestState.Closed) {
+            controller.SetState(ChestController.ChestState.Open);
+
+            References.gameController.GetComponent<GameController>().ShouldShowCaveInventory(true);
+        }
     }
 
     #endregion

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4108586823162190100}
   - component: {fileID: 6073545707057163270}
   - component: {fileID: 966986011339538130}
-  - component: {fileID: 8521885357203590130}
   - component: {fileID: 8850091359316326038}
+  - component: {fileID: 3992137978724970398}
   m_Layer: 14
   m_Name: Body
   m_TagString: Trap
@@ -95,20 +95,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9892268, y: 0.12481335, z: 1.9892268}
   m_Center: {x: 0, y: 0.05945085, z: 0}
---- !u!114 &8521885357203590130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3583657183557119658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlyHightlightingMe: 0
-  hightlightMaterial: {fileID: 2100000, guid: 4cceb78c3604190488a8df130048445a, type: 2}
 --- !u!114 &8850091359316326038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +109,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapToTrigger: {fileID: -4314062379480498207}
   canTrigger: 1
+--- !u!114 &3992137978724970398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3583657183557119658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyHightlightingMe: 0
+  hightlightMaterial: {fileID: 2100000, guid: 4cceb78c3604190488a8df130048445a, type: 2}
+  maxDistanceFromPlayer: 5
 --- !u!1 &9186663741576256738
 GameObject:
   m_ObjectHideFlags: 0

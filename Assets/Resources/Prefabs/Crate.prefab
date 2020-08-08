@@ -138,5 +138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightType: 1
+  currentlyHightlightingMe: 0
   hightlightMaterial: {fileID: 2100000, guid: eced5cb6a46c68e4d94cd371ee29e793, type: 2}
+  maxDistanceFromPlayer: 5

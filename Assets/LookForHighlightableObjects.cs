@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LookForHighlightableObjects : MonoBehaviour
-{
+public class LookForHighlightableObjects : MonoBehaviour {
     #region Properties
 
     private new Camera camera;
@@ -29,17 +28,19 @@ public class LookForHighlightableObjects : MonoBehaviour
 
         if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity, highlightLayerMask)) {
             GameObject currentHit = hit.transform.gameObject;
+            HighlightedByMouse highlightScript = currentHit.GetComponent<HighlightedByMouse>();
 
-            if (currentHit != lastHighlighted) {
-                ClearLastHighlighted();
+            if (highlightScript != null) {
+                if (Vector3.Distance(currentHit.transform.position, References.currentPlayer.transform.position) < highlightScript.maxDistanceFromPlayer) {
+                    if (currentHit != lastHighlighted) {
+                        ClearLastHighlighted();
 
-                HighlightedByMouse highlightScript = currentHit.GetComponent<HighlightedByMouse>();
-
-                if (highlightScript != null) {
-                    highlightScript.currentlyHightlightingMe = true;
+                        highlightScript.currentlyHightlightingMe = true;
+                        lastHighlighted = currentHit;
+                    }
+                } else {
+                    ClearLastHighlighted();
                 }
-
-                lastHighlighted = currentHit;
             }
         } else {
             ClearLastHighlighted();

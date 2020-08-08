@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlyHightlightingMe: 0
   hightlightMaterial: {fileID: 2100000, guid: 4cceb78c3604190488a8df130048445a, type: 2}
+  maxDistanceFromPlayer: 5
 --- !u!114 &3717668718850789606
 MonoBehaviour:
   m_ObjectHideFlags: 0

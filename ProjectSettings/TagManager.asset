@@ -10,6 +10,7 @@ TagManager:
   - Floor
   - Trap
   - Trigger
+  - Chest
   layers:
   - Default
   - TransparentFX

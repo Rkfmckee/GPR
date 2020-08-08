@@ -50,15 +50,18 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void SetCurrentlyBeingControlled(bool isControlled) {
         currentlyBeingControlled = isControlled;
-        if (currentlyBeingControlled) { References.currentPlayer = gameObject; }
+
+        if (currentlyBeingControlled) { 
+            References.currentPlayer = gameObject;
+
+            var cameraController = Camera.main.GetComponent<CameraController>();
+
+            if (cameraController != null) {
+                cameraController.SetCurrentlyControlledPlayer(gameObject);
+            }
+        }
 
         ChangeMassIfNotBeingControlled();
-
-        var cameraController = Camera.main.GetComponent<CameraController>();
-
-        if (cameraController != null) {
-            cameraController.SetCurrentlyControlledPlayer(gameObject);
-        }
     }
 
     private void SetupAwakeInstanceVariables() {

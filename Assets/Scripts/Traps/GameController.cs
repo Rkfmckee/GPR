@@ -23,6 +23,11 @@ public class GameController : MonoBehaviour
 
     #region Methods
 
+    public void ShouldShowCaveInventory(bool showInventory) {
+        References.UI.canvas.GetComponent<CanvasController>().SetCaveInventoryVisible(showInventory);
+        References.currentPlayer.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(!showInventory);
+    }
+
     public void EnableWorldMousePointer(TrapController.Type? trapType) {
             if (worldMousePointer == null) {
                 worldMousePointer = Instantiate(worldMousePointerPrefab);

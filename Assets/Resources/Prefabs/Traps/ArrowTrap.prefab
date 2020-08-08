@@ -230,8 +230,8 @@ GameObject:
   - component: {fileID: 7968621461350966288}
   - component: {fileID: 7968621461350966286}
   - component: {fileID: 7968621461350966289}
-  - component: {fileID: 3181408305540705463}
-  - component: {fileID: 4805678403554591367}
+  - component: {fileID: 749819402771745313}
+  - component: {fileID: 1520566619624064989}
   m_Layer: 14
   m_Name: ArrowSlot
   m_TagString: Trap
@@ -300,7 +300,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3181408305540705463
+--- !u!114 &749819402771745313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -314,7 +314,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlyHightlightingMe: 0
   hightlightMaterial: {fileID: 2100000, guid: 4cceb78c3604190488a8df130048445a, type: 2}
---- !u!64 &4805678403554591367
+  maxDistanceFromPlayer: 5
+--- !u!64 &1520566619624064989
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -26,8 +26,9 @@ public class HealthSystem : MonoBehaviour
 
     private void Start() {
         canvas = References.UI.canvas;
+        Transform healthBarParent = canvas.transform.Find("HealthBars").transform;
 
-        healthBar = Instantiate(healthBarPrefab, canvas.transform);
+        healthBar = Instantiate(healthBarPrefab, healthBarParent);
         healthBarController = healthBar.GetComponent<HealthBarController>();
     }
 
