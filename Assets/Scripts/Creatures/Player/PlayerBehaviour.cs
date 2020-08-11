@@ -32,16 +32,19 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     private void Update() {
-        if (!currentlyBeingControlled) {
+        if (currentlyBeingControlled) {
+            GetMovementDirection();
+        } else {
             directionVector = Vector3.zero;
-            return;
         }
 
-        GetMovementDirection();
+        
     }
 
     private void FixedUpdate() {
-        CalculateMovement();
+        if (currentlyBeingControlled) {
+            CalculateMovement();
+        }
     }
 
     #endregion

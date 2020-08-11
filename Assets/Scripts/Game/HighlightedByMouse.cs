@@ -153,10 +153,10 @@ public class HighlightedByMouse : MonoBehaviour
     }
 
     private void chestCanBeOpened() {
-        ChestController controller = GetComponentInParent<ChestController>();
+        ChestController chest = GetComponentInParent<ChestController>();
 
-        if (controller.GetCurrentState() == ChestController.ChestState.Closed) {
-            controller.SetState(ChestController.ChestState.Open);
+        if (chest.GetCurrentState() == ChestController.ChestState.Closed) {
+            chest.Open();
 
             References.gameController.GetComponent<GameController>().ShouldShowCaveInventory(true);
         }

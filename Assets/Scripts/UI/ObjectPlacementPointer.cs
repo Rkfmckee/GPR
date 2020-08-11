@@ -47,22 +47,9 @@ public class ObjectPlacementPointer : MonoBehaviour {
     #region Methods
 
     private void CheckForRaycastHit() {
-        //RaycastHit[] allHits;
         RaycastHit validHit;
         cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
         validPlacement = true;
-
-        //allHits = Physics.RaycastAll(cameraToMouseRay, Mathf.Infinity, terrainMask);
-
-        //RaycastHit closestHit = allHits[0];
-        //foreach(RaycastHit hit in allHits) {
-        //    if (hit.distance < closestHit.distance) {
-        //        if (hit.transform.gameObject.GetComponent<Renderer>().enabled == true) {
-        //            closestHit = hit;
-        //        }
-        //    }
-        //}
-        //validHit = closestHit;
 
         if (Physics.Raycast(cameraToMouseRay, out validHit, Mathf.Infinity, terrainMask)) {
             hitInformation = validHit;

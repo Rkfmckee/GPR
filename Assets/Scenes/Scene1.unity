@@ -3933,6 +3933,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 250c09df8c666634cb8c1d66c093e4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToOpen: 0.5
+  openAngle: 90
 --- !u!23 &2760616930284555396
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4055,7 +4057,7 @@ GameObject:
   - component: {fileID: 2760616930284555396}
   - component: {fileID: 3135792817673963204}
   m_Layer: 14
-  m_Name: Chest_Top
+  m_Name: ChestTop
   m_TagString: Chest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4311,7 +4313,7 @@ GameObject:
   - component: {fileID: 7347644613813627267}
   - component: {fileID: 7347644613813627268}
   m_Layer: 14
-  m_Name: Chest_Base
+  m_Name: ChestBase
   m_TagString: Chest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

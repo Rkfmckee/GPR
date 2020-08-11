@@ -10,12 +10,14 @@ public class InventorySlotController : MonoBehaviour
     public GameObject itemInSlot;
 
     private Button itemButton;
+    private CaveInventoryController inventoryController;
 
     #endregion
 
     #region Events
 
     private void Awake() {
+        inventoryController = GetComponentInParent<CaveInventoryController>();
         itemButton = transform.Find("ItemButton").GetComponent<Button>();
 
         if (itemButton != null) {
@@ -28,7 +30,7 @@ public class InventorySlotController : MonoBehaviour
     #region Methods
 
     private void ItemButtonClicked() {
-        print($"Spawned {itemInSlot.name}.");
+        inventoryController.SetSelectedItem(itemInSlot);
     }
 
     #endregion

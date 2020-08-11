@@ -39,15 +39,17 @@ public class HoldObjectController : MonoBehaviour {
             trapType = heldObject.GetComponent<TrapController>().GetTrapType();
         }
 
-        References.gameController.GetComponent<GameController>().EnableWorldMousePointer(trapType);
+        References.gameController.GetComponent<GameController>().EnableWorldMousePointerIfPossible(trapType);
     }
 
     private void UseHeldObjectIfPressed() {
         if (heldObject == null) return;
 
         if (Input.GetButtonDown("Fire1")) {
-            if (References.gameController.GetComponent<GameController>().worldMousePointer.GetComponent<ObjectPlacementPointer>().validPlacement) {
-                PlaceObject();
+            if (References.gameController.GetComponent<GameController>().worldMousePointer != null) {
+                if (References.gameController.GetComponent<GameController>().worldMousePointer.GetComponent<ObjectPlacementPointer>().validPlacement) {
+                    PlaceObject();
+                }
             }
         } else if (Input.GetButtonDown("Fire2")) {
             if (heldObjectController.canBeThrown) {
@@ -86,6 +88,8 @@ public class HoldObjectController : MonoBehaviour {
         heldObject.transform.position = new Vector3(xPosition, yPosition, zPosition);
         heldObject.transform.rotation = rotation;
 
+        References.gameController.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
+
         ForgetHeldObject();
         References.gameController.GetComponent<GameController>().DisableWorldMousePointer();
     }
@@ -95,6 +99,8 @@ public class HoldObjectController : MonoBehaviour {
 
         heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.Thrown);
         heldObject.GetComponent<Rigidbody>().AddForce(throwDirection);
+
+        References.gameController.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
 
         ForgetHeldObject();
         References.gameController.GetComponent<GameController>().DisableWorldMousePointer();

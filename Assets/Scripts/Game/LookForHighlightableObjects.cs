@@ -8,6 +8,10 @@ public class LookForHighlightableObjects : MonoBehaviour {
     private new Camera camera;
     private int highlightLayerMask;
     private GameObject lastHighlighted;
+    private float dontSelectTimer;
+    private float dontSelectTime;
+
+    private GameController gameController;
 
     #endregion
 
@@ -15,14 +19,37 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
     private void Awake() {
         camera = Camera.main;
+        gameController = GetComponent<GameController>();
 
         int highlightableObjectLayerMask = 1 << LayerMask.NameToLayer("Highlightable");
         int obstacleLayerMask = 1 << LayerMask.NameToLayer("Obstacle");
 
         highlightLayerMask = highlightableObjectLayerMask | obstacleLayerMask;
+
+        dontSelectTime = 1;
     }
 
     private void Update() {
+        if (dontSelectTimer < dontSelectTime) {
+            dontSelectTimer += Time.deltaTime;
+        } else {
+            if (!gameController.IsInventoryOpen()) {
+                SendOutRaycast();
+            } else {
+                ClearLastHighlighted();
+            }
+        }
+    }
+
+    #endregion
+
+    #region Methods
+
+    public void ResetDontSelectTimer() {
+        dontSelectTimer = 0;
+    }
+
+    private void SendOutRaycast() {
         RaycastHit hit;
         Ray cameraToMouse = camera.ScreenPointToRay(Input.mousePosition);
 
@@ -46,10 +73,6 @@ public class LookForHighlightableObjects : MonoBehaviour {
             ClearLastHighlighted();
         }
     }
-
-    #endregion
-
-    #region Methods
 
     private void ClearLastHighlighted() {
         if (lastHighlighted != null) {
