@@ -48,6 +48,16 @@ public class HighlightedByMouse : MonoBehaviour
                 if (DontSelect()) return;
                 methodsForEachType[gameObject.tag]();
             }
+
+            if (Input.GetButtonDown("Fire2")) {
+                if (DontSelect()) return;
+
+                if (tag == "Trap" || tag == "Trigger") {
+                    References.gameController.GetComponent<GameController>().CreateTrapLinkingLine(transform);
+                } else {
+                    print($"Objects with tag {tag} can't be linked");
+                }
+            }
         } else {
             renderer.material.shader = startShader;
         }

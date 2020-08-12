@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour
     public GameObject worldMousePointer;
 
     private GameObject worldMousePointerPrefab;
+    private GameObject trapLinkingLinePrefab;
+    private GameObject trapLinkingLine;
     private bool inventoryOpen;
 
     #endregion
@@ -18,6 +20,7 @@ public class GameController : MonoBehaviour
     private void Awake() {
         References.gameController = gameObject;
         worldMousePointerPrefab = Resources.Load("Prefabs/WorldMousePointer") as GameObject;
+        trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
     }
 
     #endregion
@@ -42,6 +45,13 @@ public class GameController : MonoBehaviour
         if (worldMousePointer != null) Destroy(worldMousePointer);
 
         References.UI.canvas.GetComponent<CanvasController>().DisableHoldingItemText();
+    }
+
+    public void CreateTrapLinkingLine(Transform startTransform) {
+        if (trapLinkingLine == null) {
+            trapLinkingLine = Instantiate(trapLinkingLinePrefab);
+            trapLinkingLine.GetComponent<TrapLinkingLineController>().SetStartValue(startTransform);
+        }
     }
 
     private void EnableWorldMousePointer(TrapController.Type? trapType) {

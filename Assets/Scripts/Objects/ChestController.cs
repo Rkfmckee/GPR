@@ -25,6 +25,9 @@ public class ChestController : MonoBehaviour
         openedRotation = Quaternion.Euler(-openAngle, 0, 0);
 
         chestLid = transform.Find("ChestTop").gameObject;
+    }
+
+    private void Start() {
         gameController = References.gameController.GetComponent<GameController>();
     }
 
