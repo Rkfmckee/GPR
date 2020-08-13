@@ -58,11 +58,6 @@ public class SpikeTrapController : TrapController
             spikeChild.localPosition = spikesDownPosition;
 
             currentState = SpikeState.Extending;
-
-            var targetsHealthSystem = null as HealthSystem;
-            if ((targetsHealthSystem = triggeredBy.gameObject.GetComponent<HealthSystem>()) != null) {
-                targetsHealthSystem.TakeDamageOverTime(5, 3);
-            }
         }
     }
 

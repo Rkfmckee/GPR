@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
     private GameObject trapLinkingLinePrefab;
     private GameObject trapLinkingLine;
     private bool inventoryOpen;
+    private bool highlightTextActive;
+    private bool linkingTextActive;
 
     #endregion
 
@@ -37,6 +39,24 @@ public class GameController : MonoBehaviour
         return inventoryOpen;
     }
 
+    public bool IsTrapLinkingLineActive() {
+        return trapLinkingLine != null;
+    }
+
+    public bool IsHighlightTextActive() {
+        return highlightTextActive;
+    }
+
+    public bool IsLinkingTextActive() {
+        return linkingTextActive;
+    }
+
+    public void RemoveTrapLinkingLine() {
+        if (trapLinkingLine != null) {
+            Destroy(trapLinkingLine);
+        }
+    }
+
     public void EnableWorldMousePointerIfPossible(TrapController.Type? trapType) {
         StartCoroutine(CheckIfPointerCanBeEnabled(trapType));
     }
@@ -52,6 +72,16 @@ public class GameController : MonoBehaviour
             trapLinkingLine = Instantiate(trapLinkingLinePrefab);
             trapLinkingLine.GetComponent<TrapLinkingLineController>().SetStartValue(startTransform);
         }
+    }
+
+    public void EnableHighlightItemText(bool enable) {
+        References.UI.canvas.GetComponent<CanvasController>().EnableHighlightItemText(enable);
+        highlightTextActive = enable;
+    }
+
+    public void EnableLinkingItemText(bool enable) {
+        References.UI.canvas.GetComponent<CanvasController>().EnableLinkingItemText(enable);
+        linkingTextActive = enable;
     }
 
     private void EnableWorldMousePointer(TrapController.Type? trapType) {

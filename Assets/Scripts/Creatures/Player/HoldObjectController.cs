@@ -25,6 +25,10 @@ public class HoldObjectController : MonoBehaviour {
         UseHeldObjectIfPressed();
     }
 
+    private void OnDestroy() {
+        ForgetHeldObject();
+    }
+
     #endregion
 
     #region Methods
@@ -88,10 +92,7 @@ public class HoldObjectController : MonoBehaviour {
         heldObject.transform.position = new Vector3(xPosition, yPosition, zPosition);
         heldObject.transform.rotation = rotation;
 
-        References.gameController.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
-
         ForgetHeldObject();
-        References.gameController.GetComponent<GameController>().DisableWorldMousePointer();
     }
 
     private void ThrowObject() {
@@ -100,15 +101,18 @@ public class HoldObjectController : MonoBehaviour {
         heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.Thrown);
         heldObject.GetComponent<Rigidbody>().AddForce(throwDirection);
 
-        References.gameController.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
 
         ForgetHeldObject();
-        References.gameController.GetComponent<GameController>().DisableWorldMousePointer();
     }
 
     private void ForgetHeldObject() {
-        heldObject.transform.parent = null;
-        heldObject = null;
+        if (heldObject != null) {
+            heldObject.transform.parent = null;
+            heldObject = null;
+
+            References.gameController.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
+            References.gameController.GetComponent<GameController>().DisableWorldMousePointer();
+        }
     }
 
     #endregion

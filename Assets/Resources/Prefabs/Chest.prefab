@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 784245413377984933}
   - component: {fileID: 119877145658888990}
+  - component: {fileID: 2868790777102828335}
+  - component: {fileID: 5293202274797811174}
   m_Layer: 14
   m_Name: Chest
   m_TagString: Chest
@@ -47,6 +49,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToOpen: 0.5
   openAngle: 90
+--- !u!114 &2868790777102828335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119877145658888991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyHightlightingMe: 0
+  maxDistanceFromPlayer: 5
+--- !u!65 &5293202274797811174
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119877145658888991}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.4080236, y: 1.791141, z: 1}
+  m_Center: {x: 0.00081443787, y: 0.8591769, z: -2.3039263e-18}
 --- !u!1 &1082209719766113090
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +87,6 @@ GameObject:
   - component: {fileID: 5310988605714239016}
   - component: {fileID: 6302010023780758102}
   - component: {fileID: 202649395874074885}
-  - component: {fileID: 1082209719766113093}
   m_Layer: 14
   m_Name: ChestTop
   m_TagString: Chest
@@ -128,19 +156,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1082209719766113093
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082209719766113090}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1793182, y: 0.3722582, z: 0.7828308}
-  m_Center: {x: 0.00000002980233, y: 0.186129, z: 0.35398534}
 --- !u!1 &4717601068427752451
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,8 +167,6 @@ GameObject:
   - component: {fileID: 8630643881181661183}
   - component: {fileID: 5143776934727385946}
   - component: {fileID: 1217571400724004502}
-  - component: {fileID: 4717601068427752450}
-  - component: {fileID: 4717601068427752453}
   m_Layer: 14
   m_Name: ChestBase
   m_TagString: Chest
@@ -224,30 +237,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4717601068427752450
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4717601068427752451}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1425583, y: 0.5735315, z: 0.8199322}
-  m_Center: {x: 0.0028808422, y: 0.2854396, z: 0.023355281}
---- !u!114 &4717601068427752453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4717601068427752451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlyHightlightingMe: 0
-  maxDistanceFromPlayer: 5

@@ -13,22 +13,22 @@ public class HighlightedByMouse : MonoBehaviour
     public bool currentlyHightlightingMe;
     public float maxDistanceFromPlayer;
 
-    private new Renderer renderer;
-    private Shader startShader;
-    private Shader highlightShader;
-
+    private Outline outline;
     private Dictionary<string, Action> methodsForEachType;
+    private GameController gameController;
 
     #endregion
 
     #region Events
 
-    private void Awake() {
-        renderer = gameObject.GetComponent<Renderer>();
-        currentlyHightlightingMe = false;
+    private void Awake() { 
+        outline = gameObject.AddComponent<Outline>();
+        outline.OutlineMode = Outline.Mode.OutlineAndSilhouette;
+        outline.OutlineColor = Color.yellow;
+        outline.OutlineWidth = 5f;
+        outline.enabled = false;
 
-        startShader = renderer.material.shader;
-        highlightShader = Shader.Find("Outlined/Custom");
+        currentlyHightlightingMe = false;
 
         methodsForEachType = new Dictionary<string, Action>();
         methodsForEachType.Add("Player", playerAllowSwitching);
@@ -38,28 +38,36 @@ public class HighlightedByMouse : MonoBehaviour
         methodsForEachType.Add("Chest", chestCanBeOpened);
     }
 
+    private void Start() {
+        gameController = References.gameController.GetComponent<GameController>();
+    }
+
     private void Update() {
         if (currentlyHightlightingMe) {
-            if (renderer.material.shader == startShader) {
-                renderer.material.shader = highlightShader;
+            if (!outline.enabled) {
+                outline.enabled = true;
             }
 
-            if (Input.GetButtonDown("Fire1")) {
-                if (DontSelect()) return;
-                methodsForEachType[gameObject.tag]();
-            }
+            if (!gameController.IsTrapLinkingLineActive()) {
+                if (Input.GetButtonDown("Fire1")) {
+                    if (DontSelect()) return;
+                    methodsForEachType[gameObject.tag]();
+                }
 
-            if (Input.GetButtonDown("Fire2")) {
-                if (DontSelect()) return;
+                if (Input.GetButtonDown("Fire2")) {
+                    if (DontSelect()) return;
 
-                if (tag == "Trap" || tag == "Trigger") {
-                    References.gameController.GetComponent<GameController>().CreateTrapLinkingLine(transform);
-                } else {
-                    print($"Objects with tag {tag} can't be linked");
+                    if (tag == "Trap" || tag == "Trigger") {
+                        gameController.CreateTrapLinkingLine(transform);
+                    } else {
+                        print($"Objects with tag {tag} can't be linked");
+                    }
                 }
             }
         } else {
-            renderer.material.shader = startShader;
+            if (outline.enabled) {
+                outline.enabled = false;
+            }
         }
     }
 
@@ -168,7 +176,7 @@ public class HighlightedByMouse : MonoBehaviour
         if (chest.GetCurrentState() == ChestController.ChestState.Closed) {
             chest.Open();
 
-            References.gameController.GetComponent<GameController>().ShouldShowCaveInventory(true);
+            gameController.ShouldShowCaveInventory(true);
         }
     }
 
