@@ -23,7 +23,7 @@ public class CloseButtonController : MonoBehaviour
     #region Methods
 
     private void CloseInventory() {
-        References.gameController.GetComponent<GameController>().ShouldShowCaveInventory(false);
+        References.GameController.gameTraps.ShouldShowCaveInventory(false);
     }
 
     #endregion

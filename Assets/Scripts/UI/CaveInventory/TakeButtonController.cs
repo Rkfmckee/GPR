@@ -8,7 +8,10 @@ public class TakeButtonController : MonoBehaviour
     #region Properties
 
     private Button takeButton;
+    private Image takeButtonImage;
     private CaveInventoryController inventoryController;
+    private Sprite takeButtonUnpressed;
+    private Sprite takeButtonPressed;
 
     #endregion
 
@@ -18,11 +21,27 @@ public class TakeButtonController : MonoBehaviour
         inventoryController = GetComponentInParent<CaveInventoryController>();
         takeButton = GetComponent<Button>();
         takeButton.onClick.AddListener(TakeButtonClicked);
+
+        takeButtonImage = GetComponent<Image>();
+        takeButtonUnpressed = Resources.Load<Sprite>("Images/UI/CaveInventory/TakeButton");
+        takeButtonPressed = Resources.Load<Sprite>("Images/UI/CaveInventory/TakeButtonPressed");
+
+        SetButtonImagePressed(true);
     }
 
     #endregion
 
     #region Methods
+
+    public void SetButtonImagePressed(bool pressed) {
+        if (pressed) {
+            takeButtonImage.sprite = takeButtonPressed;
+            takeButton.enabled = false;
+        } else {
+            takeButtonImage.sprite = takeButtonUnpressed;
+            takeButton.enabled = true;
+        }
+    }
 
     private void TakeButtonClicked() {
         GameObject itemSelected = inventoryController.GetSelectedItem();
@@ -35,7 +54,7 @@ public class TakeButtonController : MonoBehaviour
                 newItemPickup.SetCurrentState(PickUpController.State.Held);
             }
 
-            References.gameController.GetComponent<GameController>().ShouldShowCaveInventory(false);
+            References.GameController.gameTraps.ShouldShowCaveInventory(false);
         }
     }
 

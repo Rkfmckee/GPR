@@ -12,7 +12,7 @@ public class TrapLinkingLineController : MonoBehaviour
     private int trapLinkingLineLayerMask;
     private GameObject firstObjectBeingLinked;
     private GameObject secondObjectBeingLinked;
-    private GameController gameController;
+    private GameTrapsController gameTraps;
 
     #endregion
 
@@ -31,12 +31,12 @@ public class TrapLinkingLineController : MonoBehaviour
         int floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
         trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
 
-        gameController = References.gameController.GetComponent<GameController>();
-        if (!gameController.IsLinkingTextActive()) {
-            gameController.EnableLinkingItemText(true);
+        gameTraps = References.GameController.gameTraps;
+        if (!gameTraps.IsLinkingTextActive()) {
+            gameTraps.EnableLinkingItemText(true);
 
-            if (gameController.IsHighlightTextActive()) {
-                gameController.EnableHighlightItemText(false);
+            if (gameTraps.IsHighlightTextActive()) {
+                gameTraps.EnableHighlightItemText(false);
             }
         }
     }
@@ -70,8 +70,8 @@ public class TrapLinkingLineController : MonoBehaviour
     }
 
     private void OnDestroy() {
-        if (gameController.IsLinkingTextActive()) {
-            gameController.EnableLinkingItemText(false);
+        if (gameTraps.IsLinkingTextActive()) {
+            gameTraps.EnableLinkingItemText(false);
         }
     }
 
@@ -102,7 +102,7 @@ public class TrapLinkingLineController : MonoBehaviour
 
                 print($"Successfully linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
-                References.gameController.GetComponent<GameController>().RemoveTrapLinkingLine();
+                References.GameController.gameTraps.RemoveTrapLinkingLine();
                 return;
             } else {
                 print("Traps can only be linked to Triggers");
@@ -115,7 +115,7 @@ public class TrapLinkingLineController : MonoBehaviour
 
                 print($"Successfully linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
-                References.gameController.GetComponent<GameController>().RemoveTrapLinkingLine();
+                References.GameController.gameTraps.RemoveTrapLinkingLine();
                 return;
             } else {
                 print("Triggers can only be linked to Traps");

@@ -15,7 +15,7 @@ public class HighlightedByMouse : MonoBehaviour
 
     private Outline outline;
     private Dictionary<string, Action> methodsForEachType;
-    private GameController gameController;
+    private GameTrapsController gameTraps;
 
     #endregion
 
@@ -39,7 +39,7 @@ public class HighlightedByMouse : MonoBehaviour
     }
 
     private void Start() {
-        gameController = References.gameController.GetComponent<GameController>();
+        gameTraps = References.GameController.gameTraps;
     }
 
     private void Update() {
@@ -48,7 +48,7 @@ public class HighlightedByMouse : MonoBehaviour
                 outline.enabled = true;
             }
 
-            if (!gameController.IsTrapLinkingLineActive()) {
+            if (!gameTraps.IsTrapLinkingLineActive()) {
                 if (Input.GetButtonDown("Fire1")) {
                     if (DontSelect()) return;
                     methodsForEachType[gameObject.tag]();
@@ -58,7 +58,7 @@ public class HighlightedByMouse : MonoBehaviour
                     if (DontSelect()) return;
 
                     if (tag == "Trap" || tag == "Trigger") {
-                        gameController.CreateTrapLinkingLine(transform);
+                        gameTraps.CreateTrapLinkingLine(transform);
                     } else {
                         print($"Objects with tag {tag} can't be linked");
                     }
@@ -176,7 +176,7 @@ public class HighlightedByMouse : MonoBehaviour
         if (chest.GetCurrentState() == ChestController.ChestState.Closed) {
             chest.Open();
 
-            gameController.ShouldShowCaveInventory(true);
+            gameTraps.ShouldShowCaveInventory(true);
         }
     }
 

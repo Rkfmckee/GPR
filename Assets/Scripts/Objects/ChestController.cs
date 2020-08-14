@@ -14,7 +14,7 @@ public class ChestController : MonoBehaviour
     private float currentOpeningTime;
     private GameObject chestLid;
 
-    private GameController gameController;
+    private GameTrapsController gameTraps;
 
     #endregion
 
@@ -28,12 +28,12 @@ public class ChestController : MonoBehaviour
     }
 
     private void Start() {
-        gameController = References.gameController.GetComponent<GameController>();
+        gameTraps = References.GameController.gameTraps;
     }
 
     private void Update() {
         if (currentState == ChestState.Open) {
-            if (!gameController.IsInventoryOpen()) {
+            if (!gameTraps.IsInventoryOpen()) {
                 Close();
             }
         }

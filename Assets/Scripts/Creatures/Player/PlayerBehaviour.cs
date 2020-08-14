@@ -27,7 +27,6 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     private void Start() {
-        SetupStartInstanceVariables();
         ChangeMassIfNotBeingControlled();
     }
 
@@ -71,10 +70,6 @@ public class PlayerBehaviour : MonoBehaviour
         References.players.Add(gameObject);
         if (currentlyBeingControlled) { References.currentPlayer = gameObject; }
         rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void SetupStartInstanceVariables() {
-        gameController = References.gameController;
     }
 
     private void GetMovementDirection() {

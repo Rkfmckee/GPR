@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class GameTrapsController : MonoBehaviour
 {
     #region Properties
     [HideInInspector]
@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     #region Events
 
     private void Awake() {
-        References.gameController = gameObject;
+        References.GameController.gameTraps = this;
         worldMousePointerPrefab = Resources.Load("Prefabs/WorldMousePointer") as GameObject;
         trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
     }
@@ -97,9 +97,9 @@ public class GameController : MonoBehaviour
     #region Coroutines
 
     private IEnumerator CheckIfPointerCanBeEnabled(TrapController.Type? trapType) {
-        GameController gameController = References.gameController.GetComponent<GameController>();
+        GameTrapsController gameTrapController = References.GameController.gameTraps;
 
-        while(gameController.IsInventoryOpen()) {
+        while(gameTrapController.IsInventoryOpen()) {
             yield return null;
         }
 

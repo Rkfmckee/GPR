@@ -43,15 +43,15 @@ public class HoldObjectController : MonoBehaviour {
             trapType = heldObject.GetComponent<TrapController>().GetTrapType();
         }
 
-        References.gameController.GetComponent<GameController>().EnableWorldMousePointerIfPossible(trapType);
+        References.GameController.gameTraps.EnableWorldMousePointerIfPossible(trapType);
     }
 
     private void UseHeldObjectIfPressed() {
         if (heldObject == null) return;
 
         if (Input.GetButtonDown("Fire1")) {
-            if (References.gameController.GetComponent<GameController>().worldMousePointer != null) {
-                if (References.gameController.GetComponent<GameController>().worldMousePointer.GetComponent<ObjectPlacementPointer>().validPlacement) {
+            if (References.GameController.gameTraps.worldMousePointer != null) {
+                if (References.GameController.gameTraps.worldMousePointer.GetComponent<ObjectPlacementPointer>().validPlacement) {
                     PlaceObject();
                 }
             }
@@ -63,7 +63,7 @@ public class HoldObjectController : MonoBehaviour {
     }
 
     private void PlaceObject() {
-        GameObject worldPointer = References.gameController.GetComponent<GameController>().worldMousePointer;
+        GameObject worldPointer = References.GameController.gameTraps.worldMousePointer;
         ObjectPlacementPointer worldPointerScript = worldPointer.GetComponent<ObjectPlacementPointer>();
         float xPosition = worldPointer.transform.position.x;
         float yPosition = worldPointer.transform.position.y;
@@ -110,8 +110,8 @@ public class HoldObjectController : MonoBehaviour {
             heldObject.transform.parent = null;
             heldObject = null;
 
-            References.gameController.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
-            References.gameController.GetComponent<GameController>().DisableWorldMousePointer();
+            References.GameController.gameControllerObject.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
+            References.GameController.gameTraps.DisableWorldMousePointer();
         }
     }
 

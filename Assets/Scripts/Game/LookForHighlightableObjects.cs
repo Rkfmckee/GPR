@@ -11,7 +11,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
     private float dontSelectTimer;
     private float dontSelectTime;
 
-    private GameController gameController;
+    private GameTrapsController gameController;
 
     #endregion
 
@@ -19,7 +19,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
     private void Awake() {
         camera = Camera.main;
-        gameController = GetComponent<GameController>();
+        gameController = GetComponent<GameTrapsController>();
 
         int highlightableObjectLayerMask = 1 << LayerMask.NameToLayer("Highlightable");
         int obstacleLayerMask = 1 << LayerMask.NameToLayer("Obstacle");
