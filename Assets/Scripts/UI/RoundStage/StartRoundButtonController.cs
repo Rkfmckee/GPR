@@ -29,9 +29,13 @@ public class StartRoundButtonController : MonoBehaviour
 
     #region Methods
 
+    public void ResetStartRoundButton() {
+        buttonImage.sprite = buttonSpriteUnpressed;
+    }
+
     private void StartRoundButtonClicked() {
         buttonImage.sprite = buttonSpritePressed;
-        References.GameController.roundStage.SetCurrentStage(RoundStageController.RoundStage.Defending);
+        References.GameController.roundStage.SetCurrentStage(new DefendingAgainstHeroStage());
     }
 
     #endregion

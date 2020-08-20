@@ -1760,7 +1760,6 @@ GameObject:
   - component: {fileID: 871282478}
   - component: {fileID: 871282477}
   - component: {fileID: 871282481}
-  - component: {fileID: 871282482}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1859,18 +1858,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6aaab1204c60cc84e8612a5ea882f17c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &871282482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871282476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e91ace47b04fff241a16fce373ad5197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &874203995
@@ -4414,17 +4401,17 @@ PrefabInstance:
     - target: {fileID: 3123716258577044236, guid: 77cd933324b580a46a645b5f56f38ff3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3123716258577044236, guid: 77cd933324b580a46a645b5f56f38ff3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3123716258577044236, guid: 77cd933324b580a46a645b5f56f38ff3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3123716258577044236, guid: 77cd933324b580a46a645b5f56f38ff3,
         type: 3}
