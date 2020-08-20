@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7006435695994595497}
   m_Layer: 12
   m_Name: Wall-Arch
-  m_TagString: Untagged
+  m_TagString: WallDecoration
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

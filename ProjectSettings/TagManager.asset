@@ -11,6 +11,7 @@ TagManager:
   - Trap
   - Trigger
   - Chest
+  - WallDecoration
   layers:
   - Default
   - TransparentFX

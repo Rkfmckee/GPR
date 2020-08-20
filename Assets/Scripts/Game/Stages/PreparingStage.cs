@@ -5,7 +5,11 @@ public class PreparingStage : Stage {
     #region Methods
 
     public override void StageStart() {
-        throw new System.NotImplementedException();
+        StorageRoomController storageRoom = References.storageRoom.GetComponent<StorageRoomController>();
+
+        if (!storageRoom.IsDoorOpen()) {
+            storageRoom.Open();
+        }
     }
 
     public override void StageUISetup() {

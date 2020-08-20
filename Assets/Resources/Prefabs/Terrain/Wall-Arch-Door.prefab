@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2086979680633085097}
   - component: {fileID: 4256613855440349283}
   - component: {fileID: 8808711492999875192}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall-Arch-Door
-  m_TagString: Untagged
+  m_TagString: WallDecoration
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

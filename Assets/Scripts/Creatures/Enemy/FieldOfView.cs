@@ -60,6 +60,7 @@ public class FieldOfView : MonoBehaviour
         viewVisualisation.transform.parent = gameObject.transform;
         viewVisualisation.name = "View Visualisation boi";
         viewVisualisation.transform.position = gameObject.transform.position + new Vector3(0, viewHeightOffset, 0);
+        viewVisualisation.transform.rotation = transform.rotation;
 
         var visualisationFilter = viewVisualisation.AddComponent<MeshFilter>();
         var visualisationRenderer = viewVisualisation.AddComponent<MeshRenderer>();

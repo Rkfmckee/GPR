@@ -36,7 +36,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Wall") {
+        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "WallDecoration") {
             var direction = collision.contacts[0].normal;
 
             direction = Quaternion.AngleAxis(Random.Range(-70.0f, 70.0f), Vector3.up) * direction;

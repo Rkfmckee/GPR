@@ -34,8 +34,12 @@ public class StartRoundButtonController : MonoBehaviour
     }
 
     private void StartRoundButtonClicked() {
-        buttonImage.sprite = buttonSpritePressed;
-        References.GameController.roundStage.SetCurrentStage(new DefendingAgainstHeroStage());
+        if (!References.storageRoom.GetComponent<StorageRoomController>().IsPlayerInside()) {
+            buttonImage.sprite = buttonSpritePressed;
+            References.GameController.roundStage.SetCurrentStage(new DefendingAgainstHeroStage());
+        } else {
+            print("Can't start round with player in Storage Room");
+        }
     }
 
     #endregion
