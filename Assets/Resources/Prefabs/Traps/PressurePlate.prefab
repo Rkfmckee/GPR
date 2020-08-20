@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4095922709850232267}
   - component: {fileID: 4095922709850232264}
   - component: {fileID: 4095922709850232268}
-  - component: {fileID: 5264195032394953091}
   - component: {fileID: 3717668718850789606}
+  - component: {fileID: 7931364527580010265}
   m_Layer: 14
   m_Name: PressurePlate
   m_TagString: Trigger
@@ -110,21 +110,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapToTrigger: {fileID: 0}
   canTrigger: 0
---- !u!114 &5264195032394953091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4095922709850232265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlyHightlightingMe: 0
-  hightlightMaterial: {fileID: 2100000, guid: 4cceb78c3604190488a8df130048445a, type: 2}
-  maxDistanceFromPlayer: 5
 --- !u!114 &3717668718850789606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,3 +124,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   canBeThrown: 0
+--- !u!114 &7931364527580010265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4095922709850232265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a85470987c8a94ca437620613f01e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyHightlightingMe: 0
+  maxDistanceFromPlayer: 5

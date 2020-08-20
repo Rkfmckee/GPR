@@ -74,8 +74,8 @@ public class GameTrapsController : MonoBehaviour
         }
     }
 
-    public void EnableHighlightItemText(bool enable) {
-        References.UI.canvas.GetComponent<CanvasController>().EnableHighlightItemText(enable);
+    public void EnableHighlightItemText(bool enable, bool enableLinkText) {
+        References.UI.canvas.GetComponent<CanvasController>().EnableHighlightItemText(enable, enableLinkText);
         highlightTextActive = enable;
     }
 
@@ -89,7 +89,8 @@ public class GameTrapsController : MonoBehaviour
         worldMousePointer.transform.parent = gameObject.transform;
         worldMousePointer.GetComponent<ObjectPlacementPointer>().trapType = trapType;
 
-        References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText(trapType != null);
+        bool holdingTrap = trapType != null;
+        References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText(holdingTrap);
     }
 
     #endregion

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2443039649801253866}
   - component: {fileID: 2443039649801253867}
   - component: {fileID: 6687830391228000352}
-  - component: {fileID: 4092574468920418460}
+  - component: {fileID: 1654526910218408301}
   m_Layer: 8
   m_Name: Crate
   m_TagString: Obstacle
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   canBeThrown: 0
---- !u!114 &4092574468920418460
+--- !u!114 &1654526910218408301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,9 +135,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 2443039649801253868}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
+  m_Script: {fileID: 11500000, guid: e28ee2bc1377613409982dda48c7aa92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentlyHightlightingMe: 0
-  hightlightMaterial: {fileID: 2100000, guid: eced5cb6a46c68e4d94cd371ee29e793, type: 2}
   maxDistanceFromPlayer: 5

@@ -56,7 +56,7 @@ public class ObjectPlacementPointer : MonoBehaviour {
             Vector3 pointHit = validHit.point;
 
             if (trapType == null || validHit.collider.gameObject.tag == trapType.ToString()) {
-                validPlacement = GetValidPosition(pointHit);
+                validPlacement = GetValidDistance(pointHit);
             } else {
                 validPlacement = false;
             }
@@ -65,7 +65,7 @@ public class ObjectPlacementPointer : MonoBehaviour {
         }
     }
 
-    private bool GetValidPosition(Vector3 pointHit) {
+    private bool GetValidDistance(Vector3 pointHit) {
         bool valid = true;
 
         if (Vector3.Distance(References.currentPlayer.transform.position, pointHit) > maxPlacementDistance) {

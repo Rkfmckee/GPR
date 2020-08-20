@@ -55,7 +55,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
         if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity, highlightLayerMask)) {
             GameObject currentHit = hit.transform.gameObject;
-            HighlightedByMouse highlightScript = currentHit.GetComponent<HighlightedByMouse>();
+            HighlightableObject highlightScript = currentHit.GetComponent<HighlightableObject>();
 
             if (highlightScript != null && References.currentPlayer != null) {
                 if (Vector3.Distance(currentHit.transform.position, References.currentPlayer.transform.position) < highlightScript.maxDistanceFromPlayer) {
@@ -66,7 +66,9 @@ public class LookForHighlightableObjects : MonoBehaviour {
                         lastHighlighted = currentHit;
 
                         if (!gameController.IsHighlightTextActive() && !gameController.IsLinkingTextActive()) {
-                            gameController.EnableHighlightItemText(true);
+                            bool linkText = currentHit.tag == "Trap" || currentHit.tag == "Trigger";
+
+                            gameController.EnableHighlightItemText(true, linkText);
                         }
                     }
                 } else {
@@ -80,12 +82,12 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
     private void ClearLastHighlighted() {
         if (lastHighlighted != null) {
-            lastHighlighted.GetComponent<HighlightedByMouse>().currentlyHightlightingMe = false;
+            lastHighlighted.GetComponent<HighlightableObject>().currentlyHightlightingMe = false;
             lastHighlighted = null;
         }
 
         if (gameController.IsHighlightTextActive()) {
-            gameController.EnableHighlightItemText(false);
+            gameController.EnableHighlightItemText(false, false);
         }
     }
 

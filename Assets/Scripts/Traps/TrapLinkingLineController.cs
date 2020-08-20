@@ -36,7 +36,7 @@ public class TrapLinkingLineController : MonoBehaviour
             gameTraps.EnableLinkingItemText(true);
 
             if (gameTraps.IsHighlightTextActive()) {
-                gameTraps.EnableHighlightItemText(false);
+                gameTraps.EnableHighlightItemText(false, false);
             }
         }
     }

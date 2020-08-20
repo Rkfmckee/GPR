@@ -90,8 +90,8 @@ GameObject:
   - component: {fileID: 7968621460233683902}
   - component: {fileID: 7968621460233683903}
   - component: {fileID: 6696139514403931795}
-  - component: {fileID: 561817129075439931}
   - component: {fileID: 934380967443842443}
+  - component: {fileID: 7444568580084560085}
   m_Layer: 14
   m_Name: ArrowTrap
   m_TagString: Trap
@@ -142,20 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   canBeThrown: 0
---- !u!114 &561817129075439931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7968621460233683777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372e0f70b7ae7444b9822bab4e8c9d62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlyHightlightingMe: 0
-  maxDistanceFromPlayer: 5
 --- !u!65 &934380967443842443
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -169,6 +155,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5432565, y: 2.5035338, z: 0.21156454}
   m_Center: {x: -0.009579003, y: -0.008428574, z: -0.0022364557}
+--- !u!114 &7444568580084560085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968621460233683777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a85470987c8a94ca437620613f01e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyHightlightingMe: 0
+  maxDistanceFromPlayer: 5
 --- !u!1 &7968621461315035875
 GameObject:
   m_ObjectHideFlags: 0

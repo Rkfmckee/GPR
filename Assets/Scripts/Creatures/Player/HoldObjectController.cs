@@ -41,6 +41,8 @@ public class HoldObjectController : MonoBehaviour {
         TrapController.Type? trapType = null;
         if (heldObject.tag == "Trap") {
             trapType = heldObject.GetComponent<TrapController>().GetTrapType();
+        } else if (heldObject.tag == "Trigger") {
+            trapType = TrapController.Type.Floor;
         }
 
         References.GameController.gameTraps.EnableWorldMousePointerIfPossible(trapType);

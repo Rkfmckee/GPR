@@ -73,16 +73,18 @@ public class CanvasController : MonoBehaviour
         if (holdingItemThrowText != null) Destroy(holdingItemThrowText);
     }
 
-    public void EnableHighlightItemText(bool enable) {
+    public void EnableHighlightItemText(bool enable, bool enableLinkText) {
         if (enable) {
             if (pickupItemText == null) {
                 pickupItemText = Instantiate(pickupItemTextPrefab);
                 pickupItemText.transform.SetParent(transform);
             }
 
-            if (linkItemText == null) {
-                linkItemText = Instantiate(linkItemTextPrefab);
-                linkItemText.transform.SetParent(transform);
+            if (enableLinkText) {
+                if (linkItemText == null) {
+                    linkItemText = Instantiate(linkItemTextPrefab);
+                    linkItemText.transform.SetParent(transform);
+                }
             }
         } else {
             if (pickupItemText != null) Destroy(pickupItemText);
