@@ -35,6 +35,17 @@ public class EnemyBehaviour : MonoBehaviour
         MoveTowardsTarget();
     }
 
+    private void OnDestroy() {
+        if (References.enemies.Contains(gameObject)) {
+            References.enemies.Remove(gameObject);
+        }
+
+        if (References.enemies.Count <= 0) {
+            References.GameController.roundStage.SetCurrentStage(new PreparingStage());
+            print("All enemies dead, Cave defended successfully");
+        }
+    }
+
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "WallDecoration") {
             var direction = collision.contacts[0].normal;

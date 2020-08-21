@@ -78,11 +78,13 @@ public class PlayerBehaviour : MonoBehaviour
         directionVector = new Vector3(xDirection, 0, zDirection);
 
         directionVector = NormaliseVectorToKeepDeceleration(directionVector);
+        //print($"Direction Vector: {directionVector}");
     }
 
     private void CalculateMovement() {
         movementAmount = directionVector * (movementSpeed * Time.fixedDeltaTime);
         var newPosition = transform.position + movementAmount;
+        print($"New Position: {newPosition}");
 
         rigidbody.MovePosition(newPosition);
         transform.LookAt(newPosition);
@@ -92,7 +94,7 @@ public class PlayerBehaviour : MonoBehaviour
         // Normalizing a decimal vector rounds it to 1, which causes weird deceleration
         // So don't do that if it's between 1 and -1
 
-        if ((vector.magnitude > 1) || (vector.magnitude < -1)) {
+        if (Math.Abs(vector.magnitude) > 1) {
             vector = vector.normalized;
         }
 
