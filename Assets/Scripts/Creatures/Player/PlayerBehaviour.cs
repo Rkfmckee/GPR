@@ -78,16 +78,16 @@ public class PlayerBehaviour : MonoBehaviour
         directionVector = new Vector3(xDirection, 0, zDirection);
 
         directionVector = NormaliseVectorToKeepDeceleration(directionVector);
-        //print($"Direction Vector: {directionVector}");
     }
 
     private void CalculateMovement() {
         movementAmount = directionVector * (movementSpeed * Time.fixedDeltaTime);
         var newPosition = transform.position + movementAmount;
-        print($"New Position: {newPosition}");
 
         rigidbody.MovePosition(newPosition);
-        transform.LookAt(newPosition);
+        if (movementAmount.magnitude > 0) {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementAmount), 0.15F);
+        }
     }
 
     private Vector3 NormaliseVectorToKeepDeceleration(Vector3 vector) {
