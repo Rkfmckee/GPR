@@ -14,12 +14,15 @@ public class StorageRoomController : MonoBehaviour
     private Quaternion openedRotation;
     private Quaternion closedRotation;
     private GameObject storageRoomDoor;
+    private Collider storageRoomCollider;
 
     #endregion
 
     #region Events
 
     private void Awake() {
+        storageRoomCollider = GetComponent<Collider>();
+
         References.storageRoom = gameObject;
         storageRoomDoor = transform.Find("StorageRoomDoor").gameObject;
         doorOpenState = DoorState.Open;
@@ -45,10 +48,12 @@ public class StorageRoomController : MonoBehaviour
     #region Methods
 
     public void Open() {
+        storageRoomCollider.isTrigger = true;
         StartCoroutine(OpeningChest());
     }
 
     public void Close() {
+        storageRoomCollider.isTrigger = false;
         StartCoroutine(ClosingChest());
     }
 

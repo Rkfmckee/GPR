@@ -13,6 +13,7 @@ public static class References {
         public static GameObject gameControllerObject;
         public static GameTrapsController gameTraps;
         public static RoundStageController roundStage;
+        public static ResourceController resources;
     }
 
     public static class UI {
