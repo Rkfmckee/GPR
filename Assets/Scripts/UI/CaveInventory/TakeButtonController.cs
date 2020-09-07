@@ -45,16 +45,19 @@ public class TakeButtonController : MonoBehaviour
 
     private void TakeButtonClicked() {
         GameObject itemSelected = inventoryController.GetSelectedItem();
+        CaveInventoryItemController itemInvController = itemSelected.GetComponent<CaveInventoryItemController>();
 
         if (itemSelected != null) {
-            GameObject newItem = Instantiate(itemSelected);
-            PickUpController newItemPickup = newItem.GetComponent<PickUpController>();
+            if (itemInvController.RemoveResourcesToSpawnItem()) {
+                GameObject newItem = Instantiate(itemSelected);
+                PickUpController newItemPickup = newItem.GetComponent<PickUpController>();
 
-            if (newItemPickup != null) {
-                newItemPickup.SetCurrentState(PickUpController.State.Held);
+                if (newItemPickup != null) {
+                    newItemPickup.SetCurrentState(PickUpController.State.Held);
+                }
+
+                References.GameController.gameTraps.ShouldShowCaveInventory(false);
             }
-
-            References.GameController.gameTraps.ShouldShowCaveInventory(false);
         }
     }
 

@@ -41,8 +41,10 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         if (References.enemies.Count <= 0) {
-            References.GameController.roundStage.SetCurrentStage(new PreparingStage());
-            print("All enemies dead, Cave defended successfully");
+            if (References.GameController.roundStage != null) {
+                References.GameController.roundStage.SetCurrentStage(new PreparingStage());
+                print("All enemies defeated, Cave defended successfully");
+            }
         }
     }
 

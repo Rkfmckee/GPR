@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 6696139514403931795}
   - component: {fileID: 934380967443842443}
   - component: {fileID: 7444568580084560085}
+  - component: {fileID: 4081410960901788849}
   m_Layer: 14
   m_Name: ArrowTrap
   m_TagString: Trap
@@ -169,6 +170,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlyHightlightingMe: 0
   maxDistanceFromPlayer: 5
+--- !u!114 &4081410960901788849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968621460233683777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56d0ec28d384a24392f483a253d26db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryIcon: {fileID: 0}
+  resourceCost: 15
+  resourceType: 0
 --- !u!1 &7968621461315035875
 GameObject:
   m_ObjectHideFlags: 0

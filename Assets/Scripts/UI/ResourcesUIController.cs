@@ -65,10 +65,4 @@ public class ResourcesUIController : MonoBehaviour
     }
 
     #endregion
-
-    #region Methods
-
-
-
-    #endregion
 }

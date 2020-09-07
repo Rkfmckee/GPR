@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4095922709850232268}
   - component: {fileID: 3717668718850789606}
   - component: {fileID: 7931364527580010265}
+  - component: {fileID: 7003241702739546753}
   m_Layer: 14
   m_Name: PressurePlate
   m_TagString: Trigger
@@ -138,3 +139,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlyHightlightingMe: 0
   maxDistanceFromPlayer: 5
+--- !u!114 &7003241702739546753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4095922709850232265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56d0ec28d384a24392f483a253d26db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryIcon: {fileID: 0}
+  resourceCost: 5
+  resourceType: 0

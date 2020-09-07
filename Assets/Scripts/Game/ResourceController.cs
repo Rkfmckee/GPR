@@ -66,11 +66,7 @@ public class ResourceController : MonoBehaviour
 
     #region Add/Remove Methods
 
-    public void AddPhysicalMaterials(int amount) {
-        physicalMaterialQuantity = AddUpToMaximumAmount(ResourceType.PhysicalMaterial, amount);
-    }
-
-    private int AddUpToMaximumAmount(ResourceType type, int amountToAdd) {
+    public int AddResourcesUpToMaximumAmount(ResourceType type, int amountToAdd) {
         int currentAmount = 0, maxAmount = 0;
         
         switch(type) {
@@ -92,7 +88,54 @@ public class ResourceController : MonoBehaviour
         return currentAmount += amountToAdd;
     }
 
+    public bool RemoveResourcesIfHaveEnough(ResourceType type, int amountToRemove) {
+        int currentAmount = 0;
+        int finalAmount;
+        bool enoughResources;
+
+        switch (type) {
+            case ResourceType.PhysicalMaterial:
+                currentAmount = physicalMaterialQuantity;
+                break;
+            case ResourceType.Valuable:
+                currentAmount = valuableQuantity;
+                break;
+        }
+
+        if (HaveEnoughResources(currentAmount, amountToRemove)) {
+            finalAmount = currentAmount -= amountToRemove;
+            enoughResources = true;
+        } else {
+            print($"You don't have enough {type}");
+            finalAmount = currentAmount;
+            enoughResources = false;
+        }
+
+        switch (type) {
+            case ResourceType.PhysicalMaterial:
+                physicalMaterialQuantity = finalAmount;
+                break;
+            case ResourceType.Valuable:
+                valuableQuantity = finalAmount;
+                break;
+        }
+
+        return enoughResources;
+    }
+
     #endregion
+
+    public bool HaveEnoughResources(int currentAmount, int amountToRemove) {
+        bool haveEnough;
+        
+        if (currentAmount - amountToRemove <= 0) {
+            haveEnough = false;
+        } else {
+            haveEnough = true;
+        }
+
+        return haveEnough;
+    }
 
     #endregion
 

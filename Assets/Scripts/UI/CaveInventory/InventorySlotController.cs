@@ -23,6 +23,9 @@ public class InventorySlotController : MonoBehaviour
         if (itemButton != null) {
             itemButton.onClick.AddListener(ItemButtonClicked);
         }
+
+        GameObject itemPrice = transform.Find("ItemButton").Find("ItemPrice").gameObject;
+        itemPrice.transform.Find("ItemPriceText").GetComponent<Text>().text = itemInSlot.GetComponent<CaveInventoryItemController>().GetResourceCost().ToString();
     }
 
     #endregion

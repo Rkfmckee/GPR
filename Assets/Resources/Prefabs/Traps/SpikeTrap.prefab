@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 2284379860388701042}
   - component: {fileID: 178390337441285452}
   - component: {fileID: 3211723386902421035}
+  - component: {fileID: 1750912738002729827}
   - component: {fileID: 6186007823008709335}
   m_Layer: 14
   m_Name: SpikeTrap
@@ -173,6 +174,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlyHightlightingMe: 0
   maxDistanceFromPlayer: 5
+--- !u!114 &1750912738002729827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9186663741576256738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56d0ec28d384a24392f483a253d26db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryIcon: {fileID: 0}
+  resourceCost: 10
+  resourceType: 0
 --- !u!65 &6186007823008709335
 BoxCollider:
   m_ObjectHideFlags: 0
