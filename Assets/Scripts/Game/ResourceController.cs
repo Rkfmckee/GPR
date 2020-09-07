@@ -128,7 +128,7 @@ public class ResourceController : MonoBehaviour
     public bool HaveEnoughResources(int currentAmount, int amountToRemove) {
         bool haveEnough;
         
-        if (currentAmount - amountToRemove <= 0) {
+        if (currentAmount - amountToRemove < 0) {
             haveEnough = false;
         } else {
             haveEnough = true;

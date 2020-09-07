@@ -50,15 +50,31 @@ public class TakeButtonController : MonoBehaviour
         if (itemSelected != null) {
             if (itemInvController.RemoveResourcesToSpawnItem()) {
                 GameObject newItem = Instantiate(itemSelected);
+                newItem.name = itemSelected.name;
                 PickUpController newItemPickup = newItem.GetComponent<PickUpController>();
 
                 if (newItemPickup != null) {
                     newItemPickup.SetCurrentState(PickUpController.State.Held);
                 }
 
+                AddNotificationOfNewItem(newItem.name);
                 References.GameController.gameTraps.ShouldShowCaveInventory(false);
             }
         }
+    }
+
+    private void AddNotificationOfNewItem(string itemName) {
+        string[] vowels = { "a", "e", "i", "o", "u" };
+        string aOrAn = "a";
+
+        foreach(string vowel in vowels) {
+            if (itemName.ToLower().StartsWith(vowel)) {
+                aOrAn = "an";
+                break;
+            }
+        }
+
+        References.UI.notifications.AddNotification($"Made {aOrAn} {itemName}");
     }
 
     #endregion
