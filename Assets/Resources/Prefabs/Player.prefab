@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  currentHealth: 0
+  healthBarHeightOffset: 2.5
 --- !u!114 &4078308845343020605
 MonoBehaviour:
   m_ObjectHideFlags: 0

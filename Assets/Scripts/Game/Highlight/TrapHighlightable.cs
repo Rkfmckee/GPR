@@ -4,6 +4,8 @@ public class TrapHighlightable : ObstacleHighlightable {
     #region Properties
 
     private SpikeTrapController spikeController;
+    private HealthSystem healthSystem;
+    private GameObject healthBar;
 
     #endregion
 
@@ -13,18 +15,28 @@ public class TrapHighlightable : ObstacleHighlightable {
         base.Awake();
 
         spikeController = GetComponent<SpikeTrapController>();
+        healthSystem = GetComponent<HealthSystem>();
     }
 
     protected override void Update() {
         base.Update();
+        healthBar = healthSystem.GetHealthBar();
 
         if (currentlyHightlightingMe) {
+            if (!healthBar.activeSelf) {
+                healthBar.SetActive(true);
+            }
+
             if (Input.GetButtonDown("Fire2")) {
                 if (tag == "Trap" || tag == "Trigger") {
                     gameTraps.CreateTrapLinkingLine(transform);
                 } else {
                     print($"Objects with tag {tag} can't be linked");
                 }
+            }
+        } else {
+            if (healthBar.activeSelf) {
+                healthBar.SetActive(false);
             }
         }
     }

@@ -63,8 +63,6 @@ public class SpikeTrapController : TrapController
 
     private void setupInstanceVariables() {
         trapType = Type.Floor;
-        maxHealth = 20;
-        trapHealth = maxHealth;
 
         spikesUpPosition = new Vector3(0, 0, 0);
         spikesDownPosition = new Vector3(0, -0.5f, 0);

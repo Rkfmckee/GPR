@@ -15,8 +15,6 @@ public class ArrowTrapController : TrapController {
 
     private void Awake() {
         trapType = Type.Wall;
-        maxHealth = 10;
-        trapHealth = maxHealth;
 
         arrowPrefab = Resources.Load("Prefabs/Traps/Arrow") as GameObject;
 

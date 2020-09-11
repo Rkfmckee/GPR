@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 3211723386902421035}
   - component: {fileID: 1750912738002729827}
   - component: {fileID: 6186007823008709335}
+  - component: {fileID: 6667637016917973939}
   m_Layer: 14
   m_Name: SpikeTrap
   m_TagString: Trap
@@ -202,3 +203,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9862349, y: 0.15650344, z: 1.9905334}
   m_Center: {x: -0.006606549, y: 0.057661057, z: -0.0035653114}
+--- !u!114 &6667637016917973939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9186663741576256738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a8fc368a1026b4cb994a3dcb67eca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  healthBarHeightOffset: 1

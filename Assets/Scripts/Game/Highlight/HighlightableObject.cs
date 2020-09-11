@@ -29,7 +29,7 @@ public abstract class HighlightableObject : MonoBehaviour {
         currentlyHightlightingMe = false;
     }
 
-    protected void Start() {
+    protected virtual void Start() {
         gameTraps = References.GameController.gameTraps;
     }
 

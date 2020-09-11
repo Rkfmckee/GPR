@@ -7,8 +7,9 @@ public class HealthSystem : MonoBehaviour
     #region Properties
 
     public float maxHealth;
-    public float currentHealth;
+    public float healthBarHeightOffset;
 
+    private float currentHealth;
     private new Camera camera;
     private GameObject canvas;
     private GameObject healthBarPrefab;
@@ -29,11 +30,16 @@ public class HealthSystem : MonoBehaviour
         Transform healthBarParent = canvas.transform.Find("HealthBars").transform;
 
         healthBar = Instantiate(healthBarPrefab, healthBarParent);
+        healthBar.name = $"{name}HealthBar";
         healthBarController = healthBar.GetComponent<HealthBarController>();
+
+        if (gameObject.tag == "Trap" || gameObject.tag == "Trigger") {
+            healthBar.SetActive(false);
+        }
     }
 
     private void LateUpdate() {
-        healthBar.transform.position = camera.WorldToScreenPoint(transform.position + new Vector3(0, 1, 0));
+        healthBar.transform.position = camera.WorldToScreenPoint(transform.position + new Vector3(0, healthBarHeightOffset, 0));
         healthBarController.ShowHealthFraction(currentHealth / maxHealth);
     }
 
@@ -45,11 +51,29 @@ public class HealthSystem : MonoBehaviour
 
     #region Methods
 
+    public float GetCurrentHealth() {
+        return currentHealth;
+    }
+
+    public GameObject GetHealthBar() {
+        return healthBar;
+    }
+
     private void SetupInstanceVariables() {
         currentHealth = maxHealth;
 
         camera = Camera.main;
         healthBarPrefab = Resources.Load("Prefabs/UI/HealthBar") as GameObject;
+    }
+
+    public void Heal(float amount) {
+        float newHealth = currentHealth += amount;
+
+        if (newHealth > maxHealth) {
+            currentHealth = maxHealth;
+        } else {
+            currentHealth = newHealth;
+        }
     }
 
     public void TakeDamage(float damage) {

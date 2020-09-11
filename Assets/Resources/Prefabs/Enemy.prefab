@@ -361,9 +361,6 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 512
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 256
   visibleTargets: []
   meshResolution: 1
   edgeResolveIterations: 0
@@ -381,4 +378,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  currentHealth: 0
+  healthBarHeightOffset: 1.5
