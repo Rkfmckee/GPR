@@ -14,8 +14,11 @@ public class ArrowTrapController : TrapController {
     #region Events
 
     private void Awake() {
-        arrowPrefab = Resources.Load("Prefabs/Traps/Arrow") as GameObject;
         trapType = Type.Wall;
+        maxHealth = 10;
+        trapHealth = maxHealth;
+
+        arrowPrefab = Resources.Load("Prefabs/Traps/Arrow") as GameObject;
 
         arrowSlots = new List<GameObject>();
         foreach(Transform child in transform) {
