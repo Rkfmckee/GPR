@@ -100,7 +100,7 @@ public class TrapLinkingLineController : MonoBehaviour
                 TrapTriggerController controller = FindTriggerController(secondObjectBeingLinked);
                 controller.trapToTrigger = FindTrapController(firstObjectBeingLinked);
 
-                print($"Successfully linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
+                References.UI.notifications.AddNotification($"Linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
                 References.GameController.gameTraps.RemoveTrapLinkingLine();
                 return;
@@ -129,14 +129,14 @@ public class TrapLinkingLineController : MonoBehaviour
     private TrapController FindTrapController(GameObject target) {
         TrapController controller = target.GetComponent<TrapController>();
 
-        print($"TrapController: {controller}");
+        //print($"TrapController: {controller}");
         return controller;
     }
 
     private TrapTriggerController FindTriggerController(GameObject target) {
         TrapTriggerController controller = target.GetComponent<TrapTriggerController>();
 
-        print($"TriggerController: {controller}");
+        //print($"TriggerController: {controller}");
         return controller;
     }
 

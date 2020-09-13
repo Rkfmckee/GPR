@@ -54,7 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
         currentlyBeingControlled = isControlled;
 
         if (currentlyBeingControlled) { 
-            References.currentPlayer = gameObject;
+            References.Player.currentPlayer = gameObject;
 
             var cameraController = Camera.main.GetComponent<CameraController>();
 
@@ -67,8 +67,8 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     private void SetupAwakeInstanceVariables() {
-        References.players.Add(gameObject);
-        if (currentlyBeingControlled) { References.currentPlayer = gameObject; }
+        References.Player.players.Add(gameObject);
+        if (currentlyBeingControlled) { References.Player.currentPlayer = gameObject; }
         rigidbody = GetComponent<Rigidbody>();
     }
 

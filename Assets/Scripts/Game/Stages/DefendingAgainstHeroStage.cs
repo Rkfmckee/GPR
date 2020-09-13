@@ -12,6 +12,7 @@ public class DefendingAgainstHeroStage : DefendingStage {
 
     public override void StageStart() {
         base.StageStart();
+        stageID += "_HERO";
 
         enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
         Transform enemySpawnArea = References.enemySpawnArea.transform;

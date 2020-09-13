@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        allPlayers = References.players;
+        allPlayers = References.Player.players;
         camera = Camera.main;
         velocity = Vector3.one;
 

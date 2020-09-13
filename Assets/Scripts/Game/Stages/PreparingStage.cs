@@ -2,9 +2,11 @@
 using UnityEngine.UI;
 
 public class PreparingStage : Stage {
+
     #region Methods
 
     public override void StageStart() {
+        stageID = "PREP";
         StorageRoomController storageRoom = References.storageRoom.GetComponent<StorageRoomController>();
 
         if (!storageRoom.IsDoorOpen()) {
@@ -20,6 +22,10 @@ public class PreparingStage : Stage {
         roundStageBackground.Find("PlanningStage").gameObject.SetActive(true);
         roundStageBackground.Find("DefendingStage").gameObject.SetActive(false);
         startButton.SetStartButtonPressed(false);
+    }
+
+    public override void StageEnd() {
+        References.UI.notifications.AddNotification("Defend your allies and valuables!");
     }
 
     #endregion

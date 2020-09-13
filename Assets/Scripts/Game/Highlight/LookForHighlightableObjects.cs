@@ -57,18 +57,20 @@ public class LookForHighlightableObjects : MonoBehaviour {
             GameObject currentHit = hit.transform.gameObject;
             HighlightableObject highlightScript = currentHit.GetComponent<HighlightableObject>();
 
-            if (highlightScript != null && References.currentPlayer != null) {
-                if (Vector3.Distance(currentHit.transform.position, References.currentPlayer.transform.position) < highlightScript.maxDistanceFromPlayer) {
+            if (highlightScript != null && References.Player.currentPlayer != null) {
+                if (Vector3.Distance(currentHit.transform.position, References.Player.currentPlayer.transform.position) < highlightScript.maxDistanceFromPlayer) {
                     if (currentHit != lastHighlighted) {
                         ClearLastHighlighted();
 
                         highlightScript.currentlyHightlightingMe = true;
                         lastHighlighted = currentHit;
 
-                        if (!gameController.IsHighlightTextActive() && !gameController.IsLinkingTextActive()) {
-                            bool linkText = currentHit.tag == "Trap" || currentHit.tag == "Trigger";
+                        if (!highlightScript.DontSelect()) {
+                            if (!gameController.IsHighlightTextActive() && !gameController.IsLinkingTextActive()) {
+                                bool modifyText = currentHit.tag == "Trap" || currentHit.tag == "Trigger";
 
-                            gameController.EnableHighlightItemText(true, linkText);
+                                gameController.EnableHighlightItemText(true, modifyText);
+                            }
                         }
                     }
                 } else {

@@ -68,7 +68,7 @@ public class ObjectPlacementPointer : MonoBehaviour {
     private bool GetValidDistance(Vector3 pointHit) {
         bool valid = true;
 
-        if (Vector3.Distance(References.currentPlayer.transform.position, pointHit) > maxPlacementDistance) {
+        if (Vector3.Distance(References.Player.currentPlayer.transform.position, pointHit) > maxPlacementDistance) {
             valid = false;
         }
 

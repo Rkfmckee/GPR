@@ -64,6 +64,7 @@ public class NotificationController : MonoBehaviour {
         currentNotification.SetActive(true);
         currentTextComponent = currentNotification.GetComponent<Text>();
 
+        print(currentTextComponent.text);
         notificationQueue.Remove(currentNotification);
     }
 

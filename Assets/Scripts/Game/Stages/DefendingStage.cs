@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class DefendingStage : Stage {
+    
     #region Properties
 
     protected List<GameObject> enemies;
@@ -12,6 +13,7 @@ public abstract class DefendingStage : Stage {
     #region Methods
 
     public override void StageStart() {
+        stageID = "DEF";
         StorageRoomController storageRoom = References.storageRoom.GetComponent<StorageRoomController>();
 
         if (storageRoom.IsDoorOpen()) {
@@ -27,6 +29,10 @@ public abstract class DefendingStage : Stage {
         roundStageBackground.Find("PlanningStage").gameObject.SetActive(false);
         roundStageBackground.Find("DefendingStage").gameObject.SetActive(true);
         startButton.SetStartButtonPressed(true);
+    }
+
+    public override void StageEnd() {
+        References.UI.notifications.AddNotification("Cave defended successfully");
     }
 
     #endregion

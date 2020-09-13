@@ -20,6 +20,7 @@ public class TrapHighlightable : ObstacleHighlightable {
 
     protected override void Update() {
         base.Update();
+        if (DontSelect()) return;
         healthBar = healthSystem.GetHealthBar();
 
         if (currentlyHightlightingMe) {
@@ -29,9 +30,7 @@ public class TrapHighlightable : ObstacleHighlightable {
 
             if (Input.GetButtonDown("Fire2")) {
                 if (tag == "Trap" || tag == "Trigger") {
-                    gameTraps.CreateTrapLinkingLine(transform);
-                } else {
-                    print($"Objects with tag {tag} can't be linked");
+                    gameTraps.ShouldShowTrapDetails(true, gameObject);
                 }
             }
         } else {
@@ -45,8 +44,12 @@ public class TrapHighlightable : ObstacleHighlightable {
 
     #region Methods
 
-    protected override bool DontSelect() {
+    public override bool DontSelect() {
         bool dontSelect = false;
+
+        if (gameTraps.IsTrapDetailsOpen()) {
+            dontSelect = true;
+        }
 
         if (spikeController != null) {
             // If the type of trap we're picking up is a spike trap

@@ -54,7 +54,7 @@ public class PickUpController : MonoBehaviour
 
         if (currentState == State.Held) {
              if (rigidbody != null) rigidbody.useGravity = false;
-            References.currentPlayer.GetComponent<HoldObjectController>().SetHeldObject(gameObject);
+            References.Player.currentPlayer.GetComponent<HoldObjectController>().SetHeldObject(gameObject);
         } else {
             if (rigidbody != null) rigidbody.useGravity = true;
         }

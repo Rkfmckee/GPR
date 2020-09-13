@@ -17,10 +17,10 @@
 
     #region Methods
 
-    protected override bool DontSelect() {
+    public override bool DontSelect() {
         bool dontSelect = pickupController.currentState == PickUpController.State.Held;
 
-        return dontSelect;
+        return dontSelect || base.DontSelect();
     }
 
     protected override void ObjectClicked() {

@@ -61,7 +61,15 @@ public abstract class HighlightableObject : MonoBehaviour {
 
     #region Methods
 
-    protected abstract bool DontSelect();
+    public virtual bool DontSelect() {
+        bool dontSelect = false;
+        
+        if (References.Player.playerHoldController.isHoldingObject()) {
+            dontSelect = true;
+        }
+
+        return dontSelect;
+    }
 
     protected abstract void ObjectClicked();
 

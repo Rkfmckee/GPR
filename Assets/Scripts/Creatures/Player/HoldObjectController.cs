@@ -19,6 +19,10 @@ public class HoldObjectController : MonoBehaviour {
     private void Awake() {
         throwStrength = 5000;
         throwHeight = transform.up / 10;
+
+        if (gameObject.tag == "Player") {
+            References.Player.playerHoldController = this;
+        }
     }
 
     private void Update() {
@@ -32,6 +36,10 @@ public class HoldObjectController : MonoBehaviour {
     #endregion
 
     #region Methods
+
+    public bool isHoldingObject() {
+        return heldObject != null;
+    }
 
     public void SetHeldObject(GameObject objectHeld) {
         heldObject = objectHeld;

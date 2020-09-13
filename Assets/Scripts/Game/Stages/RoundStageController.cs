@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class RoundStageController : MonoBehaviour
@@ -17,6 +18,7 @@ public class RoundStageController : MonoBehaviour
         References.GameController.gameControllerObject = gameObject;
         References.GameController.roundStage = this;
         currentStage = new PreparingStage();
+        currentStage.StageStart();
     }
 
     #endregion
@@ -28,6 +30,7 @@ public class RoundStageController : MonoBehaviour
     }
 
     public void SetCurrentStage(Stage stage) {
+        currentStage.StageEnd();
         currentStage = stage;
         currentStage.StageStart();
         currentStage.StageUISetup();

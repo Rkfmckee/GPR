@@ -28,7 +28,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     private void Start() {
-        allPlayers = References.players;
+        allPlayers = References.Player.players;
     }
 
     private void FixedUpdate() {
@@ -42,10 +42,6 @@ public class EnemyBehaviour : MonoBehaviour
 
         if (References.enemies.Count <= 0) {
             if (References.GameController.roundStage != null) {
-                string successMessage = "All enemies defeated, Cave defended successfully";
-                References.UI.notifications.AddNotification(successMessage);
-                print(successMessage);
-
                 References.GameController.roundStage.SetCurrentStage(new PreparingStage());
             }
         }

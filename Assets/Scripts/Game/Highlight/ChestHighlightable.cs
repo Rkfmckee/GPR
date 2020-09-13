@@ -17,14 +17,14 @@
 
     #region Methods
 
-    protected override bool DontSelect() {
+    public override bool DontSelect() {
         bool dontSelect = false;
 
         if (chestController.GetCurrentState() == ChestController.ChestState.Open) {
             dontSelect = true;
         }
 
-        return dontSelect;
+        return dontSelect || base.DontSelect();
     }
 
     protected override void ObjectClicked() {

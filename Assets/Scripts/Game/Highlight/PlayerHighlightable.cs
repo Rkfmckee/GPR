@@ -19,10 +19,10 @@ public class PlayerHighlightable : HighlightableObject {
 
     #region Methods
 
-    protected override bool DontSelect() {
+    public override bool DontSelect() {
         bool dontSelect = playerBehaviour.currentlyBeingControlled;
 
-        return dontSelect;
+        return dontSelect || base.DontSelect();
     }
 
     protected override void ObjectClicked() {
@@ -31,7 +31,7 @@ public class PlayerHighlightable : HighlightableObject {
             return;
         }
 
-        foreach (var player in References.players) {
+        foreach (var player in References.Player.players) {
             player.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(false);
         }
 
