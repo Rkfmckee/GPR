@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2086979680633085097}
   - component: {fileID: 4256613855440349283}
   - component: {fileID: 8808711492999875192}
+  - component: {fileID: 1345702622322970373}
   m_Layer: 12
   m_Name: Wall-Arch-Door
   m_TagString: WallDecoration
@@ -96,3 +97,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.421112, y: 3.1900465, z: 0.32961994}
   m_Center: {x: -1.2105536, y: 1.6018146, z: -0.0074149966}
+--- !u!208 &1345702622322970373
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2311045690084067766}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.2110001, y: 1.595, z: 0.165}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -1.2110001, y: 1.6020001, z: -0.007}
+  m_TimeToStationary: 0.5

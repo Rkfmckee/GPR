@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2292201757722758720}
   - component: {fileID: 4047467311408855690}
   - component: {fileID: 3452831216782403570}
+  - component: {fileID: 6426125202241005573}
   m_Layer: 0
   m_Name: Wall-Arch-Bars
   m_TagString: WallDecoration
@@ -93,3 +94,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.5012932, y: 3.3881469, z: 0.69124603}
   m_Center: {x: -0.015207291, y: 1.6688919, z: 0.00058555603}
+--- !u!208 &6426125202241005573
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2534262579155966815}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.2390001, y: 1.6940001, z: 0.015000001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.001, y: 1.669, z: 0}
+  m_TimeToStationary: 0.5
