@@ -7,23 +7,37 @@ public abstract class EnemyState
     #region Properties
 
     protected Vector3 movementDirection;
+    protected float movementSpeed;
 
     protected GameObject enemyObject;
     protected Transform transform;
     protected Rigidbody rigidbody;
-
+    protected EnemyBehaviour behaviour;
+    protected FieldOfView fieldOfView;
 
     #endregion
 
     #region Methods
 
-    protected virtual void SetupProperties(GameObject gameObject) {
-        enemyObject = gameObject;
-        transform = enemyObject.transform;
-        rigidbody = enemyObject.GetComponent<Rigidbody>();
+    public EnemyState(GameObject enemyObj) {
+        enemyObject = enemyObj;
+        SetupProperties();
     }
 
     protected abstract Vector3? FindMovementTarget();
+
+    public virtual void MoveTowardsTarget() {
+        Move();
+    }
+
+    protected virtual void SetupProperties() {
+        transform = enemyObject.transform;
+        rigidbody = enemyObject.GetComponent<Rigidbody>();
+        behaviour = enemyObject.GetComponent<EnemyBehaviour>();
+        fieldOfView = enemyObject.GetComponent<FieldOfView>();
+
+        movementSpeed = behaviour.movementSpeed;
+    }
 
     protected Vector3 DirectionToMovementTarget() {
         Vector3? movementTarget = FindMovementTarget();
@@ -41,7 +55,7 @@ public abstract class EnemyState
         }
     }
 
-    protected virtual void Move(float movementSpeed) {
+    protected virtual void Move() {
         movementDirection = DirectionToMovementTarget();
 
         Vector3 movementAmount = movementDirection * (movementSpeed * Time.deltaTime);

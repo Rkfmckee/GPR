@@ -3,18 +3,9 @@ using UnityEngine;
 
 public class EnemyStateChase : EnemyState 
 {
-    #region Properties
-
-    protected FieldOfView fieldOfView;
-
-    #endregion
-
     #region Methods
 
-    protected override void SetupProperties(GameObject gameObject) {
-        base.SetupProperties(gameObject);
-
-        fieldOfView = enemyObject.GetComponent<FieldOfView>();
+    public EnemyStateChase(GameObject enemyObj) : base(enemyObj) {
     }
 
     protected override Vector3? FindMovementTarget() {
