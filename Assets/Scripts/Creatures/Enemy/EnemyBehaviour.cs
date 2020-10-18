@@ -25,11 +25,11 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     private void OnDestroy() {
-        if (References.enemies.Contains(gameObject)) {
-            References.enemies.Remove(gameObject);
+        if (References.Enemy.enemies.Contains(gameObject)) {
+            References.Enemy.enemies.Remove(gameObject);
         }
 
-        if (References.enemies.Count <= 0) {
+        if (References.Enemy.enemies.Count <= 0) {
             if (References.GameController.roundStage != null) {
                 References.GameController.roundStage.SetCurrentStage(new PreparingStage());
             }

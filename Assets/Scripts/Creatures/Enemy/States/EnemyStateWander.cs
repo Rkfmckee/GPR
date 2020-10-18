@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Boo.Lang;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyStateWander : EnemyState
@@ -35,18 +38,35 @@ public class EnemyStateWander : EnemyState
     }
 
     protected override Vector3? FindMovementTarget() {
-        float maxRadius = fieldOfView.viewRadius * 2;
-        Vector3 directionToMove = Random.insideUnitSphere * maxRadius;
-        directionToMove += transform.position;
+        List<GameObject> pointsWithProbability = new List<GameObject>();
 
-        NavMeshHit hit;
-        Vector3? movementTarget = null;
+        foreach (GameObject point in References.Enemy.pathfindingPoints) {
+            // Add each point to the list a number of times equal to it's distance rounded down
+            int timesToAdd = (int) Vector3.Distance(point.transform.position, enemyObject.transform.position);
 
-        if (NavMesh.SamplePosition(directionToMove, out hit, maxRadius, 1)) {
-            movementTarget = hit.position;
+            while(timesToAdd > 0) {
+                pointsWithProbability.Add(point);
+                timesToAdd--;
+            }
         }
 
-        return movementTarget;
+        int randomPointIndex = Random.Range(0, pointsWithProbability.Count - 1);
+        GameObject chosenPoint = pointsWithProbability[randomPointIndex];
+
+        return chosenPoint.transform.position;
+
+        //float maxRadius = fieldOfView.viewRadius * 3;
+        //Vector3 directionToMove = Random.insideUnitSphere * maxRadius;
+        //directionToMove += transform.position;
+
+        //NavMeshHit hit;
+        //Vector3? movementTarget = null;
+
+        //if (NavMesh.SamplePosition(directionToMove, out hit, maxRadius, 1)) {
+        //    movementTarget = hit.position;
+        //}
+
+        //return movementTarget;
     }
 
     protected override void Move() {

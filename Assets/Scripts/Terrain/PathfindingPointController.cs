@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawnAreaController : MonoBehaviour
+public class PathfindingPointController : MonoBehaviour
 {
-    #region Properties
+    #region Events
 
     private void Awake() {
-        References.Enemy.enemySpawnArea = gameObject;
+        References.Enemy.pathfindingPoints.Add(gameObject);
     }
 
     #endregion

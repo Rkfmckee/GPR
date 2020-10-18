@@ -15,12 +15,12 @@ public class DefendingAgainstHeroStage : DefendingStage {
         stageID += "_HERO";
 
         enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
-        Transform enemySpawnArea = References.enemySpawnArea.transform;
+        Transform enemySpawnArea = References.Enemy.enemySpawnArea.transform;
 
         enemies = new List<GameObject>();
         enemies.Add(Object.Instantiate(enemyPrefab, enemySpawnArea.position, Quaternion.LookRotation(-Vector3.forward)));
 
-        References.enemies = enemies;
+        References.Enemy.enemies = enemies;
     }
 
     #endregion
