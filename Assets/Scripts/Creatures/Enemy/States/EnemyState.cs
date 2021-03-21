@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class EnemyState
 {
@@ -14,6 +15,7 @@ public abstract class EnemyState
     protected Rigidbody rigidbody;
     protected EnemyBehaviour behaviour;
     protected FieldOfView fieldOfView;
+    protected NavMeshAgent navMeshAgent;
 
     #endregion
 
@@ -24,19 +26,25 @@ public abstract class EnemyState
         SetupProperties();
     }
 
-    protected abstract Vector3? FindMovementTarget();
-
-    public virtual void MoveTowardsTarget() {
-        Move();
+    public virtual void StateUpdate() { 
+        if (fieldOfView.visibleTargets.Count > 0) {
+            behaviour.SetCurrentState(new EnemyStateChase(enemyObject));
+        }
     }
+
+    public abstract void StateFixedUpdate();
+
+    protected abstract Vector3? FindMovementTarget();
 
     protected virtual void SetupProperties() {
         transform = enemyObject.transform;
         rigidbody = enemyObject.GetComponent<Rigidbody>();
         behaviour = enemyObject.GetComponent<EnemyBehaviour>();
         fieldOfView = enemyObject.GetComponent<FieldOfView>();
+        navMeshAgent = enemyObject.GetComponent<NavMeshAgent>();
 
         movementSpeed = behaviour.movementSpeed;
+        navMeshAgent.speed = movementSpeed;
     }
 
     protected Vector3 DirectionToMovementTarget() {
@@ -60,8 +68,10 @@ public abstract class EnemyState
 
         Vector3 movementAmount = movementDirection * (movementSpeed * Time.deltaTime);
         Vector3 newPosition = transform.position + movementAmount;
+
         rigidbody.MovePosition(newPosition);
         transform.LookAt(newPosition);
+        Debug.Log(movementAmount);
     }
 
     #endregion

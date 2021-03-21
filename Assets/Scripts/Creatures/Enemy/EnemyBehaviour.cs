@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -11,17 +12,23 @@ public class EnemyBehaviour : MonoBehaviour
     public float movementSpeed;
 
     private EnemyState currentState;
+    private NavMeshAgent navMeshAgent;
 
     #endregion
 
     #region Events
 
     private void Awake() {
-        SetCurrentState(new EnemyStateWander(gameObject));
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        SetCurrentState(new EnemyStateLookAround(gameObject, 3));
+    }
+    
+    private void Update() {
+        currentState.StateUpdate();
     }
 
     private void FixedUpdate() {
-        currentState.MoveTowardsTarget();
+        currentState.StateFixedUpdate();
     }
 
     private void OnDestroy() {

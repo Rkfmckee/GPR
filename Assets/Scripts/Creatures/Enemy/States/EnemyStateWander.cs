@@ -9,32 +9,33 @@ public class EnemyStateWander : EnemyState
     #region Properties
 
     protected bool arrivedAtDestination;
-    protected NavMeshAgent navMeshAgent;
 
     #endregion
 
     #region Methods
 
     public EnemyStateWander(GameObject enemyObj) : base(enemyObj) {
+        arrivedAtDestination = true;
+        navMeshAgent.isStopped = false;
     }
 
-    public override void MoveTowardsTarget() {
+    public override void StateUpdate() {
+        base.StateUpdate();
+    }
+
+    public override void StateFixedUpdate() {
         if (arrivedAtDestination) {
             Move();
             arrivedAtDestination = false;
         } else {
             if (navMeshAgent.remainingDistance < 0.5) {
-                arrivedAtDestination = true;
+                behaviour.SetCurrentState(new EnemyStateLookAround(enemyObject, 3));
             }
         }
     }
 
     protected override void SetupProperties() {
         base.SetupProperties();
-
-        navMeshAgent = enemyObject.GetComponent<NavMeshAgent>();
-        navMeshAgent.speed = movementSpeed;
-        arrivedAtDestination = true;
     }
 
     protected override Vector3? FindMovementTarget() {
@@ -54,19 +55,6 @@ public class EnemyStateWander : EnemyState
         GameObject chosenPoint = pointsWithProbability[randomPointIndex];
 
         return chosenPoint.transform.position;
-
-        //float maxRadius = fieldOfView.viewRadius * 3;
-        //Vector3 directionToMove = Random.insideUnitSphere * maxRadius;
-        //directionToMove += transform.position;
-
-        //NavMeshHit hit;
-        //Vector3? movementTarget = null;
-
-        //if (NavMesh.SamplePosition(directionToMove, out hit, maxRadius, 1)) {
-        //    movementTarget = hit.position;
-        //}
-
-        //return movementTarget;
     }
 
     protected override void Move() {

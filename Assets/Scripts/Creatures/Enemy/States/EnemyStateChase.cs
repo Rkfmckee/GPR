@@ -6,6 +6,18 @@ public class EnemyStateChase : EnemyState
     #region Methods
 
     public EnemyStateChase(GameObject enemyObj) : base(enemyObj) {
+        navMeshAgent.isStopped = true;
+        navMeshAgent.ResetPath();
+    }
+
+    public override void StateFixedUpdate() {
+        Move();
+    }
+
+    public override void StateUpdate() {
+        //if (fieldOfView.visibleTargets.Count <= 0) {
+        //    behaviour.SetCurrentState(new EnemyStateLookAround(enemyObject, 3));
+        //}
     }
 
     protected override Vector3? FindMovementTarget() {
