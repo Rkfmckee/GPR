@@ -86,7 +86,7 @@ public class TrapLinkingLineController : MonoBehaviour
 
     private void LinkObjects() {
         if (firstObjectBeingLinked == null || secondObjectBeingLinked == null) {
-            print("One of the objects you are trying to linked doesn't exist");
+            print("One of the objects you are trying to link doesn't exist");
             return;
         }
 
