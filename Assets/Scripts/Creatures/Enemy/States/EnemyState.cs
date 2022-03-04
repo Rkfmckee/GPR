@@ -16,16 +16,26 @@ public abstract class EnemyState {
 
     #endregion
 
-    #region Methods
-
-    public abstract void StateUpdate();
-
-    public abstract void StateFixedUpdate();
+    #region Constructor
 
     public EnemyState(GameObject enemyObj) {
         enemyObject = enemyObj;
         SetupProperties();
     }
+
+    #endregion
+
+    #region Events
+
+    public abstract void Update();
+
+    public abstract void FixedUpdate();
+
+    public abstract void OnCollisionEnter(Collision collision);
+
+    #endregion
+
+    #region Methods
 
     protected virtual void SetupProperties() {
         transform = enemyObject.transform;
@@ -34,15 +44,6 @@ public abstract class EnemyState {
         fieldOfView = enemyObject.GetComponent<FieldOfView>();
 
         movementSpeed = behaviour.movementSpeed;
-    }
-
-    public void ChangeDirectionAfterHittingWall(Collision collision) {
-        var direction = collision.contacts[0].normal;
-
-        direction = Quaternion.AngleAxis(Random.Range(-70.0f, 70.0f), Vector3.up) * direction;
-
-        movementDirection = direction;
-        transform.rotation = Quaternion.LookRotation(movementDirection);
     }
 
     #endregion

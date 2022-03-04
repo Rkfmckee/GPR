@@ -27,7 +27,6 @@ public class EnemyBehaviour : MonoBehaviour
 
         movementDirection = transform.forward;
         SetCurrentState(new EnemyStateChase(gameObject));
-
     }
 
     private void Start() {
@@ -35,11 +34,12 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     private void Update() {
-        currentState.StateUpdate();
+        currentState.Update();
+        print($"Enemy State: {currentState}");
     }
 
     private void FixedUpdate() {
-        currentState.StateFixedUpdate();
+        currentState.FixedUpdate();
     }
 
     private void OnDestroy() {
@@ -55,19 +55,12 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "WallDecoration") {
-            currentState.ChangeDirectionAfterHittingWall(collision);
-        }
+        currentState.OnCollisionEnter(collision);
     }
 
     #endregion
 
     #region Methods
-
-    private Vector3 WalkForward() {
-        var directionToTarget = transform.forward;
-        return directionToTarget;
-    }
 
     public EnemyState GetCurrentState() {
         return currentState;

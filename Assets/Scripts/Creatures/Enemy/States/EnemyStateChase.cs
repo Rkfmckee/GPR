@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateChase : EnemyState
-{
+public class EnemyStateChase : EnemyState {
     public EnemyStateChase(GameObject enemyObj) : base(enemyObj) {
     }
 
-    public override void StateUpdate() {
+    public override void Update() {
     }
 
-    public override void StateFixedUpdate() {
+    public override void FixedUpdate() {
         MoveTowardsTarget();
+    }
+
+    public override void OnCollisionEnter(Collision collision) {
     }
 
     private void MoveTowardsTarget() {
