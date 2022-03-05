@@ -26,7 +26,7 @@ public class EnemyBehaviour : MonoBehaviour
         fieldOfView = GetComponent<FieldOfView>();
 
         movementDirection = transform.forward;
-        SetCurrentState(new EnemyStateChase(gameObject));
+        SetCurrentState(new EnemyStateWalkStraight(gameObject));
     }
 
     private void Start() {

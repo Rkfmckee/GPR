@@ -6,7 +6,7 @@ public class EnemyStateWalkStraight : EnemyState {
 
     #region Constructor
 
-    public EnemyStateWalkStraight(GameObject enemyObj) : base(enemyObj) {
+    public EnemyStateWalkStraight(GameObject gameObj) : base(gameObj) {
     }
 
     #endregion
@@ -14,6 +14,9 @@ public class EnemyStateWalkStraight : EnemyState {
     #region Events
 
     public override void Update() {
+        if (fieldOfView.visibleTargets.Count > 0) {
+            behaviour.SetCurrentState(new EnemyStateChase(gameObject));
+        }
     }
 
     public override void FixedUpdate() {

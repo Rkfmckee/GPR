@@ -2,10 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStateChase : EnemyState {
-    public EnemyStateChase(GameObject enemyObj) : base(enemyObj) {
+    public EnemyStateChase(GameObject gameObj) : base(gameObj) {
     }
 
     public override void Update() {
+        if (fieldOfView.visibleTargets.Count <= 0) {
+            behaviour.SetCurrentState(new EnemyStateWalkStraight(gameObject));
+        }
     }
 
     public override void FixedUpdate() {

@@ -8,7 +8,7 @@ public abstract class EnemyState {
     protected Vector3 movementDirection;
     protected float movementSpeed;
 
-    protected GameObject enemyObject;
+    protected GameObject gameObject;
     protected Transform transform;
     protected Rigidbody rigidbody;
     protected EnemyBehaviour behaviour;
@@ -18,8 +18,8 @@ public abstract class EnemyState {
 
     #region Constructor
 
-    public EnemyState(GameObject enemyObj) {
-        enemyObject = enemyObj;
+    public EnemyState(GameObject gameObj) {
+        gameObject = gameObj;
         SetupProperties();
     }
 
@@ -38,10 +38,10 @@ public abstract class EnemyState {
     #region Methods
 
     protected virtual void SetupProperties() {
-        transform = enemyObject.transform;
-        rigidbody = enemyObject.GetComponent<Rigidbody>();
-        behaviour = enemyObject.GetComponent<EnemyBehaviour>();
-        fieldOfView = enemyObject.GetComponent<FieldOfView>();
+        transform = gameObject.transform;
+        rigidbody = gameObject.GetComponent<Rigidbody>();
+        behaviour = gameObject.GetComponent<EnemyBehaviour>();
+        fieldOfView = gameObject.GetComponent<FieldOfView>();
 
         movementSpeed = behaviour.movementSpeed;
     }
