@@ -7,7 +7,7 @@ public class EnemyStateChase : EnemyState {
 
     public override void Update() {
         if (fieldOfView.visibleTargets.Count <= 0) {
-            behaviour.SetCurrentState(new EnemyStateWalkStraight(gameObject));
+            behaviour.SetCurrentState(new EnemyStateWander(gameObject));
         }
     }
 

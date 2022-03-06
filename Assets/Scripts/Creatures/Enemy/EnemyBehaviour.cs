@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private new Rigidbody rigidbody;
     private FieldOfView fieldOfView;
+	private NavMeshAgent navMeshAgent;
 
     private List<GameObject> allPlayers;
     private GameObject targetPlayer;
@@ -24,9 +24,10 @@ public class EnemyBehaviour : MonoBehaviour
     private void Awake() {
         rigidbody = GetComponent<Rigidbody>();
         fieldOfView = GetComponent<FieldOfView>();
+		navMeshAgent = GetComponent<NavMeshAgent>();
 
         movementDirection = transform.forward;
-        SetCurrentState(new EnemyStateWalkStraight(gameObject));
+        SetCurrentState(new EnemyStateWander(gameObject));
     }
 
     private void Start() {
@@ -34,12 +35,12 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     private void Update() {
-        currentState.Update();
+        if (currentState != null) currentState.Update();
         print($"Enemy State: {currentState}");
     }
 
     private void FixedUpdate() {
-        currentState.FixedUpdate();
+        if (currentState != null) currentState.FixedUpdate();
     }
 
     private void OnDestroy() {
@@ -55,7 +56,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        currentState.OnCollisionEnter(collision);
+         if (currentState != null) currentState.OnCollisionEnter(collision);
     }
 
     #endregion
@@ -67,7 +68,13 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     public void SetCurrentState(EnemyState state) {
-        currentState = state;
+        if (state is EnemyStateWander) {
+			navMeshAgent.enabled = true;
+		} else {
+			navMeshAgent.enabled = false;
+		}
+		
+		currentState = state;
     }
 
     #endregion

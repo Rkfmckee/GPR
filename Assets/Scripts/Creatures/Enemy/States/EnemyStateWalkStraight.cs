@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStateWalkStraight : EnemyState {
@@ -14,9 +12,7 @@ public class EnemyStateWalkStraight : EnemyState {
     #region Events
 
     public override void Update() {
-        if (fieldOfView.visibleTargets.Count > 0) {
-            behaviour.SetCurrentState(new EnemyStateChase(gameObject));
-        }
+        ChaseTargetIfInFieldOfView();
     }
 
     public override void FixedUpdate() {

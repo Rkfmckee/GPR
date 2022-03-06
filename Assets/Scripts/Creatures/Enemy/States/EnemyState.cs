@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class EnemyState {
     #region Properties
@@ -45,6 +44,12 @@ public abstract class EnemyState {
 
         movementSpeed = behaviour.movementSpeed;
     }
+
+	protected void ChaseTargetIfInFieldOfView() {
+		if (fieldOfView.visibleTargets.Count > 0) {
+            behaviour.SetCurrentState(new EnemyStateChase(gameObject));
+        }
+	}
 
     #endregion
 }

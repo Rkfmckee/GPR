@@ -12,6 +12,7 @@ TagManager:
   - Trigger
   - Chest
   - WallDecoration
+  - WanderPoint
   layers:
   - Default
   - TransparentFX
