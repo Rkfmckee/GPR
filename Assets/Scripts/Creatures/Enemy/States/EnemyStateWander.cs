@@ -7,6 +7,8 @@ public class EnemyStateWander : EnemyState {
     
     #region Properties
 
+	private int DISTANCE_TO_STOP = 1;
+
 	private NavMeshAgent navMeshAgent;
 	private Transform movementTarget;
 	private GameObject[] wanderPoints;
@@ -29,7 +31,7 @@ public class EnemyStateWander : EnemyState {
 		var distanceToTarget = movementTarget != null ? Vector3.Distance(transform.position, movementTarget.position) : 0;
 
 		// If we don't have a target, or have arrived at our target
-		if (movementTarget == null || distanceToTarget < 1) {
+		if (movementTarget == null || distanceToTarget < DISTANCE_TO_STOP) {
 			ChooseNewMovementTarget();
 		}
 
@@ -47,7 +49,20 @@ public class EnemyStateWander : EnemyState {
 	#region Methods
 
 	public void ChooseNewMovementTarget() {
-		movementTarget = wanderPoints[Random.Range(0, wanderPoints.Length)].transform;
+		var pointsWithProbability = new List<Transform>();
+
+		// If a point is farther away, add it to the list more times
+		// so it's more likely to be chosen
+		foreach (var point in wanderPoints) {
+			var pointTransform = point.transform;
+			var distanceToPoint = (int) Vector3.Distance(transform.position, pointTransform.position);
+
+			for (int i = 0; i < distanceToPoint; i++) {
+				pointsWithProbability.Add(pointTransform);
+			}
+		}
+
+		movementTarget = pointsWithProbability[Random.Range(0, pointsWithProbability.Count)];
 		navMeshAgent.SetDestination(movementTarget.position);
 	}
 
