@@ -28,7 +28,7 @@ public class StorageRoomController : MonoBehaviour
         doorOpenState = DoorState.Open;
 
         openedRotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        closedRotation = Quaternion.Euler(new Vector3(0, 90, 0));
+        closedRotation = Quaternion.Euler(new Vector3(0, 270, 0));
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -49,12 +49,12 @@ public class StorageRoomController : MonoBehaviour
 
     public void Open() {
         storageRoomCollider.isTrigger = true;
-        StartCoroutine(OpeningChest());
+        StartCoroutine(OpeningDoor());
     }
 
     public void Close() {
         storageRoomCollider.isTrigger = false;
-        StartCoroutine(ClosingChest());
+        StartCoroutine(ClosingDoor());
     }
 
     public bool IsDoorOpen() {
@@ -69,7 +69,7 @@ public class StorageRoomController : MonoBehaviour
 
     #region Coroutines
 
-    private IEnumerator OpeningChest() {
+    private IEnumerator OpeningDoor() {
         print("Opening Storage Room");
         doorCurrentMovingTime = 0;
 
@@ -83,7 +83,7 @@ public class StorageRoomController : MonoBehaviour
         doorOpenState = DoorState.Open;
     }
 
-    private IEnumerator ClosingChest() {
+    private IEnumerator ClosingDoor() {
         print("Closing Storage Room");
         doorCurrentMovingTime = 0;
 
