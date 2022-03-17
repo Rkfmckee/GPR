@@ -6,6 +6,8 @@ using UnityEngine;
 public class HoldObjectController : MonoBehaviour {
     #region Properties
 
+	private GameObject objectPlacement;
+	private ObjectPlacementController objectPlacementController;
     private GameObject heldObject;
     private float throwStrength;
     private Vector3 throwHeight;
@@ -53,15 +55,18 @@ public class HoldObjectController : MonoBehaviour {
             trapType = TrapController.Type.Floor;
         }
 
-        References.GameController.gameTraps.EnableWorldMousePointerIfPossible(trapType);
+		References.GameController.gameTraps.EnableObjectPlacementIfPossible(heldObject.name);
+
+		objectPlacement = References.GameController.gameTraps.objectPlacement;
+		objectPlacementController = References.GameController.gameTraps.objectPlacementController;
     }
 
     private void UseHeldObjectIfPressed() {
         if (heldObject == null) return;
 
         if (Input.GetButtonDown("Fire1")) {
-            if (References.GameController.gameTraps.worldMousePointer != null) {
-                if (References.GameController.gameTraps.worldMousePointer.GetComponent<ObjectPlacementPointer>().validPlacement) {
+            if (objectPlacementController != null) {
+                if (objectPlacementController.validPlacement) {
                     PlaceObject();
                 }
             }
@@ -73,23 +78,26 @@ public class HoldObjectController : MonoBehaviour {
     }
 
     private void PlaceObject() {
-        GameObject worldPointer = References.GameController.gameTraps.worldMousePointer;
-        ObjectPlacementPointer worldPointerScript = worldPointer.GetComponent<ObjectPlacementPointer>();
-        float xPosition = worldPointer.transform.position.x;
-        float yPosition = worldPointer.transform.position.y;
-        float zPosition = worldPointer.transform.position.z;
+		if (objectPlacement == null || objectPlacementController == null) {
+			print("Object Placement hasn't been created");
+			return;
+		}
+
+        float xPosition = objectPlacement.transform.position.x;
+        float yPosition = objectPlacement.transform.position.y;
+        float zPosition = objectPlacement.transform.position.z;
         Quaternion rotation = heldObject.transform.rotation;
 
         TrapController trapController = heldObject.GetComponent<TrapController>();
         if (trapController != null) {
             if (trapController.GetTrapType() == TrapController.Type.Wall) {
-                Vector3 hitNormal = worldPointerScript.hitInformation.normal;
-                rotation = Quaternion.LookRotation(worldPointerScript.hitInformation.normal);
+                Vector3 hitNormal = objectPlacementController.hitInformation.normal;
+                rotation = Quaternion.LookRotation(objectPlacementController.hitInformation.normal);
 
                 if (Math.Abs(hitNormal.x) == 1) {
-                    xPosition = worldPointerScript.hitInformation.point.x;
+                    xPosition = objectPlacementController.hitInformation.point.x;
                 } else if (Math.Abs(hitNormal.z) == 1) {
-                    zPosition = worldPointerScript.hitInformation.point.z;
+                    zPosition = objectPlacementController.hitInformation.point.z;
                 }
             } else {
                 yPosition = 0;
@@ -121,7 +129,7 @@ public class HoldObjectController : MonoBehaviour {
             heldObject = null;
 
             References.GameController.gameControllerObject.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
-            References.GameController.gameTraps.DisableWorldMousePointer();
+            References.GameController.gameTraps.DisableObjectPlacement();
         }
     }
 

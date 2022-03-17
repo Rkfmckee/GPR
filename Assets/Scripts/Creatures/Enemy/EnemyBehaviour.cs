@@ -36,7 +36,6 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Update() {
         if (currentState != null) currentState.Update();
-        print($"Enemy State: {currentState}");
     }
 
     private void FixedUpdate() {
