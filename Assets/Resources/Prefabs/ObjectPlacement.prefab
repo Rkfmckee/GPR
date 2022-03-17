@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5b898f60efabc44897bc1c2bccedec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validColour: {r: 0, g: 1, b: 0, a: 0}
-  invalidColour: {r: 1, g: 0, b: 0, a: 0}
+  validPlacement: 0
+  maxPlacementDistance: 10
 --- !u!23 &3811274349563313116
 MeshRenderer:
   m_ObjectHideFlags: 0
