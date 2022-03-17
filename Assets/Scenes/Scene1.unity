@@ -5317,7 +5317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60d504f365e2cf4c82c5ab97b0b0928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldMousePointer: {fileID: 0}
+  objectPlacement: {fileID: 0}
+  objectPlacementController: {fileID: 0}
 --- !u!114 &1594604653
 MonoBehaviour:
   m_ObjectHideFlags: 0

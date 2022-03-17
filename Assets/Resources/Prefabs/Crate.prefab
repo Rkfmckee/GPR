@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  canBeThrown: 0
+  canBeThrown: 1
 --- !u!114 &1654526910218408301
 MonoBehaviour:
   m_ObjectHideFlags: 0

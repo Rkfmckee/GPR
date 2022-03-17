@@ -48,14 +48,7 @@ public class HoldObjectController : MonoBehaviour {
         heldObject.transform.parent = transform;
         heldObjectController = heldObject.GetComponent<PickUpController>();
 
-        TrapController.Type? trapType = null;
-        if (heldObject.tag == "Trap") {
-            trapType = heldObject.GetComponent<TrapController>().GetTrapType();
-        } else if (heldObject.tag == "Trigger") {
-            trapType = TrapController.Type.Floor;
-        }
-
-		References.GameController.gameTraps.EnableObjectPlacementIfPossible(heldObject.name);
+		References.GameController.gameTraps.EnableObjectPlacementIfPossible(heldObject.name, heldObjectController.canBeThrown);
 
 		objectPlacement = References.GameController.gameTraps.objectPlacement;
 		objectPlacementController = References.GameController.gameTraps.objectPlacementController;
@@ -90,7 +83,7 @@ public class HoldObjectController : MonoBehaviour {
 
         TrapController trapController = heldObject.GetComponent<TrapController>();
         if (trapController != null) {
-            if (trapController.GetTrapType() == TrapController.Type.Wall) {
+            if (trapController.GetTrapType() == TrapController.Type.WALL) {
                 Vector3 hitNormal = objectPlacementController.hitInformation.normal;
                 rotation = Quaternion.LookRotation(objectPlacementController.hitInformation.normal);
 

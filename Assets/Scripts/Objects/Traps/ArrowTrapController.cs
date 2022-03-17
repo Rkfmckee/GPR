@@ -14,7 +14,7 @@ public class ArrowTrapController : TrapController {
     #region Events
 
     private void Awake() {
-        trapType = Type.Wall;
+        trapType = Type.WALL;
 
         arrowPrefab = Resources.Load("Prefabs/Traps/Arrow") as GameObject;
 

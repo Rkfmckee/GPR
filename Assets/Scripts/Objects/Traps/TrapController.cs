@@ -21,8 +21,9 @@ public abstract class TrapController : MonoBehaviour {
     #region Enums
 
     public enum Type {
-        Floor,
-        Wall
+        FLOOR,
+        WALL,
+		CEILING
     }
 
     #endregion

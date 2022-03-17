@@ -72,7 +72,8 @@ public class ObjectPlacementController : MonoBehaviour {
 
 	private void SetPlacementPrefabs() {
 		placementPrefabs = new Dictionary<string, string> {
-			{"Crate", "CratePlacement"}
+			{"Crate", "CratePlacement"},
+			{"SpikeTrap", "SpikeTrapPlacement"}
 		};
 	}
 
