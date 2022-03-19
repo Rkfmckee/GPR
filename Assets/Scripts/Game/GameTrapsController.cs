@@ -23,7 +23,7 @@ public class GameTrapsController : MonoBehaviour
 
     private void Awake() {
         References.GameController.gameTraps = this;
-        objectPlacementPrefab = Resources.Load("Prefabs/ObjectPlacement") as GameObject;
+        objectPlacementPrefab = Resources.Load("Prefabs/Objects/Placement/ObjectPlacement") as GameObject;
         trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
     }
 
@@ -69,8 +69,8 @@ public class GameTrapsController : MonoBehaviour
         }
     }
 
-    public void EnableObjectPlacementIfPossible(string objectName, bool canBeThrown) {
-        StartCoroutine(CheckIfObjectPlacementCanBeEnabled(objectName, canBeThrown));
+    public void EnableObjectPlacementIfPossible(GameObject heldObject, bool canBeThrown) {
+        StartCoroutine(CheckIfObjectPlacementCanBeEnabled(heldObject, canBeThrown));
     }
 
     public void DisableObjectPlacement() {
@@ -96,11 +96,11 @@ public class GameTrapsController : MonoBehaviour
         linkingTextActive = enable;
     }
 
-    private void EnableObjectPlacement(string objectName, bool canBeThrown) {
+    private void EnableObjectPlacement(GameObject heldObject, bool canBeThrown) {
         objectPlacement = Instantiate(objectPlacementPrefab);
         objectPlacement.transform.parent = gameObject.transform;
 		objectPlacementController = objectPlacement.GetComponent<ObjectPlacementController>();
-		objectPlacementController.SetHeldObject(objectName);
+		objectPlacementController.SetHeldObject(heldObject);
 
         References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText(canBeThrown);
     }
@@ -109,14 +109,14 @@ public class GameTrapsController : MonoBehaviour
 
     #region Coroutines
 
-    private IEnumerator CheckIfObjectPlacementCanBeEnabled(string objectName, bool canBeThrown) {
+    private IEnumerator CheckIfObjectPlacementCanBeEnabled(GameObject heldObject, bool canBeThrown) {
         GameTrapsController gameTrapController = References.GameController.gameTraps;
 
         while(gameTrapController.IsInventoryOpen()) {
             yield return null;
         }
 
-        EnableObjectPlacement(objectName, canBeThrown);
+        EnableObjectPlacement(heldObject, canBeThrown);
     }
 
     #endregion

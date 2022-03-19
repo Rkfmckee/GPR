@@ -62,7 +62,7 @@ public class SpikeTrapController : TrapController
     }
 
     private void setupInstanceVariables() {
-        trapType = Type.FLOOR;
+        trapType = SurfaceType.FLOOR;
 
         spikesUpPosition = new Vector3(0, 0, 0);
         spikesDownPosition = new Vector3(0, -0.5f, 0);

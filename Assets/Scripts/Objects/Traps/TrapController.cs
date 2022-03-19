@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class TrapController : MonoBehaviour {
     #region Properties
 
-    protected Type trapType;
+    protected SurfaceType trapType;
 
     #endregion
 
@@ -14,16 +14,17 @@ public abstract class TrapController : MonoBehaviour {
 
     public abstract void TriggerTrap(Collider triggeredBy);
 
-    public Type GetTrapType() { return trapType; }
+    public SurfaceType GetSurfaceType() { return trapType; }
 
     #endregion
 
     #region Enums
 
-    public enum Type {
+    public enum SurfaceType {
         FLOOR,
         WALL,
-		CEILING
+		CEILING,
+		ANY
     }
 
     #endregion
