@@ -5,15 +5,16 @@ using static TrapController;
 public class ObjectPlacementController : MonoBehaviour {
 	#region Properties
 
+	public float maxPlacementDistance;
 	[HideInInspector]
 	public bool validPlacement;
 	[HideInInspector]
 	public RaycastHit hitInformation;
-	public float maxPlacementDistance;
 
 	private Material validMaterial;
 	private Material invalidMaterial;
 	private Dictionary<string, string> placementPrefabs;
+	private List<string> collidersToHit;
 	private int floorMask;
 	private int wallMask;
 	private int terrainMask;
@@ -21,8 +22,10 @@ public class ObjectPlacementController : MonoBehaviour {
 	private SurfaceType? surfaceToPlaceOn;
 
 	private new Camera camera;
+	private GameObject placementPrefab;
 	private GameObject placementObject;
 	private MeshRenderer placementObjectRenderer;
+	private Collider placementObjectCollider;
 
 	#endregion
 
@@ -41,18 +44,13 @@ public class ObjectPlacementController : MonoBehaviour {
         terrainMask = floorMask | wallMask;
 
 		SetPlacementPrefabs();
+		SetCollidersToHit();
 	}
 
 	private void Update() {
 		CheckForRaycastHit();
 		ValidPlacementChangeMaterial();
 	}
-
-	// public void OnCollisionEnter(Collision other) {
-	// 	if (other.gameObject.tag != "Wall") {
-	// 		Physics.IgnoreCollision(child, other.collider);
-	// 	}
-	// }
 
 	#endregion
 
@@ -68,7 +66,7 @@ public class ObjectPlacementController : MonoBehaviour {
 
 		maskToUse = LayerMaskToUse(heldObject);
 
-		GameObject placementPrefab = Resources.Load($"Prefabs/Objects/Placement/{placementPrefabs[objectName]}") as GameObject;
+		placementPrefab = Resources.Load($"Prefabs/Objects/Placement/{placementPrefabs[objectName]}") as GameObject;
 		placementObject = Instantiate(placementPrefab) as GameObject;
 		placementObject.transform.parent = transform;
 		placementObject.transform.localPosition = placementPrefab.transform.position;
@@ -86,6 +84,12 @@ public class ObjectPlacementController : MonoBehaviour {
 		placementPrefabs = new Dictionary<string, string> {
 			{"Crate", "CratePlacement"},
 			{"SpikeTrap", "SpikeTrapPlacement"}
+		};
+	}
+
+	private void SetCollidersToHit() {
+		collidersToHit = new List<string> {
+			"Wall"
 		};
 	}
 
@@ -108,7 +112,7 @@ public class ObjectPlacementController : MonoBehaviour {
 		BoxCollider heldObjectCollider = heldObject.GetComponent<BoxCollider>();
 
 		if (heldObjectCollider != null) {
-			placementObject.AddComponent<BoxCollider>(heldObjectCollider);
+			placementObjectCollider = placementObject.AddComponent<BoxCollider>(heldObjectCollider);
 		} else {
 			print($"{gameObject.name} doesn't have a box collider");
 		}
@@ -120,10 +124,34 @@ public class ObjectPlacementController : MonoBehaviour {
 
         if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, maskToUse)) {
             Vector3 pointHit = hitInformation.point;
-
             validPlacement = GetValidDistance(pointHit);
-            transform.position = pointHit;
+			transform.position = pointHit;
+
+			Vector3? positionToMove = CheckForOverlap(hitInformation);
+			if (positionToMove.HasValue) {
+				transform.position = positionToMove.Value;
+			}
         }
+	}
+
+	private Vector3? CheckForOverlap(RaycastHit hitInformation) {
+		Collider otherCollider = hitInformation.collider;
+		Vector3 otherPosition = otherCollider.gameObject.transform.position;
+		Quaternion otherRotation = otherCollider.gameObject.transform.rotation;
+		Vector3 direction;
+		float distance;
+
+		bool overlapped = Physics.ComputePenetration(
+			placementObjectCollider, placementObject.transform.position, placementObject.transform.rotation,
+			otherCollider, otherPosition, otherRotation,
+			out direction, out distance
+		);
+
+		if (overlapped) {
+			return Vector3.MoveTowards(transform.position, direction, distance);
+		}
+
+		return null;
 	}
 
     private bool GetValidDistance(Vector3 pointHit) {
