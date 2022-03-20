@@ -55,6 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &9186663741576256738
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,8 +147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cdd545c1a94c8047ac99479dd411cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
   canBeThrown: 0
+  placementPrefab: {fileID: 4077395540609439027, guid: e32516792b1ebfa47b5ad21f922b2e8f,
+    type: 3}
+  currentState: 0
 --- !u!114 &178390337441285452
 MonoBehaviour:
   m_ObjectHideFlags: 0
