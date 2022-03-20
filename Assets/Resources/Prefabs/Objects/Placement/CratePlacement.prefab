@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4611722044945221682}
   - component: {fileID: 4947033917738885869}
   - component: {fileID: 4314899799960717464}
-  - component: {fileID: -1925514234423668043}
   m_Layer: 0
   m_Name: CratePlacement
   m_TagString: Untagged
@@ -82,19 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &-1925514234423668043
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6783054427317556459}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0

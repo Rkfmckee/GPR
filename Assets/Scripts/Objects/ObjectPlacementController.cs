@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static TrapController;
@@ -14,15 +15,10 @@ public class ObjectPlacementController : MonoBehaviour {
 	private Material validMaterial;
 	private Material invalidMaterial;
 	private Dictionary<string, string> placementPrefabs;
-	private List<string> collidersToHit;
-	private int floorMask;
-	private int wallMask;
-	private int terrainMask;
-	private int maskToUse;
+	private Dictionary<string, int> layerMasks;
 	private SurfaceType? surfaceToPlaceOn;
 
 	private new Camera camera;
-	private GameObject placementPrefab;
 	private GameObject placementObject;
 	private MeshRenderer placementObjectRenderer;
 	private Collider placementObjectCollider;
@@ -39,16 +35,13 @@ public class ObjectPlacementController : MonoBehaviour {
 
 		validPlacement = true;
 
-		floorMask = 1 << LayerMask.NameToLayer("Floor");
-        wallMask = 1 << LayerMask.NameToLayer("Wall");
-        terrainMask = floorMask | wallMask;
-
+		CreateLayerMasks();
 		SetPlacementPrefabs();
-		SetCollidersToHit();
 	}
 
 	private void Update() {
 		CheckForRaycastHit();
+		MoveOutOfOverlap();
 		ValidPlacementChangeMaterial();
 	}
 
@@ -57,27 +50,29 @@ public class ObjectPlacementController : MonoBehaviour {
 	#region Methods
 
 	public void SetHeldObject(GameObject heldObject) {
-		string objectName = heldObject.name;
+		PickUpController pickUpController = heldObject.GetComponent<PickUpController>();
 
-		if (!placementPrefabs.ContainsKey(objectName)) {
-			print($"Placement prefab not defined for {objectName}");
+		if (pickUpController == null) {
+			print($"{heldObject.name} can't be picked up");
 			return;
 		}
 
-		maskToUse = LayerMaskToUse(heldObject);
-
-		placementPrefab = Resources.Load($"Prefabs/Objects/Placement/{placementPrefabs[objectName]}") as GameObject;
-		placementObject = Instantiate(placementPrefab) as GameObject;
+		placementObject = Instantiate(pickUpController.placementPrefab) as GameObject;
 		placementObject.transform.parent = transform;
-		placementObject.transform.localPosition = placementPrefab.transform.position;
-
-		if (placementObject.transform.childCount > 1) {
-			print($"{objectName} has more than 1 child. It may not display properly.");
-		}
+		placementObject.transform.localPosition = pickUpController.placementPrefab.transform.position;
 
 		CopyColliderToPlacementModel(heldObject);
 
-		placementObjectRenderer = placementObject.transform.GetComponentInChildren<MeshRenderer>();
+		placementObjectRenderer = placementObject.GetComponent<MeshRenderer>();
+	}
+
+	private void CreateLayerMasks() {
+		layerMasks = new Dictionary<string, int>();
+		layerMasks.Add("Floor", 1 << LayerMask.NameToLayer("Floor"));
+		layerMasks.Add("Wall", 1 << LayerMask.NameToLayer("Wall"));
+		layerMasks.Add("WallDecoration", 1 << LayerMask.NameToLayer("WallDecoration"));
+		layerMasks.Add("WallWithDecoration", layerMasks["Wall"] | layerMasks["WallDecoration"]);
+		layerMasks.Add("Terrain", layerMasks["Floor"] | layerMasks["WallWithDecoration"]);
 	}
 
 	private void SetPlacementPrefabs() {
@@ -85,27 +80,6 @@ public class ObjectPlacementController : MonoBehaviour {
 			{"Crate", "CratePlacement"},
 			{"SpikeTrap", "SpikeTrapPlacement"}
 		};
-	}
-
-	private void SetCollidersToHit() {
-		collidersToHit = new List<string> {
-			"Wall"
-		};
-	}
-
-	private int LayerMaskToUse(GameObject heldObject) {
-		surfaceToPlaceOn = heldObject.GetComponent<TrapController>() ? heldObject.GetComponent<TrapController>().GetSurfaceType() : SurfaceType.ANY;
-
-		switch(surfaceToPlaceOn) {
-			case SurfaceType.FLOOR:
-			return floorMask;
-
-			case SurfaceType.WALL:
-			return wallMask;
-
-			default:
-			return terrainMask;
-		}
 	}
 
 	private void CopyColliderToPlacementModel(GameObject heldObject) {
@@ -122,36 +96,31 @@ public class ObjectPlacementController : MonoBehaviour {
         var cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
         validPlacement = true;
 
-        if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, maskToUse)) {
+        if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMasks["Terrain"])) {
             Vector3 pointHit = hitInformation.point;
             validPlacement = GetValidDistance(pointHit);
 			transform.position = pointHit;
-
-			Vector3? positionToMove = CheckForOverlap(hitInformation);
-			if (positionToMove.HasValue) {
-				transform.position = positionToMove.Value;
-			}
         }
 	}
 
-	private Vector3? CheckForOverlap(RaycastHit hitInformation) {
-		Collider otherCollider = hitInformation.collider;
-		Vector3 otherPosition = otherCollider.gameObject.transform.position;
-		Quaternion otherRotation = otherCollider.gameObject.transform.rotation;
-		Vector3 direction;
-		float distance;
+	private void MoveOutOfOverlap() {
+		Collider[] colliders = Physics.OverlapBox(placementObject.transform.position, placementObjectCollider.bounds.size / 2, Quaternion.identity, layerMasks["WallWithDecoration"]);
 
-		bool overlapped = Physics.ComputePenetration(
-			placementObjectCollider, placementObject.transform.position, placementObject.transform.rotation,
-			otherCollider, otherPosition, otherRotation,
-			out direction, out distance
-		);
+		foreach (Collider overlappedCollider in colliders) {
+			Transform overlappedTransform = overlappedCollider.gameObject.transform;
+			Vector3 direction;
+			float distance;
 
-		if (overlapped) {
-			return Vector3.MoveTowards(transform.position, direction, distance);
+			bool overlapped = Physics.ComputePenetration(
+				placementObjectCollider, placementObject.transform.position, placementObject.transform.rotation,
+				overlappedCollider, overlappedTransform.position, overlappedTransform.rotation,
+				out direction, out distance
+			);
+
+			if (overlapped) {
+				transform.position += (direction * distance);
+			}
 		}
-
-		return null;
 	}
 
     private bool GetValidDistance(Vector3 pointHit) {

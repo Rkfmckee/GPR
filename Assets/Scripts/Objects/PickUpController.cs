@@ -6,9 +6,10 @@ public class PickUpController : MonoBehaviour
 {
     #region Properties
 
+	public bool canBeThrown;
+	public GameObject placementPrefab;
     [HideInInspector]
     public State currentState;
-    public bool canBeThrown;
 
     private Vector3 heldHeight;
 

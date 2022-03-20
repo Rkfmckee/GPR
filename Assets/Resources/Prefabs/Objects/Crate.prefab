@@ -143,8 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cdd545c1a94c8047ac99479dd411cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
   canBeThrown: 1
+  placementPrefab: {fileID: 6783054427317556459, guid: 72eacfc66b329364b876fec1dac7409e,
+    type: 3}
+  currentState: 0
 --- !u!114 &1654526910218408301
 MonoBehaviour:
   m_ObjectHideFlags: 0
