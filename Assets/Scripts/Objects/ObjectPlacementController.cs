@@ -22,6 +22,7 @@ public class ObjectPlacementController : MonoBehaviour {
 	private GameObject placementObject;
 	private MeshRenderer placementObjectRenderer;
 	private Collider placementObjectCollider;
+	private TrapController heldObjectTrapController;
 
 	#endregion
 
@@ -64,6 +65,7 @@ public class ObjectPlacementController : MonoBehaviour {
 		CopyColliderToPlacementModel(heldObject);
 
 		placementObjectRenderer = placementObject.GetComponent<MeshRenderer>();
+		heldObjectTrapController = heldObject.GetComponent<TrapController>();
 	}
 
 	private void CreateLayerMasks() {
@@ -95,11 +97,20 @@ public class ObjectPlacementController : MonoBehaviour {
 
 	private void CheckForRaycastHit() {
         var cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
-        validPlacement = true;
 
         if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMasks["Terrain"])) {
-            Vector3 pointHit = hitInformation.point;
-            validPlacement = GetValidDistance(pointHit);
+			Vector3 pointHit = hitInformation.point;
+
+			if (heldObjectTrapController != null) {
+				if (heldObjectTrapController.GetSurfaceType().ToString().ToLower() == hitInformation.collider.gameObject.tag.ToLower()) {
+					validPlacement = GetValidDistance(pointHit);
+				} else {
+					validPlacement = false;
+				}
+			} else {
+				validPlacement = GetValidDistance(pointHit);
+			}
+	
 			transform.position = pointHit;
         }
 	}

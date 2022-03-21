@@ -16,7 +16,7 @@ public class ArrowTrapController : TrapController {
     private void Awake() {
         trapType = SurfaceType.WALL;
 
-        arrowPrefab = Resources.Load("Prefabs/Traps/Arrow") as GameObject;
+        arrowPrefab = Resources.Load("Prefabs/Objects/Traps/Arrow") as GameObject;
 
         arrowSlots = new List<GameObject>();
         foreach(Transform child in transform) {

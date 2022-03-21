@@ -127,7 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeThrown: 0
-  placementPrefab: {fileID: 0}
+  placementPrefab: {fileID: 8946829632699993540, guid: dc40c442656519a4f868cf80583b0278,
+    type: 3}
   currentState: 0
   heldHeight: 2.5
 --- !u!114 &7931364527580010265
