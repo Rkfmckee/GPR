@@ -87,6 +87,7 @@ public class ObjectPlacementController : MonoBehaviour {
 
 		if (heldObjectCollider != null) {
 			placementObjectCollider = placementObject.AddComponent<BoxCollider>(heldObjectCollider);
+			placementObjectCollider.isTrigger = true;
 		} else {
 			print($"{gameObject.name} doesn't have a box collider");
 		}
