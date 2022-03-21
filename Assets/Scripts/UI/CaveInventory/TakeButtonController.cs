@@ -53,12 +53,12 @@ public class TakeButtonController : MonoBehaviour
                 newItem.name = itemSelected.name;
                 PickUpController newItemPickup = newItem.GetComponent<PickUpController>();
 
+				AddNotificationOfNewItem(newItem.name);
+                References.GameController.gameTraps.ShouldShowCaveInventory(false);
+
                 if (newItemPickup != null) {
                     newItemPickup.SetCurrentState(PickUpController.State.HELD);
                 }
-
-                AddNotificationOfNewItem(newItem.name);
-                References.GameController.gameTraps.ShouldShowCaveInventory(false);
             }
         }
     }
