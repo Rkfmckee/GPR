@@ -1,14 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameTrapsController : MonoBehaviour
 {
     #region Properties
-    [HideInInspector]
-    public GameObject worldMousePointer;
 
-    private GameObject worldMousePointerPrefab;
+    [HideInInspector]
+    public GameObject objectPlacement;
+	public ObjectPlacementController objectPlacementController;
+
+    private GameObject objectPlacementPrefab;
     private GameObject trapLinkingLinePrefab;
     private GameObject trapLinkingLine;
     private bool inventoryOpen;
@@ -22,7 +23,7 @@ public class GameTrapsController : MonoBehaviour
 
     private void Awake() {
         References.GameController.gameTraps = this;
-        worldMousePointerPrefab = Resources.Load("Prefabs/WorldMousePointer") as GameObject;
+        objectPlacementPrefab = Resources.Load("Prefabs/Objects/Placement/ObjectPlacement") as GameObject;
         trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
     }
 
@@ -68,12 +69,12 @@ public class GameTrapsController : MonoBehaviour
         }
     }
 
-    public void EnableWorldMousePointerIfPossible(TrapController.Type? trapType) {
-        StartCoroutine(CheckIfPointerCanBeEnabled(trapType));
+    public void EnableObjectPlacementIfPossible(GameObject heldObject, bool canBeThrown) {
+        StartCoroutine(CheckIfObjectPlacementCanBeEnabled(heldObject, canBeThrown));
     }
 
-    public void DisableWorldMousePointer() {
-        if (worldMousePointer != null) Destroy(worldMousePointer);
+    public void DisableObjectPlacement() {
+        if (objectPlacement != null) Destroy(objectPlacement);
 
         References.UI.canvas.GetComponent<CanvasController>().DisableHoldingItemText();
     }
@@ -95,27 +96,27 @@ public class GameTrapsController : MonoBehaviour
         linkingTextActive = enable;
     }
 
-    private void EnableWorldMousePointer(TrapController.Type? trapType) {
-        worldMousePointer = Instantiate(worldMousePointerPrefab);
-        worldMousePointer.transform.parent = gameObject.transform;
-        worldMousePointer.GetComponent<ObjectPlacementPointer>().trapType = trapType;
+    private void EnableObjectPlacement(GameObject heldObject, bool canBeThrown) {
+        objectPlacement = Instantiate(objectPlacementPrefab);
+        objectPlacement.transform.parent = gameObject.transform;
+		objectPlacementController = objectPlacement.GetComponent<ObjectPlacementController>();
+		objectPlacementController.SetHeldObject(heldObject);
 
-        bool holdingTrap = trapType != null;
-        References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText(holdingTrap);
+        References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText(canBeThrown);
     }
 
     #endregion
 
     #region Coroutines
 
-    private IEnumerator CheckIfPointerCanBeEnabled(TrapController.Type? trapType) {
+    private IEnumerator CheckIfObjectPlacementCanBeEnabled(GameObject heldObject, bool canBeThrown) {
         GameTrapsController gameTrapController = References.GameController.gameTraps;
 
         while(gameTrapController.IsInventoryOpen()) {
             yield return null;
         }
 
-        EnableWorldMousePointer(trapType);
+        EnableObjectPlacement(heldObject, canBeThrown);
     }
 
     #endregion

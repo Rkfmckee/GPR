@@ -34,7 +34,7 @@ public abstract class HighlightableObject : MonoBehaviour {
     }
 
     protected virtual void Update() {
-        if (gameTraps.worldMousePointer != null) return;
+        if (gameTraps.objectPlacement != null) return;
         if (DontSelect()) return;
 
         if (currentlyHightlightingMe) {

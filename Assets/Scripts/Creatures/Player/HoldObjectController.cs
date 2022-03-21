@@ -6,8 +6,14 @@ using UnityEngine;
 public class HoldObjectController : MonoBehaviour {
     #region Properties
 
+	[Range(1, 10000)]
+	public int throwStrength;
+	public float secondsUntilCanPlace;
+
+	private float secondsUntilCanPlaceElapsed;
+	private GameObject objectPlacement;
+	private ObjectPlacementController objectPlacementController;
     private GameObject heldObject;
-    private float throwStrength;
     private Vector3 throwHeight;
 
     private PickUpController heldObjectController;
@@ -17,7 +23,6 @@ public class HoldObjectController : MonoBehaviour {
     #region Events
 
     private void Awake() {
-        throwStrength = 5000;
         throwHeight = transform.up / 10;
 
         if (gameObject.tag == "Player") {
@@ -26,7 +31,11 @@ public class HoldObjectController : MonoBehaviour {
     }
 
     private void Update() {
-        UseHeldObjectIfPressed();
+		if (secondsUntilCanPlaceElapsed > 0) {
+			secondsUntilCanPlaceElapsed -= Time.deltaTime;
+		} else {
+        	UseHeldObjectIfPressed();
+		}
     }
 
     private void OnDestroy() {
@@ -46,22 +55,20 @@ public class HoldObjectController : MonoBehaviour {
         heldObject.transform.parent = transform;
         heldObjectController = heldObject.GetComponent<PickUpController>();
 
-        TrapController.Type? trapType = null;
-        if (heldObject.tag == "Trap") {
-            trapType = heldObject.GetComponent<TrapController>().GetTrapType();
-        } else if (heldObject.tag == "Trigger") {
-            trapType = TrapController.Type.Floor;
-        }
+		References.GameController.gameTraps.EnableObjectPlacementIfPossible(heldObject, heldObjectController.canBeThrown);
 
-        References.GameController.gameTraps.EnableWorldMousePointerIfPossible(trapType);
+		objectPlacement = References.GameController.gameTraps.objectPlacement;
+		objectPlacementController = References.GameController.gameTraps.objectPlacementController;
+
+		secondsUntilCanPlaceElapsed = secondsUntilCanPlace;
     }
 
     private void UseHeldObjectIfPressed() {
         if (heldObject == null) return;
 
         if (Input.GetButtonDown("Fire1")) {
-            if (References.GameController.gameTraps.worldMousePointer != null) {
-                if (References.GameController.gameTraps.worldMousePointer.GetComponent<ObjectPlacementPointer>().validPlacement) {
+            if (objectPlacementController != null) {
+                if (objectPlacementController.validPlacement) {
                     PlaceObject();
                 }
             }
@@ -73,23 +80,26 @@ public class HoldObjectController : MonoBehaviour {
     }
 
     private void PlaceObject() {
-        GameObject worldPointer = References.GameController.gameTraps.worldMousePointer;
-        ObjectPlacementPointer worldPointerScript = worldPointer.GetComponent<ObjectPlacementPointer>();
-        float xPosition = worldPointer.transform.position.x;
-        float yPosition = worldPointer.transform.position.y;
-        float zPosition = worldPointer.transform.position.z;
+		if (objectPlacement == null || objectPlacementController == null) {
+			print("Object Placement hasn't been created");
+			return;
+		}
+
+        float xPosition = objectPlacement.transform.position.x;
+        float yPosition = objectPlacement.transform.position.y;
+        float zPosition = objectPlacement.transform.position.z;
         Quaternion rotation = heldObject.transform.rotation;
 
         TrapController trapController = heldObject.GetComponent<TrapController>();
         if (trapController != null) {
-            if (trapController.GetTrapType() == TrapController.Type.Wall) {
-                Vector3 hitNormal = worldPointerScript.hitInformation.normal;
-                rotation = Quaternion.LookRotation(worldPointerScript.hitInformation.normal);
+            if (trapController.GetSurfaceType() == TrapController.SurfaceType.WALL) {
+                Vector3 hitNormal = objectPlacementController.hitInformation.normal;
+                rotation = Quaternion.LookRotation(objectPlacementController.hitInformation.normal);
 
                 if (Math.Abs(hitNormal.x) == 1) {
-                    xPosition = worldPointerScript.hitInformation.point.x;
+                    xPosition = objectPlacementController.hitInformation.point.x;
                 } else if (Math.Abs(hitNormal.z) == 1) {
-                    zPosition = worldPointerScript.hitInformation.point.z;
+                    zPosition = objectPlacementController.hitInformation.point.z;
                 }
             } else {
                 yPosition = 0;
@@ -98,7 +108,7 @@ public class HoldObjectController : MonoBehaviour {
             yPosition = heldObject.GetComponentInChildren<Collider>().bounds.size.y / 2;
         }
 
-        heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.Idle);
+        heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.IDLE);
         heldObject.transform.position = new Vector3(xPosition, yPosition, zPosition);
         heldObject.transform.rotation = rotation;
 
@@ -108,7 +118,7 @@ public class HoldObjectController : MonoBehaviour {
     private void ThrowObject() {
         Vector3 throwDirection = (transform.forward + throwHeight) * throwStrength;
 
-        heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.Thrown);
+        heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.THROWN);
         heldObject.GetComponent<Rigidbody>().AddForce(throwDirection);
 
 
@@ -121,7 +131,7 @@ public class HoldObjectController : MonoBehaviour {
             heldObject = null;
 
             References.GameController.gameControllerObject.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
-            References.GameController.gameTraps.DisableWorldMousePointer();
+            References.GameController.gameTraps.DisableObjectPlacement();
         }
     }
 
