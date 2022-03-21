@@ -148,7 +148,7 @@ MonoBehaviour:
   placementPrefab: {fileID: 2920995112458490818, guid: 2354f067013ac9245a88ce7f2d0465fa,
     type: 3}
   currentState: 0
-  heldHeight: 5
+  heldHeight: 3
 --- !u!65 &934380967443842443
 BoxCollider:
   m_ObjectHideFlags: 0
