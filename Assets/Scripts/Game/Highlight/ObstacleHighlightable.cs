@@ -18,7 +18,7 @@
     #region Methods
 
     public override bool DontSelect() {
-        bool dontSelect = pickupController.currentState == PickUpController.State.Held;
+        bool dontSelect = pickupController.currentState == PickUpController.State.HELD;
 
         return dontSelect || base.DontSelect();
     }
@@ -29,7 +29,7 @@
             return;
         }
 
-        pickupController.SetCurrentState(PickUpController.State.Held);
+        pickupController.SetCurrentState(PickUpController.State.HELD);
     }
 
     #endregion

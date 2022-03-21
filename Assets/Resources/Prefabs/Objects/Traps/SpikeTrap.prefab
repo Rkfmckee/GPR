@@ -151,6 +151,7 @@ MonoBehaviour:
   placementPrefab: {fileID: 4077395540609439027, guid: e32516792b1ebfa47b5ad21f922b2e8f,
     type: 3}
   currentState: 0
+  heldHeight: 2.5
 --- !u!114 &178390337441285452
 MonoBehaviour:
   m_ObjectHideFlags: 0

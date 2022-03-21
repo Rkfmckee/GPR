@@ -6,10 +6,14 @@ using UnityEngine;
 public class HoldObjectController : MonoBehaviour {
     #region Properties
 
+	[Range(1, 10000)]
+	public int throwStrength;
+	public float secondsUntilCanPlace;
+
+	private float secondsUntilCanPlaceElapsed;
 	private GameObject objectPlacement;
 	private ObjectPlacementController objectPlacementController;
     private GameObject heldObject;
-    private float throwStrength;
     private Vector3 throwHeight;
 
     private PickUpController heldObjectController;
@@ -19,7 +23,6 @@ public class HoldObjectController : MonoBehaviour {
     #region Events
 
     private void Awake() {
-        throwStrength = 5000;
         throwHeight = transform.up / 10;
 
         if (gameObject.tag == "Player") {
@@ -28,7 +31,11 @@ public class HoldObjectController : MonoBehaviour {
     }
 
     private void Update() {
-        UseHeldObjectIfPressed();
+		if (secondsUntilCanPlaceElapsed > 0) {
+			secondsUntilCanPlaceElapsed -= Time.deltaTime;
+		} else {
+        	UseHeldObjectIfPressed();
+		}
     }
 
     private void OnDestroy() {
@@ -52,6 +59,8 @@ public class HoldObjectController : MonoBehaviour {
 
 		objectPlacement = References.GameController.gameTraps.objectPlacement;
 		objectPlacementController = References.GameController.gameTraps.objectPlacementController;
+
+		secondsUntilCanPlaceElapsed = secondsUntilCanPlace;
     }
 
     private void UseHeldObjectIfPressed() {
@@ -99,7 +108,7 @@ public class HoldObjectController : MonoBehaviour {
             yPosition = heldObject.GetComponentInChildren<Collider>().bounds.size.y / 2;
         }
 
-        heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.Idle);
+        heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.IDLE);
         heldObject.transform.position = new Vector3(xPosition, yPosition, zPosition);
         heldObject.transform.rotation = rotation;
 
@@ -109,7 +118,7 @@ public class HoldObjectController : MonoBehaviour {
     private void ThrowObject() {
         Vector3 throwDirection = (transform.forward + throwHeight) * throwStrength;
 
-        heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.Thrown);
+        heldObject.GetComponent<PickUpController>().SetCurrentState(PickUpController.State.THROWN);
         heldObject.GetComponent<Rigidbody>().AddForce(throwDirection);
 
 

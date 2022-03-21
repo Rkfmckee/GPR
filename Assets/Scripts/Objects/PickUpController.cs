@@ -10,9 +10,10 @@ public class PickUpController : MonoBehaviour
 	public GameObject placementPrefab;
     [HideInInspector]
     public State currentState;
+	[Range(1, 10)]
+    public float heldHeight;
 
-    private Vector3 heldHeight;
-
+	private Vector3 heldPosition;
     private new Rigidbody rigidbody;
 
     #endregion
@@ -22,13 +23,13 @@ public class PickUpController : MonoBehaviour
     private void Awake() {
         rigidbody = gameObject.GetComponent<Rigidbody>();
 
-        currentState = State.Idle;
-        heldHeight = new Vector3(0, 3, 0);
+        currentState = State.IDLE;
+        heldPosition = new Vector3(0, heldHeight, 0);
     }
 
     private void Update() {
-        if (currentState == State.Held) {
-            transform.localPosition = heldHeight;
+        if (currentState == State.HELD) {
+            transform.localPosition = heldPosition;
             transform.eulerAngles = Vector3.zero;
             if (rigidbody != null) rigidbody.velocity = Vector3.zero;
         }
@@ -36,7 +37,7 @@ public class PickUpController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.collider.gameObject.tag == "Floor") {
-            currentState = State.Idle;
+            currentState = State.IDLE;
         }
     }
 
@@ -45,9 +46,9 @@ public class PickUpController : MonoBehaviour
     #region Methods
 
     public void SetCurrentState(State state) {
-        currentState = state;
+		currentState = state;
 
-        if (currentState == State.Held) {
+        if (currentState == State.HELD) {
              if (rigidbody != null) rigidbody.useGravity = false;
             References.Player.currentPlayer.GetComponent<HoldObjectController>().SetHeldObject(gameObject);
         } else {
@@ -60,9 +61,9 @@ public class PickUpController : MonoBehaviour
     #region Enums
 
     public enum State {
-        Idle,
-        Held,
-        Thrown
+        IDLE,
+        HELD,
+        THROWN
     }
 
     #endregion

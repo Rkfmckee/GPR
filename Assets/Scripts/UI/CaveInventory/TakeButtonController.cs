@@ -54,7 +54,7 @@ public class TakeButtonController : MonoBehaviour
                 PickUpController newItemPickup = newItem.GetComponent<PickUpController>();
 
                 if (newItemPickup != null) {
-                    newItemPickup.SetCurrentState(PickUpController.State.Held);
+                    newItemPickup.SetCurrentState(PickUpController.State.HELD);
                 }
 
                 AddNotificationOfNewItem(newItem.name);
