@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -12,18 +8,23 @@ public class PlayerBehaviour : MonoBehaviour
     public bool currentlyBeingControlled;
     public float movementSpeed;
 
-    private new Rigidbody rigidbody;
-    private GameObject gameController;
-
     private Vector3 movementAmount;
     private Vector3 directionVector;
+
+	private new Rigidbody rigidbody;
+    private GameObject gameController;
+	private AnimatorController animatorController;
 
     #endregion
 
     #region Events
 
     private void Awake() {
-        SetupAwakeInstanceVariables();
+        References.Player.players.Add(gameObject);
+        if (currentlyBeingControlled) { References.Player.currentPlayer = gameObject; }
+
+        rigidbody = GetComponent<Rigidbody>();
+		animatorController = GetComponent<AnimatorController>();
     }
 
     private void Start() {
@@ -66,18 +67,15 @@ public class PlayerBehaviour : MonoBehaviour
         ChangeMassIfNotBeingControlled();
     }
 
-    private void SetupAwakeInstanceVariables() {
-        References.Player.players.Add(gameObject);
-        if (currentlyBeingControlled) { References.Player.currentPlayer = gameObject; }
-        rigidbody = GetComponent<Rigidbody>();
-    }
-
     private void GetMovementDirection() {
-        var zDirection = Input.GetAxis("Vertical");
-        var xDirection = Input.GetAxis("Horizontal");
+        float zDirection = Input.GetAxis("Vertical");
+        float xDirection = Input.GetAxis("Horizontal");
         directionVector = new Vector3(xDirection, 0, zDirection);
 
         directionVector = NormaliseVectorToKeepDeceleration(directionVector);
+
+		float animationVerticalMovement = Mathf.Abs(zDirection) + Mathf.Abs(xDirection);
+		animatorController.UpdateAnimatorValues(animationVerticalMovement, 0);
     }
 
     private void CalculateMovement() {
