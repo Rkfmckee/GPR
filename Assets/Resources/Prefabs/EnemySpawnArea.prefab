@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3347988191397507963}
   - component: {fileID: 6026469367568688602}
+  - component: {fileID: 5344169387194541623}
   m_Layer: 0
   m_Name: EnemySpawnArea
   m_TagString: Untagged
@@ -44,3 +45,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.7264643, y: 1, z: 3.7760468}
   m_Center: {x: -0.013884068, y: 0, z: -1.0589943}
+--- !u!114 &5344169387194541623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4981919884430138495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b96b39b5a568ba4aa7b1497335d9d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

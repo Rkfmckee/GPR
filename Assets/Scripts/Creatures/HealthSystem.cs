@@ -1,119 +1,117 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthSystem : MonoBehaviour
-{
-    #region Properties
+public class HealthSystem : MonoBehaviour {
+	#region Properties
 
-    public float maxHealth;
-    public float healthBarHeightOffset;
+	public float maxHealth;
+	public float healthBarHeightOffset;
 
-    private float currentHealth;
-    private new Camera camera;
-    private GameObject canvas;
-    private GameObject healthBarPrefab;
-    private GameObject healthBar;
-    private HealthBarController healthBarController;
+	private float currentHealth;
+	private new Camera camera;
+	private GameObject canvas;
+	private GameObject healthBarPrefab;
+	private GameObject healthBar;
+	private HealthBarController healthBarController;
 
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        SetupInstanceVariables();
-    }
+	private void Awake() {
+		SetupInstanceVariables();
+	}
 
-    private void Start() {
-        canvas = References.UI.canvas;
-        Transform healthBarParent = canvas.transform.Find("HealthBars").transform;
+	private void Start() {
+		canvas = References.UI.canvas;
+		Transform healthBarParent = canvas.transform.Find("HealthBars").transform;
 
-        healthBar = Instantiate(healthBarPrefab, healthBarParent);
-        healthBar.name = $"{name}HealthBar";
-        healthBarController = healthBar.GetComponent<HealthBarController>();
+		healthBar = Instantiate(healthBarPrefab, healthBarParent);
+		healthBar.name = $"{name}HealthBar";
+		healthBarController = healthBar.GetComponent<HealthBarController>();
 
-        if (gameObject.tag == "Trap" || gameObject.tag == "Trigger") {
-            healthBar.SetActive(false);
-        }
-    }
+		if (gameObject.tag == "Trap" || gameObject.tag == "Trigger") {
+			healthBar.SetActive(false);
+		}
+	}
 
-    private void LateUpdate() {
-        healthBar.transform.position = camera.WorldToScreenPoint(transform.position + new Vector3(0, healthBarHeightOffset, 0));
-        healthBarController.ShowHealthFraction(currentHealth / maxHealth);
-    }
+	private void LateUpdate() {
+		healthBar.transform.position = camera.WorldToScreenPoint(transform.position + new Vector3(0, healthBarHeightOffset, 0));
+		healthBarController.ShowHealthFraction(currentHealth / maxHealth);
+	}
 
-    private void OnDestroy() {
-        Destroy(healthBar);
-    }
+	private void OnDestroy() {
+		Destroy(healthBar);
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    public float GetCurrentHealth() {
-        return currentHealth;
-    }
+	public float GetCurrentHealth() {
+		return currentHealth;
+	}
 
-    public GameObject GetHealthBar() {
-        return healthBar;
-    }
+	public GameObject GetHealthBar() {
+		return healthBar;
+	}
 
-    private void SetupInstanceVariables() {
-        currentHealth = maxHealth;
+	private void SetupInstanceVariables() {
+		currentHealth = maxHealth;
 
-        camera = Camera.main;
-        healthBarPrefab = Resources.Load("Prefabs/UI/HealthBar") as GameObject;
-    }
+		camera = Camera.main;
+		healthBarPrefab = Resources.Load("Prefabs/UI/HealthBar") as GameObject;
+	}
 
-    public void Heal(float amount) {
-        float newHealth = currentHealth += amount;
+	public void Heal(float amount) {
+		float newHealth = currentHealth += amount;
 
-        if (newHealth > maxHealth) {
-            currentHealth = maxHealth;
-        } else {
-            currentHealth = newHealth;
-        }
-    }
+		if (newHealth > maxHealth) {
+			currentHealth = maxHealth;
+		} else {
+			currentHealth = newHealth;
+		}
+	}
 
-    public void TakeDamage(float damage) {
-        currentHealth -= damage;
+	public void TakeDamage(float damage) {
+		currentHealth -= damage;
 
-        CheckIfNoHealth();
-    }
+		CheckIfNoHealth();
+	}
 
-    public void TakeDamageOverTime(float totalDamage, float timeInSeconds) {
-        StartCoroutine(DamageOverTime(totalDamage, timeInSeconds));
-    }
+	public void TakeDamageOverTime(float totalDamage, float timeInSeconds) {
+		StartCoroutine(DamageOverTime(totalDamage, timeInSeconds));
+	}
 
-    private void CheckIfNoHealth() {
-        if (currentHealth <= 0) {
-            Destroy(gameObject);
-        }
-    }
+	private void CheckIfNoHealth() {
+		if (currentHealth <= 0) {
+			Destroy(gameObject);
+		}
+	}
 
-    #endregion
+	#endregion
 
-    #region Coroutines
+	#region Coroutines
 
-    private IEnumerator DamageOverTime(float totalDamage, float timeInSeconds) {
-        float targetHealth = currentHealth - totalDamage;
-        if (targetHealth < 0) { targetHealth = 0; }
-        
-        while (currentHealth > targetHealth) {
-            var decreaseIncrement = (totalDamage / timeInSeconds) * Time.deltaTime;
+	private IEnumerator DamageOverTime(float totalDamage, float timeInSeconds) {
+		float targetHealth = currentHealth - totalDamage;
+		if (targetHealth < 0) { targetHealth = 0; }
 
-            if (currentHealth - decreaseIncrement < targetHealth) {
-                currentHealth = targetHealth;
-            } else {
-                currentHealth -= decreaseIncrement;
-            }
+		while (currentHealth > targetHealth) {
+			var decreaseIncrement = (totalDamage / timeInSeconds) * Time.deltaTime;
 
-            yield return null;
-        }
+			if (currentHealth - decreaseIncrement < targetHealth) {
+				currentHealth = targetHealth;
+			} else {
+				currentHealth -= decreaseIncrement;
+			}
 
-        CheckIfNoHealth();
-    }
+			yield return null;
+		}
 
-    #endregion
+		CheckIfNoHealth();
+	}
+
+	#endregion
 }

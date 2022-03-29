@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static TrapController;
@@ -51,7 +50,7 @@ public class ObjectPlacementController : MonoBehaviour {
 	#region Methods
 
 	public void SetHeldObject(GameObject heldObject) {
-		PickUpController pickUpController = heldObject.GetComponent<PickUpController>();
+		PickUpObject pickUpController = heldObject.GetComponent<PickUpObject>();
 
 		if (pickUpController == null) {
 			print($"{heldObject.name} can't be picked up");

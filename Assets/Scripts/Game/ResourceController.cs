@@ -1,150 +1,146 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ResourceController : MonoBehaviour
-{
-    #region Properties
+public class ResourceController : MonoBehaviour {
+	#region Properties
 
-    public int physicalMaterialQuantity;
-    public int valuableQuantity;
+	public int physicalMaterialQuantity;
+	public int valuableQuantity;
 
-    private int physicalMaterialMaximum;
-    private int valuableMaximum;
+	private int physicalMaterialMaximum;
+	private int valuableMaximum;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        References.GameController.resources = this;
+	private void Awake() {
+		References.GameController.resources = this;
 
-        physicalMaterialMaximum = 100;
-        valuableMaximum = 100;
-    }
+		physicalMaterialMaximum = 100;
+		valuableMaximum = 100;
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    #region Get/Set Methods
+	#region Get/Set Methods
 
-    public int GetPhysicalMaterialAmount() {
-        return physicalMaterialQuantity;
-    }
+	public int GetPhysicalMaterialAmount() {
+		return physicalMaterialQuantity;
+	}
 
-    public int GetValuableAmount() {
-        return valuableQuantity;
-    }
+	public int GetValuableAmount() {
+		return valuableQuantity;
+	}
 
-    public int GetPhysicalMaterialMaximum() {
-        return physicalMaterialMaximum;
-    }
+	public int GetPhysicalMaterialMaximum() {
+		return physicalMaterialMaximum;
+	}
 
-    public int GetValuableMaximum() {
-        return valuableMaximum;
-    }
+	public int GetValuableMaximum() {
+		return valuableMaximum;
+	}
 
-    public void SetPhysicalMaterialAmount(int amount) {
-        physicalMaterialQuantity = amount;
-    }
+	public void SetPhysicalMaterialAmount(int amount) {
+		physicalMaterialQuantity = amount;
+	}
 
-    public void SetValuableAmount(int amount) {
-        valuableQuantity = amount;
-    }
+	public void SetValuableAmount(int amount) {
+		valuableQuantity = amount;
+	}
 
-    public void SetPhysicalMaterialMaximum(int amount) {
-        physicalMaterialQuantity = amount;
-    }
+	public void SetPhysicalMaterialMaximum(int amount) {
+		physicalMaterialQuantity = amount;
+	}
 
-    public void SetValuableMaximum(int amount) {
-        valuableQuantity = amount;
-    }
+	public void SetValuableMaximum(int amount) {
+		valuableQuantity = amount;
+	}
 
-    #endregion
+	#endregion
 
-    #region Add/Remove Methods
+	#region Add/Remove Methods
 
-    public int AddResourcesUpToMaximumAmount(ResourceType type, int amountToAdd) {
-        int currentAmount = 0, maxAmount = 0;
-        
-        switch(type) {
-            case ResourceType.PhysicalMaterial :
-                currentAmount = physicalMaterialQuantity;
-                maxAmount = physicalMaterialMaximum;
-                break;
-            case ResourceType.Valuable:
-                currentAmount = valuableQuantity;
-                maxAmount = valuableMaximum;
-                break;
-        }
+	public int AddResourcesUpToMaximumAmount(ResourceType type, int amountToAdd) {
+		int currentAmount = 0, maxAmount = 0;
 
-        if (currentAmount + amountToAdd >= maxAmount) {
-            print($"You have MAX {type}");
-            return maxAmount;
-        }
+		switch (type) {
+			case ResourceType.PhysicalMaterial:
+				currentAmount = physicalMaterialQuantity;
+				maxAmount = physicalMaterialMaximum;
+				break;
+			case ResourceType.Valuable:
+				currentAmount = valuableQuantity;
+				maxAmount = valuableMaximum;
+				break;
+		}
 
-        return currentAmount += amountToAdd;
-    }
+		if (currentAmount + amountToAdd >= maxAmount) {
+			print($"You have MAX {type}");
+			return maxAmount;
+		}
 
-    public bool RemoveResourcesIfHaveEnough(ResourceType type, int amountToRemove) {
-        int currentAmount = 0;
-        int finalAmount;
-        bool enoughResources;
+		return currentAmount += amountToAdd;
+	}
 
-        switch (type) {
-            case ResourceType.PhysicalMaterial:
-                currentAmount = physicalMaterialQuantity;
-                break;
-            case ResourceType.Valuable:
-                currentAmount = valuableQuantity;
-                break;
-        }
+	public bool RemoveResourcesIfHaveEnough(ResourceType type, int amountToRemove) {
+		int currentAmount = 0;
+		int finalAmount;
+		bool enoughResources;
 
-        if (HaveEnoughResources(currentAmount, amountToRemove)) {
-            finalAmount = currentAmount -= amountToRemove;
-            enoughResources = true;
-        } else {
-            print($"You don't have enough {type}");
-            finalAmount = currentAmount;
-            enoughResources = false;
-        }
+		switch (type) {
+			case ResourceType.PhysicalMaterial:
+				currentAmount = physicalMaterialQuantity;
+				break;
+			case ResourceType.Valuable:
+				currentAmount = valuableQuantity;
+				break;
+		}
 
-        switch (type) {
-            case ResourceType.PhysicalMaterial:
-                physicalMaterialQuantity = finalAmount;
-                break;
-            case ResourceType.Valuable:
-                valuableQuantity = finalAmount;
-                break;
-        }
+		if (HaveEnoughResources(currentAmount, amountToRemove)) {
+			finalAmount = currentAmount -= amountToRemove;
+			enoughResources = true;
+		} else {
+			print($"You don't have enough {type}");
+			finalAmount = currentAmount;
+			enoughResources = false;
+		}
 
-        return enoughResources;
-    }
+		switch (type) {
+			case ResourceType.PhysicalMaterial:
+				physicalMaterialQuantity = finalAmount;
+				break;
+			case ResourceType.Valuable:
+				valuableQuantity = finalAmount;
+				break;
+		}
 
-    #endregion
+		return enoughResources;
+	}
 
-    public bool HaveEnoughResources(int currentAmount, int amountToRemove) {
-        bool haveEnough;
-        
-        if (currentAmount - amountToRemove < 0) {
-            haveEnough = false;
-        } else {
-            haveEnough = true;
-        }
+	#endregion
 
-        return haveEnough;
-    }
+	public bool HaveEnoughResources(int currentAmount, int amountToRemove) {
+		bool haveEnough;
 
-    #endregion
+		if (currentAmount - amountToRemove < 0) {
+			haveEnough = false;
+		} else {
+			haveEnough = true;
+		}
 
-    #region Enums
+		return haveEnough;
+	}
 
-    public enum ResourceType {
-        PhysicalMaterial,
-        Valuable
-    }
+	#endregion
 
-    #endregion
+	#region Enums
+
+	public enum ResourceType {
+		PhysicalMaterial,
+		Valuable
+	}
+
+	#endregion
 }

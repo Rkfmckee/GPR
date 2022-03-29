@@ -1,111 +1,110 @@
 ﻿using System;
 using UnityEngine;
 
-public class PlayerBehaviour : MonoBehaviour
-{
-    #region Properties
+public class PlayerBehaviour : MonoBehaviour {
+	#region Properties
 
-    public bool currentlyBeingControlled;
-    public float movementSpeed;
+	public bool currentlyBeingControlled;
+	public float movementSpeed;
 
-    private Vector3 movementAmount;
-    private Vector3 directionVector;
+	private Vector3 movementAmount;
+	private Vector3 directionVector;
 
 	private new Rigidbody rigidbody;
-    private GameObject gameController;
+	private GameObject gameController;
 	private AnimatorController animatorController;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        References.Player.players.Add(gameObject);
-        if (currentlyBeingControlled) { References.Player.currentPlayer = gameObject; }
+	private void Awake() {
+		References.Player.players.Add(gameObject);
+		if (currentlyBeingControlled) { References.Player.currentPlayer = gameObject; }
 
-        rigidbody = GetComponent<Rigidbody>();
+		rigidbody = GetComponent<Rigidbody>();
 		animatorController = GetComponent<AnimatorController>();
-    }
+	}
 
-    private void Start() {
-        ChangeMassIfNotBeingControlled();
-    }
+	private void Start() {
+		ChangeMassIfNotBeingControlled();
+	}
 
-    private void Update() {
-        if (currentlyBeingControlled) {
-            GetMovementDirection();
-        } else {
-            directionVector = Vector3.zero;
-        }
+	private void Update() {
+		if (currentlyBeingControlled) {
+			GetMovementDirection();
+		} else {
+			directionVector = Vector3.zero;
+		}
 
-        
-    }
 
-    private void FixedUpdate() {
-        if (currentlyBeingControlled) {
-            CalculateMovement();
-        }
-    }
+	}
 
-    #endregion
+	private void FixedUpdate() {
+		if (currentlyBeingControlled) {
+			CalculateMovement();
+		}
+	}
 
-    #region Methods
+	#endregion
 
-    public void SetCurrentlyBeingControlled(bool isControlled) {
-        currentlyBeingControlled = isControlled;
+	#region Methods
 
-        if (currentlyBeingControlled) { 
-            References.Player.currentPlayer = gameObject;
+	public void SetCurrentlyBeingControlled(bool isControlled) {
+		currentlyBeingControlled = isControlled;
 
-            var cameraController = Camera.main.GetComponent<CameraController>();
+		if (currentlyBeingControlled) {
+			References.Player.currentPlayer = gameObject;
 
-            if (cameraController != null) {
-                cameraController.SetCurrentlyControlledPlayer(gameObject);
-            }
-        }
+			var cameraController = Camera.main.GetComponent<CameraController>();
 
-        ChangeMassIfNotBeingControlled();
-    }
+			if (cameraController != null) {
+				cameraController.SetCurrentlyControlledPlayer(gameObject);
+			}
+		}
 
-    private void GetMovementDirection() {
-        float zDirection = Input.GetAxis("Vertical");
-        float xDirection = Input.GetAxis("Horizontal");
-        directionVector = new Vector3(xDirection, 0, zDirection);
+		ChangeMassIfNotBeingControlled();
+	}
 
-        directionVector = NormaliseVectorToKeepDeceleration(directionVector);
+	private void GetMovementDirection() {
+		float zDirection = Input.GetAxis("Vertical");
+		float xDirection = Input.GetAxis("Horizontal");
+		directionVector = new Vector3(xDirection, 0, zDirection);
+
+		directionVector = NormaliseVectorToKeepDeceleration(directionVector);
 
 		float animationVerticalMovement = Mathf.Abs(zDirection) + Mathf.Abs(xDirection);
 		animatorController.UpdateAnimatorValues(animationVerticalMovement, 0);
-    }
+	}
 
-    private void CalculateMovement() {
-        movementAmount = directionVector * (movementSpeed * Time.fixedDeltaTime);
-        var newPosition = transform.position + movementAmount;
+	private void CalculateMovement() {
+		movementAmount = directionVector * (movementSpeed * Time.fixedDeltaTime);
+		var newPosition = transform.position + movementAmount;
 
-        rigidbody.MovePosition(newPosition);
-        if (movementAmount.magnitude > 0) {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementAmount), 0.15F);
-        }
-    }
+		rigidbody.MovePosition(newPosition);
+		if (movementAmount.magnitude > 0) {
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementAmount), 0.15F);
+		}
+	}
 
-    private Vector3 NormaliseVectorToKeepDeceleration(Vector3 vector) {
-        // Normalizing a decimal vector rounds it to 1, which causes weird deceleration
-        // So don't do that if it's between 1 and -1
+	private Vector3 NormaliseVectorToKeepDeceleration(Vector3 vector) {
+		// Normalizing a decimal vector rounds it to 1, which causes weird deceleration
+		// So don't do that if it's between 1 and -1
 
-        if (Math.Abs(vector.magnitude) > 1) {
-            vector = vector.normalized;
-        }
+		if (Math.Abs(vector.magnitude) > 1) {
+			vector = vector.normalized;
+		}
 
-        return vector;
-    }
+		return vector;
+	}
 
-    private void ChangeMassIfNotBeingControlled() {
-        if (currentlyBeingControlled) {
-            rigidbody.mass = 1;
-        } else {
-            rigidbody.mass = 10;
-        }
-    }
+	private void ChangeMassIfNotBeingControlled() {
+		if (currentlyBeingControlled) {
+			rigidbody.mass = 1;
+		} else {
+			rigidbody.mass = 10;
+		}
+	}
 
-    #endregion
+	#endregion
 }

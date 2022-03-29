@@ -1,40 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class RoundStageController : MonoBehaviour
-{
-    #region Properties
+public class RoundStageController : MonoBehaviour {
+	#region Properties
 
-    private Stage currentStage;
+	private Stage currentStage;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        References.GameController.gameControllerObject = gameObject;
-        References.GameController.roundStage = this;
-        currentStage = new PreparingStage();
-        currentStage.StageStart();
-    }
+	private void Awake() {
+		References.GameController.gameControllerObject = gameObject;
+		References.GameController.roundStage = this;
+		currentStage = new PreparingStage();
+		currentStage.StageStart();
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    public Stage GetCurrentStage() {
-        return currentStage;
-    }
+	public Stage GetCurrentStage() {
+		return currentStage;
+	}
 
-    public void SetCurrentStage(Stage stage) {
-        currentStage.StageEnd();
-        currentStage = stage;
-        currentStage.StageStart();
-        currentStage.StageUISetup();
-    }
- 
-    #endregion
+	public void SetCurrentStage(Stage stage) {
+		currentStage.StageEnd();
+		currentStage = stage;
+		currentStage.StageStart();
+		currentStage.StageUISetup();
+	}
+
+	#endregion
 }

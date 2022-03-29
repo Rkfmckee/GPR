@@ -91,9 +91,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8373956781556975192}
   - component: {fileID: -4314062379480498207}
-  - component: {fileID: 2284379860388701042}
   - component: {fileID: 178390337441285452}
   - component: {fileID: 3211723386902421035}
+  - component: {fileID: 3843223975738011081}
   - component: {fileID: 1750912738002729827}
   - component: {fileID: 6186007823008709335}
   - component: {fileID: 6667637016917973939}
@@ -135,23 +135,6 @@ MonoBehaviour:
   extendingTime: 0.1
   retractingTime: 1
   timeToStayExtended: 1
---- !u!114 &2284379860388701042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9186663741576256738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cdd545c1a94c8047ac99479dd411cd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canBeThrown: 0
-  placementPrefab: {fileID: 4077395540609439027, guid: e32516792b1ebfa47b5ad21f922b2e8f,
-    type: 3}
-  currentState: 0
-  heldHeight: 2.5
 --- !u!114 &178390337441285452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,6 +163,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlyHightlightingMe: 0
   maxDistanceFromPlayer: 5
+--- !u!114 &3843223975738011081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9186663741576256738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a76831a87f5d1e4d9c17c982ed1cadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeThrown: 0
+  placementPrefab: {fileID: 4077395540609439027, guid: e32516792b1ebfa47b5ad21f922b2e8f,
+    type: 3}
+  heldHeight: 2.5
+  currentState: 0
 --- !u!114 &1750912738002729827
 MonoBehaviour:
   m_ObjectHideFlags: 0

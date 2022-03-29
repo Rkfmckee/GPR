@@ -1,29 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarController : MonoBehaviour
-{
-    #region Properties
+public class HealthBarController : MonoBehaviour {
+	#region Properties
 
-    private Image healthBarAmount;
+	private Image healthBarAmount;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        healthBarAmount = transform.GetChild(1).GetComponent<Image>();
-    }
+	private void Awake() {
+		healthBarAmount = transform.GetChild(1).GetComponent<Image>();
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    public void ShowHealthFraction(float fraction) {
-        healthBarAmount.transform.localScale = new Vector3(fraction, 1, 1);
-    }
+	public void ShowHealthFraction(float fraction) {
+		healthBarAmount.transform.localScale = new Vector3(fraction, 1, 1);
+	}
 
-    #endregion
+	#endregion
 }

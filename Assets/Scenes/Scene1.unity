@@ -1794,7 +1794,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 389813104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e965a7d9ae57f64e813a6e761c684ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 44091d6c07a8030448ac44fd4727c3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   doorTimeToOpen: 0.75
@@ -2865,24 +2865,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!1 &721348223 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4981919884430138495, guid: dcf30d851367d51429a7b38ff3258fbb,
-    type: 3}
-  m_PrefabInstance: {fileID: 1286119130}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &721348224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721348223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a44ceba1d307104097b173eda7cf1bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &722988175 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6852090024597291338, guid: db1d3a0e4dd28b141a71e246672db7e3,
@@ -5924,12 +5906,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4078308845343020605, guid: 96c91754414fb074387b664ae89a72fe,
+        type: 3}
+      propertyPath: drawDebugLines
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5474326481643490962, guid: 96c91754414fb074387b664ae89a72fe,
         type: 3}
       propertyPath: m_Name
       value: mixamorig:Hips
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4078308845343020595, guid: 96c91754414fb074387b664ae89a72fe, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 96c91754414fb074387b664ae89a72fe, type: 3}
 --- !u!4 &1818994687 stripped
 Transform:

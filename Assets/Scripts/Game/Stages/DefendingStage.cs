@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class DefendingStage : Stage {
     
@@ -14,7 +13,7 @@ public abstract class DefendingStage : Stage {
 
     public override void StageStart() {
         stageID = "DEF";
-        StorageRoomController storageRoom = References.storageRoom.GetComponent<StorageRoomController>();
+        StorageRoom storageRoom = References.storageRoom.GetComponent<StorageRoom>();
 
         if (storageRoom.IsDoorOpen()) {
             storageRoom.Close();

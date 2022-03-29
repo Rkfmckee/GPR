@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.MemoryProfiler;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class TrapController : MonoBehaviour {
     #region Properties

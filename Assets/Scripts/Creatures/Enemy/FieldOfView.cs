@@ -2,235 +2,234 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldOfView : MonoBehaviour
-{
-    #region Properties
+public class FieldOfView : MonoBehaviour {
+	#region Properties
 
-    public float viewRadius;
-    [Range(0, 360)]
-    public float viewAngle;
-    public float viewHeightOffset;
-    public bool shouldDrawFieldOfView;
+	public float viewRadius;
+	[Range(0, 360)]
+	public float viewAngle;
+	public float viewHeightOffset;
+	public bool shouldDrawFieldOfView;
 
-    public LayerMask targetMask;
+	public LayerMask targetMask;
 
-    [HideInInspector]
-    public List<GameObject> visibleTargets = new List<GameObject>();
+	[HideInInspector]
+	public List<GameObject> visibleTargets = new List<GameObject>();
 
-    public float meshResolution;
-    public int edgeResolveIterations;
-    private float edgeDistanceThreshold = 0.5f;
+	public float meshResolution;
+	public int edgeResolveIterations;
+	private float edgeDistanceThreshold = 0.5f;
 
-    private int blockingMask;
-    private int obstacleMask;
-    private int wallMask;
+	private int blockingMask;
+	private int obstacleMask;
+	private int wallMask;
 
-    [HideInInspector]
-    public MeshFilter viewMeshFilter;
-    private Mesh viewMesh;
+	[HideInInspector]
+	public MeshFilter viewMeshFilter;
+	private Mesh viewMesh;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Start() {
-        CreateViewVisualisationChild();
+	private void Start() {
+		CreateViewVisualisationChild();
 
-        obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
-        wallMask = 1 << LayerMask.NameToLayer("Wall");
-        blockingMask = obstacleMask | wallMask;
+		obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
+		wallMask = 1 << LayerMask.NameToLayer("Wall");
+		blockingMask = obstacleMask | wallMask;
 
-        viewMesh = new Mesh();
-        viewMesh.name = "View Mesh";
-        viewMeshFilter.mesh = viewMesh;
+		viewMesh = new Mesh();
+		viewMesh.name = "View Mesh";
+		viewMeshFilter.mesh = viewMesh;
 
-        StartCoroutine("FindTargetsWithDelay", .2f);
-    }
+		StartCoroutine("FindTargetsWithDelay", .2f);
+	}
 
-    private void LateUpdate() {
-         DrawFieldOfView(shouldDrawFieldOfView);
-    }
+	private void LateUpdate() {
+		DrawFieldOfView(shouldDrawFieldOfView);
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    private void CreateViewVisualisationChild() {
-        GameObject viewVisualisation = new GameObject();
-        viewVisualisation.transform.parent = gameObject.transform;
-        viewVisualisation.name = "View Visualisation boi";
-        viewVisualisation.transform.position = gameObject.transform.position + new Vector3(0, viewHeightOffset, 0);
-        viewVisualisation.transform.rotation = transform.rotation;
+	private void CreateViewVisualisationChild() {
+		GameObject viewVisualisation = new GameObject();
+		viewVisualisation.transform.parent = gameObject.transform;
+		viewVisualisation.name = "View Visualisation boi";
+		viewVisualisation.transform.position = gameObject.transform.position + new Vector3(0, viewHeightOffset, 0);
+		viewVisualisation.transform.rotation = transform.rotation;
 
-        var visualisationFilter = viewVisualisation.AddComponent<MeshFilter>();
-        var visualisationRenderer = viewVisualisation.AddComponent<MeshRenderer>();
-        visualisationRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        visualisationRenderer.receiveShadows = false;
+		var visualisationFilter = viewVisualisation.AddComponent<MeshFilter>();
+		var visualisationRenderer = viewVisualisation.AddComponent<MeshRenderer>();
+		visualisationRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+		visualisationRenderer.receiveShadows = false;
 
-        visualisationRenderer.material = Resources.Load("Materials/ViewVisualisation") as Material;
+		visualisationRenderer.material = Resources.Load("Materials/ViewVisualisation") as Material;
 
-        viewMeshFilter = visualisationFilter;
-    }
+		viewMeshFilter = visualisationFilter;
+	}
 
-    public Vector3 DirectionFromAngle(float angleInDegrees, bool angleIsGlobal) {        
-        if (!angleIsGlobal) {
-            // If it's not a global angle, keep it relative to the gameObjects rotation
-            angleInDegrees += transform.eulerAngles.y;
-        }
-        
-        float xPosAngle = Mathf.Sin(angleInDegrees * Mathf.Deg2Rad);
-        float zPosAngle = Mathf.Cos(angleInDegrees * Mathf.Deg2Rad);
+	public Vector3 DirectionFromAngle(float angleInDegrees, bool angleIsGlobal) {
+		if (!angleIsGlobal) {
+			// If it's not a global angle, keep it relative to the gameObjects rotation
+			angleInDegrees += transform.eulerAngles.y;
+		}
 
-        return new Vector3(xPosAngle, 0, zPosAngle);
-    }
+		float xPosAngle = Mathf.Sin(angleInDegrees * Mathf.Deg2Rad);
+		float zPosAngle = Mathf.Cos(angleInDegrees * Mathf.Deg2Rad);
 
-    private void FindVisibleTargets() {
-        visibleTargets.Clear();
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+		return new Vector3(xPosAngle, 0, zPosAngle);
+	}
 
-        for (int i = 0; i < targetsInViewRadius.Length; i++) {
-            GameObject target = targetsInViewRadius[i].gameObject;
-            Vector3 directionToTarget = (target.transform.position - transform.position).normalized;
+	private void FindVisibleTargets() {
+		visibleTargets.Clear();
+		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
-            if (Vector3.Angle(transform.forward, directionToTarget) < viewAngle / 2) {
-                float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
+		for (int i = 0; i < targetsInViewRadius.Length; i++) {
+			GameObject target = targetsInViewRadius[i].gameObject;
+			Vector3 directionToTarget = (target.transform.position - transform.position).normalized;
 
-                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, blockingMask)) {
-                    visibleTargets.Add(target);
-                }
-            }
-        }
-    }
+			if (Vector3.Angle(transform.forward, directionToTarget) < viewAngle / 2) {
+				float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
 
-    private void DrawFieldOfView(bool shouldDraw) {
-        int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
-        float stepAngleSize = viewAngle / stepCount;
-        List<Vector3> viewPoints = new List<Vector3>();
-        ViewCastInfo oldViewCast = new ViewCastInfo();
+				if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, blockingMask)) {
+					visibleTargets.Add(target);
+				}
+			}
+		}
+	}
 
-        if (shouldDraw) {
-            for (int i = 0; i <= stepCount; i++) {
-                float angle = transform.eulerAngles.y - viewAngle / 2 + (stepAngleSize * i);
-                ViewCastInfo newViewCast = ViewCast(angle);
+	private void DrawFieldOfView(bool shouldDraw) {
+		int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
+		float stepAngleSize = viewAngle / stepCount;
+		List<Vector3> viewPoints = new List<Vector3>();
+		ViewCastInfo oldViewCast = new ViewCastInfo();
 
-                if (i > 0) {
-                    bool edgeDistanceThresholdExceeded = Mathf.Abs(oldViewCast.distance - newViewCast.distance) > edgeDistanceThreshold;
-                    if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDistanceThresholdExceeded)) {
-                        EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
+		if (shouldDraw) {
+			for (int i = 0; i <= stepCount; i++) {
+				float angle = transform.eulerAngles.y - viewAngle / 2 + (stepAngleSize * i);
+				ViewCastInfo newViewCast = ViewCast(angle);
 
-                        if (edge.pointA != Vector3.zero) {
-                            viewPoints.Add(edge.pointA);
-                        }
+				if (i > 0) {
+					bool edgeDistanceThresholdExceeded = Mathf.Abs(oldViewCast.distance - newViewCast.distance) > edgeDistanceThreshold;
+					if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDistanceThresholdExceeded)) {
+						EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
 
-                        if (edge.pointB != Vector3.zero) {
-                            viewPoints.Add(edge.pointB);
-                        }
-                    }
-                }
+						if (edge.pointA != Vector3.zero) {
+							viewPoints.Add(edge.pointA);
+						}
 
-                viewPoints.Add(newViewCast.point);
-                oldViewCast = newViewCast;
-            }
+						if (edge.pointB != Vector3.zero) {
+							viewPoints.Add(edge.pointB);
+						}
+					}
+				}
 
-            int vertexCount = viewPoints.Count + 1;
-            Vector3[] vertices = new Vector3[vertexCount];
-            int[] triangles = new int[(vertexCount - 2) * 3];
+				viewPoints.Add(newViewCast.point);
+				oldViewCast = newViewCast;
+			}
 
-            vertices[0] = Vector3.zero;
-            for (int i = 0; i < vertexCount - 1; i++) {
-                vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
+			int vertexCount = viewPoints.Count + 1;
+			Vector3[] vertices = new Vector3[vertexCount];
+			int[] triangles = new int[(vertexCount - 2) * 3];
 
-                if (i < vertexCount - 2) {
-                    triangles[i * 3] = 0;
-                    triangles[i * 3 + 1] = i + 1;
-                    triangles[i * 3 + 2] = i + 2;
-                }
-            }
+			vertices[0] = Vector3.zero;
+			for (int i = 0; i < vertexCount - 1; i++) {
+				vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
 
-            viewMesh.Clear();
-            viewMesh.vertices = vertices;
-            viewMesh.triangles = triangles;
-            viewMesh.RecalculateNormals();
-        } else {
-            viewMesh.Clear();
-            viewMesh.RecalculateNormals();
-        }
-    }
+				if (i < vertexCount - 2) {
+					triangles[i * 3] = 0;
+					triangles[i * 3 + 1] = i + 1;
+					triangles[i * 3 + 2] = i + 2;
+				}
+			}
 
-    private ViewCastInfo ViewCast(float globalAngle) {
-        Vector3 direction = DirectionFromAngle(globalAngle, true);
-        RaycastHit hit;
+			viewMesh.Clear();
+			viewMesh.vertices = vertices;
+			viewMesh.triangles = triangles;
+			viewMesh.RecalculateNormals();
+		} else {
+			viewMesh.Clear();
+			viewMesh.RecalculateNormals();
+		}
+	}
 
-        if (Physics.Raycast(transform.position, direction, out hit, viewRadius, blockingMask)) {
-            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-        } else {
-            return new ViewCastInfo(false, transform.position + direction * viewRadius, viewRadius, globalAngle);
+	private ViewCastInfo ViewCast(float globalAngle) {
+		Vector3 direction = DirectionFromAngle(globalAngle, true);
+		RaycastHit hit;
 
-        }
-    }
+		if (Physics.Raycast(transform.position, direction, out hit, viewRadius, blockingMask)) {
+			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+		} else {
+			return new ViewCastInfo(false, transform.position + direction * viewRadius, viewRadius, globalAngle);
 
-    private EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast) {
-        float minAngle = minViewCast.angle;
-        float maxAngle = maxViewCast.angle;
-        Vector3 minPoint = Vector3.zero;
-        Vector3 maxPoint = Vector3.zero;
+		}
+	}
 
-        for(int i = 0; i < edgeResolveIterations; i++) {
-            float angle = (minAngle + maxAngle) / 2;
-            ViewCastInfo newViewCast = ViewCast(angle);
+	private EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast) {
+		float minAngle = minViewCast.angle;
+		float maxAngle = maxViewCast.angle;
+		Vector3 minPoint = Vector3.zero;
+		Vector3 maxPoint = Vector3.zero;
 
-            bool edgeDistanceThresholdExceeded = Mathf.Abs(minViewCast.distance - newViewCast.distance) > edgeDistanceThreshold;
+		for (int i = 0; i < edgeResolveIterations; i++) {
+			float angle = (minAngle + maxAngle) / 2;
+			ViewCastInfo newViewCast = ViewCast(angle);
 
-            if (newViewCast.hit == minViewCast.hit && !edgeDistanceThresholdExceeded) {
-                minAngle = angle;
-                minPoint = newViewCast.point;
-            } else {
-                maxAngle = angle;
-                maxPoint = newViewCast.point;
-            }
-        }
+			bool edgeDistanceThresholdExceeded = Mathf.Abs(minViewCast.distance - newViewCast.distance) > edgeDistanceThreshold;
 
-        return new EdgeInfo(minPoint, maxPoint);
-    }
+			if (newViewCast.hit == minViewCast.hit && !edgeDistanceThresholdExceeded) {
+				minAngle = angle;
+				minPoint = newViewCast.point;
+			} else {
+				maxAngle = angle;
+				maxPoint = newViewCast.point;
+			}
+		}
 
-    #endregion
+		return new EdgeInfo(minPoint, maxPoint);
+	}
 
-    #region Coroutines
+	#endregion
 
-    IEnumerator FindTargetsWithDelay(float delay) {
-        while (true) {
-            yield return new WaitForSeconds(delay);
-            FindVisibleTargets();
-        }
-    }
+	#region Coroutines
 
-    #endregion
+	IEnumerator FindTargetsWithDelay(float delay) {
+		while (true) {
+			yield return new WaitForSeconds(delay);
+			FindVisibleTargets();
+		}
+	}
 
-    #region Structs
+	#endregion
 
-    public struct ViewCastInfo {
-        public bool hit;
-        public Vector3 point;
-        public float distance;
-        public float angle;
+	#region Structs
 
-        public ViewCastInfo(bool _hit, Vector3 _point, float _distance, float _angle) {
-            hit = _hit;
-            point = _point;
-            distance = _distance;
-            angle = _angle;
-        }
-    }
+	public struct ViewCastInfo {
+		public bool hit;
+		public Vector3 point;
+		public float distance;
+		public float angle;
 
-    public struct EdgeInfo {
-        public Vector3 pointA;
-        public Vector3 pointB;
+		public ViewCastInfo(bool _hit, Vector3 _point, float _distance, float _angle) {
+			hit = _hit;
+			point = _point;
+			distance = _distance;
+			angle = _angle;
+		}
+	}
 
-        public EdgeInfo(Vector3 _pointA, Vector3 _pointB) {
-            pointA = _pointA;
-            pointB = _pointB;
-        }
-    }
+	public struct EdgeInfo {
+		public Vector3 pointA;
+		public Vector3 pointB;
 
-    #endregion
+		public EdgeInfo(Vector3 _pointA, Vector3 _pointB) {
+			pointA = _pointA;
+			pointB = _pointB;
+		}
+	}
+
+	#endregion
 }

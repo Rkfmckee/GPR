@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public static class References {
@@ -10,7 +9,7 @@ public static class References {
     public static class Player {
         public static List<GameObject> players = new List<GameObject>();
         public static GameObject currentPlayer;
-        public static HoldObjectController playerHoldController;
+        public static HoldObject playerHoldController;
     }
 
     public static class GameController {

@@ -1,7 +1,7 @@
 ﻿public class ChestHighlightable : HighlightableObject {
     #region Properties
 
-    private ChestController chestController;
+    private Chest chestController;
 
     #endregion
 
@@ -10,7 +10,7 @@
     protected override void Awake() {
         base.Awake();
 
-        chestController = GetComponent<ChestController>();
+        chestController = GetComponent<Chest>();
     }
 
     #endregion
@@ -20,7 +20,7 @@
     public override bool DontSelect() {
         bool dontSelect = false;
 
-        if (chestController.GetCurrentState() == ChestController.ChestState.Open) {
+        if (chestController.GetCurrentState() == Chest.ChestState.Open) {
             dontSelect = true;
         }
 
@@ -28,7 +28,7 @@
     }
 
     protected override void ObjectClicked() {
-        if (chestController.GetCurrentState() == ChestController.ChestState.Closed) {
+        if (chestController.GetCurrentState() == Chest.ChestState.Closed) {
             chestController.Open();
 
             gameTraps.ShouldShowCaveInventory(true);

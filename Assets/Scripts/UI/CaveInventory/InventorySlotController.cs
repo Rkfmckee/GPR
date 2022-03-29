@@ -1,40 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlotController : MonoBehaviour
-{
-    #region Properties
+public class InventorySlotController : MonoBehaviour {
+	#region Properties
 
-    public GameObject itemInSlot;
+	public GameObject itemInSlot;
 
-    private Button itemButton;
-    private CaveInventoryController inventoryController;
+	private Button itemButton;
+	private CaveInventoryController inventoryController;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        inventoryController = GetComponentInParent<CaveInventoryController>();
-        itemButton = transform.Find("ItemButton").GetComponent<Button>();
+	private void Awake() {
+		inventoryController = GetComponentInParent<CaveInventoryController>();
+		itemButton = transform.Find("ItemButton").GetComponent<Button>();
 
-        if (itemButton != null) {
-            itemButton.onClick.AddListener(ItemButtonClicked);
-        }
+		if (itemButton != null) {
+			itemButton.onClick.AddListener(ItemButtonClicked);
+		}
 
-        GameObject itemPrice = transform.Find("ItemButton").Find("ItemPrice").gameObject;
-        itemPrice.transform.Find("ItemPriceText").GetComponent<Text>().text = itemInSlot.GetComponent<CaveInventoryItemController>().GetResourceCost().ToString();
-    }
+		GameObject itemPrice = transform.Find("ItemButton").Find("ItemPrice").gameObject;
+		itemPrice.transform.Find("ItemPriceText").GetComponent<Text>().text = itemInSlot.GetComponent<CaveInventoryItemController>().GetResourceCost().ToString();
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    private void ItemButtonClicked() {
-        inventoryController.SetSelectedItem(itemInSlot);
-    }
+	private void ItemButtonClicked() {
+		inventoryController.SetSelectedItem(itemInSlot);
+	}
 
-    #endregion
+	#endregion
 }

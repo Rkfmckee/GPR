@@ -1,7 +1,7 @@
 ﻿public class ObstacleHighlightable : HighlightableObject {
     #region Properties
 
-    private PickUpController pickupController;
+    private PickUpObject pickupController;
 
     #endregion
 
@@ -10,7 +10,7 @@
     protected override void Awake() {
         base.Awake();
 
-        pickupController = GetComponent<PickUpController>();
+        pickupController = GetComponent<PickUpObject>();
     }
 
     #endregion
@@ -18,7 +18,7 @@
     #region Methods
 
     public override bool DontSelect() {
-        bool dontSelect = pickupController.currentState == PickUpController.State.HELD;
+        bool dontSelect = pickupController.currentState == PickUpObject.State.HELD;
 
         return dontSelect || base.DontSelect();
     }
@@ -29,7 +29,7 @@
             return;
         }
 
-        pickupController.SetCurrentState(PickUpController.State.HELD);
+        pickupController.SetCurrentState(PickUpObject.State.HELD);
     }
 
     #endregion

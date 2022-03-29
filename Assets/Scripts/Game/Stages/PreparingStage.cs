@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class PreparingStage : Stage {
 
@@ -7,7 +6,7 @@ public class PreparingStage : Stage {
 
     public override void StageStart() {
         stageID = "PREP";
-        StorageRoomController storageRoom = References.storageRoom.GetComponent<StorageRoomController>();
+        StorageRoom storageRoom = References.storageRoom.GetComponent<StorageRoom>();
 
         if (!storageRoom.IsDoorOpen()) {
             storageRoom.Open();

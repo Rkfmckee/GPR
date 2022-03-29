@@ -1,54 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CloseButtonController : MonoBehaviour
-{
-    #region Properties
+public class CloseButtonController : MonoBehaviour {
+	#region Properties
 
-    public MenuType menu;
-    private Button closeButton;
+	public MenuType menu;
+	private Button closeButton;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        closeButton = GetComponent<Button>();
+	private void Awake() {
+		closeButton = GetComponent<Button>();
 
-        switch (menu) {
-            case MenuType.CaveInventory:
-                closeButton.onClick.AddListener(CloseInventory);
-                break;
+		switch (menu) {
+			case MenuType.CaveInventory:
+				closeButton.onClick.AddListener(CloseInventory);
+				break;
 
-            case MenuType.TrapDetails:
-                closeButton.onClick.AddListener(CloseTrapDetails);
-                break;
-        }
-    }
+			case MenuType.TrapDetails:
+				closeButton.onClick.AddListener(CloseTrapDetails);
+				break;
+		}
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    private void CloseInventory() {
-        References.GameController.gameTraps.ShouldShowCaveInventory(false);
-    }
+	private void CloseInventory() {
+		References.GameController.gameTraps.ShouldShowCaveInventory(false);
+	}
 
-    private void CloseTrapDetails() {
-        References.GameController.gameTraps.ShouldShowTrapDetails(false, null);
-    }
+	private void CloseTrapDetails() {
+		References.GameController.gameTraps.ShouldShowTrapDetails(false, null);
+	}
 
-    #endregion
+	#endregion
 
-    #region Enum
+	#region Enum
 
-    public enum MenuType {
-        CaveInventory,
-        TrapDetails
-    }
+	public enum MenuType {
+		CaveInventory,
+		TrapDetails
+	}
 
-    #endregion
+	#endregion
 }

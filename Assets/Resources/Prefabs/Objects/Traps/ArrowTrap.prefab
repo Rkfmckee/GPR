@@ -90,12 +90,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7968621460233683902}
-  - component: {fileID: 7968621460233683903}
-  - component: {fileID: 6696139514403931795}
   - component: {fileID: 934380967443842443}
+  - component: {fileID: 7968621460233683903}
   - component: {fileID: 7444568580084560085}
   - component: {fileID: 4081410960901788849}
   - component: {fileID: -358727910249009431}
+  - component: {fileID: 1224841231342100133}
   m_Layer: 14
   m_Name: ArrowTrap
   m_TagString: Trap
@@ -120,35 +120,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7968621460233683903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7968621460233683777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa6f207d3a3e2cd4abf0fcced70a9ca5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6696139514403931795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7968621460233683777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cdd545c1a94c8047ac99479dd411cd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canBeThrown: 0
-  placementPrefab: {fileID: 2920995112458490818, guid: 2354f067013ac9245a88ce7f2d0465fa,
-    type: 3}
-  currentState: 0
-  heldHeight: 3
 --- !u!65 &934380967443842443
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -162,6 +133,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5432565, y: 2.5035338, z: 0.21156454}
   m_Center: {x: -0.009579003, y: -0.008428574, z: -0.0022364557}
+--- !u!114 &7968621460233683903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968621460233683777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa6f207d3a3e2cd4abf0fcced70a9ca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7444568580084560085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +188,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   healthBarHeightOffset: 1
+--- !u!114 &1224841231342100133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968621460233683777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a76831a87f5d1e4d9c17c982ed1cadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeThrown: 0
+  placementPrefab: {fileID: 2920995112458490818, guid: 2354f067013ac9245a88ce7f2d0465fa,
+    type: 3}
+  heldHeight: 3
+  currentState: 0
 --- !u!1 &7968621461315035875
 GameObject:
   m_ObjectHideFlags: 0

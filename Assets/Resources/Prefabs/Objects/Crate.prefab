@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2443039649801253866}
   - component: {fileID: 2443039649801253867}
   - component: {fileID: 952408167272140733}
-  - component: {fileID: 6687830391228000352}
+  - component: {fileID: 1471459200819585701}
   - component: {fileID: 1654526910218408301}
   m_Layer: 8
   m_Name: Crate
@@ -131,7 +131,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &6687830391228000352
+--- !u!114 &1471459200819585701
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,14 +140,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2443039649801253868}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cdd545c1a94c8047ac99479dd411cd3, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a76831a87f5d1e4d9c17c982ed1cadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canBeThrown: 1
   placementPrefab: {fileID: 6783054427317556459, guid: 72eacfc66b329364b876fec1dac7409e,
     type: 3}
-  currentState: 0
   heldHeight: 4
+  currentState: 0
 --- !u!114 &1654526910218408301
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,48 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class TrapTriggerController : MonoBehaviour
-{
-    #region Properties
+public class TrapTriggerController : MonoBehaviour {
+	#region Properties
 
-    public TrapController trapToTrigger;
-    public CanTrigger canTrigger;
+	public TrapController trapToTrigger;
+	public CanTrigger canTrigger;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        
-    }
+	private void Awake() {
 
-    private void OnCollisionEnter(Collision collision) {
-        Collider triggeredBy = collision.collider;
+	}
 
-        if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
-            if (trapToTrigger != null) {
-                trapToTrigger.TriggerTrap(triggeredBy);
-            }
-        }
-    }
+	private void OnCollisionEnter(Collision collision) {
+		Collider triggeredBy = collision.collider;
 
-    private void OnTriggerEnter(Collider triggeredBy) {
-        if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
-            if (trapToTrigger != null) {
-                trapToTrigger.TriggerTrap(triggeredBy);
-            }
-        }
-    }
+		if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
+			if (trapToTrigger != null) {
+				trapToTrigger.TriggerTrap(triggeredBy);
+			}
+		}
+	}
 
-    #endregion
+	private void OnTriggerEnter(Collider triggeredBy) {
+		if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
+			if (trapToTrigger != null) {
+				trapToTrigger.TriggerTrap(triggeredBy);
+			}
+		}
+	}
 
-    #region Enums
+	#endregion
 
-    public enum CanTrigger {
-        Player,
-        Enemy
-    }
+	#region Enums
 
-    #endregion
+	public enum CanTrigger {
+		Player,
+		Enemy
+	}
+
+	#endregion
 }

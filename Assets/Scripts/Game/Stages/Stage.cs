@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public abstract class Stage {
+﻿public abstract class Stage {
 
     #region Properties
 

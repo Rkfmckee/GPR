@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class PlayerHighlightable : HighlightableObject {
+﻿public class PlayerHighlightable : HighlightableObject {
     #region Properties
 
     private PlayerBehaviour playerBehaviour;
