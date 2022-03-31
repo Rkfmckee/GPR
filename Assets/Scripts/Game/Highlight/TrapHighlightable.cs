@@ -3,7 +3,7 @@
 public class TrapHighlightable : ObstacleHighlightable {
     #region Properties
 
-    private SpikeTrapController spikeController;
+    private SpikeTrap spikeController;
     private HealthSystem healthSystem;
     private GameObject healthBar;
 
@@ -14,7 +14,7 @@ public class TrapHighlightable : ObstacleHighlightable {
     protected override void Awake() {
         base.Awake();
 
-        spikeController = GetComponent<SpikeTrapController>();
+        spikeController = GetComponent<SpikeTrap>();
         healthSystem = GetComponent<HealthSystem>();
     }
 
@@ -53,7 +53,7 @@ public class TrapHighlightable : ObstacleHighlightable {
 
         if (spikeController != null) {
             // If the type of trap we're picking up is a spike trap
-            if (spikeController.currentState != SpikeTrapController.SpikeState.SpikesDown) {
+            if (spikeController.currentState != SpikeTrap.SpikeState.SpikesDown) {
                 dontSelect = true;
             }
         }

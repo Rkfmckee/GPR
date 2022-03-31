@@ -16,7 +16,7 @@ public class PreparingStage : Stage {
     public override void StageUISetup() {
         Transform canvas = References.UI.canvas.transform;
         Transform roundStageBackground = canvas.Find("RoundStage").Find("RoundStageBackground").transform;
-        StartRoundButtonController startButton = canvas.transform.Find("RoundStage").Find("RoundStageBackground").Find("StartRoundButton").GetComponent<StartRoundButtonController>();
+        StartRoundButton startButton = canvas.transform.Find("RoundStage").Find("RoundStageBackground").Find("StartRoundButton").GetComponent<StartRoundButton>();
 
         roundStageBackground.Find("PlanningStage").gameObject.SetActive(true);
         roundStageBackground.Find("DefendingStage").gameObject.SetActive(false);

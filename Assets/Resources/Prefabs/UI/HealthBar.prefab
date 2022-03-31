@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4492849764587798}
   - component: {fileID: 4492849764587796}
   - component: {fileID: 4492849764587797}
-  - component: {fileID: -2130534809030167948}
+  - component: {fileID: 7624749949054391797}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -77,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-2130534809030167948
+--- !u!114 &7624749949054391797
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,7 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4492849764587799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff0e51280e7bdd741a5c87b4012a8bb8, type: 3}
+  m_Script: {fileID: 11500000, guid: b204b6f27d408bc48887f249de3b8feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4492850059248372
@@ -149,6 +150,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.02954624, g: 0.4811321, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -223,6 +225,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.5188679, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

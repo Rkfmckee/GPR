@@ -12,7 +12,7 @@ public class HealthSystem : MonoBehaviour {
 	private GameObject canvas;
 	private GameObject healthBarPrefab;
 	private GameObject healthBar;
-	private HealthBarController healthBarController;
+	private HealthBar healthBarController;
 
 
 	#endregion
@@ -29,7 +29,7 @@ public class HealthSystem : MonoBehaviour {
 
 		healthBar = Instantiate(healthBarPrefab, healthBarParent);
 		healthBar.name = $"{name}HealthBar";
-		healthBarController = healthBar.GetComponent<HealthBarController>();
+		healthBarController = healthBar.GetComponent<HealthBar>();
 
 		if (gameObject.tag == "Trap" || gameObject.tag == "Trigger") {
 			healthBar.SetActive(false);

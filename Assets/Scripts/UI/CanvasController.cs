@@ -58,7 +58,7 @@ public class CanvasController : MonoBehaviour {
 		if (visible) {
 			if (trapDetails == null) {
 				trapDetails = Instantiate(trapDetailsPrefab, References.UI.canvas.transform);
-				trapDetails.GetComponent<TrapDetailsController>().SetTrapShowing(trap);
+				trapDetails.GetComponent<TrapDetails>().SetTrapShowing(trap);
 			}
 		} else {
 			if (trapDetails != null) {

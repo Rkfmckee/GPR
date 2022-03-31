@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1894592660116363998}
   - component: {fileID: 2591347658616479638}
-  - component: {fileID: 317717454293099182}
+  - component: {fileID: 3848344424425328288}
   m_Layer: 0
   m_Name: TrapLinkingLine
   m_TagString: Untagged
@@ -47,6 +47,7 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -129,7 +130,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
---- !u!114 &317717454293099182
+--- !u!114 &3848344424425328288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,6 +139,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2801308956415358888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a186af094dcf67748a53b4005f560c4c, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f9219d6ad93ab745ab89f55e3a8c713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

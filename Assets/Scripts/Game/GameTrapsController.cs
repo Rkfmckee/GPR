@@ -81,7 +81,7 @@ public class GameTrapsController : MonoBehaviour {
 	public void CreateTrapLinkingLine(Transform startTransform) {
 		if (trapLinkingLine == null) {
 			trapLinkingLine = Instantiate(trapLinkingLinePrefab);
-			trapLinkingLine.GetComponent<TrapLinkingLineController>().SetStartValue(startTransform);
+			trapLinkingLine.GetComponent<TrapLinkingLine>().SetStartValue(startTransform);
 		}
 	}
 

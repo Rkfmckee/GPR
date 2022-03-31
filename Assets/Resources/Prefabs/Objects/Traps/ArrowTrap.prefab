@@ -91,11 +91,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7968621460233683902}
   - component: {fileID: 934380967443842443}
-  - component: {fileID: 7968621460233683903}
+  - component: {fileID: 5537627505025020988}
   - component: {fileID: 7444568580084560085}
-  - component: {fileID: 4081410960901788849}
   - component: {fileID: -358727910249009431}
   - component: {fileID: 1224841231342100133}
+  - component: {fileID: 8774582874570993577}
   m_Layer: 14
   m_Name: ArrowTrap
   m_TagString: Trap
@@ -133,7 +133,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5432565, y: 2.5035338, z: 0.21156454}
   m_Center: {x: -0.009579003, y: -0.008428574, z: -0.0022364557}
---- !u!114 &7968621460233683903
+--- !u!114 &5537627505025020988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7968621460233683777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa6f207d3a3e2cd4abf0fcced70a9ca5, type: 3}
+  m_Script: {fileID: 11500000, guid: b96244eaa14d1fc46afa4df751e0eb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7444568580084560085
@@ -159,21 +159,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlyHightlightingMe: 0
   maxDistanceFromPlayer: 5
---- !u!114 &4081410960901788849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7968621460233683777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b56d0ec28d384a24392f483a253d26db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryIcon: {fileID: 0}
-  resourceCost: 15
-  resourceType: 0
 --- !u!114 &-358727910249009431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +190,21 @@ MonoBehaviour:
     type: 3}
   heldHeight: 3
   currentState: 0
+--- !u!114 &8774582874570993577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968621460233683777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d4551bea43b1f4da864e672bdbd76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryIcon: {fileID: 0}
+  resourceCost: 15
+  resourceType: 0
 --- !u!1 &7968621461315035875
 GameObject:
   m_ObjectHideFlags: 0
