@@ -7,6 +7,7 @@ public class Arrow : MonoBehaviour
     private float speed;
     private new Rigidbody rigidbody;
     private Collider[] collidersToIgnore;
+	private GameObject[] arrowPieces;
 
     #endregion
 
@@ -14,6 +15,11 @@ public class Arrow : MonoBehaviour
 
     private void Awake() {
         rigidbody = gameObject.GetComponent<Rigidbody>();
+		arrowPieces = new GameObject[] {
+			Resources.Load("Prefabs/Objects/Traps/ArrowTrap/ArrowPiece-Body") as GameObject,
+			Resources.Load("Prefabs/Objects/Traps/ArrowTrap/ArrowPiece-Feather") as GameObject,
+			Resources.Load("Prefabs/Objects/Traps/ArrowTrap/ArrowPiece-Tip") as GameObject
+		};
     }
 
     private void Update() {
@@ -21,7 +27,14 @@ public class Arrow : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        Destroy(gameObject);
+        foreach(GameObject piece in arrowPieces)  {
+			var currentPiece = Instantiate(piece, transform.position, transform.GetChild(0).rotation);
+			currentPiece.transform.parent = transform.parent;
+			currentPiece.transform.localScale = transform.localScale;
+			currentPiece.GetComponent<ArrowPiece>().shouldShrink = true;
+		}
+		
+		Destroy(gameObject);
     }
 
     #endregion

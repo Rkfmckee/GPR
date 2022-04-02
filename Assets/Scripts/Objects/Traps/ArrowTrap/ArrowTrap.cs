@@ -18,7 +18,7 @@ public class ArrowTrap : TrapController {
     private void Awake() {
         trapType = SurfaceType.WALL;
 
-        arrowPrefab = Resources.Load("Prefabs/Objects/Arrow") as GameObject;
+        arrowPrefab = Resources.Load("Prefabs/Objects/Traps/ArrowTrap/Arrow") as GameObject;
 		arrowRotationOffset = new Vector3(0, 90, 0);
 
         arrowSlots = new List<GameObject>();
