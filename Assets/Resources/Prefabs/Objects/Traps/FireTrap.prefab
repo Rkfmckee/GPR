@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2352550}
   - component: {fileID: 11152550}
   m_Layer: 0
-  m_Name: Pf_Trap_Fire
+  m_Name: FireTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

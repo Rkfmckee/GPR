@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Anim_SawTrap01_Play
+  m_Name: SawBladeStationary
   serializedVersion: 6
   m_Legacy: 1
   m_Compressed: 0
