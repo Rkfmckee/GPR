@@ -64,7 +64,7 @@ public class SpikeTrap : TrapController {
 		spikesUpPosition = new Vector3(0, 0, 0);
 		spikesDownPosition = new Vector3(0, -0.5f, 0);
 
-		spikeChildPrefab = Resources.Load("Prefabs/Objects/Traps/Spikes") as GameObject;
+		spikeChildPrefab = Resources.Load("Prefabs/Objects/Traps/SpikeTrap/Spikes") as GameObject;
 
 		currentTimeExtending = 0;
 		currentTimeRetracting = 0;
