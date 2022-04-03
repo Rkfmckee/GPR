@@ -24,8 +24,7 @@ public class CameraController : MonoBehaviour {
 		cameraDifferenceToPlayerZPosition = currentPlayer.transform.position.z - camera.transform.position.z;
 	}
 
-	void FixedUpdate() {
-		// Since the player movement is in FixedUpdate, putting this in the same event makes a smoother movement.
+	void Update() {
 		if (currentPlayer != null) {
 			Vector3 newCameraPosition = new Vector3(currentPlayer.transform.position.x, camera.transform.position.y, currentPlayer.transform.position.z - cameraDifferenceToPlayerZPosition);
 

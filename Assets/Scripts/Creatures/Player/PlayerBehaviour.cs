@@ -7,11 +7,7 @@ public class PlayerBehaviour : MonoBehaviour {
 	public bool currentlyBeingControlled;
 	public float movementSpeed;
 
-	private Vector3 movementAmount;
-	private Vector3 directionVector;
-
-	private new Rigidbody rigidbody;
-	private GameObject gameController;
+	private CharacterController characterController;
 	private AnimatorController animatorController;
 
 	#endregion
@@ -22,27 +18,13 @@ public class PlayerBehaviour : MonoBehaviour {
 		References.Player.players.Add(gameObject);
 		if (currentlyBeingControlled) { References.Player.currentPlayer = gameObject; }
 
-		rigidbody = GetComponent<Rigidbody>();
+		characterController = GetComponent<CharacterController>();
 		animatorController = GetComponent<AnimatorController>();
-	}
-
-	private void Start() {
-		ChangeMassIfNotBeingControlled();
 	}
 
 	private void Update() {
 		if (currentlyBeingControlled) {
-			GetMovementDirection();
-		} else {
-			directionVector = Vector3.zero;
-		}
-
-
-	}
-
-	private void FixedUpdate() {
-		if (currentlyBeingControlled) {
-			CalculateMovement();
+			HandleMovement();
 		}
 	}
 
@@ -62,29 +44,23 @@ public class PlayerBehaviour : MonoBehaviour {
 				cameraController.SetCurrentlyControlledPlayer(gameObject);
 			}
 		}
-
-		ChangeMassIfNotBeingControlled();
 	}
 
-	private void GetMovementDirection() {
+	private void HandleMovement() {
 		float zDirection = Input.GetAxis("Vertical");
 		float xDirection = Input.GetAxis("Horizontal");
-		directionVector = new Vector3(xDirection, 0, zDirection);
+		Vector3 direction = new Vector3(xDirection, 0, zDirection);
 
-		directionVector = NormaliseVectorToKeepDeceleration(directionVector);
+		direction = NormaliseVectorToKeepDeceleration(direction);
+		Vector3 movementAmount = direction * movementSpeed * Time.deltaTime;
+		characterController.Move(movementAmount);
 
-		float animationVerticalMovement = Mathf.Abs(zDirection) + Mathf.Abs(xDirection);
-		animatorController.UpdateAnimatorValues(animationVerticalMovement, 0);
-	}
-
-	private void CalculateMovement() {
-		movementAmount = directionVector * (movementSpeed * Time.fixedDeltaTime);
-		var newPosition = transform.position + movementAmount;
-
-		rigidbody.MovePosition(newPosition);
 		if (movementAmount.magnitude > 0) {
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementAmount), 0.15F);
 		}
+
+		float animationVerticalMovement = Mathf.Abs(zDirection) + Mathf.Abs(xDirection);
+		animatorController.UpdateAnimatorValues(animationVerticalMovement, 0);
 	}
 
 	private Vector3 NormaliseVectorToKeepDeceleration(Vector3 vector) {
@@ -96,14 +72,6 @@ public class PlayerBehaviour : MonoBehaviour {
 		}
 
 		return vector;
-	}
-
-	private void ChangeMassIfNotBeingControlled() {
-		if (currentlyBeingControlled) {
-			rigidbody.mass = 1;
-		} else {
-			rigidbody.mass = 10;
-		}
 	}
 
 	#endregion
