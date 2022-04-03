@@ -848,7 +848,7 @@ PrefabInstance:
     - target: {fileID: 4095922709850232269, guid: 09b2855e814d495469d370bbdb7d8cf5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0065013766
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4095922709850232269, guid: 09b2855e814d495469d370bbdb7d8cf5,
         type: 3}
@@ -5867,8 +5867,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: mixamorig:Hips
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4078308845343020595, guid: 96c91754414fb074387b664ae89a72fe, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96c91754414fb074387b664ae89a72fe, type: 3}
 --- !u!4 &1818994687 stripped
 Transform:
