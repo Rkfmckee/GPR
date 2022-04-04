@@ -52,8 +52,8 @@ public class PlayerBehaviour : MonoBehaviour {
 		Vector3 direction = new Vector3(xDirection, 0, zDirection);
 
 		direction = NormaliseVectorToKeepDeceleration(direction);
-		Vector3 movementAmount = direction * movementSpeed * Time.deltaTime;
-		characterController.Move(movementAmount);
+		Vector3 movementAmount = direction * movementSpeed;
+		characterController.SimpleMove(movementAmount);
 
 		if (movementAmount.magnitude > 0) {
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementAmount), 0.15F);
