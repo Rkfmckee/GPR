@@ -1,5 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using static GeneralHelper;
 
 public class PlayerBehaviour : MonoBehaviour {
 	#region Properties
@@ -23,9 +23,9 @@ public class PlayerBehaviour : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (currentlyBeingControlled) {
-			HandleMovement();
-		}
+		// if (currentlyBeingControlled) {
+		// 	HandleMovement();
+		// }
 	}
 
 	#endregion
@@ -37,12 +37,6 @@ public class PlayerBehaviour : MonoBehaviour {
 
 		if (currentlyBeingControlled) {
 			References.Player.currentPlayer = gameObject;
-
-			var cameraController = Camera.main.GetComponent<CameraController>();
-
-			if (cameraController != null) {
-				cameraController.SetCurrentlyControlledPlayer(gameObject);
-			}
 		}
 	}
 
@@ -61,17 +55,6 @@ public class PlayerBehaviour : MonoBehaviour {
 
 		float animationVerticalMovement = Mathf.Abs(zDirection) + Mathf.Abs(xDirection);
 		animatorController.UpdateAnimatorValues(animationVerticalMovement, 0);
-	}
-
-	private Vector3 NormaliseVectorToKeepDeceleration(Vector3 vector) {
-		// Normalizing a decimal vector rounds it to 1, which causes weird deceleration
-		// So don't do that if it's between 1 and -1
-
-		if (Math.Abs(vector.magnitude) > 1) {
-			vector = vector.normalized;
-		}
-
-		return vector;
 	}
 
 	#endregion
