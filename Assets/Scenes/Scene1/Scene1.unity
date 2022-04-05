@@ -3377,6 +3377,7 @@ MonoBehaviour:
   cameraTransitionTime: 0.15
   movementSpeed: 10
   orientationChangeTime: 1
+  yBounds: {x: 5, y: 30}
 --- !u!4 &989488763 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5970813714628849479, guid: 7368e6c29b559264ca7c5b1b72dce8cd,
@@ -5878,11 +5879,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078308845343020605, guid: 96c91754414fb074387b664ae89a72fe,
-        type: 3}
-      propertyPath: drawDebugLines
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5474326481643490962, guid: 96c91754414fb074387b664ae89a72fe,
         type: 3}

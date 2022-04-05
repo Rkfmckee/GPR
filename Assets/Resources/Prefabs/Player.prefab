@@ -502,7 +502,6 @@ GameObject:
   - component: {fileID: 8391013748530036129}
   - component: {fileID: 4078308845343020607}
   - component: {fileID: 4078308845343020604}
-  - component: {fileID: 4078308845343020605}
   - component: {fileID: 6460087373717910871}
   - component: {fileID: 3485914425281075833}
   m_Layer: 9
@@ -593,18 +592,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   healthBarHeightOffset: 2.5
---- !u!114 &4078308845343020605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4078308845343020592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 141afea46c1b60f46b4d1689ee6b4ae5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6460087373717910871
 MonoBehaviour:
   m_ObjectHideFlags: 0
