@@ -197,7 +197,7 @@ PrefabInstance:
     - target: {fileID: 7145432342679193296, guid: 9993c0103d2c6c243b874c26438c4c7c,
         type: 3}
       propertyPath: m_Name
-      value: Wall_TwoSide (17)
+      value: Wall_TwoSide
       objectReference: {fileID: 0}
     - target: {fileID: 7145432342679193296, guid: 9993c0103d2c6c243b874c26438c4c7c,
         type: 3}

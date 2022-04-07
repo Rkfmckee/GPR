@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6903358394464490447}
   - component: {fileID: 8658540456941233925}
   - component: {fileID: -7910778427228079290}
+  - component: {fileID: 2034083685594852462}
   m_Layer: 11
   m_Name: Wall-TwoSide
   m_TagString: Wall
@@ -97,3 +98,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.000738, y: 2.005394, z: 0.43054765}
   m_Center: {x: -0.0005606413, y: 1.0006135, z: 0.005086988}
+--- !u!114 &2034083685594852462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7145432342679193296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9930f43237cdf439f1f2336025ba42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

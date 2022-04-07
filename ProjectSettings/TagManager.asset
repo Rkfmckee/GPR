@@ -27,7 +27,7 @@ TagManager:
   - Floor
   - Wall
   - WallDecoration
-  - WallIgnoreRaycast
+  - WallShouldHide
   - Highlightable
   - 
   - 
