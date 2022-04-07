@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using static GeneralHelper;
 using static CameraOrientationController;
 
