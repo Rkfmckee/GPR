@@ -17,9 +17,9 @@ public class CameraController : MonoBehaviour {
 	private CameraState currentState;
 	private CameraOrientation currentOrientation;
 	private Quaternion angledRotation;
-	private float angledHeight;
 	private Quaternion topDownRotation;
-	private float topDownHeight;
+	private float angledHeight;
+	private float clampZOffset;
 	private float orientationChangeTimeCurrent;
 
 	private List<GameObject> hiddenObjects;
@@ -35,9 +35,10 @@ public class CameraController : MonoBehaviour {
 		hiddenLayers = wallMask | wallIgnoreMask;
 
 		angledRotation = transform.rotation;
-		angledHeight = transform.position.y;
 		topDownRotation = Quaternion.Euler(90, 0, 0);
-		topDownHeight = transform.position.y + 7;
+		angledHeight = transform.position.y;
+
+		clampZOffset = 6;
 
 		currentState = CameraState.CONTROLLED_MOVEMENT;
 		currentOrientation = CameraOrientation.ANGLED;
@@ -134,7 +135,7 @@ public class CameraController : MonoBehaviour {
 			float clampedY = Mathf.Clamp(clampedPosition.y, yBounds.x, yBounds.y);
 			clampedPosition.y = clampedY;
 		} else {
-			zOffset = -6;
+			zOffset = -clampZOffset;
 		}
 
 		float clampedX = Mathf.Clamp(clampedPosition.x, xBounds.x, xBounds.y);
@@ -237,6 +238,7 @@ public class CameraController : MonoBehaviour {
 
 	private IEnumerator TransitionOrientation(CameraOrientation orientation) {
 		currentState = CameraState.TRANSITIONING;
+		float topDownHeight = angledHeight + 7;
 
 		orientationChangeTimeCurrent = 0;
 		Quaternion rotationFrom = angledRotation;
@@ -244,11 +246,23 @@ public class CameraController : MonoBehaviour {
 		Vector3 heightFrom = new Vector3(transform.position.x, angledHeight, transform.position.z);
 		Vector3 heightTo = new Vector3(transform.position.x, topDownHeight, transform.position.z);
 
-		if (orientation == CameraOrientation.ANGLED) {
+		if (orientation == CameraOrientation.ANGLED) {	
 			rotationFrom = topDownRotation;
 			rotationTo = angledRotation;
+			topDownHeight = transform.position.y;
 			heightFrom = new Vector3(transform.position.x, topDownHeight, transform.position.z);
 			heightTo = new Vector3(transform.position.x, angledHeight, transform.position.z);
+
+			// Accomodate for the zOffset at the top
+			var maxZ = zBounds.y - clampZOffset;
+			if (transform.position.z > maxZ) {
+				heightTo.z = maxZ;
+			}
+		} else {
+			// Accomodate for the zOffset at the bottom
+			if (transform.position.z < zBounds.x) {
+				heightTo.z = zBounds.x;
+			}
 		}
 
 		while (orientationChangeTimeCurrent < orientationChangeTime) {
@@ -261,7 +275,12 @@ public class CameraController : MonoBehaviour {
 			yield return null;
 		}
 
-		if (orientation == CameraOrientation.TOP_DOWN) {
+		transform.position = heightTo;
+
+		if (orientation == CameraOrientation.ANGLED) {
+			transform.rotation = angledRotation;
+		} else {
+			transform.rotation = topDownRotation;
 			ClearAllHiddenObjects();
 		}
 
