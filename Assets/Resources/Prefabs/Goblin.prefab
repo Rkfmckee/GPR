@@ -498,11 +498,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3734259134610099338}
+  - component: {fileID: 8216513558624887525}
+  - component: {fileID: 77893325343248054}
+  - component: {fileID: -8713749507390427903}
   - component: {fileID: 8391013748530036129}
   - component: {fileID: 5749696750628081793}
   - component: {fileID: 4078308845343020604}
   - component: {fileID: 6460087373717910871}
   - component: {fileID: 3485914425281075833}
+  - component: {fileID: 4025069253340768947}
   m_Layer: 6
   m_Name: Goblin
   m_TagString: FriendlyCreature
@@ -517,7 +521,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4078308845343020592}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -526,6 +530,58 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &8216513558624887525
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078308845343020592}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
+--- !u!136 &77893325343248054
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078308845343020592}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.43
+  m_Height: 1.75
+  m_Direction: 1
+  m_Center: {x: -0.0005906224, y: 0.82191706, z: 0.06863713}
+--- !u!195 &-8713749507390427903
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078308845343020592}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!95 &8391013748530036129
 Animator:
   serializedVersion: 3
@@ -557,8 +613,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9566ac94f1e2341448f3541b4353f4f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyBeingControlled: 0
-  movementSpeed: 10
+  currentlyControlled: 0
+  movementSpeed: 5
 --- !u!114 &4078308845343020604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,6 +655,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwStrength: 5000
   secondsUntilCanPlace: 1
+--- !u!114 &4025069253340768947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078308845343020592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 151d8be4566a2d94eaa54c62e04db297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyHightlightingMe: 0
+  maxDistanceFromPlayer: 0
 --- !u!1 &4089075732044713500
 GameObject:
   m_ObjectHideFlags: 0

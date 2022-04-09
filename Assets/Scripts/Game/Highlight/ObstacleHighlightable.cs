@@ -1,4 +1,4 @@
-﻿public class ObstacleHighlightable : HighlightableObject {
+﻿public class ObstacleHighlightable : Highlightable {
     #region Properties
 
     private PickUpObject pickupController;
@@ -23,7 +23,7 @@
         return dontSelect || base.DontSelect();
     }
 
-    protected override void ObjectClicked() {
+    protected override void Clicked() {
         if (pickupController == null) {
             print(gameObject + "can't be picked up");
             return;

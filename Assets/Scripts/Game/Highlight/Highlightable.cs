@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 
-public abstract class HighlightableObject : MonoBehaviour {
+public abstract class Highlightable : MonoBehaviour {
     #region Properties
 
     [HideInInspector]
     public bool currentlyHightlightingMe;
-    public float maxDistanceFromPlayer;
 
     protected Outline outline;
     protected GameTrapsController gameTraps;
@@ -42,7 +41,7 @@ public abstract class HighlightableObject : MonoBehaviour {
             }
 
             if (Input.GetButtonDown("Fire1")) {
-                ObjectClicked();
+                Clicked();
             }
 
         } else {
@@ -62,7 +61,7 @@ public abstract class HighlightableObject : MonoBehaviour {
         return dontSelect;
     }
 
-    protected abstract void ObjectClicked();
+    protected abstract void Clicked();
 
     #endregion
 }

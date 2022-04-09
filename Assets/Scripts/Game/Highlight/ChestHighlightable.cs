@@ -1,4 +1,4 @@
-﻿public class ChestHighlightable : HighlightableObject {
+﻿public class ChestHighlightable : Highlightable {
     #region Properties
 
     private Chest chestController;
@@ -27,7 +27,7 @@
         return dontSelect || base.DontSelect();
     }
 
-    protected override void ObjectClicked() {
+    protected override void Clicked() {
         if (chestController.GetCurrentState() == Chest.ChestState.Closed) {
             chestController.Open();
 

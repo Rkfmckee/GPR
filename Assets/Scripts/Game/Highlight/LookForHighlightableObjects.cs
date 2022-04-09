@@ -4,7 +4,6 @@ public class LookForHighlightableObjects : MonoBehaviour {
     #region Properties
 
     private new Camera camera;
-    private int highlightLayerMask;
     private GameObject lastHighlighted;
     private float dontSelectTimer;
     private float dontSelectTime;
@@ -18,11 +17,6 @@ public class LookForHighlightableObjects : MonoBehaviour {
     private void Awake() {
         camera = Camera.main;
         gameController = GetComponent<GameTrapsController>();
-
-        int highlightableObjectLayerMask = 1 << LayerMask.NameToLayer("Highlightable");
-        int obstacleLayerMask = 1 << LayerMask.NameToLayer("Obstacle");
-
-        highlightLayerMask = highlightableObjectLayerMask | obstacleLayerMask;
 
         dontSelectTime = 1;
     }
@@ -51,38 +45,34 @@ public class LookForHighlightableObjects : MonoBehaviour {
         RaycastHit hit;
         Ray cameraToMouse = camera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity, highlightLayerMask)) {
+        if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity)) {
             GameObject currentHit = hit.transform.gameObject;
-            HighlightableObject highlightScript = currentHit.GetComponent<HighlightableObject>();
-
+            Highlightable highlightScript = currentHit.GetComponent<Highlightable>();
+			
             if (highlightScript != null) {
-                //if (Vector3.Distance(currentHit.transform.position, References.FriendlyCreature.currentPlayer.transform.position) < highlightScript.maxDistanceFromPlayer) {
-                    if (currentHit != lastHighlighted) {
-                        ClearLastHighlighted();
+				if (currentHit != lastHighlighted) {
+					ClearLastHighlighted();
 
-                        highlightScript.currentlyHightlightingMe = true;
-                        lastHighlighted = currentHit;
+					highlightScript.currentlyHightlightingMe = true;
+					lastHighlighted = currentHit;
 
-                        if (!highlightScript.DontSelect()) {
-                            if (!gameController.IsHighlightTextActive() && !gameController.IsLinkingTextActive()) {
-                                bool modifyText = currentHit.tag == "Trap" || currentHit.tag == "Trigger";
+					if (!highlightScript.DontSelect()) {
+						if (!gameController.IsHighlightTextActive() && !gameController.IsLinkingTextActive()) {
+							bool modifyText = currentHit.tag == "Trap" || currentHit.tag == "Trigger";
 
-                                gameController.EnableHighlightItemText(true, modifyText);
-                            }
-                        }
-                    }
-                // } else {
-                //     ClearLastHighlighted();
-                // }
-            }
-        } else {
-            ClearLastHighlighted();
+							gameController.EnableHighlightItemText(true, modifyText);
+						}
+					}
+				}
+            } else {
+				ClearLastHighlighted();
+        	}
         }
     }
 
     private void ClearLastHighlighted() {
         if (lastHighlighted != null) {
-            lastHighlighted.GetComponent<HighlightableObject>().currentlyHightlightingMe = false;
+            lastHighlighted.GetComponent<Highlightable>().currentlyHightlightingMe = false;
             lastHighlighted = null;
         }
 

@@ -1,12 +1,7 @@
-﻿using UnityEngine;
-using static GeneralHelper;
-
-public class GoblinBehaviour : MonoBehaviour {
+﻿public class GoblinBehaviour : FriendlyBehaviour {
 	#region Properties
 
-	public float movementSpeed;
-
-	private AnimatorController animatorController;
+	
 
 	#endregion
 
@@ -15,10 +10,16 @@ public class GoblinBehaviour : MonoBehaviour {
 	private void Awake() {
 		References.FriendlyCreature.goblins.Add(gameObject);
 		animatorController = GetComponent<AnimatorController>();
+
+		SetCurrentState(new FriendlyStateIdle(gameObject));
 	}
 
 	private void Update() {
-		
+		GetCurrentState().Update();
+	}
+
+	private void FixedUpdate() {
+		GetCurrentState().FixedUpdate();
 	}
 
 	#endregion
