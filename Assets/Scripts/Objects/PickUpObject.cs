@@ -47,7 +47,6 @@ public class PickUpObject : MonoBehaviour {
 
 		if (currentState == State.HELD) {
 			if (rigidbody != null) rigidbody.useGravity = false;
-			References.Player.currentPlayer.GetComponent<HoldObject>().SetHeldObject(gameObject);
 		} else {
 			if (rigidbody != null) rigidbody.useGravity = true;
 		}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static TrapController;
@@ -135,7 +136,7 @@ public class ObjectPlacementController : MonoBehaviour {
 	}
 
     private bool GetValidDistance(Vector3 pointHit) {
-        return Vector3.Distance(References.Player.currentPlayer.transform.position, pointHit) <= maxPlacementDistance;
+		return false;
     }
 
 	private void ValidPlacementChangeMaterial() {

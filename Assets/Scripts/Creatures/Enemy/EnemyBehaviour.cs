@@ -30,7 +30,7 @@ public class EnemyBehaviour : MonoBehaviour {
 	}
 
 	private void Start() {
-		allPlayers = References.Player.players;
+		allPlayers = References.FriendlyCreature.goblins;
 	}
 
 	private void Update() {
@@ -42,11 +42,11 @@ public class EnemyBehaviour : MonoBehaviour {
 	}
 
 	private void OnDestroy() {
-		if (References.enemies.Contains(gameObject)) {
-			References.enemies.Remove(gameObject);
+		if (References.HostileCreature.enemies.Contains(gameObject)) {
+			References.HostileCreature.enemies.Remove(gameObject);
 		}
 
-		if (References.enemies.Count <= 0) {
+		if (References.HostileCreature.enemies.Count <= 0) {
 			if (References.GameController.roundStage != null) {
 				References.GameController.roundStage.SetCurrentStage(new PreparingStage());
 			}

@@ -32,13 +32,11 @@ public class GameTrapsController : MonoBehaviour {
 
 	public void ShouldShowCaveInventory(bool showInventory) {
 		References.UI.canvas.GetComponent<CanvasController>().SetCaveInventoryVisible(showInventory);
-		References.Player.currentPlayer.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(!showInventory);
 		inventoryOpen = showInventory;
 	}
 
 	public void ShouldShowTrapDetails(bool showDetails, GameObject trap) {
 		References.UI.canvas.GetComponent<CanvasController>().SetTrapDetailsVisible(showDetails, trap);
-		References.Player.currentPlayer.GetComponent<PlayerBehaviour>().SetCurrentlyBeingControlled(!showDetails);
 		trapDetailsOpen = showDetails;
 	}
 

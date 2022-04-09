@@ -22,10 +22,6 @@ public class HoldObject : MonoBehaviour {
 
     private void Awake() {
         throwHeight = transform.up / 10;
-
-        if (gameObject.tag == "Player") {
-            References.Player.playerHoldController = this;
-        }
     }
 
     private void Update() {

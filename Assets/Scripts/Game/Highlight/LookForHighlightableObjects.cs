@@ -55,8 +55,8 @@ public class LookForHighlightableObjects : MonoBehaviour {
             GameObject currentHit = hit.transform.gameObject;
             HighlightableObject highlightScript = currentHit.GetComponent<HighlightableObject>();
 
-            if (highlightScript != null && References.Player.currentPlayer != null) {
-                if (Vector3.Distance(currentHit.transform.position, References.Player.currentPlayer.transform.position) < highlightScript.maxDistanceFromPlayer) {
+            if (highlightScript != null) {
+                //if (Vector3.Distance(currentHit.transform.position, References.FriendlyCreature.currentPlayer.transform.position) < highlightScript.maxDistanceFromPlayer) {
                     if (currentHit != lastHighlighted) {
                         ClearLastHighlighted();
 
@@ -71,9 +71,9 @@ public class LookForHighlightableObjects : MonoBehaviour {
                             }
                         }
                     }
-                } else {
-                    ClearLastHighlighted();
-                }
+                // } else {
+                //     ClearLastHighlighted();
+                // }
             }
         } else {
             ClearLastHighlighted();
