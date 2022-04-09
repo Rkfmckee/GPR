@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class Highlightable : MonoBehaviour {
     #region Properties
@@ -8,13 +9,16 @@ public abstract class Highlightable : MonoBehaviour {
 
     protected Outline outline;
     protected GameTrapsController gameTraps;
+	protected List<GameObject> highlightTextObjects;
 
     #endregion
 
     #region Events
 
     protected virtual void Awake() {
-        outline = gameObject.AddComponent<Outline>();
+		highlightTextObjects = new List<GameObject>();
+
+		outline = gameObject.AddComponent<Outline>();
         outline.OutlineMode = Outline.Mode.OutlineAndSilhouette;
         outline.OutlineColor = Color.yellow;
         outline.OutlineWidth = 5f;
@@ -54,6 +58,14 @@ public abstract class Highlightable : MonoBehaviour {
     #endregion
 
     #region Methods
+
+		#region Get/Set
+
+		public List<GameObject> GetHighlightTextObjects() {
+			return highlightTextObjects;
+		}
+
+		#endregion
 
     public virtual bool DontSelect() {
         bool dontSelect = false;

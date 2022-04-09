@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CanvasController : MonoBehaviour {
 	#region Properties
@@ -21,12 +22,17 @@ public class CanvasController : MonoBehaviour {
 	private GameObject modifyItemTextPrefab;
 	private GameObject linkItemBothTextPrefab;
 
+	private List<GameObject> highlightTextActive;
+
 	#endregion
 
 	#region Events
 
 	private void Awake() {
 		References.UI.canvas = gameObject;
+		References.UI.canvasController = this;
+		highlightTextActive = new List<GameObject>();
+
 		caveInventoryPrefab = Resources.Load<GameObject>("Prefabs/UI/CaveInventory");
 		trapDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapDetails");
 		holdingItemPlacePrefab = Resources.Load<GameObject>("Prefabs/UI/HoldingItemPlace");
@@ -87,23 +93,25 @@ public class CanvasController : MonoBehaviour {
 		if (holdingItemThrowText != null) Destroy(holdingItemThrowText);
 	}
 
-	public void EnableHighlightItemText(bool enable, bool enableModifyText) {
-		if (enable) {
-			if (pickupItemText == null) {
-				pickupItemText = Instantiate(pickupItemTextPrefab);
-				pickupItemText.transform.SetParent(transform);
-			}
+	public void EnableHighlightText(List<GameObject> highlightTextObjects) {
+		foreach(GameObject textObject in highlightTextObjects) {
+			GameObject textInstance = Instantiate(textObject);
+			textInstance.transform.SetParent(transform);
 
-			if (enableModifyText) {
-				if (modifyItemText == null) {
-					modifyItemText = Instantiate(modifyItemTextPrefab);
-					modifyItemText.transform.SetParent(transform);
-				}
-			}
-		} else {
-			if (pickupItemText != null) Destroy(pickupItemText);
-			if (modifyItemText != null) Destroy(modifyItemText);
+			highlightTextActive.Add(textInstance);
 		}
+	}
+
+	public void DisableHighlightText() {
+		foreach(GameObject textObject in highlightTextActive) {
+			Destroy(textObject);
+		}
+
+		highlightTextActive.Clear();
+	}
+
+	public bool IsHighlightTextActive() {
+		return highlightTextActive.Count > 0;
 	}
 
 	public void EnableLinkingItemText(bool enable) {

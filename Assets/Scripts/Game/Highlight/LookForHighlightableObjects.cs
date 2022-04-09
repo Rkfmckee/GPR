@@ -3,12 +3,11 @@
 public class LookForHighlightableObjects : MonoBehaviour {
     #region Properties
 
-    private new Camera camera;
     private GameObject lastHighlighted;
-    private float dontSelectTimer;
-    private float dontSelectTime;
 
-    private GameTrapsController gameController;
+	private new Camera camera;
+    private CanvasController canvasController;
+	private GameTrapsController gameTrapsController;
 
     #endregion
 
@@ -16,32 +15,27 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
     private void Awake() {
         camera = Camera.main;
-        gameController = GetComponent<GameTrapsController>();
-
-        dontSelectTime = 1;
     }
 
+	private void Start() {
+		canvasController = References.UI.canvasController;
+		gameTrapsController = References.GameController.gameTraps;
+	}
+
     private void Update() {
-        if (dontSelectTimer < dontSelectTime) {
-            dontSelectTimer += Time.deltaTime;
-        } else {
-            if (!gameController.IsInventoryOpen()) {
-                SendOutRaycast();
-            } else {
-                ClearLastHighlighted();
-            }
-        }
+		if (gameTrapsController.IsInventoryOpen()) {
+			ClearLastHighlighted();
+			return;
+		}
+
+		LookForObjects();
     }
 
     #endregion
 
     #region Methods
 
-    public void ResetDontSelectTimer() {
-        dontSelectTimer = 0;
-    }
-
-    private void SendOutRaycast() {
+    private void LookForObjects() {
         RaycastHit hit;
         Ray cameraToMouse = camera.ScreenPointToRay(Input.mousePosition);
 
@@ -49,24 +43,19 @@ public class LookForHighlightableObjects : MonoBehaviour {
             GameObject currentHit = hit.transform.gameObject;
             Highlightable highlightScript = currentHit.GetComponent<Highlightable>();
 			
-            if (highlightScript != null) {
-				if (currentHit != lastHighlighted) {
-					ClearLastHighlighted();
-
-					highlightScript.currentlyHightlightingMe = true;
-					lastHighlighted = currentHit;
-
-					if (!highlightScript.DontSelect()) {
-						if (!gameController.IsHighlightTextActive() && !gameController.IsLinkingTextActive()) {
-							bool modifyText = currentHit.tag == "Trap" || currentHit.tag == "Trigger";
-
-							gameController.EnableHighlightItemText(true, modifyText);
-						}
-					}
-				}
-            } else {
+			if (highlightScript == null) {
 				ClearLastHighlighted();
-        	}
+				return;
+			}
+
+			if (currentHit != lastHighlighted) {
+				ClearLastHighlighted();
+
+				highlightScript.currentlyHightlightingMe = true;
+				lastHighlighted = currentHit;
+
+				canvasController.EnableHighlightText(highlightScript.GetHighlightTextObjects());
+			}
         }
     }
 
@@ -76,8 +65,8 @@ public class LookForHighlightableObjects : MonoBehaviour {
             lastHighlighted = null;
         }
 
-        if (gameController.IsHighlightTextActive()) {
-            gameController.EnableHighlightItemText(false, false);
+        if (canvasController.IsHighlightTextActive()) {
+            canvasController.DisableHighlightText();
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TrapHighlightable : ObstacleHighlightable {
     #region Properties
@@ -16,6 +17,11 @@ public class TrapHighlightable : ObstacleHighlightable {
 
         spikeController = GetComponent<SpikeTrap>();
         healthSystem = GetComponent<HealthSystem>();
+
+		highlightTextObjects = new List<GameObject> {
+			Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem"),
+			Resources.Load<GameObject>("Prefabs/UI/Highlight/ModifyItem")
+		};
     }
 
     protected override void Update() {

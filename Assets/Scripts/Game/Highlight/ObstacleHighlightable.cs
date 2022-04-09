@@ -1,4 +1,7 @@
-﻿public class ObstacleHighlightable : Highlightable {
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+public class ObstacleHighlightable : Highlightable {
     #region Properties
 
     private PickUpObject pickupController;
@@ -9,6 +12,10 @@
 
     protected override void Awake() {
         base.Awake();
+
+		highlightTextObjects = new List<GameObject> {
+			Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem"),
+		};
 
         pickupController = GetComponent<PickUpObject>();
     }

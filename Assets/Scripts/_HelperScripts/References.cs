@@ -22,6 +22,7 @@ public static class References {
 
     public static class UI {
         public static GameObject canvas;
+		public static CanvasController canvasController;
         public static NotificationController notifications;
     }
 }

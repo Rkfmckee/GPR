@@ -29,11 +29,12 @@ public class TrapLinkingLine : MonoBehaviour {
 		trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
 
 		gameTraps = References.GameController.gameTraps;
+		CanvasController canvasController = References.UI.canvasController;
 		if (!gameTraps.IsLinkingTextActive()) {
 			gameTraps.EnableLinkingItemText(true);
 
-			if (gameTraps.IsHighlightTextActive()) {
-				gameTraps.EnableHighlightItemText(false, false);
+			if (canvasController.IsHighlightTextActive()) {
+				canvasController.DisableHighlightText();
 			}
 		}
 	}

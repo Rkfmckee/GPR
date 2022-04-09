@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameTrapsController : MonoBehaviour {
@@ -13,7 +14,6 @@ public class GameTrapsController : MonoBehaviour {
 	private GameObject trapLinkingLine;
 	private bool inventoryOpen;
 	private bool trapDetailsOpen;
-	private bool highlightTextActive;
 	private bool linkingTextActive;
 
 	#endregion
@@ -52,10 +52,6 @@ public class GameTrapsController : MonoBehaviour {
 		return trapLinkingLine != null;
 	}
 
-	public bool IsHighlightTextActive() {
-		return highlightTextActive;
-	}
-
 	public bool IsLinkingTextActive() {
 		return linkingTextActive;
 	}
@@ -81,11 +77,6 @@ public class GameTrapsController : MonoBehaviour {
 			trapLinkingLine = Instantiate(trapLinkingLinePrefab);
 			trapLinkingLine.GetComponent<TrapLinkingLine>().SetStartValue(startTransform);
 		}
-	}
-
-	public void EnableHighlightItemText(bool enable, bool enableModifyText) {
-		References.UI.canvas.GetComponent<CanvasController>().EnableHighlightItemText(enable, enableModifyText);
-		highlightTextActive = enable;
 	}
 
 	public void EnableLinkingItemText(bool enable) {

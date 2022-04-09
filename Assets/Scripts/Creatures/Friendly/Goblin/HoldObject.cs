@@ -124,7 +124,6 @@ public class HoldObject : MonoBehaviour {
             heldObject.transform.parent = null;
             heldObject = null;
 
-            References.GameController.gameControllerObject.GetComponent<LookForHighlightableObjects>().ResetDontSelectTimer();
             References.GameController.gameTraps.DisableObjectPlacement();
         }
     }
