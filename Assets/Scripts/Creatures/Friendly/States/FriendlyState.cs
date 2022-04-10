@@ -26,7 +26,9 @@ public abstract class FriendlyState {
 
 	#region Events
 
-	public abstract void Update();
+	public virtual void Update() {
+		animatorController.UpdateAnimatorValues(navMeshAgent.velocity.magnitude, 0);
+	}
 
     public abstract void FixedUpdate();
 

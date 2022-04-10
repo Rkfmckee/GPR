@@ -1,31 +1,33 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class FriendlyStateGoTo : FriendlyState {
 	#region Properties
 
-	private int floorMask;
-
-	private Camera camera;
+	private Vector3 targetPosition;
+	private float distanceToArriveAtTarget;
 
 	#endregion
 	
 	#region Constructor
 	
-	public FriendlyStateGoTo(GameObject gameObj) : base(gameObj) {
+	public FriendlyStateGoTo(GameObject gameObj, Vector3 target) : base(gameObj) {		
+		targetPosition = target;
+		navMeshAgent.SetDestination(targetPosition);
+
+		distanceToArriveAtTarget = 0.5f;
 	}
 
 	#endregion
 
 	#region Events
 
-	public override void Update() {
-		Vector3? pointClicked = GetPointClicked();
+	public override void Update() {		
+		base.Update();
 
-		if (pointClicked.HasValue) {
-			navMeshAgent.destination = pointClicked.Value;
+		if (HasReachedDestination()) {
+			behaviour.SetCurrentState(new FriendlyStateListening(gameObject));
 		}
-		
-		animatorController.UpdateAnimatorValues(navMeshAgent.velocity.magnitude, 0);
 	}
 
 	public override void FixedUpdate() {
@@ -35,24 +37,10 @@ public class FriendlyStateGoTo : FriendlyState {
 
 	#region Methods
 
-	protected override void SetupProperties() {
-		base.SetupProperties();
-
-		camera = Camera.main;
-		floorMask = 1 << LayerMask.NameToLayer("Floor");
-	}
-
-	private Vector3? GetPointClicked() {
-		if (Input.GetButtonDown("Fire1")) {
-			Ray cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hitInformation;
-
-			if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, floorMask)) {
-				return hitInformation.point;
-			}
-		}
-
-		return null;
+	private bool HasReachedDestination() {
+		return navMeshAgent.remainingDistance != Mathf.Infinity
+			&& navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete
+			&& Mathf.Approximately(navMeshAgent.remainingDistance, 0);
 	}
 
 	#endregion

@@ -31,7 +31,7 @@ public class FriendlyBehaviour : MonoBehaviour {
 
 		public void SetCurrentlyControlled(bool controlled) {
 			currentlyControlled = controlled;
-			SetCurrentState(new FriendlyStateGoTo(gameObject));
+			SetCurrentState(new FriendlyStateListening(gameObject));
 		}
 
 		#endregion
