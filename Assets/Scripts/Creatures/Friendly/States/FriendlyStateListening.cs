@@ -1,19 +1,27 @@
+using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 internal class FriendlyStateListening : FriendlyState {
 	#region Properties
 
-	private int floorMask;
 	private float ignoreMouseClickTimer;
 	private float ignoreMouseClickTime;
+	private Dictionary<string, ListeningCommands> tagsToListeningCommands;
+	private bool commandUiExists;
+	private ListeningCommands? currentCommand;
 
 	private Camera camera;
+	private FriendlyListeningUIController uiController;
 
 	#endregion
 	
 	#region Constructor
 	
 	public FriendlyStateListening(GameObject gameObj) : base(gameObj) {
+		uiController = References.UI.Controllers.friendlyListeningUIController;
+		commandUiExists = false;
+		
 		ResetIgnoreMouseClickTimer();
 	}
 
@@ -24,14 +32,7 @@ internal class FriendlyStateListening : FriendlyState {
 	public override void Update() {
 		base.Update();
 
-		Vector3? pointClicked = GetPointClicked();
-
-		if (pointClicked.HasValue) {
-			behaviour.SetCurrentState(new FriendlyStateGoTo(gameObject, pointClicked.Value));
-		}
-	}
-
-	public override void FixedUpdate() {
+		GetPointTargeted();
 	}
 
 	#endregion
@@ -42,7 +43,13 @@ internal class FriendlyStateListening : FriendlyState {
 		base.SetupProperties();
 
 		camera = Camera.main;
-		floorMask = 1 << LayerMask.NameToLayer("Floor");
+
+		tagsToListeningCommands = new Dictionary<string, ListeningCommands> {
+			{"Floor", ListeningCommands.Move},
+			{"Obstacle", ListeningCommands.PickUp},
+			{"Trap", ListeningCommands.PickUp},
+			{"Trigger", ListeningCommands.PickUp}
+		};
 	}
 
 	private bool ShouldIgnoreMouseClick() {
@@ -56,22 +63,73 @@ internal class FriendlyStateListening : FriendlyState {
 
 	private void ResetIgnoreMouseClickTimer() {
 		ignoreMouseClickTimer = 0;
-		ignoreMouseClickTime = 1;
+		ignoreMouseClickTime = 0.5f;
 	}
 
-	private Vector3? GetPointClicked() {
-		if (ShouldIgnoreMouseClick()) return null;
+	private void GetPointTargeted() {
+		Ray cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hitInformation;
+
+		if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity)) {
+			var hitTag = hitInformation.transform.tag;
+
+			if (!tagsToListeningCommands.ContainsKey(hitTag)) {
+				DisableListeningCommand();
+				return;
+			}
+
+			var hitCommand = tagsToListeningCommands[hitTag];
+
+			if (!commandUiExists) {
+				EnableListeningCommand();
+			}
+
+			if (hitCommand != currentCommand) {
+				currentCommand = hitCommand;
+				uiController.ChangeListeningCommandText(hitCommand.ToString());
+			}
+
+			PerformCommandOnClick(hitCommand, hitInformation);
+		}
+	}
+
+	private void PerformCommandOnClick(ListeningCommands command, RaycastHit hitInformation) {
+		if (ShouldIgnoreMouseClick()) return;
 
 		if (Input.GetButtonDown("Fire1")) {
-			Ray cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hitInformation;
-
-			if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, floorMask)) {
-				return hitInformation.point;
+			switch (command) {
+				case ListeningCommands.Move:
+					MoveCommand(hitInformation.point);
+					break;
 			}
 		}
+	}
 
-		return null;
+	private void MoveCommand(Vector3 targetPosition) {
+		DisableListeningCommand();
+		behaviour.SetCurrentState(new FriendlyStateGoTo(gameObject, targetPosition));
+	}
+
+	private void EnableListeningCommand() {
+		uiController.EnableListeningCommand();
+		commandUiExists = true;
+	}
+
+	private void DisableListeningCommand() {
+		uiController.DisableListeningCommand();
+		commandUiExists = false;
+		currentCommand = null;
+	}
+
+	#endregion
+
+	#region Enums
+
+	public enum ListeningCommands {
+		[Description("Move")]
+		Move,
+		[Description("Pick up")]
+		PickUp
 	}
 
 	#endregion

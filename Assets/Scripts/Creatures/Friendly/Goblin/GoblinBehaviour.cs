@@ -18,10 +18,6 @@
 		GetCurrentState().Update();
 	}
 
-	private void FixedUpdate() {
-		GetCurrentState().FixedUpdate();
-	}
-
 	#endregion
 
 	#region Methods

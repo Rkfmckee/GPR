@@ -5,7 +5,6 @@ public class FriendlyStateGoTo : FriendlyState {
 	#region Properties
 
 	private Vector3 targetPosition;
-	private float distanceToArriveAtTarget;
 
 	#endregion
 	
@@ -14,8 +13,6 @@ public class FriendlyStateGoTo : FriendlyState {
 	public FriendlyStateGoTo(GameObject gameObj, Vector3 target) : base(gameObj) {		
 		targetPosition = target;
 		navMeshAgent.SetDestination(targetPosition);
-
-		distanceToArriveAtTarget = 0.5f;
 	}
 
 	#endregion
@@ -28,9 +25,6 @@ public class FriendlyStateGoTo : FriendlyState {
 		if (HasReachedDestination()) {
 			behaviour.SetCurrentState(new FriendlyStateListening(gameObject));
 		}
-	}
-
-	public override void FixedUpdate() {
 	}
 
 	#endregion

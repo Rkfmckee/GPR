@@ -13,8 +13,5 @@ public class FriendlyStateIdle : FriendlyState {
 	public override void Update() {
 	}
 
-	public override void FixedUpdate() {
-	}
-
 	#endregion
 }

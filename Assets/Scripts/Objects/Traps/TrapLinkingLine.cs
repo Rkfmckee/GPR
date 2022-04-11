@@ -29,7 +29,7 @@ public class TrapLinkingLine : MonoBehaviour {
 		trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
 
 		gameTraps = References.GameController.gameTraps;
-		CanvasController canvasController = References.UI.canvasController;
+		CanvasController canvasController = References.UI.Controllers.canvasController;
 		if (!gameTraps.IsLinkingTextActive()) {
 			gameTraps.EnableLinkingItemText(true);
 

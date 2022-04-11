@@ -18,7 +18,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
     }
 
 	private void Start() {
-		canvasController = References.UI.canvasController;
+		canvasController = References.UI.Controllers.canvasController;
 		gameTrapsController = References.GameController.gameTraps;
 	}
 

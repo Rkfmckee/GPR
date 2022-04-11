@@ -30,8 +30,6 @@ public abstract class FriendlyState {
 		animatorController.UpdateAnimatorValues(navMeshAgent.velocity.magnitude, 0);
 	}
 
-    public abstract void FixedUpdate();
-
 	#endregion
 
 	#region Methods

@@ -13,8 +13,5 @@ public class FriendlyStateWander : FriendlyState {
 	public override void Update() {
 	}
 
-	public override void FixedUpdate() {
-	}
-
 	#endregion
 }
