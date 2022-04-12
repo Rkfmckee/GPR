@@ -4,9 +4,7 @@ using UnityEngine;
 public abstract class Highlightable : MonoBehaviour {
     #region Properties
 
-    [HideInInspector]
-    public bool currentlyHightlightingMe;
-
+    private bool hightlightingMe;
     protected Outline outline;
     protected GameTrapsController gameTraps;
 	protected List<GameObject> highlightTextObjects;
@@ -24,7 +22,7 @@ public abstract class Highlightable : MonoBehaviour {
         outline.OutlineWidth = 5f;
         outline.enabled = false;
 
-        currentlyHightlightingMe = false;
+        SetHighlightingMe(false);
     }
 
     protected virtual void Start() {
@@ -35,7 +33,7 @@ public abstract class Highlightable : MonoBehaviour {
         if (gameTraps.objectPlacement != null) return;
         if (DontSelect()) return;
 
-        if (currentlyHightlightingMe) {
+        if (IsHighlightingMe()) {
             if (!outline.enabled) {
                 outline.enabled = true;
             }
@@ -63,6 +61,14 @@ public abstract class Highlightable : MonoBehaviour {
 
 		public List<GameObject> GetHighlightTextObjects() {
 			return highlightTextObjects;
+		}
+
+		public bool IsHighlightingMe() {
+			return hightlightingMe;
+		}
+
+		public void SetHighlightingMe(bool highlighting) {
+			hightlightingMe = highlighting;
 		}
 
 		#endregion

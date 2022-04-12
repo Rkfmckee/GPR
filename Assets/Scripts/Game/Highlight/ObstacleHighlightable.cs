@@ -25,7 +25,7 @@ public class ObstacleHighlightable : Highlightable {
     #region Methods
 
     public override bool DontSelect() {
-        bool dontSelect = pickupController.currentState == PickUpObject.State.HELD;
+        bool dontSelect = pickupController.currentState == PickUpObject.State.Held;
 
         return dontSelect || base.DontSelect();
     }
@@ -36,7 +36,7 @@ public class ObstacleHighlightable : Highlightable {
             return;
         }
 
-        pickupController.SetCurrentState(PickUpObject.State.HELD);
+        //pickupController.SetCurrentState(PickUpObject.State.HELD);
     }
 
     #endregion

@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trapToTrigger: {fileID: 0}
-  canTrigger: 1
+  canTrigger: 0
 --- !u!114 &3211723386902421035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,8 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a85470987c8a94ca437620613f01e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyHightlightingMe: 0
-  maxDistanceFromPlayer: 5
 --- !u!114 &3843223975738011081
 MonoBehaviour:
   m_ObjectHideFlags: 0

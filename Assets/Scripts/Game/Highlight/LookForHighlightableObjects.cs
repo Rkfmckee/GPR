@@ -51,7 +51,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
 			if (currentHit != lastHighlighted) {
 				ClearLastHighlighted();
 
-				highlightScript.currentlyHightlightingMe = true;
+				highlightScript.SetHighlightingMe(true);
 				lastHighlighted = currentHit;
 
 				canvasController.EnableHighlightText(highlightScript.GetHighlightTextObjects());
@@ -61,7 +61,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
     private void ClearLastHighlighted() {
         if (lastHighlighted != null) {
-            lastHighlighted.GetComponent<Highlightable>().currentlyHightlightingMe = false;
+            lastHighlighted.GetComponent<Highlightable>().SetHighlightingMe(false);
             lastHighlighted = null;
         }
 

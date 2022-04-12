@@ -12,7 +12,7 @@ public class TriggerController : MonoBehaviour {
 
 	private void Awake() {
 		// If this script is on a trap, set this trap as it's trigger target
-		trapToTrigger = GetComponent<TrapController>();
+		if (trapToTrigger == null) trapToTrigger = GetComponent<TrapController>();
 	}
 
 	private void OnCollisionEnter(Collision collision) {
@@ -26,7 +26,7 @@ public class TriggerController : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter(Collider triggeredBy) {
-		if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
+		if (triggeredBy.gameObject.tag.Contains(canTrigger.ToString())) {
 			if (trapToTrigger != null) {
 				trapToTrigger.TriggerTrap(triggeredBy);
 			}
@@ -38,8 +38,8 @@ public class TriggerController : MonoBehaviour {
 	#region Enums
 
 	public enum CanTrigger {
-		Player,
-		Enemy
+		Friendly,
+		Hostile
 	}
 
 	#endregion

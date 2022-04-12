@@ -11,6 +11,7 @@ public class FriendlyStateWander : FriendlyState {
 	#region Events
 
 	public override void Update() {
+		base.Update();
 	}
 
 	#endregion

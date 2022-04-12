@@ -20,12 +20,12 @@ public class PickUpObject : MonoBehaviour {
 	private void Awake() {
 		rigidbody = gameObject.GetComponent<Rigidbody>();
 
-		currentState = State.IDLE;
+		currentState = State.Idle;
 		heldPosition = new Vector3(0, heldHeight, 0);
 	}
 
 	private void Update() {
-		if (currentState == State.HELD) {
+		if (currentState == State.Held) {
 			transform.localPosition = heldPosition;
 			transform.eulerAngles = Vector3.zero;
 			if (rigidbody != null) rigidbody.velocity = Vector3.zero;
@@ -34,7 +34,7 @@ public class PickUpObject : MonoBehaviour {
 
 	private void OnCollisionEnter(Collision collision) {
 		if (collision.collider.gameObject.tag == "Floor") {
-			currentState = State.IDLE;
+			currentState = State.Idle;
 		}
 	}
 
@@ -45,7 +45,7 @@ public class PickUpObject : MonoBehaviour {
 	public void SetCurrentState(State state) {
 		currentState = state;
 
-		if (currentState == State.HELD) {
+		if (currentState == State.Held) {
 			if (rigidbody != null) rigidbody.useGravity = false;
 		} else {
 			if (rigidbody != null) rigidbody.useGravity = true;
@@ -57,9 +57,9 @@ public class PickUpObject : MonoBehaviour {
 	#region Enums
 
 	public enum State {
-		IDLE,
-		HELD,
-		THROWN
+		Idle,
+		Held,
+		Thrown
 	}
 
 	#endregion

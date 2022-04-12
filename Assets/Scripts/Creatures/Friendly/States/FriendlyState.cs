@@ -19,7 +19,17 @@ public abstract class FriendlyState {
 
 	public FriendlyState(GameObject gameObj) {
 		gameObject = gameObj;
-		SetupProperties();
+
+		transform = gameObject.transform;
+        rigidbody = gameObject.GetComponent<Rigidbody>();
+		navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+		animatorController = gameObject.GetComponent<AnimatorController>();
+        behaviour = gameObject.GetComponent<FriendlyBehaviour>();
+
+        movementSpeed = behaviour.movementSpeed;
+		navMeshAgent.speed = movementSpeed;
+		navMeshAgent.ResetPath();
+		navMeshAgent.velocity = Vector3.zero;
 	}
 
 	#endregion
@@ -29,21 +39,6 @@ public abstract class FriendlyState {
 	public virtual void Update() {
 		animatorController.UpdateAnimatorValues(navMeshAgent.velocity.magnitude, 0);
 	}
-
-	#endregion
-
-	#region Methods
-
-	protected virtual void SetupProperties() {
-        transform = gameObject.transform;
-        rigidbody = gameObject.GetComponent<Rigidbody>();
-		navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-		animatorController = gameObject.GetComponent<AnimatorController>();
-        behaviour = gameObject.GetComponent<FriendlyBehaviour>();
-
-        movementSpeed = behaviour.movementSpeed;
-		navMeshAgent.speed = movementSpeed;
-    }
 
 	#endregion
 }

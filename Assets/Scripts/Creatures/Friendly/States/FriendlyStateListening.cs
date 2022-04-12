@@ -20,8 +20,16 @@ internal class FriendlyStateListening : FriendlyState {
 	
 	public FriendlyStateListening(GameObject gameObj) : base(gameObj) {
 		uiController = References.UI.Controllers.friendlyListeningUIController;
+		camera = Camera.main;
+
+		tagsToListeningCommands = new Dictionary<string, ListeningCommands> {
+			{"Floor", ListeningCommands.Move},
+			{"Obstacle", ListeningCommands.PickUp},
+			{"Trap", ListeningCommands.PickUp},
+			{"Trigger", ListeningCommands.PickUp}
+		};
 		commandUiExists = false;
-		
+
 		ResetIgnoreMouseClickTimer();
 	}
 
@@ -38,19 +46,6 @@ internal class FriendlyStateListening : FriendlyState {
 	#endregion
 
 	#region Methods
-
-	protected override void SetupProperties() {
-		base.SetupProperties();
-
-		camera = Camera.main;
-
-		tagsToListeningCommands = new Dictionary<string, ListeningCommands> {
-			{"Floor", ListeningCommands.Move},
-			{"Obstacle", ListeningCommands.PickUp},
-			{"Trap", ListeningCommands.PickUp},
-			{"Trigger", ListeningCommands.PickUp}
-		};
-	}
 
 	private bool ShouldIgnoreMouseClick() {
 		if (ignoreMouseClickTimer < ignoreMouseClickTime) {
@@ -101,6 +96,10 @@ internal class FriendlyStateListening : FriendlyState {
 				case ListeningCommands.Move:
 					MoveCommand(hitInformation.point);
 					break;
+
+				case ListeningCommands.PickUp:
+					PickupCommand(hitInformation.transform.gameObject);
+					break;
 			}
 		}
 	}
@@ -108,6 +107,11 @@ internal class FriendlyStateListening : FriendlyState {
 	private void MoveCommand(Vector3 targetPosition) {
 		DisableListeningCommand();
 		behaviour.SetCurrentState(new FriendlyStateGoTo(gameObject, targetPosition));
+	}
+
+	private void PickupCommand(GameObject pickupObject) {
+		DisableListeningCommand();
+		behaviour.SetCurrentState(new FriendlyStatePickupObject(gameObject, pickupObject));
 	}
 
 	private void EnableListeningCommand() {

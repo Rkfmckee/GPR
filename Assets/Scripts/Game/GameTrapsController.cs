@@ -62,8 +62,8 @@ public class GameTrapsController : MonoBehaviour {
 		}
 	}
 
-	public void EnableObjectPlacementIfPossible(GameObject heldObject, bool canBeThrown) {
-		StartCoroutine(CheckIfObjectPlacementCanBeEnabled(heldObject, canBeThrown));
+	public void EnableObjectPlacementIfPossible(GameObject heldObject) {
+		StartCoroutine(CheckIfObjectPlacementCanBeEnabled(heldObject));
 	}
 
 	public void DisableObjectPlacement() {
@@ -84,27 +84,27 @@ public class GameTrapsController : MonoBehaviour {
 		linkingTextActive = enable;
 	}
 
-	private void EnableObjectPlacement(GameObject heldObject, bool canBeThrown) {
+	private void EnableObjectPlacement(GameObject heldObject) {
 		objectPlacement = Instantiate(objectPlacementPrefab);
 		objectPlacement.transform.parent = gameObject.transform;
 		objectPlacementController = objectPlacement.GetComponent<ObjectPlacementController>();
 		objectPlacementController.SetHeldObject(heldObject);
 
-		References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText(canBeThrown);
+		References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText();
 	}
 
 	#endregion
 
 	#region Coroutines
 
-	private IEnumerator CheckIfObjectPlacementCanBeEnabled(GameObject heldObject, bool canBeThrown) {
+	private IEnumerator CheckIfObjectPlacementCanBeEnabled(GameObject heldObject) {
 		GameTrapsController gameTrapController = References.GameController.gameTraps;
 
 		while (gameTrapController.IsInventoryOpen()) {
 			yield return null;
 		}
 
-		EnableObjectPlacement(heldObject, canBeThrown);
+		EnableObjectPlacement(heldObject);
 	}
 
 	#endregion

@@ -29,16 +29,16 @@ public class TrapHighlightable : ObstacleHighlightable {
         if (DontSelect()) return;
         healthBar = healthSystem.GetHealthBar();
 
-        if (currentlyHightlightingMe) {
+        if (IsHighlightingMe()) {
             if (!healthBar.activeSelf) {
                 healthBar.SetActive(true);
             }
 
-            if (Input.GetButtonDown("Fire2")) {
-                if (tag == "Trap" || tag == "Trigger") {
-                    gameTraps.ShouldShowTrapDetails(true, gameObject);
-                }
-            }
+            // if (Input.GetButtonDown("Fire2")) {
+            //     if (tag == "Trap" || tag == "Trigger") {
+            //         gameTraps.ShouldShowTrapDetails(true, gameObject);
+            //     }
+            // }
         } else {
             if (healthBar.activeSelf) {
                 healthBar.SetActive(false);

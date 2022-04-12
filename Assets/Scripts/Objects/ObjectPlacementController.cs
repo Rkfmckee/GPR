@@ -12,6 +12,7 @@ public class ObjectPlacementController : MonoBehaviour {
 	[HideInInspector]
 	public RaycastHit hitInformation;
 
+	private bool positionFinalized;
 	private Material validMaterial;
 	private Material invalidMaterial;
 	private Dictionary<string, string> placementPrefabs;
@@ -31,6 +32,7 @@ public class ObjectPlacementController : MonoBehaviour {
 	private void Awake() {
 		camera = Camera.main;
 
+		positionFinalized = false;
 		validMaterial = Resources.Load("Materials/Objects/Placement/ValidPlacement") as Material;
 		invalidMaterial = Resources.Load("Materials/Objects/Placement/InvalidPlacement") as Material;
 
@@ -41,14 +43,28 @@ public class ObjectPlacementController : MonoBehaviour {
 	}
 
 	private void Update() {
-		CheckForRaycastHit();
-		MoveOutOfOverlap();
-		ValidPlacementChangeMaterial();
+		if (!positionFinalized) {
+			CheckForRaycastHit();
+			MoveOutOfOverlap();
+			ValidPlacementChangeMaterial();
+
+			if (Input.GetButtonDown("Fire1")) {
+				positionFinalized = validPlacement;
+			}
+		}
 	}
 
 	#endregion
 
 	#region Methods
+
+		#region Get/Set
+
+		public bool IsPositionFinalized() {
+			return positionFinalized;
+		}
+
+		#endregion
 
 	public void SetHeldObject(GameObject heldObject) {
 		PickUpObject pickUpController = heldObject.GetComponent<PickUpObject>();
@@ -71,7 +87,7 @@ public class ObjectPlacementController : MonoBehaviour {
 	private void CreateLayerMasks() {
 		layerMasks = new Dictionary<string, int>();
 		layerMasks.Add("Floor", 1 << LayerMask.NameToLayer("Floor"));
-		layerMasks.Add("Wall", 1 << LayerMask.NameToLayer("Wall"));
+		layerMasks.Add("Wall", 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("WallShouldHide"));
 		layerMasks.Add("WallDecoration", 1 << LayerMask.NameToLayer("WallDecoration"));
 		layerMasks.Add("WallWithDecoration", layerMasks["Wall"] | layerMasks["WallDecoration"]);
 		layerMasks.Add("Terrain", layerMasks["Floor"] | layerMasks["WallWithDecoration"]);
@@ -103,12 +119,12 @@ public class ObjectPlacementController : MonoBehaviour {
 
 			if (heldObjectTrapController != null) {
 				if (heldObjectTrapController.GetSurfaceType().ToString().ToLower() == hitInformation.collider.gameObject.tag.ToLower()) {
-					validPlacement = GetValidDistance(pointHit);
+					validPlacement = true;
 				} else {
 					validPlacement = false;
 				}
 			} else {
-				validPlacement = GetValidDistance(pointHit);
+				validPlacement = true;
 			}
 	
 			transform.position = pointHit;
@@ -134,10 +150,6 @@ public class ObjectPlacementController : MonoBehaviour {
 			}
 		}
 	}
-
-    private bool GetValidDistance(Vector3 pointHit) {
-		return false;
-    }
 
 	private void ValidPlacementChangeMaterial() {
 		if (placementObjectRenderer != null) {

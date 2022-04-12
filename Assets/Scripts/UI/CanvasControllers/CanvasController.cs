@@ -74,17 +74,10 @@ public class CanvasController : MonoBehaviour {
 		}
 	}
 
-	public void EnableHoldingItemText(bool canBeThrown) {
+	public void EnableHoldingItemText() {
 		if (holdingItemPlaceText == null) {
 			holdingItemPlaceText = Instantiate(holdingItemPlacePrefab);
 			holdingItemPlaceText.transform.SetParent(transform);
-		}
-
-		if (canBeThrown) {
-			if (holdingItemThrowText == null) {
-				holdingItemThrowText = Instantiate(holdingItemThrowPrefab);
-				holdingItemThrowText.transform.SetParent(transform);
-			}
 		}
 	}
 
