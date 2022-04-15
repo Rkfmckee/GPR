@@ -19,14 +19,17 @@ public class TrapHighlightable : ObstacleHighlightable {
         spikeController = GetComponent<SpikeTrap>();
         healthSystem = GetComponent<HealthSystem>();
 
-		highlightTextObjects = new List<GameObject> {
-			Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem"),
-			Resources.Load<GameObject>("Prefabs/UI/Highlight/ModifyItem")
-		};
-
-		highlightableStates = new List<ControllingState>() {
-			ControllingState.ControllingSelf,
-			ControllingState.ControllingFriendly
+		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+			{
+				ControllingState.ControllingSelf, new List<GameObject>{
+					Resources.Load<GameObject>("Prefabs/UI/Highlight/ModifyItem")
+				}
+			},
+			{
+				ControllingState.ControllingFriendly, new List<GameObject>{
+					Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem")
+				}
+			}
 		};
     }
 

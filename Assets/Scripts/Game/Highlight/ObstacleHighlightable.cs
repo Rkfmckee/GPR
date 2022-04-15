@@ -14,12 +14,12 @@ public class ObstacleHighlightable : Highlightable {
     protected override void Awake() {
         base.Awake();
 
-		highlightTextObjects = new List<GameObject> {
-			Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem"),
-		};
-
-		highlightableStates = new List<ControllingState>() {
-			ControllingState.ControllingFriendly
+		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+			{
+				ControllingState.ControllingFriendly, new List<GameObject>{
+					Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem")
+				}
+			}
 		};
 
         pickupController = GetComponent<PickUpObject>();

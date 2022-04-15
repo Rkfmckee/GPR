@@ -14,8 +14,11 @@ public class GoblinHighlightable : Highlightable {
     protected override void Awake() {
         base.Awake();
 
-		highlightableStates = new List<ControllingState>() {
-			ControllingState.ControllingSelf
+		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+			{
+				ControllingState.ControllingSelf, new List<GameObject>{
+				}
+			}
 		};
 
         goblinBehaviour = GetComponent<GoblinBehaviour>();

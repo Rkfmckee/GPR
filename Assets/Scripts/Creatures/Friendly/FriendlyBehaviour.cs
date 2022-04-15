@@ -35,7 +35,6 @@ public class FriendlyBehaviour : MonoBehaviour {
 			} else {
 				// Only change camera controlling if we're leaving Listening state
 				if (currentState is FriendlyStateListening) {
-					print("Change to controlling self");
 					cameraController.SetControllingState(ControllingState.ControllingSelf);
 				}
 			}

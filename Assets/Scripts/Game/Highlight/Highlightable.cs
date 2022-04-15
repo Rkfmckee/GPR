@@ -7,10 +7,9 @@ public abstract class Highlightable : MonoBehaviour {
 
     private bool hightlightingMe;
     protected Outline outline;
-	protected List<ControllingState> highlightableStates;
+	protected Dictionary<ControllingState, List<GameObject>> statesAndUiText;
 
     protected GameTrapsController gameTraps;
-	protected List<GameObject> highlightTextObjects;
 	private CanvasController canvasController;
 	private CameraController cameraController;
 
@@ -19,8 +18,8 @@ public abstract class Highlightable : MonoBehaviour {
     #region Events
 
     protected virtual void Awake() {
-		highlightTextObjects = new List<GameObject>();
-		highlightableStates = new List<ControllingState>();
+		
+		statesAndUiText = new Dictionary<ControllingState, List<GameObject>>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 
 		outline = gameObject.AddComponent<Outline>();
@@ -51,7 +50,7 @@ public abstract class Highlightable : MonoBehaviour {
 
 		if (!outline.enabled) {
 			outline.enabled = true;
-			canvasController.EnableHighlightText(highlightTextObjects);
+			canvasController.EnableHighlightText(statesAndUiText);
 		}
 
 		if (gameTraps.IsTrapLinkingLineActive()) {
@@ -69,10 +68,6 @@ public abstract class Highlightable : MonoBehaviour {
 
 		#region Get/Set
 
-		public List<GameObject> GetHighlightTextObjects() {
-			return highlightTextObjects;
-		}
-
 		public bool IsHighlightingMe() {
 			return hightlightingMe;
 		}
@@ -85,7 +80,7 @@ public abstract class Highlightable : MonoBehaviour {
 
     protected abstract void Clicked();
 	protected virtual bool DontHighlight() {
-		return gameTraps.objectPlacement != null || !highlightableStates.Contains(cameraController.GetControllingState());
+		return gameTraps.objectPlacement != null || !statesAndUiText.ContainsKey(cameraController.GetControllingState());
 	}
 
     #endregion

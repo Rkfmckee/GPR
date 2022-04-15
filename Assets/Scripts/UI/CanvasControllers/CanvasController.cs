@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static CameraController;
 
 public class CanvasController : MonoBehaviour {
 	#region Properties
@@ -15,14 +16,13 @@ public class CanvasController : MonoBehaviour {
 	private GameObject holdingItemPlacePrefab;
 	private GameObject holdingItemThrowPrefab;
 
-	private GameObject pickupItemText;
-	private GameObject modifyItemText;
 	private GameObject linkItemBothText;
 	private GameObject pickupItemTextPrefab;
 	private GameObject modifyItemTextPrefab;
 	private GameObject linkItemBothTextPrefab;
 
 	private List<GameObject> highlightTextActive;
+	private CameraController cameraController;
 
 	#endregion
 
@@ -32,6 +32,7 @@ public class CanvasController : MonoBehaviour {
 		References.UI.canvas = gameObject;
 		References.UI.Controllers.canvasController = this;
 		highlightTextActive = new List<GameObject>();
+		cameraController = Camera.main.GetComponent<CameraController>();
 
 		caveInventoryPrefab = Resources.Load<GameObject>("Prefabs/UI/CaveInventory");
 		trapDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapDetails");
@@ -86,8 +87,10 @@ public class CanvasController : MonoBehaviour {
 		if (holdingItemThrowText != null) Destroy(holdingItemThrowText);
 	}
 
-	public void EnableHighlightText(List<GameObject> highlightTextObjects) {
-		foreach(GameObject textObject in highlightTextObjects) {
+	public void EnableHighlightText(Dictionary<ControllingState, List<GameObject>> statesAndUiText) {
+		List<GameObject> uiText = statesAndUiText[cameraController.GetControllingState()];
+		
+		foreach(GameObject textObject in uiText) {
 			GameObject textInstance = Instantiate(textObject);
 			textInstance.transform.SetParent(transform);
 
