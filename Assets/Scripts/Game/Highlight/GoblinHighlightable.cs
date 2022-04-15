@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static CameraController;
 
 public class GoblinHighlightable : Highlightable {
     #region Properties
@@ -12,6 +13,10 @@ public class GoblinHighlightable : Highlightable {
 
     protected override void Awake() {
         base.Awake();
+
+		highlightableStates = new List<ControllingState>() {
+			ControllingState.ControllingSelf
+		};
 
         goblinBehaviour = GetComponent<GoblinBehaviour>();
     }

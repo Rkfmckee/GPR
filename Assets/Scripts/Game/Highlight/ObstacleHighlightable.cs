@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static CameraController;
 
 public class ObstacleHighlightable : Highlightable {
     #region Properties
@@ -17,27 +18,19 @@ public class ObstacleHighlightable : Highlightable {
 			Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem"),
 		};
 
+		highlightableStates = new List<ControllingState>() {
+			ControllingState.ControllingFriendly
+		};
+
         pickupController = GetComponent<PickUpObject>();
     }
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    public override bool DontSelect() {
-        bool dontSelect = pickupController.currentState == PickUpObject.State.Held;
+	protected override void Clicked() {
+	}
 
-        return dontSelect || base.DontSelect();
-    }
-
-    protected override void Clicked() {
-        if (pickupController == null) {
-            print(gameObject + "can't be picked up");
-            return;
-        }
-
-        //pickupController.SetCurrentState(PickUpObject.State.HELD);
-    }
-
-    #endregion
+	#endregion
 }

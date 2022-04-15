@@ -1,15 +1,11 @@
 ﻿public class GoblinBehaviour : FriendlyBehaviour {
-	#region Properties
-
-	
-
-	#endregion
 
 	#region Events
 
-	private void Awake() {
+	protected override void Awake() {
+		base.Awake();
+		
 		References.FriendlyCreature.goblins.Add(gameObject);
-		animatorController = GetComponent<AnimatorController>();
 
 		SetCurrentState(new FriendlyStateIdle(gameObject));
 	}

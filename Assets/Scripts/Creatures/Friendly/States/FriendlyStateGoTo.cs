@@ -23,7 +23,7 @@ public class FriendlyStateGoTo : FriendlyState {
 		base.Update();
 
 		if (HasReachedDestination()) {
-			behaviour.SetCurrentState(new FriendlyStateListening(gameObject));
+			behaviour.SetCurrentState(new FriendlyStateIdle(gameObject));
 		}
 	}
 

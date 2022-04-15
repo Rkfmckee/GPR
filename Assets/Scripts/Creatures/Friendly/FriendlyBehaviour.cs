@@ -1,4 +1,5 @@
 using UnityEngine;
+using static CameraController;
 
 public class FriendlyBehaviour : MonoBehaviour {
 	#region Properties
@@ -8,8 +9,15 @@ public class FriendlyBehaviour : MonoBehaviour {
 	private FriendlyState currentState;
 	private bool currentlyControlled;
 
+	private CameraController cameraController;
 
-	protected AnimatorController animatorController;
+	#endregion
+
+	#region Events
+
+	protected virtual void Awake() {
+		cameraController = Camera.main.GetComponent<CameraController>();
+	}
 
 	#endregion
 
@@ -22,6 +30,16 @@ public class FriendlyBehaviour : MonoBehaviour {
 		}
 
 		public void SetCurrentState(FriendlyState state) {
+			if (state is FriendlyStateListening) {
+				cameraController.SetControllingState(ControllingState.ControllingFriendly);
+			} else {
+				// Only change camera controlling if we're leaving Listening state
+				if (currentState is FriendlyStateListening) {
+					print("Change to controlling self");
+					cameraController.SetControllingState(ControllingState.ControllingSelf);
+				}
+			}
+			
 			currentState = state;
 		}
 

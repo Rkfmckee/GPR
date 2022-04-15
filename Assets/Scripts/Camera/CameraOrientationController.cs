@@ -31,7 +31,7 @@ public class CameraOrientationController : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (cameraController.GetCurrentState() == CameraState.TRANSITIONING)
+		if (cameraController.GetMovementState() == CameraMovementState.Transitioning)
 		return;
 
 		if (Input.GetButtonDown("Jump")) {
@@ -70,7 +70,7 @@ public class CameraOrientationController : MonoBehaviour {
 	#region Coroutine
 
 	private IEnumerator TransitionOrientation(CameraOrientation orientation) {
-		cameraController.SetCurrentState(CameraState.TRANSITIONING);
+		cameraController.SetMovementState(CameraMovementState.Transitioning);
 		float topDownHeight = angledHeight + 7;
 
 		orientationChangeTimeCurrent = 0;
@@ -121,7 +121,7 @@ public class CameraOrientationController : MonoBehaviour {
 		}
 
 		currentOrientation = orientation;
-		cameraController.SetCurrentState(CameraState.CONTROLLED_MOVEMENT);
+		cameraController.SetMovementState(CameraMovementState.ControlledByPlayer);
 	}
 
 	#endregion

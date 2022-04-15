@@ -27,7 +27,7 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (cameraController.GetCurrentState() == CameraState.TRANSITIONING)
+		if (cameraController.GetMovementState() == CameraMovementState.Transitioning)
 		return;
 
 		if (orientationController.GetCurrentOrientation() == CameraOrientation.ANGLED) {

@@ -13,7 +13,8 @@ public class CameraController : MonoBehaviour {
 	private Vector2 xBounds;
 	private Vector2 zBounds;
 	private Vector3 velocity;
-	private CameraState currentState;
+	private ControllingState controllingState;
+	private CameraMovementState movementState;
 	private float clampZOffset;
 
 	private CameraOrientationController orientationController;
@@ -26,13 +27,14 @@ public class CameraController : MonoBehaviour {
 		orientationController = GetComponent<CameraOrientationController>();
 
 		clampZOffset = 6;
-		currentState = CameraState.CONTROLLED_MOVEMENT;
+		controllingState = ControllingState.ControllingSelf;
+		movementState = CameraMovementState.ControlledByPlayer;
 
 		UpdateFloorObjectBoundaries();
 	}
 
 	void Update() {
-		if (currentState == CameraState.TRANSITIONING)
+		if (movementState == CameraMovementState.Transitioning)
 		return;
 
 		HandleMovement();
@@ -44,12 +46,20 @@ public class CameraController : MonoBehaviour {
 
 		#region Get/Set
 
-		public CameraState GetCurrentState() {
-			return currentState;
+		public ControllingState GetControllingState() {
+			return controllingState;
 		}
 
-		public void SetCurrentState(CameraState state) {
-			currentState = state;
+		public void SetControllingState(ControllingState state) {
+			controllingState = state;
+		}
+
+		public CameraMovementState GetMovementState() {
+			return movementState;
+		}
+
+		public void SetMovementState(CameraMovementState state) {
+			movementState = state;
 		}
 
 		public Vector2 GetZBounds() {
@@ -168,9 +178,15 @@ public class CameraController : MonoBehaviour {
 
 	#region Enums
 
-	public enum CameraState {
-		TRANSITIONING,
-		CONTROLLED_MOVEMENT
+		public enum ControllingState {
+		ControllingSelf,
+		ControllingFriendly,
+		ControllingMenu
+	}
+	
+	public enum CameraMovementState {
+		Transitioning,
+		ControlledByPlayer
 	}
 
 	#endregion

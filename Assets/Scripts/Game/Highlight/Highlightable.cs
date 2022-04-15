@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static CameraController;
 
 public abstract class Highlightable : MonoBehaviour {
     #region Properties
 
     private bool hightlightingMe;
     protected Outline outline;
+	protected List<ControllingState> highlightableStates;
+
     protected GameTrapsController gameTraps;
 	protected List<GameObject> highlightTextObjects;
+	private CanvasController canvasController;
+	private CameraController cameraController;
 
     #endregion
 
@@ -15,6 +20,8 @@ public abstract class Highlightable : MonoBehaviour {
 
     protected virtual void Awake() {
 		highlightTextObjects = new List<GameObject>();
+		highlightableStates = new List<ControllingState>();
+		cameraController = Camera.main.GetComponent<CameraController>();
 
 		outline = gameObject.AddComponent<Outline>();
         outline.OutlineMode = Outline.Mode.OutlineAndSilhouette;
@@ -27,30 +34,33 @@ public abstract class Highlightable : MonoBehaviour {
 
     protected virtual void Start() {
         gameTraps = References.GameController.gameTraps;
+		canvasController = References.UI.Controllers.canvasController;
     }
 
     protected virtual void Update() {
-        if (gameTraps.objectPlacement != null) return;
-        if (DontSelect()) return;
+        if (DontHighlight())
+			SetHighlightingMe(false);
 
-        if (IsHighlightingMe()) {
-            if (!outline.enabled) {
-                outline.enabled = true;
-            }
-
-            if (gameTraps.IsTrapLinkingLineActive()) {
-                return;
-            }
-
-            if (Input.GetButtonDown("Fire1")) {
-                Clicked();
-            }
-
-        } else {
-            if (outline.enabled) {
+		if (!IsHighlightingMe()) {
+			if (outline.enabled) {
                 outline.enabled = false;
+				canvasController.DisableHighlightText();
             }
-        }
+			return;
+		}
+
+		if (!outline.enabled) {
+			outline.enabled = true;
+			canvasController.EnableHighlightText(highlightTextObjects);
+		}
+
+		if (gameTraps.IsTrapLinkingLineActive()) {
+			return;
+		}
+
+		if (Input.GetButtonDown("Fire1")) {
+			Clicked();
+		}
     }
 
     #endregion
@@ -73,13 +83,10 @@ public abstract class Highlightable : MonoBehaviour {
 
 		#endregion
 
-    public virtual bool DontSelect() {
-        bool dontSelect = false;
-
-        return dontSelect;
-    }
-
     protected abstract void Clicked();
+	protected virtual bool DontHighlight() {
+		return gameTraps.objectPlacement != null || !highlightableStates.Contains(cameraController.GetControllingState());
+	}
 
     #endregion
 }

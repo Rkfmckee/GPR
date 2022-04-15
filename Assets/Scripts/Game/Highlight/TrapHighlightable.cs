@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static CameraController;
 
 public class TrapHighlightable : ObstacleHighlightable {
     #region Properties
@@ -22,11 +23,16 @@ public class TrapHighlightable : ObstacleHighlightable {
 			Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem"),
 			Resources.Load<GameObject>("Prefabs/UI/Highlight/ModifyItem")
 		};
+
+		highlightableStates = new List<ControllingState>() {
+			ControllingState.ControllingSelf,
+			ControllingState.ControllingFriendly
+		};
     }
 
-    protected override void Update() {
-        base.Update();
-        if (DontSelect()) return;
+    protected override void Update() {		
+		base.Update();
+
         healthBar = healthSystem.GetHealthBar();
 
         if (IsHighlightingMe()) {
@@ -34,11 +40,11 @@ public class TrapHighlightable : ObstacleHighlightable {
                 healthBar.SetActive(true);
             }
 
-            // if (Input.GetButtonDown("Fire2")) {
-            //     if (tag == "Trap" || tag == "Trigger") {
-            //         gameTraps.ShouldShowTrapDetails(true, gameObject);
-            //     }
-            // }
+            if (Input.GetButtonDown("Fire2")) {
+                if (tag == "Trap" || tag == "Trigger") {
+                    gameTraps.ShouldShowTrapDetails(true, gameObject);
+                }
+            }
         } else {
             if (healthBar.activeSelf) {
                 healthBar.SetActive(false);
@@ -46,26 +52,15 @@ public class TrapHighlightable : ObstacleHighlightable {
         }
     }
 
-    #endregion
+	#endregion
 
-    #region Methods
+	protected override bool DontHighlight() {
+		var dontHighlight = gameTraps.IsTrapDetailsOpen();
 
-    public override bool DontSelect() {
-        bool dontSelect = false;
-
-        if (gameTraps.IsTrapDetailsOpen()) {
-            dontSelect = true;
-        }
-
-        if (spikeController != null) {
-            // If the type of trap we're picking up is a spike trap
-            if (spikeController.currentState != SpikeTrap.SpikeState.SpikesDown) {
-                dontSelect = true;
-            }
-        }
-
-        return dontSelect || base.DontSelect();
-    }
-
-    #endregion
+		if (spikeController != null) {
+        	dontHighlight = dontHighlight || spikeController.currentState != SpikeTrap.SpikeState.SpikesDown;
+		}
+		
+		return dontHighlight || base.DontHighlight();
+	}
 }

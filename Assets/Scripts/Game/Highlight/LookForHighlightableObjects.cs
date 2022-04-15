@@ -53,8 +53,6 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
 				highlightScript.SetHighlightingMe(true);
 				lastHighlighted = currentHit;
-
-				canvasController.EnableHighlightText(highlightScript.GetHighlightTextObjects());
 			}
         }
     }
@@ -63,10 +61,6 @@ public class LookForHighlightableObjects : MonoBehaviour {
         if (lastHighlighted != null) {
             lastHighlighted.GetComponent<Highlightable>().SetHighlightingMe(false);
             lastHighlighted = null;
-        }
-
-        if (canvasController.IsHighlightTextActive()) {
-            canvasController.DisableHighlightText();
         }
     }
 
