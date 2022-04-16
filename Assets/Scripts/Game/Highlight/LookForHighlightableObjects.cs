@@ -4,6 +4,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
     #region Properties
 
     private GameObject lastHighlighted;
+	private int layerMask;
 
 	private new Camera camera;
     private CanvasController canvasController;
@@ -15,6 +16,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
     private void Awake() {
         camera = Camera.main;
+		layerMask = ~(1 << LayerMask.NameToLayer("WallHidden"));
     }
 
 	private void Start() {
@@ -39,7 +41,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
         RaycastHit hit;
         Ray cameraToMouse = camera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity)) {
+        if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity, layerMask)) {
             GameObject currentHit = hit.transform.gameObject;
             Highlightable highlightScript = currentHit.GetComponent<Highlightable>();
 			

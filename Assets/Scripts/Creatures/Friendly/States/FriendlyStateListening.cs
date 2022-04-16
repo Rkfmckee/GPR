@@ -10,6 +10,7 @@ internal class FriendlyStateListening : FriendlyState {
 	private Dictionary<string, ListeningCommands> tagsToListeningCommands;
 	private bool commandUiExists;
 	private ListeningCommands? currentCommand;
+	private int layerMask;
 
 	private Camera camera;
 	private FriendlyListeningUIController uiController;
@@ -29,6 +30,7 @@ internal class FriendlyStateListening : FriendlyState {
 			{"Trigger", ListeningCommands.PickUp}
 		};
 		commandUiExists = false;
+		layerMask = ~(1 << LayerMask.NameToLayer("WallHidden"));
 
 		ResetIgnoreMouseClickTimer();
 	}
@@ -65,7 +67,7 @@ internal class FriendlyStateListening : FriendlyState {
 		Ray cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hitInformation;
 
-		if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity)) {
+		if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMask)) {
 			var hitTag = hitInformation.transform.tag;
 
 			if (!tagsToListeningCommands.ContainsKey(hitTag)) {

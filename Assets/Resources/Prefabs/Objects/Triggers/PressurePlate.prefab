@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6846951518329585139}
   - component: {fileID: -4891178208408891548}
   - component: {fileID: 4024303841792563615}
-  m_Layer: 14
+  m_Layer: 8
   m_Name: PressurePlate
   m_TagString: Trigger
   m_Icon: {fileID: 0}
@@ -126,8 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a85470987c8a94ca437620613f01e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyHightlightingMe: 0
-  maxDistanceFromPlayer: 5
 --- !u!114 &6846951518329585139
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,7 +23,8 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 		hiddenObjects = new List<GameObject>();
 
 		int wallMask = 1 << LayerMask.NameToLayer("WallShouldHide");
-		hiddenLayers = wallMask;
+		int wallHiddenMask = 1 << LayerMask.NameToLayer("WallHidden");
+		hiddenLayers = wallMask | wallHiddenMask;
 	}
 
 	private void Update() {
@@ -48,9 +49,9 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 	}
 
 	private void SeeThroughWalls() {
-		Vector3 direction = transform.forward;
+		var direction = transform.forward;
 
-		RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, Mathf.Infinity, hiddenLayers);
+		var hits = Physics.RaycastAll(transform.position, direction, Mathf.Infinity, hiddenLayers);
 		Debug.DrawRay(transform.position, direction, Color.yellow);
 
 		foreach (RaycastHit hit in hits) {
@@ -59,6 +60,7 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 			if (!hiddenObjects.Contains(currentHit)) {
 				hiddenObjects.Add(currentHit);
 				currentHit.GetComponent<Renderer>().enabled = false;
+				currentHit.layer = LayerMask.NameToLayer("WallHidden");
 			}
 		}
 
@@ -87,6 +89,7 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 
 	private void ClearHiddenObject(GameObject hiddenObject) {
 		hiddenObject.GetComponent<Renderer>().enabled = true;
+		hiddenObject.layer = LayerMask.NameToLayer("WallShouldHide");
 	}
 
 	#endregion
