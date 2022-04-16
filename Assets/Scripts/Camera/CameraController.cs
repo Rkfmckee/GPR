@@ -30,7 +30,8 @@ public class CameraController : MonoBehaviour {
 		controllingState = ControllingState.ControllingSelf;
 		movementState = CameraMovementState.ControlledByPlayer;
 
-		UpdateFloorObjectBoundaries();
+		(xBounds, zBounds) = GeneralHelper.GetFloorObjectBoundaries(false);
+		GeneralHelper.GetLevelSize();
 	}
 
 	void Update() {
@@ -71,40 +72,6 @@ public class CameraController : MonoBehaviour {
 		}
 
 		#endregion
-
-	public void UpdateFloorObjectBoundaries() {
-		GameObject[] allFloorObjects = GameObject.FindGameObjectsWithTag("Floor");
-		xBounds = new Vector2();
-		zBounds = new Vector2();
-		float minX, maxX, minZ, maxZ;
-
-		if (allFloorObjects.Length == 0)
-			return;
-		
-		minX = maxX = allFloorObjects[0].transform.position.x;
-		minZ = maxZ = allFloorObjects[0].transform.position.z;
-
-		foreach(var floor in allFloorObjects) {
-			var position = floor.transform.position;
-
-			if (position.x < minX)
-				minX = position.x;
-			
-			if (position.x > maxX)
-				maxX = position.x;
-
-			if (position.z < minZ)
-				minZ = position.z;
-			
-			if (position.z > maxZ)
-				maxZ = position.z;
-		}
-
-		xBounds.x = minX;
-		xBounds.y = maxX;
-		zBounds.x = minZ;
-		zBounds.y = maxZ;
-	}
 
 	private void HandleMovement() {
 		float verticalAxis = Input.GetAxis("Vertical");

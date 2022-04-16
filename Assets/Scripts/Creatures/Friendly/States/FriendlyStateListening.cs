@@ -30,7 +30,10 @@ internal class FriendlyStateListening : FriendlyState {
 			{"Trigger", ListeningCommands.PickUp}
 		};
 		commandUiExists = false;
-		layerMask = ~(1 << LayerMask.NameToLayer("WallHidden"));
+		
+		var wallHidden = 1 << LayerMask.NameToLayer("WallHidden");
+		var ignoreRaycast = 1 << LayerMask.NameToLayer("Ignore Raycast");
+		layerMask = ~(wallHidden | ignoreRaycast);
 
 		ResetIgnoreMouseClickTimer();
 	}
