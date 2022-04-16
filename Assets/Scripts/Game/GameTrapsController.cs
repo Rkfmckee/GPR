@@ -68,6 +68,7 @@ public class GameTrapsController : MonoBehaviour {
 
 	public void DisableObjectPlacement() {
 		if (objectPlacement != null) Destroy(objectPlacement);
+		objectPlacementController = null;
 
 		References.UI.canvas.GetComponent<CanvasController>().DisableHoldingItemText();
 	}

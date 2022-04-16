@@ -89,7 +89,13 @@ public abstract class Highlightable : MonoBehaviour {
 	protected abstract void RightClicked();
 
 	protected virtual bool DontHighlight() {
-		return gameTraps.objectPlacement != null || !statesAndUiText.ContainsKey(cameraController.GetControllingState());
+		var dontHighlight = !statesAndUiText.ContainsKey(cameraController.GetControllingState());
+		
+		if (gameTraps.objectPlacementController != null) {
+			dontHighlight = dontHighlight || !gameTraps.objectPlacementController.IsPositionFinalized();
+		}
+
+		return dontHighlight;
 	}
 
 	private bool OtherActionTextActive() {

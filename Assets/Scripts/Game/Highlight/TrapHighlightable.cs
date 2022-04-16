@@ -23,7 +23,6 @@ public class TrapHighlightable : ObstacleHighlightable {
 			{
 				ControllingState.ControllingSelf, new List<GameObject>{
 					Resources.Load<GameObject>("Prefabs/UI/ActionText/ModifyItem"),
-					Resources.Load<GameObject>("Prefabs/UI/ActionText/PickupItem")
 				}
 			},
 			{
