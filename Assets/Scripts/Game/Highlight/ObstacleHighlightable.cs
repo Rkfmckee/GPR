@@ -17,7 +17,7 @@ public class ObstacleHighlightable : Highlightable {
 		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
 			{
 				ControllingState.ControllingFriendly, new List<GameObject>{
-					Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem")
+					Resources.Load<GameObject>("Prefabs/UI/ActionText/PickupItem")
 				}
 			}
 		};
@@ -29,7 +29,10 @@ public class ObstacleHighlightable : Highlightable {
 
 	#region Methods
 
-	protected override void Clicked() {
+	protected override void LeftClicked() {
+	}
+
+	protected override void RightClicked() {
 	}
 
 	#endregion

@@ -11,17 +11,13 @@ public class CanvasController : MonoBehaviour {
 	private GameObject trapDetails;
 	private GameObject trapDetailsPrefab;
 
-	private GameObject holdingItemPlaceText;
-	private GameObject holdingItemThrowText;
-	private GameObject holdingItemPlacePrefab;
-	private GameObject holdingItemThrowPrefab;
+	private GameObject placeItemText;
+	private GameObject placeItemTextPrefab;
 
-	private GameObject linkItemBothText;
-	private GameObject pickupItemTextPrefab;
-	private GameObject modifyItemTextPrefab;
-	private GameObject linkItemBothTextPrefab;
+	private GameObject linkItemText;
+	private GameObject linkItemTextPrefab;
 
-	private List<GameObject> highlightTextActive;
+	private List<GameObject> actionTextActive;
 	private CameraController cameraController;
 
 	#endregion
@@ -31,17 +27,14 @@ public class CanvasController : MonoBehaviour {
 	private void Awake() {
 		References.UI.canvas = gameObject;
 		References.UI.Controllers.canvasController = this;
-		highlightTextActive = new List<GameObject>();
+		actionTextActive = new List<GameObject>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 
 		caveInventoryPrefab = Resources.Load<GameObject>("Prefabs/UI/CaveInventory");
 		trapDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapDetails");
-		holdingItemPlacePrefab = Resources.Load<GameObject>("Prefabs/UI/HoldingItemPlace");
-		holdingItemThrowPrefab = Resources.Load<GameObject>("Prefabs/UI/HoldingItemThrow");
 
-		pickupItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/PickupItem");
-		modifyItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ModifyItem");
-		linkItemBothTextPrefab = Resources.Load<GameObject>("Prefabs/UI/LinkItemBoth");
+		placeItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText/PlaceItem");
+		linkItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText/LinkItem");
 	}
 
 	#endregion
@@ -75,50 +68,62 @@ public class CanvasController : MonoBehaviour {
 		}
 	}
 
-	public void EnableHoldingItemText() {
-		if (holdingItemPlaceText == null) {
-			holdingItemPlaceText = Instantiate(holdingItemPlacePrefab);
-			holdingItemPlaceText.transform.SetParent(transform);
-		}
+    public void EnableHoldingItemText() {
+        if (placeItemText == null) {
+            placeItemText = Instantiate(placeItemTextPrefab);
+            placeItemText.transform.SetParent(transform);
+        }
 	}
 
 	public void DisableHoldingItemText() {
-		if (holdingItemPlaceText != null) Destroy(holdingItemPlaceText);
-		if (holdingItemThrowText != null) Destroy(holdingItemThrowText);
-	}
-
-	public void EnableHighlightText(Dictionary<ControllingState, List<GameObject>> statesAndUiText) {
-		List<GameObject> uiText = statesAndUiText[cameraController.GetControllingState()];
-		
-		foreach(GameObject textObject in uiText) {
-			GameObject textInstance = Instantiate(textObject);
-			textInstance.transform.SetParent(transform);
-
-			highlightTextActive.Add(textInstance);
-		}
-	}
-
-	public void DisableHighlightText() {
-		foreach(GameObject textObject in highlightTextActive) {
-			Destroy(textObject);
-		}
-
-		highlightTextActive.Clear();
-	}
-
-	public bool IsHighlightTextActive() {
-		return highlightTextActive.Count > 0;
+		if (placeItemText != null) Destroy(placeItemText);
 	}
 
 	public void EnableLinkingItemText(bool enable) {
 		if (enable) {
-			if (linkItemBothText == null) {
-				linkItemBothText = Instantiate(linkItemBothTextPrefab);
-				linkItemBothText.transform.SetParent(transform);
+			if (linkItemText == null) {
+				linkItemText = Instantiate(linkItemTextPrefab);
+				linkItemText.transform.SetParent(transform);
 			}
 		} else {
-			if (linkItemBothText != null) Destroy(linkItemBothText);
+			if (linkItemText != null) Destroy(linkItemText);
 		}
+	}
+
+	public void EnableActionText(Dictionary<ControllingState, List<GameObject>> statesAndUiText) {
+		var actionTextForCurrentState = statesAndUiText[cameraController.GetControllingState()];
+		
+		EnableActionText(actionTextForCurrentState);
+	}
+
+	public void EnableActionText(List<GameObject> actionTextObjects) {
+		if (actionTextObjects.Count <= 0) {
+			return;
+		}
+
+		var currentPosition = actionTextObjects[0].transform.position;
+		var amountToChangePosition = new Vector3(0, 50, 0);
+		
+		foreach(GameObject textObject in actionTextObjects) {
+			GameObject textInstance = Instantiate(textObject);
+			textInstance.transform.SetParent(transform);
+			textInstance.transform.position = currentPosition;
+
+			currentPosition += amountToChangePosition;
+			actionTextActive.Add(textInstance);
+		}
+	}
+
+	public void DisableActionText() {
+		foreach(GameObject textObject in actionTextActive) {
+			Destroy(textObject);
+		}
+
+		actionTextActive.Clear();
+	}
+
+	public bool IsActionTextActive() {
+		return actionTextActive.Count > 0;
 	}
 
 	#endregion

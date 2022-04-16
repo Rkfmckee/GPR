@@ -33,9 +33,7 @@ public class TrapLinkingLine : MonoBehaviour {
 		if (!gameTraps.IsLinkingTextActive()) {
 			gameTraps.EnableLinkingItemText(true);
 
-			if (canvasController.IsHighlightTextActive()) {
-				canvasController.DisableHighlightText();
-			}
+			canvasController.DisableActionText();
 		}
 	}
 

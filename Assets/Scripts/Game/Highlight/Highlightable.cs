@@ -11,7 +11,7 @@ public abstract class Highlightable : MonoBehaviour {
 
     protected GameTrapsController gameTraps;
 	private CanvasController canvasController;
-	private CameraController cameraController;
+	protected CameraController cameraController;
 
     #endregion
 
@@ -43,14 +43,17 @@ public abstract class Highlightable : MonoBehaviour {
 		if (!IsHighlightingMe()) {
 			if (outline.enabled) {
                 outline.enabled = false;
-				canvasController.DisableHighlightText();
+				
+				canvasController.DisableActionText();
             }
 			return;
 		}
 
 		if (!outline.enabled) {
 			outline.enabled = true;
-			canvasController.EnableHighlightText(statesAndUiText);
+
+			if (!canvasController.IsActionTextActive() && !OtherActionTextActive())
+				canvasController.EnableActionText(statesAndUiText);
 		}
 
 		if (gameTraps.IsTrapLinkingLineActive()) {
@@ -58,7 +61,11 @@ public abstract class Highlightable : MonoBehaviour {
 		}
 
 		if (Input.GetButtonDown("Fire1")) {
-			Clicked();
+			LeftClicked();
+		}
+
+		if (Input.GetButtonDown("Fire2")) {
+			RightClicked();
 		}
     }
 
@@ -78,9 +85,15 @@ public abstract class Highlightable : MonoBehaviour {
 
 		#endregion
 
-    protected abstract void Clicked();
+    protected abstract void LeftClicked();
+	protected abstract void RightClicked();
+
 	protected virtual bool DontHighlight() {
 		return gameTraps.objectPlacement != null || !statesAndUiText.ContainsKey(cameraController.GetControllingState());
+	}
+
+	private bool OtherActionTextActive() {
+		return References.GameController.gameTraps.IsLinkingTextActive();
 	}
 
     #endregion

@@ -32,7 +32,7 @@ public class GoblinHighlightable : Highlightable {
 
     #region Methods
 
-    protected override void Clicked() {
+    protected override void LeftClicked() {
         if (goblinBehaviour == null) {
             print($"{gameObject} doesn't have a GoblinBehaviour");
             return;
@@ -41,5 +41,8 @@ public class GoblinHighlightable : Highlightable {
 		goblinBehaviour.SetCurrentlyControlled(true);
     }
 
-    #endregion
+	protected override void RightClicked() {
+	}
+
+	#endregion
 }

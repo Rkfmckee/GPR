@@ -17,7 +17,7 @@
 
     #region Methods
 
-    protected override void Clicked() {
+    protected override void LeftClicked() {
         if (chestController.GetCurrentState() == Chest.ChestState.Closed) {
             chestController.Open();
 
@@ -25,5 +25,8 @@
         }
     }
 
-    #endregion
+	protected override void RightClicked() {
+	}
+
+	#endregion
 }

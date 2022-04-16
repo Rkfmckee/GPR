@@ -22,12 +22,13 @@ public class TrapHighlightable : ObstacleHighlightable {
 		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
 			{
 				ControllingState.ControllingSelf, new List<GameObject>{
-					Resources.Load<GameObject>("Prefabs/UI/Highlight/ModifyItem")
+					Resources.Load<GameObject>("Prefabs/UI/ActionText/ModifyItem"),
+					Resources.Load<GameObject>("Prefabs/UI/ActionText/PickupItem")
 				}
 			},
 			{
 				ControllingState.ControllingFriendly, new List<GameObject>{
-					Resources.Load<GameObject>("Prefabs/UI/Highlight/PickupItem")
+					Resources.Load<GameObject>("Prefabs/UI/ActionText/PickupItem")
 				}
 			}
 		};
@@ -42,12 +43,6 @@ public class TrapHighlightable : ObstacleHighlightable {
             if (!healthBar.activeSelf) {
                 healthBar.SetActive(true);
             }
-
-            if (Input.GetButtonDown("Fire2")) {
-                if (tag == "Trap" || tag == "Trigger") {
-                    gameTraps.ShouldShowTrapDetails(true, gameObject);
-                }
-            }
         } else {
             if (healthBar.activeSelf) {
                 healthBar.SetActive(false);
@@ -56,6 +51,14 @@ public class TrapHighlightable : ObstacleHighlightable {
     }
 
 	#endregion
+
+	#region Methods
+
+	protected override void RightClicked() {
+		if (cameraController.GetControllingState() == ControllingState.ControllingSelf) {
+			gameTraps.ShouldShowTrapDetails(true, gameObject);
+		}
+	}
 
 	protected override bool DontHighlight() {
 		var dontHighlight = gameTraps.IsTrapDetailsOpen();
@@ -66,4 +69,6 @@ public class TrapHighlightable : ObstacleHighlightable {
 		
 		return dontHighlight || base.DontHighlight();
 	}
+
+	#endregion
 }
