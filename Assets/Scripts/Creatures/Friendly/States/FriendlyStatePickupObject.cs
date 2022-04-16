@@ -102,7 +102,12 @@ internal class FriendlyStatePickupObject : FriendlyState {
         TrapController trapController = heldObject.GetComponent<TrapController>();
 
         if (trapController == null) {
-			position.y = heldObject.GetComponentInChildren<Collider>().bounds.size.y / 2;
+			var minY = heldObject.GetComponentInChildren<Collider>().bounds.size.y / 2;
+
+			if (position.y <= minY) {
+				position.y = minY;
+			}
+
 			return (position, rotation);
 		}
 

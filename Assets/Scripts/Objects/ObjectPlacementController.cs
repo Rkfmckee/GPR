@@ -13,6 +13,8 @@ public class ObjectPlacementController : MonoBehaviour {
 	private Material validMaterial;
 	private Material invalidMaterial;
 	private Dictionary<string, int> layerMasks;
+	private Vector3 minimumBoundary;
+	private Vector3 maximumBoundary;
 
 	private new Camera camera;
 	private GameObject placementObject;
@@ -40,6 +42,10 @@ public class ObjectPlacementController : MonoBehaviour {
 		if (!positionFinalized) {
 			CheckForRaycastHit();
 			MoveOutOfOverlap();
+
+			if (validPlacement)
+				validPlacement = PositionWithinBoundaries(transform.position);
+
 			ValidPlacementChangeMaterial();
 
 			if (Input.GetButtonDown("Fire1")) {
@@ -76,6 +82,8 @@ public class ObjectPlacementController : MonoBehaviour {
 
 		placementObjectRenderer = placementObject.GetComponent<MeshRenderer>();
 		heldObjectTrapController = heldObject.GetComponent<TrapController>();
+
+		SetPositionBoundaries();
 	}
 
 	private void CreateLayerMasks() {
@@ -136,6 +144,37 @@ public class ObjectPlacementController : MonoBehaviour {
 				transform.position += (direction * distance);
 			}
 		}
+	}
+
+	private void SetPositionBoundaries() {
+		(var xBounds, var zBounds) = GeneralHelper.GetFloorObjectBoundaries(true);
+		var wallThicknessOffset = 0.8f;
+
+		xBounds.x += placementObjectCollider.bounds.extents.x + wallThicknessOffset;
+		xBounds.y -= placementObjectCollider.bounds.extents.x  + wallThicknessOffset;
+
+		zBounds.x += placementObjectCollider.bounds.extents.z + wallThicknessOffset;
+		zBounds.y -= placementObjectCollider.bounds.extents.z + wallThicknessOffset;
+
+		var yBound = 6 - placementObjectCollider.bounds.extents.y;
+
+		minimumBoundary = new Vector3(xBounds.x, 0, zBounds.x);
+		maximumBoundary = new Vector3(xBounds.y, yBound, zBounds.y);
+	}
+
+	private bool PositionWithinBoundaries(Vector3 position) {
+		if (position.x < minimumBoundary.x
+		|| position.z < minimumBoundary.z) {
+			return false;
+		}
+
+		if (position.x > maximumBoundary.x
+		|| position.y > maximumBoundary.y
+		|| position.z > maximumBoundary.z) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private void ValidPlacementChangeMaterial() {
