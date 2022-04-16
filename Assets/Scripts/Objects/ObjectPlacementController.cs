@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static TrapController;
 
 public class ObjectPlacementController : MonoBehaviour {
 	#region Properties
 
-	public float maxPlacementDistance;
 	[HideInInspector]
 	public bool validPlacement;
 	[HideInInspector]
@@ -15,9 +12,7 @@ public class ObjectPlacementController : MonoBehaviour {
 	private bool positionFinalized;
 	private Material validMaterial;
 	private Material invalidMaterial;
-	private Dictionary<string, string> placementPrefabs;
 	private Dictionary<string, int> layerMasks;
-	private SurfaceType? surfaceToPlaceOn;
 
 	private new Camera camera;
 	private GameObject placementObject;
@@ -39,7 +34,6 @@ public class ObjectPlacementController : MonoBehaviour {
 		validPlacement = true;
 
 		CreateLayerMasks();
-		SetPlacementPrefabs();
 	}
 
 	private void Update() {
@@ -91,13 +85,6 @@ public class ObjectPlacementController : MonoBehaviour {
 		layerMasks.Add("WallDecoration", 1 << LayerMask.NameToLayer("WallDecoration"));
 		layerMasks.Add("WallWithDecoration", layerMasks["Wall"] | layerMasks["WallDecoration"]);
 		layerMasks.Add("Terrain", layerMasks["Floor"] | layerMasks["WallWithDecoration"]);
-	}
-
-	private void SetPlacementPrefabs() {
-		placementPrefabs = new Dictionary<string, string> {
-			{"Crate", "CratePlacement"},
-			{"SpikeTrap", "SpikeTrapPlacement"}
-		};
 	}
 
 	private void CopyColliderToPlacementModel(GameObject heldObject) {
