@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameTrapsController : MonoBehaviour {
 	#region Properties
 
 	[HideInInspector]
-	public GameObject objectPlacement;
-	public ObjectPlacementController objectPlacementController;
+	public List<GameObject> obstaclePlacements;
 
-	private GameObject objectPlacementPrefab;
+	private GameObject obstaclePlacementPrefab;
 	private GameObject trapLinkingLinePrefab;
 	private GameObject trapLinkingLine;
 	private bool inventoryOpen;
@@ -22,7 +20,9 @@ public class GameTrapsController : MonoBehaviour {
 
 	private void Awake() {
 		References.GameController.gameTraps = this;
-		objectPlacementPrefab = Resources.Load("Prefabs/Objects/Placement/ObjectPlacement") as GameObject;
+		obstaclePlacements = new List<GameObject>();
+
+		obstaclePlacementPrefab = Resources.Load("Prefabs/Obstacles/Placement/ObstaclePlacement") as GameObject;
 		trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
 	}
 
@@ -62,17 +62,6 @@ public class GameTrapsController : MonoBehaviour {
 		}
 	}
 
-	public void EnableObjectPlacementIfPossible(GameObject heldObject) {
-		StartCoroutine(CheckIfObjectPlacementCanBeEnabled(heldObject));
-	}
-
-	public void DisableObjectPlacement() {
-		if (objectPlacement != null) Destroy(objectPlacement);
-		objectPlacementController = null;
-
-		References.UI.canvas.GetComponent<CanvasController>().DisableHoldingItemText();
-	}
-
 	public void CreateTrapLinkingLine(Transform startTransform) {
 		if (trapLinkingLine == null) {
 			trapLinkingLine = Instantiate(trapLinkingLinePrefab);
@@ -85,27 +74,22 @@ public class GameTrapsController : MonoBehaviour {
 		linkingTextActive = enable;
 	}
 
-	private void EnableObjectPlacement(GameObject heldObject) {
-		objectPlacement = Instantiate(objectPlacementPrefab);
-		objectPlacement.transform.parent = gameObject.transform;
-		objectPlacementController = objectPlacement.GetComponent<ObjectPlacementController>();
-		objectPlacementController.SetHeldObject(heldObject);
+	public GameObject EnableObstaclePlacement(GameObject heldObject) {
+		var obstaclePlacement = Instantiate(obstaclePlacementPrefab);
+		obstaclePlacement.transform.parent = gameObject.transform;
+		obstaclePlacement.GetComponent<ObstaclePlacementController>().SetHeldObject(heldObject);
+		obstaclePlacements.Add(obstaclePlacement);
 
 		References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText();
+		return obstaclePlacement;
 	}
 
-	#endregion
-
-	#region Coroutines
-
-	private IEnumerator CheckIfObjectPlacementCanBeEnabled(GameObject heldObject) {
-		GameTrapsController gameTrapController = References.GameController.gameTraps;
-
-		while (gameTrapController.IsInventoryOpen()) {
-			yield return null;
-		}
-
-		EnableObjectPlacement(heldObject);
+	public void DisableObstaclePlacement(GameObject obstaclePlacement) {
+		if (obstaclePlacement != null) Destroy(obstaclePlacement);
+		obstaclePlacements.Remove(obstaclePlacement);
+		
+		if (obstaclePlacements.Count <= 0)
+			References.UI.canvas.GetComponent<CanvasController>().DisableHoldingItemText();
 	}
 
 	#endregion

@@ -24,6 +24,9 @@ public class CameraController : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
+		References.Camera.camera = GetComponent<Camera>();
+		References.Camera.cameraController = this;
+		
 		orientationController = GetComponent<CameraOrientationController>();
 
 		clampZOffset = 6;
@@ -38,6 +41,7 @@ public class CameraController : MonoBehaviour {
 		if (movementState == CameraMovementState.Transitioning)
 		return;
 
+		print(GetControllingState());
 		HandleMovement();
 	}
 
@@ -148,6 +152,7 @@ public class CameraController : MonoBehaviour {
 		public enum ControllingState {
 		ControllingSelf,
 		ControllingFriendly,
+		ControllingObstaclePlacement,
 		ControllingMenu
 	}
 	

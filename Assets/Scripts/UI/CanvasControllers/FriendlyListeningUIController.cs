@@ -6,7 +6,6 @@ public class FriendlyListeningUIController : MonoBehaviour {
 	
 	private GameObject listeningCommand;
 	private GameObject listeningCommandPrefab;
-	private float yPositionOffset;
 
 	#endregion
 
@@ -15,8 +14,6 @@ public class FriendlyListeningUIController : MonoBehaviour {
 	private void Awake() {
 		References.UI.Controllers.friendlyListeningUIController = this;
 		listeningCommandPrefab = Resources.Load<GameObject>("Prefabs/UI/FriendlyListeningCommand");
-
-		yPositionOffset = -100;
 	}
 
 	private void LateUpdate() {
@@ -47,7 +44,7 @@ public class FriendlyListeningUIController : MonoBehaviour {
 		if (listeningCommand == null)
 			return null;
 
-		Vector3 position = Input.mousePosition + new Vector3(0, yPositionOffset, 0);
+		Vector3 position = Input.mousePosition;
 		listeningCommand.transform.position = position;
 		return position;
 	}

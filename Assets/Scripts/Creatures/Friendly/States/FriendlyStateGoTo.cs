@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static CameraController;
 
 public class FriendlyStateGoTo : FriendlyState {
 	#region Properties
@@ -11,6 +12,8 @@ public class FriendlyStateGoTo : FriendlyState {
 	#region Constructor
 	
 	public FriendlyStateGoTo(GameObject gameObj, Vector3 target) : base(gameObj) {		
+		References.Camera.cameraController.SetControllingState(ControllingState.ControllingSelf);
+		
 		targetPosition = target;
 		navMeshAgent.SetDestination(targetPosition);
 	}

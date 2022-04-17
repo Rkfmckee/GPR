@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static CameraController;
 
 internal class FriendlyStatePickupObject : FriendlyState {
 	#region Properties
@@ -7,22 +8,24 @@ internal class FriendlyStatePickupObject : FriendlyState {
 	private bool isHoldingObject;
 	private float interactionDistance;
 
-	private GameObject objectToPickup;
+	private GameObject obstacleToPickup;
 	private GameObject heldObject;
 	private PickUpObject heldObjectPickup;
-	private GameObject objectPlacement;
-	private ObjectPlacementController objectPlacementController;
+	private GameObject obstaclePlacement;
+	private ObstaclePlacementController obstaclePlacementController;
 
 	#endregion
 
 	#region Constructor
 
-	public FriendlyStatePickupObject(GameObject gameObj, GameObject objToPickup) : base(gameObj){
-		objectToPickup = objToPickup;
+	public FriendlyStatePickupObject(GameObject gameObj, GameObject obsToPickup) : base(gameObj){
+		References.Camera.cameraController.SetControllingState(ControllingState.ControllingObstaclePlacement);
+		
+		obstacleToPickup = obsToPickup;
 		isHoldingObject = false;
 		interactionDistance = 3;
 
-		EnableObjectPlacement(objectToPickup);
+		EnableObstaclePlacement(obstacleToPickup);
 	}
 
 	#endregion
@@ -33,19 +36,19 @@ internal class FriendlyStatePickupObject : FriendlyState {
 		base.Update();
 
 		if (!isHoldingObject) {
-			navMeshAgent.SetDestination(objectToPickup.transform.position);
+			navMeshAgent.SetDestination(obstacleToPickup.transform.position);
 
-			if (IsWithinInteractionDistance(transform.position, objectToPickup.transform.position)) {
+			if (IsWithinInteractionDistance(transform.position, obstacleToPickup.transform.position)) {
 				navMeshAgent.isStopped = true;
 				SetHeldObject();
 			}
 		} else {
-			if (objectPlacement == null || objectPlacementController == null)
+			if (obstaclePlacement == null || obstaclePlacementController == null)
 				return;
 
-			if (objectPlacementController.IsPositionFinalized()) {
-				var positionToPlace = objectPlacement.transform.position;
-				var rotationToPlace = objectPlacement.transform.rotation;
+			if (obstaclePlacementController.IsPositionFinalized()) {
+				var positionToPlace = obstaclePlacement.transform.position;
+				var rotationToPlace = obstaclePlacement.transform.rotation;
 				navMeshAgent.isStopped = false;
 				navMeshAgent.SetDestination(positionToPlace);
 
@@ -62,13 +65,11 @@ internal class FriendlyStatePickupObject : FriendlyState {
 
 	#region Methods
 
-	private void EnableObjectPlacement(GameObject obj) {
-		References.GameController.gameTraps.EnableObjectPlacementIfPossible(obj);
+	private void EnableObstaclePlacement(GameObject obstacle) {
+		obstaclePlacement = References.GameController.gameTraps.EnableObstaclePlacement(obstacle);
+		obstaclePlacementController = obstaclePlacement.GetComponent<ObstaclePlacementController>();
 
-		objectPlacement = References.GameController.gameTraps.objectPlacement;
-		objectPlacementController = References.GameController.gameTraps.objectPlacementController;
-
-		objectPlacementController.SetHeldObject(obj);
+		obstaclePlacementController.SetHeldObject(obstacle);
 	}
 
 	private bool IsWithinInteractionDistance(Vector3 position, Vector3 targetPosition) {
@@ -77,13 +78,13 @@ internal class FriendlyStatePickupObject : FriendlyState {
 	}
 
 	private void SetHeldObject() {
-		heldObject = objectToPickup;
+		heldObject = obstacleToPickup;
         heldObject.transform.parent = transform;
         heldObjectPickup = heldObject.GetComponent<PickUpObject>();
 
 		isHoldingObject = true;
 		heldObjectPickup.SetCurrentState(PickUpObject.State.Held);
-		objectToPickup = null;
+		obstacleToPickup = null;
 	}
 
 	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {
@@ -112,13 +113,13 @@ internal class FriendlyStatePickupObject : FriendlyState {
 		}
 
 		if (trapController.GetSurfaceType() == TrapController.SurfaceType.WALL) {
-			Vector3 hitNormal = objectPlacementController.hitInformation.normal;
+			Vector3 hitNormal = obstaclePlacementController.hitInformation.normal;
 			rotation = Quaternion.LookRotation(hitNormal);
 
 			if (Math.Abs(hitNormal.x) == 1) {
-				position.x = objectPlacementController.hitInformation.point.x;
+				position.x = obstaclePlacementController.hitInformation.point.x;
 			} else if (Math.Abs(hitNormal.z) == 1) {
-				position.z = objectPlacementController.hitInformation.point.z;
+				position.z = obstaclePlacementController.hitInformation.point.z;
 			}
 		} else {
 			position.y = 0;
@@ -132,7 +133,7 @@ internal class FriendlyStatePickupObject : FriendlyState {
             heldObject.transform.parent = null;
             heldObject = null;
 
-            References.GameController.gameTraps.DisableObjectPlacement();
+            References.GameController.gameTraps.DisableObstaclePlacement(obstaclePlacement);
         }
     }
 

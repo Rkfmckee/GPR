@@ -4,6 +4,11 @@ using UnityEngine;
 public static class References {
     public static GameObject storageRoom;
 
+	public static class Camera {
+		public static UnityEngine.Camera camera;
+		public static CameraController cameraController;
+	}
+
     public static class FriendlyCreature {
         public static List<GameObject> goblins = new List<GameObject>();
     }

@@ -16,9 +16,9 @@ public class Arrow : MonoBehaviour
     private void Awake() {
         rigidbody = gameObject.GetComponent<Rigidbody>();
 		arrowPieces = new GameObject[] {
-			Resources.Load("Prefabs/Objects/Traps/ArrowTrap/ArrowPiece-Body") as GameObject,
-			Resources.Load("Prefabs/Objects/Traps/ArrowTrap/ArrowPiece-Feather") as GameObject,
-			Resources.Load("Prefabs/Objects/Traps/ArrowTrap/ArrowPiece-Tip") as GameObject
+			Resources.Load("Prefabs/Obstacles/Traps/ArrowTrap/ArrowPiece-Body") as GameObject,
+			Resources.Load("Prefabs/Obstacles/Traps/ArrowTrap/ArrowPiece-Feather") as GameObject,
+			Resources.Load("Prefabs/Obstacles/Traps/ArrowTrap/ArrowPiece-Tip") as GameObject
 		};
     }
 

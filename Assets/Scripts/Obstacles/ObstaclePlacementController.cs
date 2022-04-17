@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static CameraController;
 
-public class ObjectPlacementController : MonoBehaviour {
+public class ObstaclePlacementController : MonoBehaviour {
 	#region Properties
 
 	[HideInInspector]
@@ -30,8 +31,8 @@ public class ObjectPlacementController : MonoBehaviour {
 		camera = Camera.main;
 
 		positionFinalized = false;
-		validMaterial = Resources.Load("Materials/Objects/Placement/ValidPlacement") as Material;
-		invalidMaterial = Resources.Load("Materials/Objects/Placement/InvalidPlacement") as Material;
+		validMaterial = Resources.Load("Materials/Obstacles/Placement/ValidPlacement") as Material;
+		invalidMaterial = Resources.Load("Materials/Obstacles/Placement/InvalidPlacement") as Material;
 
 		validPlacement = true;
 
@@ -49,7 +50,7 @@ public class ObjectPlacementController : MonoBehaviour {
 			ValidPlacementChangeMaterial();
 
 			if (Input.GetButtonDown("Fire1")) {
-				positionFinalized = validPlacement;
+				FinalizePosition();
 			}
 		}
 	}
@@ -185,6 +186,11 @@ public class ObjectPlacementController : MonoBehaviour {
 				placementObjectRenderer.material = invalidMaterial;
 			}
 		}
+	}
+
+	private void FinalizePosition() {
+		positionFinalized = true;
+		References.Camera.cameraController.SetControllingState(ControllingState.ControllingSelf);
 	}
 
 	#endregion

@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1356967836605676759}
-  - component: {fileID: 6980323867598080621}
+  - component: {fileID: 4084898414129625198}
   m_Layer: 0
-  m_Name: ObjectPlacement
+  m_Name: ObstaclePlacement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,11 +27,12 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6980323867598080621
+--- !u!114 &4084898414129625198
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,8 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7965703118723029703}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff5b898f60efabc44897bc1c2bccedec, type: 3}
+  m_Script: {fileID: 11500000, guid: dedd7a42f4e8c7146bf71c61e3aeab66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   validPlacement: 0
-  maxPlacementDistance: 10

@@ -90,11 +90,6 @@ public abstract class Highlightable : MonoBehaviour {
 
 	protected virtual bool DontHighlight() {
 		var dontHighlight = !statesAndUiText.ContainsKey(cameraController.GetControllingState());
-		
-		if (gameTraps.objectPlacementController != null) {
-			dontHighlight = dontHighlight || !gameTraps.objectPlacementController.IsPositionFinalized();
-		}
-
 		return dontHighlight;
 	}
 

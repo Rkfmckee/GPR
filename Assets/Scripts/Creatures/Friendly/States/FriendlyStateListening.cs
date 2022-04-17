@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using static CameraController;
 
 internal class FriendlyStateListening : FriendlyState {
 	#region Properties
@@ -21,7 +22,8 @@ internal class FriendlyStateListening : FriendlyState {
 	
 	public FriendlyStateListening(GameObject gameObj) : base(gameObj) {
 		uiController = References.UI.Controllers.friendlyListeningUIController;
-		camera = Camera.main;
+		camera = References.Camera.camera;
+		References.Camera.cameraController.SetControllingState(ControllingState.ControllingFriendly);
 
 		tagsToListeningCommands = new Dictionary<string, ListeningCommands> {
 			{"Floor", ListeningCommands.Move},
