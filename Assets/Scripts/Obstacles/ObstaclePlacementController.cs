@@ -49,7 +49,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 			ValidPlacementChangeMaterial();
 
-			if (Input.GetButtonDown("Fire1")) {
+			if (Input.GetButtonDown("Fire1") && validPlacement) {
 				FinalizePosition();
 			}
 		}

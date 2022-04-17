@@ -41,7 +41,6 @@ public class CameraController : MonoBehaviour {
 		if (movementState == CameraMovementState.Transitioning)
 		return;
 
-		print(GetControllingState());
 		HandleMovement();
 	}
 
