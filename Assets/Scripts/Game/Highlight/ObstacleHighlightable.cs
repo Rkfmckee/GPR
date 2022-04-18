@@ -1,4 +1,8 @@
-﻿public class ObstacleHighlightable : HighlightableObject {
+﻿using System.Collections.Generic;
+using UnityEngine;
+using static CameraController;
+
+public class ObstacleHighlightable : Highlightable {
     #region Properties
 
     private PickUpObject pickupController;
@@ -10,27 +14,26 @@
     protected override void Awake() {
         base.Awake();
 
+		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+			{
+				ControllingState.ControllingFriendly, new List<GameObject>{
+					Resources.Load<GameObject>("Prefabs/UI/ActionText/PickupItem")
+				}
+			}
+		};
+
         pickupController = GetComponent<PickUpObject>();
     }
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    public override bool DontSelect() {
-        bool dontSelect = pickupController.currentState == PickUpObject.State.HELD;
+	protected override void LeftClicked() {
+	}
 
-        return dontSelect || base.DontSelect();
-    }
+	protected override void RightClicked() {
+	}
 
-    protected override void ObjectClicked() {
-        if (pickupController == null) {
-            print(gameObject + "can't be picked up");
-            return;
-        }
-
-        pickupController.SetCurrentState(PickUpObject.State.HELD);
-    }
-
-    #endregion
+	#endregion
 }

@@ -4,7 +4,7 @@ public class EnemySpawnArea : MonoBehaviour {
 	#region Properties
 
 	private void Awake() {
-		References.enemySpawnArea = gameObject;
+		References.HostileCreature.spawnArea = gameObject;
 	}
 
 	#endregion

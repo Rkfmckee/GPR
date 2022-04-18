@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using static CameraController;
 
 public class TrapHighlightable : ObstacleHighlightable {
     #region Properties
@@ -16,22 +18,29 @@ public class TrapHighlightable : ObstacleHighlightable {
 
         spikeController = GetComponent<SpikeTrap>();
         healthSystem = GetComponent<HealthSystem>();
+
+		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+			{
+				ControllingState.ControllingSelf, new List<GameObject>{
+					Resources.Load<GameObject>("Prefabs/UI/ActionText/ModifyItem"),
+				}
+			},
+			{
+				ControllingState.ControllingFriendly, new List<GameObject>{
+					Resources.Load<GameObject>("Prefabs/UI/ActionText/PickupItem")
+				}
+			}
+		};
     }
 
-    protected override void Update() {
-        base.Update();
-        if (DontSelect()) return;
+    protected override void Update() {		
+		base.Update();
+
         healthBar = healthSystem.GetHealthBar();
 
-        if (currentlyHightlightingMe) {
+        if (IsHighlightingMe()) {
             if (!healthBar.activeSelf) {
                 healthBar.SetActive(true);
-            }
-
-            if (Input.GetButtonDown("Fire2")) {
-                if (tag == "Trap" || tag == "Trigger") {
-                    gameTraps.ShouldShowTrapDetails(true, gameObject);
-                }
             }
         } else {
             if (healthBar.activeSelf) {
@@ -40,26 +49,25 @@ public class TrapHighlightable : ObstacleHighlightable {
         }
     }
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    public override bool DontSelect() {
-        bool dontSelect = false;
+	protected override void RightClicked() {
+		if (cameraController.GetControllingState() == ControllingState.ControllingSelf) {
+			gameTraps.ShouldShowTrapDetails(true, gameObject);
+		}
+	}
 
-        if (gameTraps.IsTrapDetailsOpen()) {
-            dontSelect = true;
-        }
+	protected override bool DontHighlight() {
+		var dontHighlight = gameTraps.IsTrapDetailsOpen();
 
-        if (spikeController != null) {
-            // If the type of trap we're picking up is a spike trap
-            if (spikeController.currentState != SpikeTrap.SpikeState.SpikesDown) {
-                dontSelect = true;
-            }
-        }
+		if (spikeController != null) {
+        	dontHighlight = dontHighlight || spikeController.currentState != SpikeTrap.SpikeState.SpikesDown;
+		}
+		
+		return dontHighlight || base.DontHighlight();
+	}
 
-        return dontSelect || base.DontSelect();
-    }
-
-    #endregion
+	#endregion
 }

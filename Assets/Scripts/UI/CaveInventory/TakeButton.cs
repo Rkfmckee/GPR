@@ -54,7 +54,7 @@ public class TakeButton : MonoBehaviour {
 				References.GameController.gameTraps.ShouldShowCaveInventory(false);
 
 				if (newItemPickup != null) {
-					newItemPickup.SetCurrentState(PickUpObject.State.HELD);
+					newItemPickup.SetCurrentState(PickUpObject.State.Held);
 				}
 			}
 		}

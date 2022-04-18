@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
-  - Enemy
   - Obstacle
   - Floor
   - Trap
@@ -13,6 +12,8 @@ TagManager:
   - Chest
   - WallDecoration
   - WanderPoint
+  - FriendlyCreature
+  - HostileCreature
   layers:
   - Default
   - TransparentFX
@@ -20,16 +21,16 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - FriendlyCreature
+  - HostileCreature
   - Obstacle
-  - Player
+  - 
   - Floor
   - Wall
   - WallDecoration
-  - WallIgnoreRaycast
+  - WallShouldHide
+  - WallHidden
   - Highlightable
-  - 
   - 
   - 
   - 
