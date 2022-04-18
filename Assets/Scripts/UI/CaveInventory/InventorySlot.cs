@@ -21,8 +21,11 @@ public class InventorySlot : MonoBehaviour {
 			itemButton.onClick.AddListener(ItemButtonClicked);
 		}
 
-		GameObject itemPrice = transform.Find("ItemButton").Find("ItemPrice").gameObject;
-		itemPrice.transform.Find("ItemPriceText").GetComponent<Text>().text = itemInSlot.GetComponent<CaveInventoryItem>().GetResourceCost().ToString();
+		var itemIcon = transform.Find("ItemButton").Find("ItemIcon");
+		itemIcon.GetComponent<Image>().sprite = itemInSlot.GetComponent<CaveInventoryItem>().inventoryIcon;
+
+		var itemPrice = transform.Find("ItemButton").Find("ItemPrice");
+		itemPrice.Find("ItemPriceText").GetComponent<Text>().text = itemInSlot.GetComponent<CaveInventoryItem>().resourceCost.ToString();
 	}
 
 	#endregion

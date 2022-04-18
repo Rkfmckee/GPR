@@ -30,7 +30,7 @@ public class CanvasController : MonoBehaviour {
 		actionTextActive = new List<GameObject>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 
-		caveInventoryPrefab = Resources.Load<GameObject>("Prefabs/UI/CaveInventory");
+		caveInventoryPrefab = Resources.Load<GameObject>("Prefabs/UI/CaveInventory/CaveInventory");
 		trapDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapDetails");
 
 		placeItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText/PlaceItem");
