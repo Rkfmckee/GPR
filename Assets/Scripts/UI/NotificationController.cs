@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ public class NotificationController : MonoBehaviour {
     private float currentDisplayTime;
     private float currentFadeTime;
 
-    private Text currentTextComponent;
+    private TextMeshProUGUI currentTextComponent;
 
     #endregion
 
@@ -29,7 +30,7 @@ public class NotificationController : MonoBehaviour {
         notificationPrefab = Resources.Load<GameObject>("Prefabs/UI/NotificationText");
         currentDisplayTime = 0;
         currentFadeTime = 0;
-        notificationColor = notificationPrefab.GetComponent<Text>().color;
+        notificationColor = notificationPrefab.GetComponent<TextMeshProUGUI>().color;
     }
 
     private void Update() {
@@ -53,7 +54,7 @@ public class NotificationController : MonoBehaviour {
     public void AddNotification(string notificationText) {
         GameObject newNotif = Instantiate(notificationPrefab, transform);
         newNotif.transform.localPosition = new Vector2(0, 0);
-        newNotif.GetComponent<Text>().text = notificationText;
+        newNotif.GetComponent<TextMeshProUGUI>().text = notificationText;
         newNotif.SetActive(false);
         notificationQueue.Add(newNotif);
     }
@@ -61,7 +62,7 @@ public class NotificationController : MonoBehaviour {
     private void GetNextNotificationFromQueue() {
         currentNotification = notificationQueue[0];
         currentNotification.SetActive(true);
-        currentTextComponent = currentNotification.GetComponent<Text>();
+        currentTextComponent = currentNotification.GetComponent<TextMeshProUGUI>();
 
         print(currentTextComponent.text);
         notificationQueue.Remove(currentNotification);
