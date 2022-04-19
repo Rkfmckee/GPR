@@ -4,14 +4,14 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour {
 	#region Properties
 
-	private Image healthBarAmount;
+	private Image currentHealth;
 
 	#endregion
 
 	#region Events
 
 	private void Awake() {
-		healthBarAmount = transform.GetChild(1).GetComponent<Image>();
+		currentHealth = transform.Find("BarAmount").GetComponent<Image>();
 	}
 
 	#endregion
@@ -19,7 +19,7 @@ public class HealthBar : MonoBehaviour {
 	#region Methods
 
 	public void ShowHealthFraction(float fraction) {
-		healthBarAmount.transform.localScale = new Vector3(fraction, 1, 1);
+		currentHealth.transform.localScale = new Vector3(fraction, 1, 1);
 	}
 
 	#endregion

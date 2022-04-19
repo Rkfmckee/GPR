@@ -3,7 +3,8 @@
 public abstract class TrapController : MonoBehaviour {
     #region Properties
 
-    protected SurfaceType trapType;
+	[SerializeField]
+    protected SurfaceType surfaceType;
 
     #endregion
 
@@ -11,7 +12,7 @@ public abstract class TrapController : MonoBehaviour {
 
     public abstract void TriggerTrap(Collider triggeredBy);
 
-    public SurfaceType GetSurfaceType() { return trapType; }
+    public SurfaceType GetSurfaceType() { return surfaceType; }
 
     #endregion
 

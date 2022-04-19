@@ -30,9 +30,9 @@ public class GameTrapsController : MonoBehaviour {
 
 	#region Methods
 
-	public void ShouldShowCaveInventory(bool showInventory) {
-		References.UI.canvas.GetComponent<CanvasController>().SetCaveInventoryVisible(showInventory);
-		inventoryOpen = showInventory;
+	public void ShouldShowCraftingMenu(bool showMenu, CraftingStation craftingStation = null) {
+		References.UI.canvas.GetComponent<CanvasController>().SetCraftingMenuVisible(showMenu, craftingStation);
+		inventoryOpen = showMenu;
 	}
 
 	public void ShouldShowTrapDetails(bool showDetails, GameObject trap) {

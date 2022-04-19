@@ -21,7 +21,7 @@
         if (chestController.GetCurrentState() == Chest.ChestState.Closed) {
             chestController.Open();
 
-            gameTraps.ShouldShowCaveInventory(true);
+            gameTraps.ShouldShowCraftingMenu(true);
         }
     }
 

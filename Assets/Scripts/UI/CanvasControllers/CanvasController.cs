@@ -5,8 +5,8 @@ using static CameraController;
 public class CanvasController : MonoBehaviour {
 	#region Properties
 
-	private GameObject caveInventory;
-	private GameObject caveInventoryPrefab;
+	private GameObject craftingMenu;
+	private GameObject craftingMenuPrefab;
 
 	private GameObject trapDetails;
 	private GameObject trapDetailsPrefab;
@@ -30,7 +30,7 @@ public class CanvasController : MonoBehaviour {
 		actionTextActive = new List<GameObject>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 
-		caveInventoryPrefab = Resources.Load<GameObject>("Prefabs/UI/CaveInventory/CaveInventory");
+		craftingMenuPrefab = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/CraftingMenu");
 		trapDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapDetails");
 
 		placeItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText/PlaceItem");
@@ -41,15 +41,16 @@ public class CanvasController : MonoBehaviour {
 
 	#region Methods
 
-	public void SetCaveInventoryVisible(bool visible) {
+	public void SetCraftingMenuVisible(bool visible, CraftingStation craftingStation = null) {
 		if (visible) {
-			if (caveInventory == null) {
-				caveInventory = Instantiate(caveInventoryPrefab, References.UI.canvas.transform);
+			if (craftingMenu == null) {
+				craftingMenu = Instantiate(craftingMenuPrefab, References.UI.canvas.transform);
+				craftingMenu.GetComponent<CraftingMenu>().CurrentCraftingStation(craftingStation);
 			}
 		} else {
-			if (caveInventory != null) {
-				Destroy(caveInventory);
-				caveInventory = null;
+			if (craftingMenu != null) {
+				Destroy(craftingMenu);
+				craftingMenu = null;
 			}
 		}
 	}
