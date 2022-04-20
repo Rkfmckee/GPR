@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public static class GeneralHelper
@@ -67,5 +68,20 @@ public static class GeneralHelper
 		var midPoint = new Vector2(midX, midZ);
 
 		return (size, midPoint);
+	}
+
+	public static string GetDeterminer(string word) {
+		string[] vowels = { "a", "e", "i", "o", "u" };
+		string determiner = "a";
+
+		if (word.ToLower().EndsWith("s")) {
+			determiner = "some";
+		} else {
+			if (Array.IndexOf(vowels, word[0]) > -1) {
+				determiner = "an";
+			}
+		}
+
+		return determiner;
 	}
 }

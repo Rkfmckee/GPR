@@ -1,28 +1,10 @@
 ﻿using UnityEngine;
 
-public abstract class TrapController : MonoBehaviour {
-    #region Properties
-
-    protected SurfaceType trapType;
-
-    #endregion
+public abstract class TrapController : TrapTriggerBase {
 
     #region Methods
 
     public abstract void TriggerTrap(Collider triggeredBy);
-
-    public SurfaceType GetSurfaceType() { return trapType; }
-
-    #endregion
-
-    #region Enums
-
-    public enum SurfaceType {
-        FLOOR,
-        WALL,
-		CEILING,
-		ANY
-    }
 
     #endregion
 }

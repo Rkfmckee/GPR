@@ -1,5 +1,4 @@
 using UnityEngine;
-using static CameraController;
 
 public class FriendlyBehaviour : MonoBehaviour {
 	#region Properties
@@ -9,6 +8,7 @@ public class FriendlyBehaviour : MonoBehaviour {
 	private FriendlyState currentState;
 	private bool currentlyControlled;
 
+	private new Rigidbody rigidbody;
 	private CameraController cameraController;
 
 	#endregion
@@ -16,6 +16,7 @@ public class FriendlyBehaviour : MonoBehaviour {
 	#region Events
 
 	protected virtual void Awake() {
+		rigidbody = GetComponent<Rigidbody>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 	}
 
@@ -30,6 +31,7 @@ public class FriendlyBehaviour : MonoBehaviour {
 		}
 
 		public void SetCurrentState(FriendlyState state) {
+			ShouldFreezeRigidbody(state is FriendlyStateIdle);
 			currentState = state;
 		}
 
@@ -43,6 +45,15 @@ public class FriendlyBehaviour : MonoBehaviour {
 		}
 
 		#endregion
+
+	private void ShouldFreezeRigidbody(bool shouldFreeze) {
+		if (shouldFreeze) {
+			rigidbody.freezeRotation = true;
+			rigidbody.velocity = Vector3.zero;
+		} else {
+			rigidbody.freezeRotation = false;
+		}
+	}
 
 	#endregion
 }
