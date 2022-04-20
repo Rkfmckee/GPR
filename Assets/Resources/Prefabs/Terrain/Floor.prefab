@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.2, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5970813714628849479}
   m_RootOrder: 0
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -93,6 +95,7 @@ GameObject:
   - component: {fileID: 7310271166960410850}
   - component: {fileID: 4798510279629755432}
   - component: {fileID: 5608700407785074306}
+  - component: {fileID: -5421184181587794826}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -110,6 +113,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 16, y: -0.4, z: 16}
   m_LocalScale: {x: 4, y: 4, z: 4}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4518765966067090454}
   m_Father: {fileID: 0}
@@ -134,6 +138,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -177,3 +182,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0048165, y: 0.23242652, z: 2.0005784}
   m_Center: {x: -0.005075693, y: -0.00895071, z: 0.0003170967}
+--- !u!114 &-5421184181587794826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455707604479636989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fd3e93c889d3e944b86a9b37b5a09d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
