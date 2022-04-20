@@ -44,5 +44,9 @@ public class GoblinHighlightable : Highlightable {
 	protected override void RightClicked() {
 	}
 
+	protected override bool DontHighlight() {
+		return base.DontHighlight() || goblinBehaviour.GetCurrentState() is FriendlyStatePickupObject;
+	}
+
 	#endregion
 }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using static CameraController;
+using static TrapTriggerBase;
 
 internal class FriendlyStatePickupObject : FriendlyState {
 	#region Properties
@@ -112,7 +113,7 @@ internal class FriendlyStatePickupObject : FriendlyState {
 			return (position, rotation);
 		}
 
-		if (trapController.GetSurfaceType() == TrapController.SurfaceType.WALL) {
+		if (trapController.GetSurfaceType() == SurfaceType.Wall) {
 			Vector3 hitNormal = obstaclePlacementController.hitInformation.normal;
 			rotation = Quaternion.LookRotation(hitNormal);
 

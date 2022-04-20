@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TriggerController : MonoBehaviour {
+public class TriggerController : TrapTriggerBase {
 	#region Properties
 
 	public TrapController trapToTrigger;
