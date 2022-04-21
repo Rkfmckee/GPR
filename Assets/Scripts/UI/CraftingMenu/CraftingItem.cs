@@ -12,7 +12,7 @@ public class CraftingItem : MonoBehaviour {
 	#region Methods
 
 	public bool RemoveResourcesToSpawnItem() {
-		ResourceController resources = References.GameController.resources;
+		ResourceController resources = References.Game.resources;
 
 		return resources.RemoveResourcesIfHaveEnough(resourceType, resourceCost);
 	}

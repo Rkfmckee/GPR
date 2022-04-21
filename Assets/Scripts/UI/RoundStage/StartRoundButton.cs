@@ -38,7 +38,7 @@ public class StartRoundButton : MonoBehaviour {
 
 	private void StartRoundButtonClicked() {
 		if (!References.storageRoom.GetComponent<StorageRoom>().IsPlayerInside()) {
-			References.GameController.roundStage.SetCurrentStage(new DefendingAgainstHeroStage());
+			References.Game.roundStage.SetCurrentStage(new DefendingAgainstHeroStage());
 		} else {
 			print("Can't start round with player in Storage Room");
 		}

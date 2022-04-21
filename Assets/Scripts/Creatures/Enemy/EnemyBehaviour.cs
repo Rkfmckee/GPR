@@ -47,8 +47,8 @@ public class EnemyBehaviour : MonoBehaviour {
 		}
 
 		if (References.HostileCreature.enemies.Count <= 0) {
-			if (References.GameController.roundStage != null) {
-				References.GameController.roundStage.SetCurrentStage(new PreparingStage());
+			if (References.Game.roundStage != null) {
+				References.Game.roundStage.SetCurrentStage(new PreparingStage());
 			}
 		}
 	}

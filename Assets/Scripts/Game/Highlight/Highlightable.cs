@@ -32,7 +32,7 @@ public abstract class Highlightable : MonoBehaviour {
     }
 
     protected virtual void Start() {
-        gameTraps = References.GameController.gameTraps;
+        gameTraps = References.Game.gameTraps;
 		canvasController = References.UI.Controllers.canvasController;
     }
 
@@ -94,7 +94,7 @@ public abstract class Highlightable : MonoBehaviour {
 	}
 
 	private bool OtherActionTextActive() {
-		return References.GameController.gameTraps.IsLinkingTextActive();
+		return References.Game.gameTraps.IsLinkingTextActive();
 	}
 
     #endregion

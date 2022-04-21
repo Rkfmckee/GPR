@@ -28,7 +28,7 @@ public class TrapLinkingLine : MonoBehaviour {
 		int floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
 		trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
 
-		gameTraps = References.GameController.gameTraps;
+		gameTraps = References.Game.gameTraps;
 		CanvasController canvasController = References.UI.Controllers.canvasController;
 		if (!gameTraps.IsLinkingTextActive()) {
 			gameTraps.EnableLinkingItemText(true);
@@ -98,7 +98,7 @@ public class TrapLinkingLine : MonoBehaviour {
 
 				References.UI.notifications.AddNotification($"Linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
-				References.GameController.gameTraps.RemoveTrapLinkingLine();
+				References.Game.gameTraps.RemoveTrapLinkingLine();
 				return;
 			} else {
 				print("Traps can only be linked to Triggers");
@@ -111,7 +111,7 @@ public class TrapLinkingLine : MonoBehaviour {
 
 				print($"Successfully linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
-				References.GameController.gameTraps.RemoveTrapLinkingLine();
+				References.Game.gameTraps.RemoveTrapLinkingLine();
 				return;
 			} else {
 				print("Triggers can only be linked to Traps");

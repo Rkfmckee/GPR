@@ -18,11 +18,12 @@ public static class References {
     	public static GameObject spawnArea;
 	}
 
-    public static class GameController {
+    public static class Game {
         public static GameObject gameControllerObject;
         public static GameTrapsController gameTraps;
         public static RoundStageController roundStage;
         public static ResourceController resources;
+		public static CursorController cursor;
     }
 
     public static class UI {

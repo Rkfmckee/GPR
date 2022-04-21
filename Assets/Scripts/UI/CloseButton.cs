@@ -30,11 +30,11 @@ public class CloseButton : MonoBehaviour {
 	#region Methods
 
 	private void CloseInventory() {
-		References.GameController.gameTraps.ShouldShowCraftingMenu(false);
+		References.Game.gameTraps.ShouldShowCraftingMenu(false);
 	}
 
 	private void CloseTrapDetails() {
-		References.GameController.gameTraps.ShouldShowTrapDetails(false, null);
+		References.Game.gameTraps.ShouldShowTrapDetails(false, null);
 	}
 
 	#endregion

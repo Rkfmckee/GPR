@@ -31,7 +31,7 @@ public class ResourcesUI : MonoBehaviour {
 	#region Events
 
 	private void Start() {
-		resourceController = References.GameController.resources;
+		resourceController = References.Game.resources;
 
 		physicalMaterialsGroup = References.UI.canvas.transform.Find("Resources").Find("PhysicalMaterials").gameObject;
 		physicalMaterialsBar = physicalMaterialsGroup.transform.Find("PhysicalMaterialsBarAmount").gameObject;
