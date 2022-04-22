@@ -46,5 +46,9 @@ public class CraftingStationHighlightable : Highlightable {
 	protected override void RightClicked() {
 	}
 
+	protected override bool DontHighlight() {
+		return base.DontHighlight() || craftingStation.IsCurrentlyCrafting();
+	}
+
 	#endregion
 }

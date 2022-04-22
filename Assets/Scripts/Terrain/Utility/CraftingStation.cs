@@ -6,6 +6,7 @@ public class CraftingStation : MonoBehaviour {
 	#region Properties
 
 	private GameObject progressBarPrefab;
+	private bool isCurrentlyCrafting;
 
 	private new Camera camera;
 	private Vector3 craftingAreaMidPoint;
@@ -32,6 +33,14 @@ public class CraftingStation : MonoBehaviour {
 
 	#region Methods
 
+		#region Get/Set
+
+		public bool IsCurrentlyCrafting() {
+			return isCurrentlyCrafting;
+		}
+
+		#endregion
+
 	public bool CheckCraftingAreaIsClear() {
 		var objectsInCraftArea = Physics.OverlapSphere(craftingAreaMidPoint, 2, creaturesAndObstaclesMask);
 		return objectsInCraftArea.Length == 0;
@@ -52,6 +61,8 @@ public class CraftingStation : MonoBehaviour {
 	}
 
 	public IEnumerator CraftingItem(GameObject itemToCraft) {
+		isCurrentlyCrafting = true;
+
 		References.Game.gameTraps.ShouldShowCraftingMenu(false);
 		var craftingItemController = itemToCraft.GetComponent<CraftingItem>();
 		var surfaceType = itemToCraft.GetComponent<TrapTriggerBase>().GetSurfaceType();
@@ -74,6 +85,7 @@ public class CraftingStation : MonoBehaviour {
 
 		AddNotificationOfCraftedItem(newItem.name);
 		
+		isCurrentlyCrafting = false;
 	}
 
 	private void AddNotificationOfCraftedItem(string itemName) {
