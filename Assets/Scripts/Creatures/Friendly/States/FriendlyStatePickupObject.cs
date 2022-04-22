@@ -88,45 +88,14 @@ public class FriendlyStatePickupObject : FriendlyState {
 		obstacleToPickup = null;
 	}
 
-	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {
-		(Vector3 validPosition, Quaternion validRotation) = GetValidPositionAndRotation(position, rotation);
-		
+	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {		
 		heldObjectPickup.SetCurrentState(PickUpObject.State.Idle);
-		heldObject.transform.position = validPosition;
-		heldObject.transform.rotation = validRotation;
+		heldObject.transform.position = position;
+		heldObject.transform.rotation = rotation;
 
 		ForgetHeldObject();
 
 		behaviour.SetCurrentState(new FriendlyStateIdle(gameObject));
-	}
-
-	private (Vector3, Quaternion) GetValidPositionAndRotation(Vector3 position, Quaternion rotation) {
-        TrapController trapController = heldObject.GetComponent<TrapController>();
-
-        if (trapController == null) {
-			var minY = heldObject.GetComponentInChildren<Collider>().bounds.size.y / 2;
-
-			if (position.y <= minY) {
-				position.y = minY;
-			}
-
-			return (position, rotation);
-		}
-
-		if (trapController.GetSurfaceType() == SurfaceType.Wall) {
-			Vector3 hitNormal = obstaclePlacementController.hitInformation.normal;
-			rotation = Quaternion.LookRotation(hitNormal);
-
-			if (Math.Abs(hitNormal.x) == 1) {
-				position.x = obstaclePlacementController.hitInformation.point.x;
-			} else if (Math.Abs(hitNormal.z) == 1) {
-				position.z = obstaclePlacementController.hitInformation.point.z;
-			}
-		} else {
-			position.y = 0;
-		}
-
-        return (position, rotation);
 	}
 
 	private void ForgetHeldObject() {
