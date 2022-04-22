@@ -3,7 +3,7 @@ using UnityEngine;
 using static CameraController;
 using static TrapTriggerBase;
 
-internal class FriendlyStatePickupObject : FriendlyState {
+public class FriendlyStatePickupObject : FriendlyState {
 	#region Properties
 	
 	private bool isHoldingObject;

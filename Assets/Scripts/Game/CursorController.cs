@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static CursorData;
+using static FriendlyStateListening;
 
 public class CursorController : MonoBehaviour {
 	#region Properties
@@ -29,13 +30,14 @@ public class CursorController : MonoBehaviour {
 		cursors.Add(CursorType.BasicGreen, new CursorData( Resources.Load<Texture2D>($"{cursorPath}/BasicGreen"), new Vector2(82, 22) ));
 		cursors.Add(CursorType.BasicRed, new CursorData( Resources.Load<Texture2D>($"{cursorPath}/BasicRed"), new Vector2(82, 22) ));
 		cursors.Add(CursorType.Pickup, new CursorData( Resources.Load<Texture2D>($"{cursorPath}/Pickup"), new Vector2(80, 30) ));
+		cursors.Add(CursorType.Craft, new CursorData( Resources.Load<Texture2D>($"{cursorPath}/Craft"), new Vector2(30, 25) ));
 
 		cursors.Add(CursorType.Move, new CursorData( new Texture2D[] {
 			Resources.Load<Texture2D>($"{cursorPath}/MoveBig"),
 			Resources.Load<Texture2D>($"{cursorPath}/MoveSmall")
 		}, new Vector2(128, 131) ));
 
-		SetCursor(CursorType.Move);
+		SetCursor(CursorType.Basic);
 	}
 
 	private void Update() {
@@ -57,6 +59,10 @@ public class CursorController : MonoBehaviour {
 	#endregion
 
 	#region Methods
+
+	public CursorData GetCurrentCursor() {
+		return currentCursorData;
+	}
 
 	public void SetCursor(CursorType cursorType) {
 		// Store the current cursor information
@@ -107,6 +113,23 @@ public class CursorData {
 
 	#endregion
 
+	#region Methods
+
+	public static CursorType? ListeningCommandToCursorType(ListeningCommands command) {
+		switch(command) {
+			case ListeningCommands.Move:
+				return CursorType.Move;
+
+			case ListeningCommands.PickUp:
+				return CursorType.Pickup;
+
+			default:
+				return null;
+		}
+	}
+
+	#endregion
+
 	#region Enums
 
 	public enum CursorType {
@@ -114,7 +137,8 @@ public class CursorData {
 		BasicGreen,
 		BasicRed,
 		Move,
-		Pickup
+		Pickup,
+		Craft
 	}
 
 	#endregion
