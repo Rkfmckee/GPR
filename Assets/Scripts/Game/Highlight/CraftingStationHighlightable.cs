@@ -22,6 +22,8 @@ public class CraftingStationHighlightable : Highlightable {
 				}
 			}
 		};
+
+		highlightCursor = CursorData.CursorType.Craft;
 	}
 
 	protected override void Update() {

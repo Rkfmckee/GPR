@@ -51,7 +51,7 @@ public class TrapDetails : MonoBehaviour {
 	}
 
 	private void Start() {
-		gameTraps = References.GameController.gameTraps;
+		gameTraps = References.Game.gameTraps;
 	}
 
 	private void Update() {
@@ -82,7 +82,7 @@ public class TrapDetails : MonoBehaviour {
 
 	private void RepairButtonClicked() {
 		float amountToHeal = Mathf.Round(trapHealth.maxHealth - trapHealth.GetCurrentHealth());
-		if (References.GameController.resources.RemoveResourcesIfHaveEnough(ResourceController.ResourceType.PhysicalMaterial, (int)amountToHeal)) {
+		if (References.Game.resources.RemoveResourcesIfHaveEnough(ResourceController.ResourceType.PhysicalMaterial, (int)amountToHeal)) {
 			trapHealth.Heal(amountToHeal);
 		}
 	}

@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using static CameraController;
+using static CursorData;
 
-internal class FriendlyStateListening : FriendlyState {
+public class FriendlyStateListening : FriendlyState {
 	#region Properties
 
 	private float ignoreMouseClickTimer;
@@ -89,6 +90,11 @@ internal class FriendlyStateListening : FriendlyState {
 			if (hitCommand != currentCommand) {
 				currentCommand = hitCommand;
 				uiController.ChangeListeningCommandText(hitCommand.ToString());
+
+				var cursorType = CursorData.ListeningCommandToCursorType(currentCommand.Value);
+				if (cursorType.HasValue) {
+					cursor.SetCursor(cursorType.Value);
+				}
 			}
 
 			PerformCommandOnClick(hitCommand, hitInformation);
@@ -130,6 +136,8 @@ internal class FriendlyStateListening : FriendlyState {
 		uiController.DisableListeningCommand();
 		commandUiExists = false;
 		currentCommand = null;
+		
+		cursor.SetCursor(CursorType.Basic);
 	}
 
 	#endregion

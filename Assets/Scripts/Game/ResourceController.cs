@@ -14,7 +14,7 @@ public class ResourceController : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		References.GameController.resources = this;
+		References.Game.resources = this;
 
 		physicalMaterialMaximum = 100;
 		valuableMaximum = 100;

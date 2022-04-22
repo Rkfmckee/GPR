@@ -19,7 +19,7 @@ public class GameTrapsController : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		References.GameController.gameTraps = this;
+		References.Game.gameTraps = this;
 		obstaclePlacements = new List<GameObject>();
 
 		obstaclePlacementPrefab = Resources.Load("Prefabs/Obstacles/Placement/ObstaclePlacement") as GameObject;

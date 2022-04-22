@@ -25,7 +25,7 @@ public class Chest : MonoBehaviour {
 	}
 
 	private void Start() {
-		gameTraps = References.GameController.gameTraps;
+		gameTraps = References.Game.gameTraps;
 	}
 
 	private void Update() {

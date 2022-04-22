@@ -10,8 +10,8 @@ public class RoundStageController : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		References.GameController.gameControllerObject = gameObject;
-		References.GameController.roundStage = this;
+		References.Game.gameControllerObject = gameObject;
+		References.Game.roundStage = this;
 		currentStage = new PreparingStage();
 		currentStage.StageStart();
 	}

@@ -13,6 +13,8 @@ public abstract class FriendlyState {
 	protected AnimatorController animatorController;
     protected FriendlyBehaviour behaviour;
 
+	protected CursorController cursor;
+
 	#endregion
 
 	#region Constructor
@@ -25,6 +27,7 @@ public abstract class FriendlyState {
 		navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
 		animatorController = gameObject.GetComponent<AnimatorController>();
         behaviour = gameObject.GetComponent<FriendlyBehaviour>();
+		cursor = References.Game.cursor;
 
         movementSpeed = behaviour.movementSpeed;
 		navMeshAgent.speed = movementSpeed;

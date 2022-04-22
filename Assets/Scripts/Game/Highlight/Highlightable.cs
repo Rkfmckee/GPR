@@ -1,24 +1,27 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using static CameraController;
+using static CursorData;
 
 public abstract class Highlightable : MonoBehaviour {
     #region Properties
 
-    private bool hightlightingMe;
+    private bool highlightingMe;
+	private bool cameraInHighlightableState;
     protected Outline outline;
 	protected Dictionary<ControllingState, List<GameObject>> statesAndUiText;
+	protected CursorType? highlightCursor;
 
     protected GameTrapsController gameTraps;
-	private CanvasController canvasController;
 	protected CameraController cameraController;
+	private CanvasController canvasController;
+	private CursorController cursor;
 
     #endregion
 
     #region Events
 
     protected virtual void Awake() {
-		
 		statesAndUiText = new Dictionary<ControllingState, List<GameObject>>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 
@@ -27,13 +30,16 @@ public abstract class Highlightable : MonoBehaviour {
         outline.OutlineColor = Color.yellow;
         outline.OutlineWidth = 5f;
         outline.enabled = false;
+		
+		highlightCursor = null;
 
         SetHighlightingMe(false);
     }
 
     protected virtual void Start() {
-        gameTraps = References.GameController.gameTraps;
+        gameTraps = References.Game.gameTraps;
 		canvasController = References.UI.Controllers.canvasController;
+		cursor = References.Game.cursor;
     }
 
     protected virtual void Update() {
@@ -76,11 +82,23 @@ public abstract class Highlightable : MonoBehaviour {
 		#region Get/Set
 
 		public bool IsHighlightingMe() {
-			return hightlightingMe;
+			return highlightingMe;
 		}
 
 		public void SetHighlightingMe(bool highlighting) {
-			hightlightingMe = highlighting;
+			highlightingMe = highlighting;
+
+			if (!highlightCursor.HasValue || !IsCameraInHighlightableState())
+				return;
+
+			if (highlighting)
+				cursor.SetCursor(highlightCursor.Value);
+			else
+				cursor.SetCursor(CursorType.Basic);
+		}
+
+		public bool IsCameraInHighlightableState() {
+			return cameraInHighlightableState;
 		}
 
 		#endregion
@@ -89,12 +107,13 @@ public abstract class Highlightable : MonoBehaviour {
 	protected abstract void RightClicked();
 
 	protected virtual bool DontHighlight() {
-		var dontHighlight = !statesAndUiText.ContainsKey(cameraController.GetControllingState());
-		return dontHighlight;
+		cameraInHighlightableState = statesAndUiText.ContainsKey(cameraController.GetControllingState());
+		
+		return !cameraInHighlightableState;
 	}
 
 	private bool OtherActionTextActive() {
-		return References.GameController.gameTraps.IsLinkingTextActive();
+		return References.Game.gameTraps.IsLinkingTextActive();
 	}
 
     #endregion
