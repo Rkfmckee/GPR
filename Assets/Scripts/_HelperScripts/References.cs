@@ -19,8 +19,8 @@ public static class References {
 	}
 
     public static class Game {
-        public static GameObject gameControllerObject;
-        public static GameTrapsController gameTraps;
+        public static GameObject globalGameObject;
+        public static GlobalObstaclesController globalObstacles;
         public static RoundStageController roundStage;
         public static ResourceController resources;
 		public static CursorController cursor;

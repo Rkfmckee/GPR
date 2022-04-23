@@ -43,7 +43,7 @@ public class CraftingStationHighlightable : Highlightable {
 			return;
 		}
 
-		gameTraps.ShouldShowCraftingMenu(true, craftingStation);
+		globalObstacles.ShouldShowCraftingMenu(true, craftingStation);
 	}
 
 	protected override void RightClicked() {

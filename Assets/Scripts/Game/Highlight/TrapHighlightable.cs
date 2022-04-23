@@ -57,12 +57,12 @@ public class TrapHighlightable : ObstacleHighlightable {
 		if (cameraController.GetControllingState() == ControllingState.ControllingSelf) {
 			base.RightClicked();
 			
-			gameTraps.ShouldShowTrapDetails(true, gameObject);
+			globalObstacles.ShouldShowTrapDetails(true, gameObject);
 		}
 	}
 
 	protected override bool DontHighlight() {
-		var dontHighlight = gameTraps.IsTrapDetailsOpen();
+		var dontHighlight = globalObstacles.IsTrapDetailsOpen();
 
 		if (spikeController != null) {
         	dontHighlight = dontHighlight || spikeController.currentState != SpikeTrap.SpikeState.SpikesDown;

@@ -12,7 +12,7 @@ public class TrapLinkingLine : MonoBehaviour {
 	private GameObject secondObjectBeingLinked;
 	private List<string> actionText;
 
-	private GameTrapsController gameTraps;
+	private GlobalObstaclesController globalObstacles;
 	private CanvasController canvasController;
 
 	#endregion
@@ -35,15 +35,10 @@ public class TrapLinkingLine : MonoBehaviour {
 		actionText = new List<string> {
 			"Left click to Link"
 		};
-		// if (!gameTraps.IsLinkingTextActive()) {
-		// 	gameTraps.EnableLinkingItemText(true);
-
-		// 	canvasController.DisableActionText();
-		// }
 	}
 
 	private void Start() {
-		gameTraps = References.Game.gameTraps;
+		globalObstacles = References.Game.globalObstacles;
 		canvasController = References.UI.Controllers.canvasController;
 
 		canvasController.EnableActionText(actionText);
@@ -108,7 +103,7 @@ public class TrapLinkingLine : MonoBehaviour {
 
 				References.UI.notifications.AddNotification($"Linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
-				References.Game.gameTraps.RemoveTrapLinkingLine();
+				References.Game.globalObstacles.RemoveTrapLinkingLine();
 				return;
 			} else {
 				print("Traps can only be linked to Triggers");
@@ -121,7 +116,7 @@ public class TrapLinkingLine : MonoBehaviour {
 
 				print($"Successfully linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
-				References.Game.gameTraps.RemoveTrapLinkingLine();
+				References.Game.globalObstacles.RemoveTrapLinkingLine();
 				return;
 			} else {
 				print("Triggers can only be linked to Traps");

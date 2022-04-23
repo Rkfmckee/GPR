@@ -67,7 +67,7 @@ public class FriendlyStatePickupObject : FriendlyState {
 	#region Methods
 
 	private void EnableObstaclePlacement(GameObject obstacle) {
-		obstaclePlacement = References.Game.gameTraps.EnableObstaclePlacement(obstacle);
+		obstaclePlacement = References.Game.globalObstacles.EnableObstaclePlacement(obstacle);
 		obstaclePlacementController = obstaclePlacement.GetComponent<ObstaclePlacementController>();
 
 		obstaclePlacementController.SetHeldObject(obstacle);
@@ -103,7 +103,7 @@ public class FriendlyStatePickupObject : FriendlyState {
             heldObject.transform.parent = null;
             heldObject = null;
 
-            References.Game.gameTraps.DisableObstaclePlacement(obstaclePlacement);
+            References.Game.globalObstacles.DisableObstaclePlacement(obstaclePlacement);
         }
     }
 

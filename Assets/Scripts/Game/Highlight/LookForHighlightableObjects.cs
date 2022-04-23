@@ -8,7 +8,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
 	private new Camera camera;
     private CanvasController canvasController;
-	private GameTrapsController gameTrapsController;
+	private GlobalObstaclesController gameTrapsController;
 
     #endregion
 
@@ -23,7 +23,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
 	private void Start() {
 		canvasController = References.UI.Controllers.canvasController;
-		gameTrapsController = References.Game.gameTraps;
+		gameTrapsController = References.Game.globalObstacles;
 	}
 
     private void Update() {

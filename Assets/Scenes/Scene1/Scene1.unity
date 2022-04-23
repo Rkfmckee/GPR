@@ -6078,12 +6078,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1594604650}
   - component: {fileID: 1594604651}
-  - component: {fileID: 1594604652}
   - component: {fileID: 1594604649}
   - component: {fileID: 1594604653}
   - component: {fileID: 1594604654}
+  - component: {fileID: 1594604655}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: GlobalGameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6128,19 +6128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad6bfc1e279d4e4f8371ece4343cd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1594604652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1594604648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e60d504f365e2cf4c82c5ab97b0b0928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstaclePlacements: []
 --- !u!114 &1594604653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6168,6 +6155,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorChangeTime: 0.5
+--- !u!114 &1594604655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594604648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f70ba23ffd557479983fb75d52233c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1614969201
 GameObject:
   m_ObjectHideFlags: 0

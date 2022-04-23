@@ -63,7 +63,7 @@ public class CraftingStation : MonoBehaviour {
 	public IEnumerator CraftingItem(GameObject itemToCraft) {
 		isCurrentlyCrafting = true;
 
-		References.Game.gameTraps.ShouldShowCraftingMenu(false);
+		References.Game.globalObstacles.ShouldShowCraftingMenu(false);
 		var craftingItemController = itemToCraft.GetComponent<CraftingItem>();
 		var surfaceType = itemToCraft.GetComponent<TrapTriggerBase>().GetSurfaceType();
 		var spawnPosition = transform.Find("Area").position;

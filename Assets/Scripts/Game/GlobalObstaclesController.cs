@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class GameTrapsController : MonoBehaviour {
+public class GlobalObstaclesController : MonoBehaviour {
 	#region Properties
 
-	[HideInInspector]
-	public List<GameObject> obstaclePlacements;
-
+	private List<GameObject> obstaclePlacements;
 	private GameObject obstaclePlacementPrefab;
 	private List<string> obstaclePlacementActionText;
 	private GameObject trapLinkingLinePrefab;
@@ -21,7 +19,7 @@ public class GameTrapsController : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		References.Game.gameTraps = this;
+		References.Game.globalObstacles = this;
 		obstaclePlacements = new List<GameObject>();
 		obstaclePlacementActionText = new List<string> {
 			"Left click to Place"

@@ -10,17 +10,9 @@ public class TrapDetails : MonoBehaviour {
 	private GameObject trapHealthValue;
 	private Text trapHealthValueText;
 	private Button linkButton;
-	private Button repairButton;
-	private Text repairButtonText;
-	private Image repairButtonImage;
 	private Image linkButtonImage;
 
-	private Sprite repairSpriteUnpressed;
-	private Sprite repairSpritePressed;
-	private Sprite linkSpriteUnpressed;
-	private Sprite linkSpritePressed;
-
-	private GameTrapsController gameTraps;
+	private GlobalObstaclesController globalObstacles;
 
 	#endregion
 
@@ -32,43 +24,27 @@ public class TrapDetails : MonoBehaviour {
 		trapHealthValue = background.Find("TrapHealthValue").gameObject;
 		trapHealthValueText = trapHealthValue.GetComponent<Text>();
 
-		var repair = background.Find("RepairButton");
-		repairButton = repair.GetComponent<Button>();
-		repairButtonImage = repair.GetComponent<Image>();
-		repairButtonText = repair.Find("RepairValue").GetComponent<Text>();
-
 		var link = background.Find("LinkButton");
 		linkButton = link.GetComponent<Button>();
 		linkButtonImage = link.GetComponent<Image>();
 
-		repairButton.onClick.AddListener(RepairButtonClicked);
 		linkButton.onClick.AddListener(LinkButtonClicked);
-
-		repairSpriteUnpressed = Resources.Load<Sprite>("Images/UI/TrapDetails/RepairButton");
-		repairSpritePressed = Resources.Load<Sprite>("Images/UI/TrapDetails/RepairButtonPressed");
-		linkSpriteUnpressed = Resources.Load<Sprite>("Images/UI/TrapDetails/LinkingLineButton");
-		linkSpritePressed = Resources.Load<Sprite>("Images/UI/TrapDetails/LinkingLineButtonPressed");
 	}
 
 	private void Start() {
-		gameTraps = References.Game.gameTraps;
+		globalObstacles = References.Game.globalObstacles;
 	}
 
 	private void Update() {
-		if (trapHealth != null) {
-			float currentHealth = Mathf.Round(trapHealth.GetCurrentHealth());
-			float maxHealth = trapHealth.maxHealth;
-
-			trapHealthValueText.text = currentHealth.ToString();
-			trapHealthBarAmount.transform.localScale = new Vector3(currentHealth / maxHealth, 1, 1);
-			repairButtonText.text = Mathf.Round(maxHealth - currentHealth).ToString();
-
-			if (currentHealth < maxHealth) {
-				SetRepairButtonClicked(false);
-			} else {
-				SetRepairButtonClicked(true);
-			}
+		if (trapHealth == null) {
+			return;
 		}
+		float currentHealth = Mathf.Round(trapHealth.GetCurrentHealth());
+		float maxHealth = trapHealth.maxHealth;
+
+		trapHealthValueText.text = $"Health: {currentHealth.ToString()}";
+		trapHealthBarAmount.transform.localScale = new Vector3(currentHealth / maxHealth, 1, 1);
+		
 	}
 
 	#endregion
@@ -80,33 +56,9 @@ public class TrapDetails : MonoBehaviour {
 		trapHealth = trap.GetComponent<HealthSystem>();
 	}
 
-	private void RepairButtonClicked() {
-		float amountToHeal = Mathf.Round(trapHealth.maxHealth - trapHealth.GetCurrentHealth());
-		if (References.Game.resources.RemoveResourcesIfHaveEnough(ResourceController.ResourceType.PhysicalMaterial, (int)amountToHeal)) {
-			trapHealth.Heal(amountToHeal);
-		}
-	}
-
 	private void LinkButtonClicked() {
-		linkButtonImage.sprite = linkSpritePressed;
-		gameTraps.CreateTrapLinkingLine(trapShowing.transform);
-		gameTraps.ShouldShowTrapDetails(false, null);
-	}
-
-	private void SetRepairButtonClicked(bool clicked) {
-		if (clicked) {
-			if (repairButtonImage.sprite == repairSpriteUnpressed) {
-				repairButtonImage.sprite = repairSpritePressed;
-				repairButtonText.enabled = false;
-				repairButton.enabled = false;
-			}
-		} else {
-			if (repairButtonImage.sprite == repairSpritePressed) {
-				repairButtonImage.sprite = repairSpriteUnpressed;
-				repairButtonText.enabled = true;
-				repairButton.enabled = true;
-			}
-		}
+		globalObstacles.CreateTrapLinkingLine(trapShowing.transform);
+		globalObstacles.ShouldShowTrapDetails(false, null);
 	}
 
 	#endregion
