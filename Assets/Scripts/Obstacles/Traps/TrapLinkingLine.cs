@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TrapLinkingLine : MonoBehaviour {
 	#region Properties
@@ -9,7 +10,10 @@ public class TrapLinkingLine : MonoBehaviour {
 	private int trapLinkingLineLayerMask;
 	private GameObject firstObjectBeingLinked;
 	private GameObject secondObjectBeingLinked;
+	private List<string> actionText;
+
 	private GameTrapsController gameTraps;
+	private CanvasController canvasController;
 
 	#endregion
 
@@ -28,13 +32,21 @@ public class TrapLinkingLine : MonoBehaviour {
 		int floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
 		trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
 
-		gameTraps = References.Game.gameTraps;
-		CanvasController canvasController = References.UI.Controllers.canvasController;
-		if (!gameTraps.IsLinkingTextActive()) {
-			gameTraps.EnableLinkingItemText(true);
+		actionText = new List<string> {
+			"Left click to Link"
+		};
+		// if (!gameTraps.IsLinkingTextActive()) {
+		// 	gameTraps.EnableLinkingItemText(true);
 
-			canvasController.DisableActionText();
-		}
+		// 	canvasController.DisableActionText();
+		// }
+	}
+
+	private void Start() {
+		gameTraps = References.Game.gameTraps;
+		canvasController = References.UI.Controllers.canvasController;
+
+		canvasController.EnableActionText(actionText);
 	}
 
 	private void Update() {
@@ -66,9 +78,7 @@ public class TrapLinkingLine : MonoBehaviour {
 	}
 
 	private void OnDestroy() {
-		if (gameTraps.IsLinkingTextActive()) {
-			gameTraps.EnableLinkingItemText(false);
-		}
+		canvasController.DisableActionText(actionText);
 	}
 
 	#endregion

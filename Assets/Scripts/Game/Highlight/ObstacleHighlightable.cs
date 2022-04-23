@@ -14,10 +14,10 @@ public class ObstacleHighlightable : Highlightable {
     protected override void Awake() {
         base.Awake();
 
-		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+		statesAndUiText = new Dictionary<ControllingState, List<string>> {
 			{
-				ControllingState.ControllingFriendly, new List<GameObject>{
-					Resources.Load<GameObject>("Prefabs/UI/ActionText/PickupItem")
+				ControllingState.ControllingFriendly, new List<string>{
+					"Left click to Pick up"
 				}
 			}
 		};
@@ -30,9 +30,11 @@ public class ObstacleHighlightable : Highlightable {
 	#region Methods
 
 	protected override void LeftClicked() {
+		base.LeftClicked();
 	}
 
 	protected override void RightClicked() {
+		base.RightClicked();
 	}
 
 	#endregion

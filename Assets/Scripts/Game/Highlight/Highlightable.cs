@@ -9,7 +9,7 @@ public abstract class Highlightable : MonoBehaviour {
     private bool highlightingMe;
 	private bool cameraInHighlightableState;
     protected Outline outline;
-	protected Dictionary<ControllingState, List<GameObject>> statesAndUiText;
+	protected Dictionary<ControllingState, List<string>> statesAndUiText;
 	protected CursorType? highlightCursor;
 
     protected GameTrapsController gameTraps;
@@ -22,7 +22,7 @@ public abstract class Highlightable : MonoBehaviour {
     #region Events
 
     protected virtual void Awake() {
-		statesAndUiText = new Dictionary<ControllingState, List<GameObject>>();
+		statesAndUiText = new Dictionary<ControllingState, List<string>>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 
 		outline = gameObject.AddComponent<Outline>();
@@ -50,7 +50,7 @@ public abstract class Highlightable : MonoBehaviour {
 			if (outline.enabled) {
                 outline.enabled = false;
 				
-				canvasController.DisableActionText();
+				canvasController.DisableActionText(statesAndUiText);
             }
 			return;
 		}
@@ -58,7 +58,7 @@ public abstract class Highlightable : MonoBehaviour {
 		if (!outline.enabled) {
 			outline.enabled = true;
 
-			if (!canvasController.IsActionTextActive() && !OtherActionTextActive())
+			if (!canvasController.IsActionTextActive())
 				canvasController.EnableActionText(statesAndUiText);
 		}
 
@@ -103,17 +103,17 @@ public abstract class Highlightable : MonoBehaviour {
 
 		#endregion
 
-    protected abstract void LeftClicked();
-	protected abstract void RightClicked();
+    protected virtual void LeftClicked() {
+		canvasController.DisableActionText(statesAndUiText);
+	}
+	protected virtual void RightClicked() {
+		canvasController.DisableActionText(statesAndUiText);
+	}
 
 	protected virtual bool DontHighlight() {
 		cameraInHighlightableState = statesAndUiText.ContainsKey(cameraController.GetControllingState());
 		
 		return !cameraInHighlightableState;
-	}
-
-	private bool OtherActionTextActive() {
-		return References.Game.gameTraps.IsLinkingTextActive();
 	}
 
     #endregion

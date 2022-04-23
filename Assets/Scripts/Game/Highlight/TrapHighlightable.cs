@@ -19,15 +19,15 @@ public class TrapHighlightable : ObstacleHighlightable {
         spikeController = GetComponent<SpikeTrap>();
         healthSystem = GetComponent<HealthSystem>();
 
-		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+		statesAndUiText = new Dictionary<ControllingState, List<string>> {
 			{
-				ControllingState.ControllingSelf, new List<GameObject>{
-					Resources.Load<GameObject>("Prefabs/UI/ActionText/ModifyItem"),
+				ControllingState.ControllingSelf, new List<string>{
+					"Right click to Modify",
 				}
 			},
 			{
-				ControllingState.ControllingFriendly, new List<GameObject>{
-					Resources.Load<GameObject>("Prefabs/UI/ActionText/PickupItem")
+				ControllingState.ControllingFriendly, new List<string>{
+					"Left click to Pick up"
 				}
 			}
 		};
@@ -55,6 +55,8 @@ public class TrapHighlightable : ObstacleHighlightable {
 
 	protected override void RightClicked() {
 		if (cameraController.GetControllingState() == ControllingState.ControllingSelf) {
+			base.RightClicked();
+			
 			gameTraps.ShouldShowTrapDetails(true, gameObject);
 		}
 	}

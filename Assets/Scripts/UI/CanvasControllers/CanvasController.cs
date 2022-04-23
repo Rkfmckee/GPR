@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using static CameraController;
 
@@ -11,12 +12,8 @@ public class CanvasController : MonoBehaviour {
 	private GameObject trapDetails;
 	private GameObject trapDetailsPrefab;
 
-	private GameObject placeItemText;
-	private GameObject placeItemTextPrefab;
-
-	private GameObject linkItemText;
-	private GameObject linkItemTextPrefab;
-
+	private Transform actionTextParent;
+	private GameObject actionTextPrefab;
 	private List<GameObject> actionTextActive;
 	private CameraController cameraController;
 
@@ -29,11 +26,11 @@ public class CanvasController : MonoBehaviour {
 		References.UI.Controllers.canvasController = this;
 		actionTextActive = new List<GameObject>();
 
+		actionTextParent = transform.Find("Action Text");
+		actionTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText");
+
 		craftingMenuPrefab = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/CraftingMenu");
 		trapDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapDetails");
-
-		placeItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText/PlaceItem");
-		linkItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText/LinkItem");
 	}
 
 	private void Start() {
@@ -74,50 +71,58 @@ public class CanvasController : MonoBehaviour {
 		}
 	}
 
-    public void EnableHoldingItemText() {
-        if (placeItemText == null) {
-            placeItemText = Instantiate(placeItemTextPrefab);
-            placeItemText.transform.SetParent(transform);
-        }
-	}
-
-	public void DisableHoldingItemText() {
-		if (placeItemText != null) Destroy(placeItemText);
-	}
-
-	public void EnableLinkingItemText(bool enable) {
-		if (enable) {
-			if (linkItemText == null) {
-				linkItemText = Instantiate(linkItemTextPrefab);
-				linkItemText.transform.SetParent(transform);
-			}
-		} else {
-			if (linkItemText != null) Destroy(linkItemText);
+	public void EnableActionText(Dictionary<ControllingState, List<string>> statesAndUiText) {
+		if (!statesAndUiText.ContainsKey(cameraController.GetControllingState())) {
+			return;
 		}
-	}
-
-	public void EnableActionText(Dictionary<ControllingState, List<GameObject>> statesAndUiText) {
-		var actionTextForCurrentState = statesAndUiText[cameraController.GetControllingState()];
 		
+		var actionTextForCurrentState = statesAndUiText[cameraController.GetControllingState()];
 		EnableActionText(actionTextForCurrentState);
 	}
 
-	public void EnableActionText(List<GameObject> actionTextObjects) {
-		if (actionTextObjects.Count <= 0) {
+	public void EnableActionText(string actionText) {
+		var actionTextList = new List<string> { actionText };
+		EnableActionText(actionTextList);
+	}
+
+	public void EnableActionText(List<string> actionText) {
+		if (actionText.Count <= 0) {
 			return;
 		}
 
-		var currentPosition = actionTextObjects[0].transform.position;
-		var amountToChangePosition = new Vector3(0, 50, 0);
+		var startPosition = Vector3.zero;
+		var amountToChangePosition = new Vector3(0, 30, 0);
 		
-		foreach(GameObject textObject in actionTextObjects) {
-			GameObject textInstance = Instantiate(textObject);
-			textInstance.transform.SetParent(transform);
-			textInstance.transform.position = currentPosition;
+		foreach(var text in actionText) {
+			GameObject textObject = Instantiate(actionTextPrefab, actionTextParent);
+			textObject.GetComponent<TextMeshProUGUI>().text = text;
+			textObject.transform.localPosition = startPosition;
 
-			currentPosition += amountToChangePosition;
-			actionTextActive.Add(textInstance);
+			startPosition += amountToChangePosition;
+			actionTextActive.Add(textObject);
 		}
+	}
+
+	public void DisableActionText(Dictionary<ControllingState, List<string>> statesAndUiText) {
+		if (!statesAndUiText.ContainsKey(cameraController.GetControllingState())) {
+			return;
+		}
+		
+		var actionTextForCurrentState = statesAndUiText[cameraController.GetControllingState()];
+		DisableActionText(actionTextForCurrentState);
+	}
+
+	public void DisableActionText(List<string> actionText) {
+		var objectsToRemove = new List<GameObject>();
+		
+		foreach(GameObject textObject in actionTextActive) {
+			if (actionText.Contains(textObject.GetComponent<TextMeshProUGUI>().text)) {
+				Destroy(textObject);
+				objectsToRemove.Add(textObject);
+			}
+		}
+
+		actionTextActive.RemoveAll(a => objectsToRemove.Contains(a));
 	}
 
 	public void DisableActionText() {

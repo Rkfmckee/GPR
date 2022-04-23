@@ -221,6 +221,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 	private void FinalizePosition() {
 		positionFinalized = true;
 		References.Camera.cameraController.SetControllingState(ControllingState.ControllingSelf);
+		References.Game.gameTraps.DisableObstaclePlacementActionText();
 	}
 
 	#endregion

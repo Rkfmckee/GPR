@@ -16,9 +16,10 @@ public class CraftingStationHighlightable : Highlightable {
 
 		craftingStation = GetComponent<CraftingStation>();
 
-		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+		statesAndUiText = new Dictionary<ControllingState, List<string>> {
 			{
-				ControllingState.ControllingSelf, new List<GameObject>{
+				ControllingState.ControllingSelf, new List<string>{
+					"Left click to Craft"
 				}
 			}
 		};
@@ -35,6 +36,8 @@ public class CraftingStationHighlightable : Highlightable {
 	#region Methods
 	
 	protected override void LeftClicked() {
+		base.LeftClicked();
+
 		if (!craftingStation.CheckCraftingAreaIsClear()) {
 			References.UI.notifications.AddNotification("Cannot craft until crafting area is clear");
 			return;
@@ -44,6 +47,7 @@ public class CraftingStationHighlightable : Highlightable {
 	}
 
 	protected override void RightClicked() {
+		base.RightClicked();
 	}
 
 	protected override bool DontHighlight() {

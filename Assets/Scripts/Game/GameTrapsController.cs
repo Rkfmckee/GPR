@@ -8,11 +8,13 @@ public class GameTrapsController : MonoBehaviour {
 	public List<GameObject> obstaclePlacements;
 
 	private GameObject obstaclePlacementPrefab;
+	private List<string> obstaclePlacementActionText;
 	private GameObject trapLinkingLinePrefab;
 	private GameObject trapLinkingLine;
 	private bool inventoryOpen;
 	private bool trapDetailsOpen;
-	private bool linkingTextActive;
+
+	private CanvasController canvasController;
 
 	#endregion
 
@@ -21,9 +23,16 @@ public class GameTrapsController : MonoBehaviour {
 	private void Awake() {
 		References.Game.gameTraps = this;
 		obstaclePlacements = new List<GameObject>();
+		obstaclePlacementActionText = new List<string> {
+			"Left click to Place"
+		};
 
 		obstaclePlacementPrefab = Resources.Load("Prefabs/Obstacles/Placement/ObstaclePlacement") as GameObject;
 		trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
+	}
+
+	private void Start() {
+		canvasController = References.UI.canvas.GetComponent<CanvasController>();
 	}
 
 	#endregion
@@ -52,10 +61,6 @@ public class GameTrapsController : MonoBehaviour {
 		return trapLinkingLine != null;
 	}
 
-	public bool IsLinkingTextActive() {
-		return linkingTextActive;
-	}
-
 	public void RemoveTrapLinkingLine() {
 		if (trapLinkingLine != null) {
 			Destroy(trapLinkingLine);
@@ -69,27 +74,23 @@ public class GameTrapsController : MonoBehaviour {
 		}
 	}
 
-	public void EnableLinkingItemText(bool enable) {
-		References.UI.canvas.GetComponent<CanvasController>().EnableLinkingItemText(enable);
-		linkingTextActive = enable;
-	}
-
 	public GameObject EnableObstaclePlacement(GameObject heldObject) {
 		var obstaclePlacement = Instantiate(obstaclePlacementPrefab);
 		obstaclePlacement.transform.parent = gameObject.transform;
 		obstaclePlacement.GetComponent<ObstaclePlacementController>().SetHeldObject(heldObject);
 		obstaclePlacements.Add(obstaclePlacement);
 
-		References.UI.canvas.GetComponent<CanvasController>().EnableHoldingItemText();
+		canvasController.EnableActionText(obstaclePlacementActionText);
 		return obstaclePlacement;
 	}
 
 	public void DisableObstaclePlacement(GameObject obstaclePlacement) {
 		if (obstaclePlacement != null) Destroy(obstaclePlacement);
 		obstaclePlacements.Remove(obstaclePlacement);
-		
-		if (obstaclePlacements.Count <= 0)
-			References.UI.canvas.GetComponent<CanvasController>().DisableHoldingItemText();
+	}
+
+	public void DisableObstaclePlacementActionText() {
+		canvasController.DisableActionText(obstaclePlacementActionText);
 	}
 
 	#endregion

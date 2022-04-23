@@ -16,9 +16,10 @@ public class GoblinHighlightable : Highlightable {
 
 		goblinBehaviour = GetComponent<GoblinBehaviour>();
 
-		statesAndUiText = new Dictionary<ControllingState, List<GameObject>> {
+		statesAndUiText = new Dictionary<ControllingState, List<string>> {
 			{
-				ControllingState.ControllingSelf, new List<GameObject>{
+				ControllingState.ControllingSelf, new List<string>{
+					"Left click to Control"
 				}
 			}
 		};
@@ -35,6 +36,8 @@ public class GoblinHighlightable : Highlightable {
     #region Methods
 
     protected override void LeftClicked() {
+		base.LeftClicked();
+
         if (goblinBehaviour == null) {
             print($"{gameObject} doesn't have a GoblinBehaviour");
             return;
@@ -44,6 +47,7 @@ public class GoblinHighlightable : Highlightable {
     }
 
 	protected override void RightClicked() {
+		base.RightClicked();
 	}
 
 	protected override bool DontHighlight() {
