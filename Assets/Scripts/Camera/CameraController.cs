@@ -38,8 +38,10 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (movementState == CameraMovementState.Transitioning)
-		return;
+		if (movementState == CameraMovementState.Transitioning
+			|| controllingState == ControllingState.ControllingMenu) {
+			return;
+		}
 
 		HandleMovement();
 	}

@@ -28,13 +28,16 @@ public class CanvasController : MonoBehaviour {
 		References.UI.canvas = gameObject;
 		References.UI.Controllers.canvasController = this;
 		actionTextActive = new List<GameObject>();
-		cameraController = Camera.main.GetComponent<CameraController>();
 
 		craftingMenuPrefab = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/CraftingMenu");
 		trapDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapDetails");
 
 		placeItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText/PlaceItem");
 		linkItemTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText/LinkItem");
+	}
+
+	private void Start() {
+		cameraController = References.Camera.cameraController;
 	}
 
 	#endregion
@@ -46,11 +49,13 @@ public class CanvasController : MonoBehaviour {
 			if (craftingMenu == null) {
 				craftingMenu = Instantiate(craftingMenuPrefab, References.UI.canvas.transform);
 				craftingMenu.GetComponent<CraftingMenu>().CurrentCraftingStation(craftingStation);
+				cameraController.SetControllingState(ControllingState.ControllingMenu);
 			}
 		} else {
 			if (craftingMenu != null) {
 				Destroy(craftingMenu);
 				craftingMenu = null;
+				cameraController.SetControllingState(ControllingState.ControllingSelf);
 			}
 		}
 	}
