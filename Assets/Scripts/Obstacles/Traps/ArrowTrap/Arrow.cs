@@ -26,12 +26,17 @@ public class Arrow : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(rigidbody.velocity);
     }
 
-    private void OnCollisionEnter(Collision collision) {
+    private void OnCollisionEnter(Collision other) {
         foreach(GameObject piece in arrowPieces)  {
 			var currentPiece = Instantiate(piece, transform.position, transform.GetChild(0).rotation);
 			currentPiece.transform.parent = transform.parent;
 			currentPiece.transform.localScale = transform.localScale;
 			currentPiece.GetComponent<ArrowPiece>().shouldShrink = true;
+		}
+
+		var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
+		if (targetsHealthSystem != null) {
+			targetsHealthSystem.TakeDamageOverTime(2, 0.5f);
 		}
 		
 		Destroy(gameObject);
