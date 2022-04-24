@@ -4,6 +4,8 @@ public abstract class TrapTriggerBase : MonoBehaviour {
 	#region Properties
 
 	[SerializeField]
+	protected new string name;
+	[SerializeField]
 	protected SurfaceType surfaceType;
 
 	#endregion
