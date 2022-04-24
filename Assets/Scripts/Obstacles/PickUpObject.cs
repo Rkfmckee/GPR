@@ -12,6 +12,7 @@ public class PickUpObject : MonoBehaviour {
 
 	private Vector3 heldPosition;
 	private new Rigidbody rigidbody;
+	private Animator animator;
 
 	#endregion
 
@@ -19,6 +20,7 @@ public class PickUpObject : MonoBehaviour {
 
 	private void Awake() {
 		rigidbody = gameObject.GetComponent<Rigidbody>();
+		animator = gameObject.GetComponent<Animator>();
 
 		currentState = State.Idle;
 		heldPosition = new Vector3(0, heldHeight, 0);
@@ -47,8 +49,10 @@ public class PickUpObject : MonoBehaviour {
 
 		if (currentState == State.Held) {
 			if (rigidbody != null) rigidbody.useGravity = false;
+			if (animator != null) animator.speed = 0;
 		} else {
 			if (rigidbody != null) rigidbody.useGravity = true;
+			if (animator != null) animator.speed = 1;
 		}
 	}
 

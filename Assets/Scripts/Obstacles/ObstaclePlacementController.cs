@@ -20,7 +20,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 	private new Camera camera;
 	private GameObject placementObject;
-	private MeshRenderer placementObjectRenderer;
+	private MeshRenderer[] placementObjectRenderers;
 	private Collider placementObjectCollider;
 	private TrapTriggerBase heldObjectTrapController;
 
@@ -91,7 +91,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 		CopyColliderToPlacementModel(heldObject);
 
-		placementObjectRenderer = placementObject.GetComponent<MeshRenderer>();
+		placementObjectRenderers = placementObject.GetComponentsInChildren<MeshRenderer>();
 		heldObjectTrapController = heldObject.GetComponent<TrapTriggerBase>();
 
 		SetPositionBoundaries();
@@ -209,11 +209,13 @@ public class ObstaclePlacementController : MonoBehaviour {
 	}
 
 	private void ValidPlacementChangeMaterial() {
-		if (placementObjectRenderer != null) {
-			if (validPlacement) {
-				placementObjectRenderer.material = validMaterial;
-			} else {
-				placementObjectRenderer.material = invalidMaterial;
+		Material newMaterial;
+		if (validPlacement) newMaterial = validMaterial;
+		else newMaterial = invalidMaterial;
+		
+		if (placementObjectRenderers.Length > 0) {
+			foreach(var renderer in placementObjectRenderers) {
+				renderer.material = newMaterial;
 			}
 		}
 	}

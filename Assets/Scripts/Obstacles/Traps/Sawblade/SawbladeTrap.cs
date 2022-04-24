@@ -63,5 +63,10 @@ public class SawbladeTrap : TrapController {
 		animator.Play("SawBladeMovingOnce");
 	}
 
+	public override void SetLinkedTrigger(TriggerController trigger) {
+		base.SetLinkedTrigger(trigger);
+		SetConstantlyMoving(false);
+	}
+
 	#endregion
 }

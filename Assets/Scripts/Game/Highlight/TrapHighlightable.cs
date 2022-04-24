@@ -36,17 +36,19 @@ public class TrapHighlightable : ObstacleHighlightable {
     protected override void Update() {		
 		base.Update();
 
-        healthBar = healthSystem.GetHealthBar();
+        if (healthSystem != null) {
+			healthBar = healthSystem.GetHealthBar();
 
-        if (IsHighlightingMe()) {
-            if (!healthBar.activeSelf) {
-                healthBar.SetActive(true);
-            }
-        } else {
-            if (healthBar.activeSelf) {
-                healthBar.SetActive(false);
-            }
-        }
+			if (IsHighlightingMe()) {
+				if (!healthBar.activeSelf) {
+					healthBar.SetActive(true);
+				}
+			} else {
+				if (healthBar.activeSelf) {
+					healthBar.SetActive(false);
+				}
+			}
+		}
     }
 
 	#endregion

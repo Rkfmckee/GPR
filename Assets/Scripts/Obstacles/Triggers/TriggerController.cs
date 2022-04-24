@@ -3,8 +3,10 @@
 public class TriggerController : TrapTriggerBase {
 	#region Properties
 
-	public TrapController trapToTrigger;
 	public CanTrigger canTrigger;
+
+	private TrapController linkedTrap;
+
 
 	#endregion
 
@@ -12,26 +14,42 @@ public class TriggerController : TrapTriggerBase {
 
 	private void Awake() {
 		// If this script is on a trap, set this trap as it's trigger target
-		if (trapToTrigger == null) trapToTrigger = GetComponent<TrapController>();
+		linkedTrap = GetComponent<TrapController>();
 	}
 
 	private void OnCollisionEnter(Collision collision) {
 		Collider triggeredBy = collision.collider;
 
 		if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
-			if (trapToTrigger != null) {
-				trapToTrigger.TriggerTrap(triggeredBy);
+			if (linkedTrap != null) {
+				linkedTrap.TriggerTrap(triggeredBy);
 			}
 		}
 	}
 
 	private void OnTriggerEnter(Collider triggeredBy) {
 		if (triggeredBy.gameObject.tag.Contains(canTrigger.ToString())) {
-			if (trapToTrigger != null) {
-				trapToTrigger.TriggerTrap(triggeredBy);
+			if (linkedTrap != null) {
+				linkedTrap.TriggerTrap(triggeredBy);
 			}
 		}
 	}
+
+	#endregion
+
+	#region Methods
+
+		#region Get/Set
+
+		public TrapController GetLinkedTrap() {
+			return linkedTrap;
+		}
+
+		public void SetLinkedTrap(TrapController trap) {
+			linkedTrap = trap;
+		}
+
+		#endregion
 
 	#endregion
 

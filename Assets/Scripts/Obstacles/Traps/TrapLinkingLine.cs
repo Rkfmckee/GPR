@@ -98,8 +98,10 @@ public class TrapLinkingLine : MonoBehaviour {
 
 		if (firstObjectBeingLinked.tag == "Trap") {
 			if (secondObjectBeingLinked.tag == "Trigger") {
-				TriggerController controller = FindTriggerController(secondObjectBeingLinked);
-				controller.trapToTrigger = FindTrapController(firstObjectBeingLinked);
+				TriggerController trigger = FindTriggerController(secondObjectBeingLinked);
+				TrapController trap = FindTrapController(firstObjectBeingLinked);
+				trigger.SetLinkedTrap(trap);
+				trap.SetLinkedTrigger(trigger);
 
 				References.UI.notifications.AddNotification($"Linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
@@ -111,10 +113,12 @@ public class TrapLinkingLine : MonoBehaviour {
 			}
 		} else if (firstObjectBeingLinked.tag == "Trigger") {
 			if (secondObjectBeingLinked.tag == "Trap") {
-				TriggerController controller = FindTriggerController(firstObjectBeingLinked);
-				controller.trapToTrigger = FindTrapController(secondObjectBeingLinked);
+				TriggerController trigger = FindTriggerController(firstObjectBeingLinked);
+				TrapController trap = FindTrapController(secondObjectBeingLinked);
+				trigger.SetLinkedTrap(trap);
+				trap.SetLinkedTrigger(trigger);
 
-				print($"Successfully linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
+				References.UI.notifications.AddNotification($"Linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
 
 				References.Game.globalObstacles.RemoveTrapLinkingLine();
 				return;

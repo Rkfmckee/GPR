@@ -94,9 +94,12 @@ GameObject:
   - component: {fileID: 6781767616033734}
   - component: {fileID: 5647875945225570515}
   - component: {fileID: 312810791999617153}
-  m_Layer: 0
+  - component: {fileID: -7824364085917673809}
+  - component: {fileID: 5094451450654732537}
+  - component: {fileID: -7795339616126502168}
+  m_Layer: 8
   m_Name: SawBladeMoving
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,6 +158,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Moving Saw blade
   surfaceType: 0
+--- !u!114 &-7824364085917673809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781767616260006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a85470987c8a94ca437620613f01e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5094451450654732537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781767616260006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a76831a87f5d1e4d9c17c982ed1cadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeThrown: 0
+  placementPrefab: {fileID: 1036166125635040122, guid: 693cd9656e39a9d4cb057426e04d3da9,
+    type: 3}
+  heldHeight: 5
+  currentState: 0
+--- !u!114 &-7795339616126502168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781767616260006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807119aca2bb4e943844b6e5a167f863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryIcon: {fileID: 21300000, guid: 8238b0a0ac998c64184317c8a8267f50, type: 3}
+  resourceCost: 12
+  resourceType: 0
 --- !u!1 &6781767616260024
 GameObject:
   m_ObjectHideFlags: 0
