@@ -6,7 +6,6 @@ public class GlobalObstaclesController : MonoBehaviour {
 
 	private List<GameObject> obstaclePlacements;
 	private GameObject obstaclePlacementPrefab;
-	private List<string> obstaclePlacementActionText;
 	private GameObject trapLinkingLinePrefab;
 	private GameObject trapLinkingLine;
 	private bool inventoryOpen;
@@ -21,9 +20,6 @@ public class GlobalObstaclesController : MonoBehaviour {
 	private void Awake() {
 		References.Game.globalObstacles = this;
 		obstaclePlacements = new List<GameObject>();
-		obstaclePlacementActionText = new List<string> {
-			"Left click to Place"
-		};
 
 		obstaclePlacementPrefab = Resources.Load("Prefabs/Obstacles/Placement/ObstaclePlacement") as GameObject;
 		trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
@@ -74,21 +70,19 @@ public class GlobalObstaclesController : MonoBehaviour {
 
 	public GameObject EnableObstaclePlacement(GameObject heldObject) {
 		var obstaclePlacement = Instantiate(obstaclePlacementPrefab);
+		var obstaclePlacementController = obstaclePlacement.GetComponent<ObstaclePlacementController>();
+
 		obstaclePlacement.transform.parent = gameObject.transform;
-		obstaclePlacement.GetComponent<ObstaclePlacementController>().SetHeldObject(heldObject);
+		obstaclePlacementController.SetHeldObject(heldObject);
 		obstaclePlacements.Add(obstaclePlacement);
 
-		canvasController.EnableActionText(obstaclePlacementActionText);
+		canvasController.EnableActionText(obstaclePlacementController.GetActionText());
 		return obstaclePlacement;
 	}
 
 	public void DisableObstaclePlacement(GameObject obstaclePlacement) {
 		if (obstaclePlacement != null) Destroy(obstaclePlacement);
 		obstaclePlacements.Remove(obstaclePlacement);
-	}
-
-	public void DisableObstaclePlacementActionText() {
-		canvasController.DisableActionText(obstaclePlacementActionText);
 	}
 
 	#endregion

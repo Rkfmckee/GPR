@@ -17,6 +17,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 	private Dictionary<string, int> layerMasks;
 	private Vector3 minimumBoundary;
 	private Vector3 maximumBoundary;
+	private List<string> actionText;
 
 	private new Camera camera;
 	private GameObject placementObject;
@@ -37,6 +38,8 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 		validPlacement = true;
 
+		actionText = new List<string>();
+
 		CreateLayerMasks();
 	}
 
@@ -53,6 +56,10 @@ public class ObstaclePlacementController : MonoBehaviour {
 			if (Input.GetButtonDown("Fire1") && validPlacement) {
 				FinalizePosition();
 			}
+
+			if (Input.GetButtonDown("Fire2")) {
+				RotateIfFloorObstacle();
+			}
 		}
 	}
 
@@ -64,6 +71,10 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 		public bool IsPositionFinalized() {
 			return positionFinalized;
+		}
+
+		public List<string> GetActionText() {
+			return actionText;
 		}
 
 		#endregion
@@ -95,6 +106,13 @@ public class ObstaclePlacementController : MonoBehaviour {
 		heldObjectTrapController = heldObject.GetComponent<TrapTriggerBase>();
 
 		SetPositionBoundaries();
+
+		if (heldObjectTrapController != null) {
+			if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Floor) {
+				actionText.Add("Right click to Rotate");
+			}
+		}
+		actionText.Add("Left click to Place");
 	}
 
 	private void CopyColliderToPlacementModel(GameObject heldObject) {
@@ -158,7 +176,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 	}
 
 	private void MoveOutOfOverlap() {
-		Collider[] colliders = Physics.OverlapBox(placementObject.transform.position, placementObjectCollider.bounds.size / 2, Quaternion.identity, layerMasks["WallWithDecoration"]);
+		Collider[] colliders = Physics.OverlapBox(placementObject.transform.position, placementObjectCollider.bounds.size / 2, Quaternion.identity, layerMasks["Terrain"]);
 
 		foreach (Collider overlappedCollider in colliders) {
 			Transform overlappedTransform = overlappedCollider.gameObject.transform;
@@ -223,7 +241,19 @@ public class ObstaclePlacementController : MonoBehaviour {
 	private void FinalizePosition() {
 		positionFinalized = true;
 		References.Camera.cameraController.SetControllingState(ControllingState.ControllingSelf);
-		References.Game.globalObstacles.DisableObstaclePlacementActionText();
+		References.UI.Controllers.canvasController.DisableActionText(actionText);
+	}
+
+	private void RotateIfFloorObstacle() {
+		if (heldObjectTrapController == null) {
+			return;
+		}
+
+		if (heldObjectTrapController.GetSurfaceType() != SurfaceType.Floor) {
+			return;
+		}
+
+		transform.Rotate(new Vector3(0, 45, 0));
 	}
 
 	#endregion
