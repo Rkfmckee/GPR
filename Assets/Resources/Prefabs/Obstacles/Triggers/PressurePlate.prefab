@@ -114,7 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9726afd81a8fdb744bc1070bb91ad085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapToTrigger: {fileID: 0}
+  name: Pressure plate
+  surfaceType: 0
   canTrigger: 0
 --- !u!114 &7931364527580010265
 MonoBehaviour:

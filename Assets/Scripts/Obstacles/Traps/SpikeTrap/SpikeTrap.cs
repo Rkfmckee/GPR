@@ -19,8 +19,19 @@ public class SpikeTrap : TrapController {
 
 	#region Events
 
-	private void Awake() {
-		setupInstanceVariables();
+	protected override void Awake() {
+		base.Awake();
+
+		spikesUpPosition = new Vector3(0, 0, 0);
+		spikesDownPosition = new Vector3(0, -0.5f, 0);
+
+		spikeChildPrefab = Resources.Load("Prefabs/Obstacles/Traps/SpikeTrap/Spikes") as GameObject;
+
+		currentTimeExtending = 0;
+		currentTimeRetracting = 0;
+		currentTimeExtended = 0;
+
+		currentState = SpikeState.SpikesDown;
 	}
 
 	private void Update() {
@@ -56,19 +67,6 @@ public class SpikeTrap : TrapController {
 
 			currentState = SpikeState.Extending;
 		}
-	}
-
-	private void setupInstanceVariables() {
-		spikesUpPosition = new Vector3(0, 0, 0);
-		spikesDownPosition = new Vector3(0, -0.5f, 0);
-
-		spikeChildPrefab = Resources.Load("Prefabs/Obstacles/Traps/SpikeTrap/Spikes") as GameObject;
-
-		currentTimeExtending = 0;
-		currentTimeRetracting = 0;
-		currentTimeExtended = 0;
-
-		currentState = SpikeState.SpikesDown;
 	}
 
 	private void MoveSpikes() {

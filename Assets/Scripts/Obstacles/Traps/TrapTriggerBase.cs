@@ -10,8 +10,17 @@ public abstract class TrapTriggerBase : MonoBehaviour {
 
 	#endregion
 
+	#region Events
+
+	protected virtual void Awake() {
+		References.Obstacles.allTrapsAndTriggers.Add(gameObject);
+	}
+
+	#endregion
+
 	#region Methods
 
+	public string GetName() { return name; }
 	public SurfaceType GetSurfaceType() { return surfaceType; }
 
 	#endregion

@@ -12,7 +12,9 @@ public class TriggerController : TrapTriggerBase {
 
 	#region Events
 
-	private void Awake() {
+	protected override void Awake() {
+		base.Awake();
+		
 		// If this script is on a trap, set this trap as it's trigger target
 		linkedTrap = GetComponent<TrapController>();
 	}

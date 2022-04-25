@@ -18,6 +18,10 @@ public static class References {
     	public static GameObject spawnArea;
 	}
 
+	public static class Obstacles {
+		public static List<GameObject> allTrapsAndTriggers = new List<GameObject>();
+	}
+
     public static class Game {
         public static GameObject globalGameObject;
         public static GlobalObstaclesController globalObstacles;

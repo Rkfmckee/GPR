@@ -147,6 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13eebee80c576d14fb82132d0ebc0a11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Spike plate
+  surfaceType: 0
   currentState: 0
   extendingTime: 0.1
   retractingTime: 1
@@ -163,7 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9726afd81a8fdb744bc1070bb91ad085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapToTrigger: {fileID: 0}
+  name: 
+  surfaceType: 0
   canTrigger: 0
 --- !u!114 &3211723386902421035
 MonoBehaviour:

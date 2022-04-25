@@ -65,7 +65,7 @@ public class CraftingStation : MonoBehaviour {
 
 		References.Game.globalObstacles.ShouldShowCraftingMenu(false);
 		var craftingItemController = itemToCraft.GetComponent<CraftingItem>();
-		var surfaceType = itemToCraft.GetComponent<TrapTriggerBase>().GetSurfaceType();
+		var trapTriggerBase = itemToCraft.GetComponent<TrapTriggerBase>();
 		var spawnPosition = transform.Find("Area").position;
 
 		var progressBar = CreateProgressBar(craftingItemController.resourceCost);
@@ -78,19 +78,19 @@ public class CraftingStation : MonoBehaviour {
 		newItem.name = itemToCraft.name;
 		newItem.transform.position = spawnPosition;
 
-		if (surfaceType == SurfaceType.Wall) {
+		if (trapTriggerBase.GetSurfaceType() == SurfaceType.Wall) {
 			newItem.transform.rotation = Quaternion.Euler(90, 0, 0);
 			newItem.transform.position += Vector3.up * 0.1f;
 		}
 
-		AddNotificationOfCraftedItem(newItem.name);
+		AddNotificationOfCraftedItem(trapTriggerBase.GetName());
 		
 		isCurrentlyCrafting = false;
 	}
 
 	private void AddNotificationOfCraftedItem(string itemName) {
 		var determiner = GeneralHelper.GetDeterminer(itemName);	
-		References.UI.notifications.AddNotification($"Made {determiner} {itemName}");
+		References.UI.notifications.AddNotification($"Crafted {determiner} {itemName}");
 	}
 
 	#endregion

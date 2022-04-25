@@ -12,7 +12,9 @@ public class SawbladeTrap : TrapController {
 
 	#region Events
 
-	private void Awake() {
+	protected override void Awake() {
+		base.Awake();
+		
 		animator = GetComponent<Animator>();
 
 		canMove = name.Contains("Moving");

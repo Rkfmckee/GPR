@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b96244eaa14d1fc46afa4df751e0eb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Arrow holes
   surfaceType: 1
   arrowScale: 5
 --- !u!114 &7444568580084560085
