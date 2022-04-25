@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5532656942198820585}
+  - component: {fileID: -870263317835358157}
+  - component: {fileID: 4337150506050047944}
   - component: {fileID: -1787765282482347312}
   - component: {fileID: -7889321482038101949}
-  - component: {fileID: -870263317835358157}
   - component: {fileID: 628219957834267465}
   - component: {fileID: 7527347299971238688}
   m_Layer: 8
@@ -40,6 +41,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &-870263317835358157
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532656942198594185}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8434744, y: 0.19149691, z: 3.3985436}
+  m_Center: {x: -0.005247593, y: 0.09307143, z: 0.0018645525}
+--- !u!95 &4337150506050047944
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532656942198594185}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 26c0ab46f32a30b45a3c5b4cdf1f5065, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &-1787765282482347312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,19 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a85470987c8a94ca437620613f01e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &-870263317835358157
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5532656942198594185}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.28767464, z: 3.4439812}
-  m_Center: {x: 0, y: 0.109686896, z: 0.0063347816}
 --- !u!114 &628219957834267465
 MonoBehaviour:
   m_ObjectHideFlags: 0
