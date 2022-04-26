@@ -13,7 +13,7 @@ public abstract class TrapTriggerBase : MonoBehaviour {
 	#region Events
 
 	protected virtual void Awake() {
-		References.Obstacles.allTrapsAndTriggers.Add(gameObject);
+		References.Obstacles.trapsAndTriggers.Add(gameObject);
 	}
 
 	#endregion

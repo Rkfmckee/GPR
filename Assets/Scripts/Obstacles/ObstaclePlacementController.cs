@@ -38,8 +38,6 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 		validPlacement = true;
 
-		actionText = new List<string>();
-
 		CreateLayerMasks();
 	}
 
@@ -107,12 +105,15 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 		SetPositionBoundaries();
 
-		actionText.Add("Left click to Place");
+		actionText = new List<string> {
+			"Left click to Place"
+		};
 		if (heldObjectTrapController != null) {
-			if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Floor) {
-				actionText.Add("Right click to Rotate");
+			if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Wall) {
+				return;
 			}
 		}
+		actionText.Add("Right click to Rotate");
 	}
 
 	private void CopyColliderToPlacementModel(GameObject heldObject) {
@@ -245,12 +246,10 @@ public class ObstaclePlacementController : MonoBehaviour {
 	}
 
 	private void RotateIfFloorObstacle() {
-		if (heldObjectTrapController == null) {
-			return;
-		}
-
-		if (heldObjectTrapController.GetSurfaceType() != SurfaceType.Floor) {
-			return;
+		if (heldObjectTrapController != null) {
+			if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Wall) {
+				return;
+			}
 		}
 
 		transform.Rotate(new Vector3(0, 45, 0));

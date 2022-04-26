@@ -13,6 +13,8 @@ public class TrapLinkingLine : MonoBehaviour {
 
 	private GlobalObstaclesController globalObstacles;
 	private CanvasController canvasController;
+	private List<GameObject> traps;
+	private List<GameObject> triggers;
 
 	#endregion
 
@@ -24,10 +26,11 @@ public class TrapLinkingLine : MonoBehaviour {
 
 		lineRenderer.SetPosition(0, Vector3.zero);
 		lineRenderer.SetPosition(1, Vector3.zero);
+		lineRenderer.startColor = Color.yellow;
 
 		int highlightableObjectLayerMask = 1 << LayerMask.NameToLayer("Highlightable");
 		int obstacleLayerMask = 1 << LayerMask.NameToLayer("Obstacle");
-		int wallLayerMask = 1 << LayerMask.NameToLayer("Wall");
+		int wallLayerMask = 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("WallShouldHide");
 		int floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
 		trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
 
@@ -40,6 +43,8 @@ public class TrapLinkingLine : MonoBehaviour {
 	private void Start() {
 		globalObstacles = References.Game.globalObstacles;
 		canvasController = References.UI.Controllers.canvasController;
+		traps = References.Obstacles.traps;
+		triggers = References.Obstacles.triggers;
 
 		canvasController.EnableActionText(actionText);
 	}
@@ -48,11 +53,12 @@ public class TrapLinkingLine : MonoBehaviour {
 		Ray cameraToMouse = camera.ScreenPointToRay(Input.mousePosition);
 
 		if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity, trapLinkingLineLayerMask)) {
-			if (References.Obstacles.allTrapsAndTriggers.Contains(hit.transform.gameObject)) {
-				print("here");
+			if (References.Obstacles.trapsAndTriggers.Contains(hit.transform.gameObject)) {
 				StickLineToTarget(hit.transform);
+				ChangeLineColour(hit.transform.gameObject);
 			} else {
 				lineRenderer.SetPosition(1, hit.point);
+				ChangeLineColour(null);
 
 				if (Input.GetButtonDown("Fire1")) {
 					Destroy(gameObject);
@@ -103,7 +109,7 @@ public class TrapLinkingLine : MonoBehaviour {
 			return;
 		}
 
-		if (firstTrigger != null && secondTrigger != null) {
+		if ((firstTrigger != null && firstTrap == null) && (secondTrigger != null && secondTrap == null)) {
 			References.UI.notifications.AddNotification("You can't link two triggers together");
 			return;
 		}
@@ -123,6 +129,24 @@ public class TrapLinkingLine : MonoBehaviour {
 
 		References.UI.notifications.AddNotification($"Linked {trap.GetName()} to {trigger.GetName()}");
 		References.Game.globalObstacles.RemoveTrapLinkingLine();
+	}
+
+	private void ChangeLineColour(GameObject target) {
+		if (traps.Contains(firstBeingLinked)) {
+			if (triggers.Contains(target)) {
+				lineRenderer.endColor = Color.green;
+				return;
+			}
+		}
+
+		if (triggers.Contains(firstBeingLinked)) {
+			if (traps.Contains(target)) {
+				lineRenderer.endColor = Color.green;
+				return;
+			}
+		}
+
+		lineRenderer.endColor = Color.red;
 	}
 
 	#endregion

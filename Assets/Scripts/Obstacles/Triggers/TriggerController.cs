@@ -15,7 +15,11 @@ public class TriggerController : TrapTriggerBase {
 	protected override void Awake() {
 		base.Awake();
 		
-		// If this script is on a trap, set this trap as it's trigger target
+		// If this script is on a trap, don't add it to the list of triggers
+		// and set this trap as it's trigger target
+		var trapController = GetComponent<TrapController>();
+		if (trapController == null) References.Obstacles.triggers.Add(gameObject);
+
 		linkedTrap = GetComponent<TrapController>();
 	}
 
