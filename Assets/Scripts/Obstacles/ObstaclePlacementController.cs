@@ -107,12 +107,12 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 		SetPositionBoundaries();
 
+		actionText.Add("Left click to Place");
 		if (heldObjectTrapController != null) {
 			if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Floor) {
 				actionText.Add("Right click to Rotate");
 			}
 		}
-		actionText.Add("Left click to Place");
 	}
 
 	private void CopyColliderToPlacementModel(GameObject heldObject) {

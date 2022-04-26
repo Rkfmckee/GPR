@@ -93,9 +93,9 @@ public class CanvasController : MonoBehaviour {
 		var startPosition = Vector3.zero;
 		var amountToChangePosition = new Vector3(0, 30, 0);
 		
-		foreach(var text in actionText) {
+		for(int i = actionText.Count - 1; i >= 0; i--) {
 			GameObject textObject = Instantiate(actionTextPrefab, actionTextParent);
-			textObject.GetComponent<TextMeshProUGUI>().text = text;
+			textObject.GetComponent<TextMeshProUGUI>().text = actionText[i];
 			textObject.transform.localPosition = startPosition;
 
 			startPosition += amountToChangePosition;

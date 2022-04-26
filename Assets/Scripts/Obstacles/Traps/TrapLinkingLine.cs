@@ -32,8 +32,8 @@ public class TrapLinkingLine : MonoBehaviour {
 		trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
 
 		actionText = new List<string> {
-			"Left click anywhere else to Cancel",
-			"Left click trap/trigger to Link"
+			"Left click trap/trigger to Link",
+			"Left click anywhere else to Cancel"
 		};
 	}
 
