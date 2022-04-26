@@ -38,7 +38,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 		validPlacement = true;
 
-		CreateLayerMasks();
+		layerMasks = GeneralHelper.GetLayerMasks();
 	}
 
 	private void Update() {
@@ -76,15 +76,6 @@ public class ObstaclePlacementController : MonoBehaviour {
 		}
 
 		#endregion
-
-	private void CreateLayerMasks() {
-		layerMasks = new Dictionary<string, int>();
-		layerMasks.Add("Floor", 1 << LayerMask.NameToLayer("Floor"));
-		layerMasks.Add("Wall", 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("WallShouldHide"));
-		layerMasks.Add("WallDecoration", 1 << LayerMask.NameToLayer("WallDecoration"));
-		layerMasks.Add("WallWithDecoration", layerMasks["Wall"] | layerMasks["WallDecoration"]);
-		layerMasks.Add("Terrain", layerMasks["Floor"] | layerMasks["WallWithDecoration"]);
-	}
 	
 	public void SetHeldObject(GameObject heldObject) {
 		PickUpObject pickUpController = heldObject.GetComponent<PickUpObject>();

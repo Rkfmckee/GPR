@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class GeneralHelper
@@ -83,5 +84,29 @@ public static class GeneralHelper
 		}
 
 		return determiner;
+	}
+
+	public static Dictionary<string, int> GetLayerMasks() {
+		var layerMasks = new Dictionary<string, int>();
+
+		layerMasks.Add("FriendlyCreature", 1 << LayerMask.NameToLayer("FriendlyCreature"));
+		layerMasks.Add("HostileCreature", 1 << LayerMask.NameToLayer("HostileCreature"));
+		layerMasks.Add("Creature", layerMasks["FriendlyCreature"] | layerMasks["HostileCreature"]);
+		layerMasks.Add("Obstacle", 1 << LayerMask.NameToLayer("Obstacle"));
+
+		layerMasks.Add("Ignore Raycast", 1 << LayerMask.NameToLayer("Ignore Raycast"));
+		layerMasks.Add("Highlightable", 1 << LayerMask.NameToLayer("Highlightable"));
+
+		layerMasks.Add("WallHidden", 1 << LayerMask.NameToLayer("WallHidden"));
+		layerMasks.Add("WallShouldHide", 1 << LayerMask.NameToLayer("WallShouldHide"));
+		layerMasks.Add("Wall", 1 << LayerMask.NameToLayer("Wall") | layerMasks["WallShouldHide"]);
+		layerMasks.Add("WallDecoration", 1 << LayerMask.NameToLayer("WallDecoration"));
+		layerMasks.Add("WallWithDecoration", layerMasks["Wall"] | layerMasks["WallDecoration"]);
+
+		layerMasks.Add("Floor", 1 << LayerMask.NameToLayer("Floor"));
+		layerMasks.Add("Terrain", layerMasks["Floor"] | layerMasks["WallWithDecoration"]);
+
+		// layerMasks = GeneralHelper.GetLayerMasks();
+		return layerMasks;
 	}
 }

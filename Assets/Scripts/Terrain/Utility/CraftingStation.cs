@@ -20,9 +20,8 @@ public class CraftingStation : MonoBehaviour {
 		progressBarPrefab = Resources.Load<GameObject>("Prefabs/UI/ProgressBar");
 		craftingAreaMidPoint = transform.Find("Area").position;
 
-		var creatureMask = 1 << LayerMask.NameToLayer("FriendlyCreature") | 1 << LayerMask.NameToLayer("HostileCreature");
-		var obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
-		creaturesAndObstaclesMask = creatureMask | obstacleMask;
+		var layerMasks = GeneralHelper.GetLayerMasks();
+		creaturesAndObstaclesMask = layerMasks["Creature"] | layerMasks["Obstacle"];
 	}
 
 	private void Start() {

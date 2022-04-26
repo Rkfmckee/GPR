@@ -35,9 +35,10 @@ public class FieldOfView : MonoBehaviour {
 	private void Start() {
 		CreateViewVisualisationChild();
 
-		obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
-		wallMask = 1 << LayerMask.NameToLayer("Wall");
-		blockingMask = obstacleMask | wallMask;
+		var layerMasks = GeneralHelper.GetLayerMasks();
+		blockingMask = layerMasks["Obstacle"]
+		 			| layerMasks["Wall"] 
+					| layerMasks["WallHidden"];
 
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";

@@ -22,9 +22,8 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 		
 		hiddenObjects = new List<GameObject>();
 
-		int wallMask = 1 << LayerMask.NameToLayer("WallShouldHide");
-		int wallHiddenMask = 1 << LayerMask.NameToLayer("WallHidden");
-		hiddenLayers = wallMask | wallHiddenMask;
+		var layerMasks = GeneralHelper.GetLayerMasks();
+		hiddenLayers = layerMasks["WallShouldHide"] | layerMasks["WallHidden"];
 	}
 
 	private void Update() {

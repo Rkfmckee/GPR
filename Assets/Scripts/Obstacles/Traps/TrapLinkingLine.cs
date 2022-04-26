@@ -28,11 +28,10 @@ public class TrapLinkingLine : MonoBehaviour {
 		lineRenderer.SetPosition(1, Vector3.zero);
 		lineRenderer.startColor = Color.yellow;
 
-		int highlightableObjectLayerMask = 1 << LayerMask.NameToLayer("Highlightable");
-		int obstacleLayerMask = 1 << LayerMask.NameToLayer("Obstacle");
-		int wallLayerMask = 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("WallShouldHide");
-		int floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
-		trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
+		var layerMasks = GeneralHelper.GetLayerMasks();
+		trapLinkingLineLayerMask = layerMasks["Highlightable"]
+								| layerMasks["Obstacle"] 
+								| layerMasks["Terrain"];
 
 		actionText = new List<string> {
 			"Left click trap/trigger to Link",
