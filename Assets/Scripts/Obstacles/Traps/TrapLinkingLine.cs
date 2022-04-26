@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static NotificationController;
 
 public class TrapLinkingLine : MonoBehaviour {
 	#region Properties
@@ -94,22 +95,22 @@ public class TrapLinkingLine : MonoBehaviour {
 		TriggerController secondTrigger = secondBeingLinked.GetComponent<TriggerController>();
 		
 		if (firstBeingLinked == null || secondBeingLinked == null) {
-			References.UI.notifications.AddNotification("The trap or trigger you are trying to link doesn't exist");
+			References.UI.notifications.AddNotification("The trap or trigger you are trying to link doesn't exist", NotificationType.Error);
 			return;
 		}
 
 		if (firstBeingLinked == secondBeingLinked) {
-			References.UI.notifications.AddNotification("You can't link a trap or trigger to itself");
+			References.UI.notifications.AddNotification("You can't link a trap or trigger to itself", NotificationType.Error);
 			return;
 		}
 
 		if (firstTrap != null && secondTrap != null) {
-			References.UI.notifications.AddNotification("You can't link two traps together");
+			References.UI.notifications.AddNotification("You can't link two traps together", NotificationType.Error);
 			return;
 		}
 
 		if ((firstTrigger != null && firstTrap == null) && (secondTrigger != null && secondTrap == null)) {
-			References.UI.notifications.AddNotification("You can't link two triggers together");
+			References.UI.notifications.AddNotification("You can't link two triggers together", NotificationType.Error);
 			return;
 		}
 
@@ -126,7 +127,7 @@ public class TrapLinkingLine : MonoBehaviour {
 		trap.SetLinkedTrigger(trigger);
 		trigger.SetLinkedTrap(trap);
 
-		References.UI.notifications.AddNotification($"Linked {trap.GetName()} to {trigger.GetName()}");
+		References.UI.notifications.AddNotification($"Linked {trap.GetName()} to {trigger.GetName()}", NotificationType.Success);
 		References.Game.globalObstacles.RemoveTrapLinkingLine();
 	}
 

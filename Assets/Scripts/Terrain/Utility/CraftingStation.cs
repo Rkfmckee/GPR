@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static NotificationController;
 using static TrapTriggerBase;
 
 public class CraftingStation : MonoBehaviour {
@@ -89,7 +90,7 @@ public class CraftingStation : MonoBehaviour {
 
 	private void AddNotificationOfCraftedItem(string itemName) {
 		var determiner = GeneralHelper.GetDeterminer(itemName);	
-		References.UI.notifications.AddNotification($"Crafted {determiner} {itemName}");
+		References.UI.notifications.AddNotification($"Crafted {determiner} {itemName}", NotificationType.Success);
 	}
 
 	#endregion

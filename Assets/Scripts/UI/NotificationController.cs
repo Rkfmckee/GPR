@@ -12,7 +12,6 @@ public class NotificationController : MonoBehaviour {
     private GameObject currentNotification;
     private List<GameObject> notificationQueue;
     private GameObject notificationPrefab;
-    private Color notificationColor;
 
     private float currentDisplayTime;
     private float currentFadeTime;
@@ -30,7 +29,6 @@ public class NotificationController : MonoBehaviour {
         notificationPrefab = Resources.Load<GameObject>("Prefabs/UI/NotificationText");
         currentDisplayTime = 0;
         currentFadeTime = 0;
-        notificationColor = notificationPrefab.GetComponent<TextMeshProUGUI>().color;
     }
 
     private void Update() {
@@ -51,10 +49,26 @@ public class NotificationController : MonoBehaviour {
 
     #region Methods
 
-    public void AddNotification(string notificationText) {
-        GameObject newNotif = Instantiate(notificationPrefab, transform);
+    public void AddNotification(string notificationText, NotificationType type) {
+        Color notificationColor = Color.white;
+		
+		switch(type) {
+			case NotificationType.Info:
+				notificationColor = Color.white;
+				break;
+			case NotificationType.Success:
+				notificationColor = Color.green;
+				break;
+			case NotificationType.Error:
+				notificationColor = Color.red;
+				break;
+		}
+		
+		var newNotif = Instantiate(notificationPrefab, transform);
+		var newNotifTextComponent = newNotif.GetComponent<TextMeshProUGUI>();
         newNotif.transform.localPosition = new Vector2(0, 0);
-        newNotif.GetComponent<TextMeshProUGUI>().text = notificationText;
+        newNotifTextComponent.text = notificationText;
+		newNotifTextComponent.color = notificationColor;
         newNotif.SetActive(false);
         notificationQueue.Add(newNotif);
     }
@@ -72,6 +86,8 @@ public class NotificationController : MonoBehaviour {
         currentFadeTime += Time.deltaTime;
 
         if (currentTextComponent != null) {
+			var notificationColor = currentTextComponent.color;
+
             notificationColor.a = 1 - (currentFadeTime / notificationFadeTime);
             currentTextComponent.color = notificationColor;
             currentNotification.transform.position += Vector3.up / 5;
@@ -85,4 +101,14 @@ public class NotificationController : MonoBehaviour {
     }
 
     #endregion
+
+	#region Enums
+
+	public enum NotificationType {
+		Info,
+		Success,
+		Error
+	}
+
+	#endregion
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static CameraController;
+using static NotificationController;
 
 public class CraftingStationHighlightable : Highlightable {
 	#region Properties
@@ -39,7 +40,7 @@ public class CraftingStationHighlightable : Highlightable {
 		base.LeftClicked();
 
 		if (!craftingStation.CheckCraftingAreaIsClear()) {
-			References.UI.notifications.AddNotification("Cannot craft until crafting area is clear");
+			References.UI.notifications.AddNotification("Cannot craft until crafting area is clear", NotificationType.Error);
 			return;
 		}
 
