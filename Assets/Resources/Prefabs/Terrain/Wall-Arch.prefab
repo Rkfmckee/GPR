@@ -31,6 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 16, y: 0, z: 20}
   m_LocalScale: {x: 2, y: 1.5, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -54,6 +55,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -97,8 +99,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.92988205, y: 4.010071, z: 0.99261224}
-  m_Center: {x: -1.5872393, y: 2.0050135, z: 0.026917756}
+  m_Size: {x: 1.0160842, y: 5.0734606, z: 0.99261224}
+  m_Center: {x: -1.6303403, y: 1.4733204, z: 0.026917756}
 --- !u!65 &-3041991364365151955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -110,8 +112,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9326477, y: 4.010071, z: 0.99261224}
-  m_Center: {x: 1.5858564, y: 2.0050135, z: 0.026917756}
+  m_Size: {x: 1.0228567, y: 4.893539, z: 0.99261224}
+  m_Center: {x: 1.630961, y: 1.563281, z: 0.026917756}
 --- !u!65 &-7006435695994595497
 BoxCollider:
   m_ObjectHideFlags: 0

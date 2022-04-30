@@ -105,6 +105,7 @@ public static class GeneralHelper
 
 		layerMasks.Add("Floor", 1 << LayerMask.NameToLayer("Floor"));
 		layerMasks.Add("Terrain", layerMasks["Floor"] | layerMasks["WallWithDecoration"]);
+		layerMasks.Add("TerrainWithWallHidden", layerMasks["Terrain"] | layerMasks["WallHidden"]);
 
 		// layerMasks = GeneralHelper.GetLayerMasks();
 		return layerMasks;

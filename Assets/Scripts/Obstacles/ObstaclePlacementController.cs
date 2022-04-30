@@ -168,7 +168,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 	}
 
 	private void MoveOutOfOverlap() {
-		Collider[] colliders = Physics.OverlapBox(placementObject.transform.position, placementObjectCollider.bounds.size / 2, Quaternion.identity, layerMasks["Terrain"]);
+		Collider[] colliders = Physics.OverlapBox(placementObject.transform.position, placementObjectCollider.bounds.size / 2, Quaternion.identity, layerMasks["TerrainWithWallHidden"]);
 
 		foreach (Collider overlappedCollider in colliders) {
 			Transform overlappedTransform = overlappedCollider.gameObject.transform;

@@ -16,8 +16,8 @@ public class Arrow : MonoBehaviour
     private void Awake() {
         rigidbody = gameObject.GetComponent<Rigidbody>();
 		arrowPieces = new GameObject[] {
-			Resources.Load("Prefabs/Obstacles/Traps/ArrowTrap/ArrowPiece-Body") as GameObject,
 			Resources.Load("Prefabs/Obstacles/Traps/ArrowTrap/ArrowPiece-Feather") as GameObject,
+			Resources.Load("Prefabs/Obstacles/Traps/ArrowTrap/ArrowPiece-Body") as GameObject,
 			Resources.Load("Prefabs/Obstacles/Traps/ArrowTrap/ArrowPiece-Tip") as GameObject
 		};
     }
@@ -27,11 +27,16 @@ public class Arrow : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other) {
+		var amountToChangePosition = transform.forward;
+		var positionToCreate = transform.position - amountToChangePosition;
+
         foreach(GameObject piece in arrowPieces)  {
-			var currentPiece = Instantiate(piece, transform.position, transform.GetChild(0).rotation);
+			var currentPiece = Instantiate(piece, positionToCreate, transform.GetChild(0).rotation);
 			currentPiece.transform.parent = transform.parent;
 			currentPiece.transform.localScale = transform.localScale;
 			currentPiece.GetComponent<ArrowPiece>().shouldShrink = true;
+
+			positionToCreate += amountToChangePosition;
 		}
 
 		var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
