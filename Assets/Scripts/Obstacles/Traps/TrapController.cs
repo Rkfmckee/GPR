@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static PickUpObject;
 
 public abstract class TrapController : TrapTriggerBase {
 
@@ -32,7 +33,8 @@ public abstract class TrapController : TrapTriggerBase {
 
 		#endregion
 
-    public abstract void TriggerTrap(Collider triggeredBy);
+    public virtual void TriggerTrap(Collider triggeredBy) {
+	}
 
     #endregion
 }

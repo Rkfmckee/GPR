@@ -80,16 +80,15 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 	private void SetHeldObject() {
 		heldObject = obstacleToPickup;
-        heldObject.transform.parent = transform;
         heldObjectPickup = heldObject.GetComponent<PickUpObject>();
 
 		isHoldingObject = true;
-		heldObjectPickup.SetCurrentState(PickUpObject.State.Held);
+		heldObjectPickup.SetCurrentState(PickUpObject.PickUpState.Held, transform);
 		obstacleToPickup = null;
 	}
 
 	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {		
-		heldObjectPickup.SetCurrentState(PickUpObject.State.Idle);
+		heldObjectPickup.SetCurrentState(PickUpObject.PickUpState.Idle);
 		heldObject.transform.position = position;
 		heldObject.transform.rotation = rotation;
 

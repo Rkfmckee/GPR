@@ -59,6 +59,8 @@ public class SawbladeTrap : TrapController {
 		#endregion
 
 	public override void TriggerTrap(Collider triggeredBy) {
+		base.TriggerTrap(triggeredBy);
+		
 		if (constantlyMoving || !canMove)
 			return;
 

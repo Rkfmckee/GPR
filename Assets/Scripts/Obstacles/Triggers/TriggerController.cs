@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static PickUpObject;
 
 public class TriggerController : TrapTriggerBase {
 	#region Properties
@@ -26,19 +27,11 @@ public class TriggerController : TrapTriggerBase {
 	private void OnCollisionEnter(Collision collision) {
 		Collider triggeredBy = collision.collider;
 
-		if (triggeredBy.gameObject.tag == canTrigger.ToString()) {
-			if (linkedTrap != null) {
-				linkedTrap.TriggerTrap(triggeredBy);
-			}
-		}
+		ShouldTriggerTrap(triggeredBy);
 	}
 
 	private void OnTriggerEnter(Collider triggeredBy) {
-		if (triggeredBy.gameObject.tag.Contains(canTrigger.ToString())) {
-			if (linkedTrap != null) {
-				linkedTrap.TriggerTrap(triggeredBy);
-			}
-		}
+		ShouldTriggerTrap(triggeredBy);
 	}
 
 	#endregion
@@ -56,6 +49,20 @@ public class TriggerController : TrapTriggerBase {
 		}
 
 		#endregion
+
+	private void ShouldTriggerTrap(Collider triggeredBy) {
+		if (linkedTrap == null) {
+			return;
+		}
+
+		if (linkedTrap.GetComponent<PickUpObject>().GetCurrentState() == PickUpState.Held) {
+			return;
+		}
+		
+		if (triggeredBy.gameObject.tag.Contains(canTrigger.ToString())) {
+			linkedTrap.TriggerTrap(triggeredBy);
+		}
+	}
 
 	#endregion
 

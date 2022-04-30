@@ -8,12 +8,16 @@ public abstract class TrapTriggerBase : MonoBehaviour {
 	[SerializeField]
 	protected SurfaceType surfaceType;
 
+	protected PickUpObject pickUpController;
+
 	#endregion
 
 	#region Events
 
 	protected virtual void Awake() {
 		References.Obstacles.trapsAndTriggers.Add(gameObject);
+
+		pickUpController = GetComponent<PickUpObject>();
 	}
 
 	#endregion

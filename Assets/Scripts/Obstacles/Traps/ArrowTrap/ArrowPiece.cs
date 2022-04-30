@@ -9,7 +9,7 @@ public class ArrowPiece : MonoBehaviour
 	private float shrinkRate;
 
 	private void Awake() {
-		shrinkTarget = 0.1f;
+		shrinkTarget = 0.2f;
 		shrinkRate = 5;
 	}
 

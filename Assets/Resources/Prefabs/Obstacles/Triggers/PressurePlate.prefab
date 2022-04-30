@@ -144,6 +144,8 @@ MonoBehaviour:
   canBeThrown: 0
   placementPrefab: {fileID: 8946829632699993540, guid: dc40c442656519a4f868cf80583b0278,
     type: 3}
+  heldPrefab: {fileID: 4095922709850232265, guid: c53c0eb4dd2b00741840eee0cef16244,
+    type: 3}
   heldHeight: 2.5
   currentState: 0
 --- !u!114 &-4891178208408891548

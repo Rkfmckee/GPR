@@ -1,18 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PickUpObject : MonoBehaviour {
 	#region Properties
 
 	public bool canBeThrown;
 	public GameObject placementPrefab;
+	public GameObject heldPrefab;
 	[Range(1, 10)]
 	public float heldHeight;
-	[HideInInspector]
-	public State currentState;
-
+	
+	private PickUpState currentState;
 	private Vector3 heldPosition;
 	private new Rigidbody rigidbody;
 	private Animator animator;
+	private GameObject heldObject;
+	private Transform currentlyHeldBy;
+
+	private List<Collider> disabledColliders;
+	private List<Renderer> disabledRenderers;
+	private List<Animator> disabledAnimators;
 
 	#endregion
 
@@ -22,21 +29,25 @@ public class PickUpObject : MonoBehaviour {
 		rigidbody = gameObject.GetComponent<Rigidbody>();
 		animator = gameObject.GetComponent<Animator>();
 
-		currentState = State.Idle;
+		disabledColliders = new List<Collider>();
+		disabledRenderers = new List<Renderer>();
+		disabledAnimators = new List<Animator>();
+
+		currentState = PickUpState.Idle;
 		heldPosition = new Vector3(0, heldHeight, 0);
 	}
 
 	private void Update() {
-		if (currentState == State.Held) {
-			transform.localPosition = heldPosition;
-			transform.eulerAngles = Vector3.zero;
-			if (rigidbody != null) rigidbody.velocity = Vector3.zero;
+		if (heldObject == null) {
+			return;
 		}
+
+		ResetHeldObjectPosition();
 	}
 
 	private void OnCollisionEnter(Collision collision) {
 		if (collision.collider.gameObject.tag == "Floor") {
-			currentState = State.Idle;
+			currentState = PickUpState.Idle;
 		}
 	}
 
@@ -44,15 +55,77 @@ public class PickUpObject : MonoBehaviour {
 
 	#region Methods
 
-	public void SetCurrentState(State state) {
-		currentState = state;
+		#region Get/Set
 
-		if (currentState == State.Held) {
-			if (rigidbody != null) rigidbody.useGravity = false;
-			if (animator != null) animator.speed = 0;
-		} else {
-			if (rigidbody != null) rigidbody.useGravity = true;
-			if (animator != null) animator.speed = 1;
+		public PickUpState GetCurrentState() {
+			return currentState;
+		}
+
+		public void SetCurrentState(PickUpState state, Transform heldBy = null) {
+			currentState = state;
+			currentlyHeldBy = heldBy;
+
+			if (currentState == PickUpState.Held) {
+				DisableComponents();
+				heldObject = Instantiate(heldPrefab, currentlyHeldBy);
+				ResetHeldObjectPosition();
+
+			} else {
+				if (heldObject != null) {
+					EnableComponents();
+					Destroy(heldObject);
+				}
+			}
+		}
+
+		#endregion
+
+	private void ResetHeldObjectPosition() {
+		heldObject.transform.localPosition = heldPosition;
+		heldObject.transform.rotation = heldPrefab.transform.rotation;
+	}
+
+	private void EnableComponents() {
+		foreach(var collider in disabledColliders) {
+			collider.enabled = true;
+		}
+		disabledColliders.Clear();
+
+		foreach(var renderer in disabledRenderers) {
+			renderer.enabled = true;
+		}
+		disabledRenderers.Clear();
+
+		foreach(var animator in disabledAnimators) {
+			animator.enabled = true;
+		}
+		disabledAnimators.Clear();
+	}
+
+	private void DisableComponents() {
+		var allColliders = GetComponentsInChildren<Collider>();
+		var allRenderers = GetComponentsInChildren<Renderer>();
+		var allAnimators = GetComponentsInChildren<Animator>();
+
+		foreach(var collider in allColliders) {
+			if (collider.enabled) {
+				collider.enabled = false;
+				disabledColliders.Add(collider);
+			}
+		}
+
+		foreach(var renderer in allRenderers) {
+			if (renderer.enabled) {
+				renderer.enabled = false;
+				disabledRenderers.Add(renderer);
+			}
+		}
+
+		foreach(var animator in allAnimators) {
+			if (animator.enabled) {
+				animator.enabled = false;
+				disabledAnimators.Add(animator);
+			}
 		}
 	}
 
@@ -60,7 +133,7 @@ public class PickUpObject : MonoBehaviour {
 
 	#region Enums
 
-	public enum State {
+	public enum PickUpState {
 		Idle,
 		Held,
 		Thrown

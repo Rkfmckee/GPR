@@ -21,7 +21,7 @@ public class GlobalObstaclesController : MonoBehaviour {
 		References.Game.globalObstacles = this;
 		obstaclePlacements = new List<GameObject>();
 
-		obstaclePlacementPrefab = Resources.Load("Prefabs/Obstacles/Placement/ObstaclePlacement") as GameObject;
+		obstaclePlacementPrefab = Resources.Load("Prefabs/Obstacles/ObstaclePlacement") as GameObject;
 		trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
 	}
 

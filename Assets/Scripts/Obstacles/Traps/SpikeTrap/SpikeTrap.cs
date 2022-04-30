@@ -61,6 +61,8 @@ public class SpikeTrap : TrapController {
 
 	#region Methods
 	public override void TriggerTrap(Collider triggeredBy) {
+		base.TriggerTrap(triggeredBy);
+		
 		if (currentState == SpikeState.SpikesDown) {
 			spikeChild = Instantiate(spikeChildPrefab, transform).transform;
 			spikeChild.localPosition = spikesDownPosition;

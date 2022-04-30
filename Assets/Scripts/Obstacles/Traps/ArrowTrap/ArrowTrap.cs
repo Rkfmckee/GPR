@@ -30,6 +30,8 @@ public class ArrowTrap : TrapController {
     #endregion
 
     public override void TriggerTrap(Collider triggeredBy) {
+		base.TriggerTrap(triggeredBy);
+
         foreach(GameObject arrowSlot in arrowSlots) {
             GameObject arrow = Instantiate(arrowPrefab);
             Arrow arrowController = arrow.GetComponent<Arrow>();
