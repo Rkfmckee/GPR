@@ -67,24 +67,34 @@ public class CraftingStation : MonoBehaviour {
 		var craftingItemController = itemToCraft.GetComponent<CraftingItem>();
 		var trapTriggerBase = itemToCraft.GetComponent<TrapTriggerBase>();
 		var spawnPosition = transform.Find("Area").position;
+		var spawnRotation = Quaternion.Euler(Vector3.zero);
+		var itemName = itemToCraft.name;
 
 		var progressBar = CreateProgressBar(craftingItemController.resourceCost);
 		
 		while(!progressBar.IsProgressFinished()) {
 			yield return null;
 		}
-		
+
 		GameObject newItem = Instantiate(itemToCraft);
+
+		if (trapTriggerBase != null) {
+			itemName = trapTriggerBase.GetName();
+
+			if (trapTriggerBase.GetSurfaceType() == SurfaceType.Wall) {
+				spawnPosition += Vector3.up * 0.1f;
+				spawnRotation = Quaternion.Euler(90, 0, 0);
+			}
+		} else {
+			var collider = newItem.GetComponent<Collider>();
+			spawnPosition += Vector3.up * collider.bounds.extents.y;
+		}
+		
 		newItem.name = itemToCraft.name;
 		newItem.transform.position = spawnPosition;
+		newItem.transform.rotation = spawnRotation;
 
-		if (trapTriggerBase.GetSurfaceType() == SurfaceType.Wall) {
-			newItem.transform.rotation = Quaternion.Euler(90, 0, 0);
-			newItem.transform.position += Vector3.up * 0.1f;
-		}
-
-		AddNotificationOfCraftedItem(trapTriggerBase.GetName());
-		
+		AddNotificationOfCraftedItem(itemName);
 		isCurrentlyCrafting = false;
 	}
 

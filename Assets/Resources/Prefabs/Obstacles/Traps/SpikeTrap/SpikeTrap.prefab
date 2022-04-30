@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 
   surfaceType: 0
-  canTrigger: 0
+  canTrigger: 1
 --- !u!114 &3211723386902421035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +198,6 @@ MonoBehaviour:
   heldPrefab: {fileID: 9186663741576256738, guid: 6994ceda175ce7348a6e9875b628bec2,
     type: 3}
   heldHeight: 2.5
-  currentState: 0
 --- !u!114 &6667637016917973939
 MonoBehaviour:
   m_ObjectHideFlags: 0
