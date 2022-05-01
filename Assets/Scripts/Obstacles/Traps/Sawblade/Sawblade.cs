@@ -20,7 +20,7 @@ public class Sawblade : MonoBehaviour {
 		if (absoluteDot > rotationThreshold) {
 			var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
 			if (targetsHealthSystem != null) {
-				targetsHealthSystem.TakeDamageOverTime(2, 1);
+				targetsHealthSystem.TakeDamageOverTime(2, 1, false);
 			}
 		}
 	}

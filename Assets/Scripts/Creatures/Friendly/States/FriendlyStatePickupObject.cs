@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using static CameraController;
-using static TrapTriggerBase;
 
 public class FriendlyStatePickupObject : FriendlyState {
 	#region Properties

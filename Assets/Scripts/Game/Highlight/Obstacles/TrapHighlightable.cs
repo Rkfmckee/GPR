@@ -5,7 +5,6 @@ using static CameraController;
 public class TrapHighlightable : ObstacleHighlightable {
     #region Properties
 
-    private SpikeTrap spikeController;
     private HealthSystem healthSystem;
     private GameObject healthBar;
 
@@ -16,7 +15,6 @@ public class TrapHighlightable : ObstacleHighlightable {
     protected override void Awake() {
         base.Awake();
 
-        spikeController = GetComponent<SpikeTrap>();
         healthSystem = GetComponent<HealthSystem>();
 
 		statesAndUiText = new Dictionary<ControllingState, List<string>> {
@@ -65,10 +63,6 @@ public class TrapHighlightable : ObstacleHighlightable {
 
 	protected override bool DontHighlight() {
 		var dontHighlight = globalObstacles.IsTrapDetailsOpen();
-
-		if (spikeController != null) {
-        	dontHighlight = dontHighlight || spikeController.currentState != SpikeTrap.SpikeState.SpikesDown;
-		}
 		
 		return dontHighlight || base.DontHighlight();
 	}

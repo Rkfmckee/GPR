@@ -4,7 +4,7 @@ public class SawbladeTrap : TrapController {
 	#region Properties
 
 	private bool canMove;	
-	private bool constantlyMoving;
+	private bool constantlyTriggered;
 
 	private Animator animator;
 
@@ -24,15 +24,6 @@ public class SawbladeTrap : TrapController {
 	private void Update() {
 		if (!canMove)
 			return;
-
-		// if (Input.GetKeyDown(KeyCode.Tab))
-		// 	SetConstantlyMoving(!constantlyMoving);
-
-		// if (!constantlyMoving) {
-		// 	if (Input.GetKeyDown(KeyCode.Backspace)) {
-		// 		animator.Play("SawBladeMovingOnce");
-		// 	}
-		// }
 	}
 
 	#endregion
@@ -45,14 +36,14 @@ public class SawbladeTrap : TrapController {
 			if (!canMove)
 				return null;
 			
-			return constantlyMoving;
+			return constantlyTriggered;
 		}
 
 		public void SetConstantlyMoving(bool shouldMove) {
 			if (!canMove)
 				return;
 
-			constantlyMoving = shouldMove;
+			constantlyTriggered = shouldMove;
 			animator.SetBool("constantlyMoving", shouldMove);
 		}
 
@@ -61,7 +52,7 @@ public class SawbladeTrap : TrapController {
 	public override void TriggerTrap(Collider triggeredBy) {
 		base.TriggerTrap(triggeredBy);
 		
-		if (constantlyMoving || !canMove)
+		if (constantlyTriggered || !canMove)
 			return;
 
 		animator.Play("SawBladeMovingOnce");

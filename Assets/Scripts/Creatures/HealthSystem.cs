@@ -15,6 +15,7 @@ public class HealthSystem : MonoBehaviour {
 	private GameObject healthBar;
 	private HealthBar healthBarController;
 	private GameObject bloodPrefab;
+	private GameObject firePrefab;
 	private new Collider collider;
 
 
@@ -27,6 +28,7 @@ public class HealthSystem : MonoBehaviour {
 
 		healthBarPrefab = Resources.Load<GameObject>("Prefabs/UI/HealthBar");
 		bloodPrefab = Resources.Load<GameObject>("Prefabs/Misc/Effects/BloodSplat");
+		firePrefab = Resources.Load<GameObject>("Prefabs/Misc/Effects/Fire");
 
 		currentHealth = maxHealth;
 	}
@@ -82,8 +84,8 @@ public class HealthSystem : MonoBehaviour {
 		CheckIfNoHealth();
 	}
 
-	public void TakeDamageOverTime(float totalDamage, float timeInSeconds) {
-		StartCoroutine(DamageOverTime(totalDamage, timeInSeconds));
+	public void TakeDamageOverTime(float totalDamage, float timeInSeconds, bool fireDamage) {
+		StartCoroutine(DamageOverTime(totalDamage, timeInSeconds, fireDamage));
 	}
 
 	private void CheckIfNoHealth() {
@@ -96,9 +98,15 @@ public class HealthSystem : MonoBehaviour {
 
 	#region Coroutines
 
-	private IEnumerator DamageOverTime(float totalDamage, float timeInSeconds) {
-		var blood = Instantiate(bloodPrefab, transform);
-		blood.transform.localPosition = Vector3.up * collider.bounds.extents.y;
+	private IEnumerator DamageOverTime(float totalDamage, float timeInSeconds, bool fireDamage) {
+		GameObject damageEffect;
+		if (fireDamage) {
+			damageEffect = Instantiate(firePrefab, transform);
+		} else {
+			damageEffect = Instantiate(bloodPrefab, transform);
+		}
+
+		damageEffect.transform.localPosition = Vector3.up * collider.bounds.extents.y;
 
 		float targetHealth = currentHealth - totalDamage;
 		if (targetHealth < 0) { targetHealth = 0; }
@@ -115,7 +123,7 @@ public class HealthSystem : MonoBehaviour {
 			yield return null;
 		}
 
-		Destroy(blood);
+		Destroy(damageEffect);
 		CheckIfNoHealth();
 	}
 

@@ -6,7 +6,7 @@ public class Spikes : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
 		if (targetsHealthSystem != null) {
-			targetsHealthSystem.TakeDamageOverTime(3, 1);
+			targetsHealthSystem.TakeDamageOverTime(3, 1, false);
 		}
 	}
 

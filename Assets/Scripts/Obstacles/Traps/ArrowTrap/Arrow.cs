@@ -41,7 +41,7 @@ public class Arrow : MonoBehaviour
 
 		var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
 		if (targetsHealthSystem != null) {
-			targetsHealthSystem.TakeDamageOverTime(2, 0.5f);
+			targetsHealthSystem.TakeDamageOverTime(2, 0.5f, false);
 		}
 		
 		Destroy(gameObject);
