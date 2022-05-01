@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6279801811048549460}
   - component: {fileID: 1967619796167790568}
   - component: {fileID: 1435880886466387195}
-  - component: {fileID: 6207404426734052729}
+  - component: {fileID: 7817639065036381136}
   m_Layer: 0
   m_Name: Spikes
   m_TagString: Untagged
@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -53,6 +54,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -96,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7645338, y: 1.1255836, z: 1.7645338}
   m_Center: {x: 0, y: 0.60709, z: 0}
---- !u!114 &6207404426734052729
+--- !u!114 &7817639065036381136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,6 +107,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8363245114339647263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a0369c58b15b06478fe8951a491b722, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ab668b212eb45e4890504411599ae4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -59,7 +59,8 @@ public class TriggerController : TrapTriggerBase {
 			return;
 		}
 		
-		if (triggeredBy.gameObject.tag.Contains(canTrigger.ToString())) {
+		if (triggeredBy.gameObject.tag.Contains(canTrigger.ToString()) ||
+			canTrigger == CanTrigger.Any) {
 			linkedTrap.TriggerTrap(triggeredBy);
 		}
 	}
@@ -70,7 +71,8 @@ public class TriggerController : TrapTriggerBase {
 
 	public enum CanTrigger {
 		Friendly,
-		Hostile
+		Hostile,
+		Any
 	}
 
 	#endregion

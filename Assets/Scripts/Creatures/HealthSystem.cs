@@ -8,11 +8,14 @@ public class HealthSystem : MonoBehaviour {
 	public float healthBarHeightOffset;
 
 	private float currentHealth;
+
 	private new Camera camera;
 	private GameObject canvas;
 	private GameObject healthBarPrefab;
 	private GameObject healthBar;
 	private HealthBar healthBarController;
+	private GameObject bloodPrefab;
+	private new Collider collider;
 
 
 	#endregion
@@ -20,11 +23,17 @@ public class HealthSystem : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		SetupInstanceVariables();
+		collider = GetComponentInChildren<Collider>();
+
+		healthBarPrefab = Resources.Load<GameObject>("Prefabs/UI/HealthBar");
+		bloodPrefab = Resources.Load<GameObject>("Prefabs/Misc/Effects/BloodSplat");
+
+		currentHealth = maxHealth;
 	}
 
 	private void Start() {
 		canvas = References.UI.canvas;
+		camera = References.Camera.camera;
 		Transform healthBarParent = canvas.transform.Find("HealthBars").transform;
 
 		healthBar = Instantiate(healthBarPrefab, healthBarParent);
@@ -55,13 +64,6 @@ public class HealthSystem : MonoBehaviour {
 
 	public GameObject GetHealthBar() {
 		return healthBar;
-	}
-
-	private void SetupInstanceVariables() {
-		currentHealth = maxHealth;
-
-		camera = Camera.main;
-		healthBarPrefab = Resources.Load("Prefabs/UI/HealthBar") as GameObject;
 	}
 
 	public void Heal(float amount) {
@@ -95,6 +97,9 @@ public class HealthSystem : MonoBehaviour {
 	#region Coroutines
 
 	private IEnumerator DamageOverTime(float totalDamage, float timeInSeconds) {
+		var blood = Instantiate(bloodPrefab, transform);
+		blood.transform.localPosition = Vector3.up * collider.bounds.extents.y;
+
 		float targetHealth = currentHealth - totalDamage;
 		if (targetHealth < 0) { targetHealth = 0; }
 
@@ -110,6 +115,7 @@ public class HealthSystem : MonoBehaviour {
 			yield return null;
 		}
 
+		Destroy(blood);
 		CheckIfNoHealth();
 	}
 

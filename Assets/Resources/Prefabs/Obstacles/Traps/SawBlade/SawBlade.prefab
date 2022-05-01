@@ -52,8 +52,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8434744, y: 0.19149691, z: 3.3985436}
-  m_Center: {x: -0.005247593, y: 0.09307143, z: 0.0018645525}
+  m_Size: {x: 0.8434744, y: 1.016304, z: 3.3985436}
+  m_Center: {x: -0.005247593, y: 0.50547504, z: 0.0018645525}
 --- !u!95 &4337150506050047944
 Animator:
   serializedVersion: 4
@@ -118,7 +118,6 @@ MonoBehaviour:
   heldPrefab: {fileID: 5532656942198594185, guid: 505a878f8d8a80a458930d814656ca37,
     type: 3}
   heldHeight: 3
-  currentState: 0
 --- !u!114 &7527347299971238688
 MonoBehaviour:
   m_ObjectHideFlags: 0
