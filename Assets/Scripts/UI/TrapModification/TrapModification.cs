@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class TrapDetails : MonoBehaviour {
+public class TrapModification : MonoBehaviour {
 	#region Properties
 
-	private GameObject trapShowing;
+	private GameObject trap;
 	private HealthSystem trapHealth;
+	private TrapTriggerBase trapController;
 	private GameObject trapHealthBarAmount;
 	private GameObject trapHealthValue;
 	private Text trapHealthValueText;
@@ -19,7 +20,7 @@ public class TrapDetails : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		Transform background = transform.Find("TrapDetailsBackground");
+		Transform background = transform.Find("TrapModificationBackground");
 		trapHealthBarAmount = background.Find("TrapHealthBarAmount").gameObject;
 		trapHealthValue = background.Find("TrapHealthValue").gameObject;
 		trapHealthValueText = trapHealthValue.GetComponent<Text>();
@@ -51,13 +52,16 @@ public class TrapDetails : MonoBehaviour {
 
 	#region Methods
 
-	public void SetTrapShowing(GameObject trap) {
-		trapShowing = trap;
+	public void SetTrap(GameObject trap) {
+		this.trap = trap;
 		trapHealth = trap.GetComponent<HealthSystem>();
+		trapController = trap.GetComponent<TrapTriggerBase>();
+
+		transform.Find("TrapDetails").GetComponent<TrapDetails>().SetTrap(trapController);
 	}
 
 	private void LinkButtonClicked() {
-		globalObstacles.CreateTrapLinkingLine(trapShowing.transform);
+		globalObstacles.CreateTrapLinkingLine(trap.transform);
 		globalObstacles.ShouldShowTrapDetails(false, null);
 	}
 

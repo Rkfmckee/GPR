@@ -39,7 +39,7 @@ public class GlobalObstaclesController : MonoBehaviour {
 	}
 
 	public void ShouldShowTrapDetails(bool showDetails, GameObject trap) {
-		References.UI.canvas.GetComponent<CanvasController>().SetTrapDetailsVisible(showDetails, trap);
+		References.UI.canvas.GetComponent<CanvasController>().SetTrapModificationVisible(showDetails, trap);
 		trapDetailsOpen = showDetails;
 	}
 
