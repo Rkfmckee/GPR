@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class StartRoundButton : MonoBehaviour {
 	#region Properties
 
+	private bool buttonPressed;
 	private Sprite buttonSpriteUnpressed;
 	private Sprite buttonSpritePressed;
 
@@ -17,6 +18,8 @@ public class StartRoundButton : MonoBehaviour {
 	private void Awake() {
 		buttonImage = GetComponent<Image>();
 		startRoundButton = GetComponent<Button>();
+
+		buttonPressed = false;
 		buttonSpriteUnpressed = buttonImage.sprite;
 		buttonSpritePressed = Resources.Load<Sprite>("Images/UI/RoundStage/StartRoundButtonPressed");
 		startRoundButton.onClick.AddListener(StartRoundButtonClicked);
@@ -26,15 +29,25 @@ public class StartRoundButton : MonoBehaviour {
 
 	#region Methods
 
-	public void SetStartButtonPressed(bool pressed) {
-		if (pressed) {
-			buttonImage.sprite = buttonSpritePressed;
-			startRoundButton.enabled = false;
-		} else {
-			buttonImage.sprite = buttonSpriteUnpressed;
-			startRoundButton.enabled = true;
+		#region Get/Set
+
+		public bool IsButtonPressed() {
+			return buttonPressed;
 		}
-	}
+
+		public void SetStartButtonPressed(bool pressed) {
+			buttonPressed = pressed;
+			
+			if (pressed) {
+				buttonImage.sprite = buttonSpritePressed;
+				startRoundButton.enabled = false;
+			} else {
+				buttonImage.sprite = buttonSpriteUnpressed;
+				startRoundButton.enabled = true;
+			}
+		}
+
+		#endregion
 
 	private void StartRoundButtonClicked() {
 		if (!References.storageRoom.GetComponent<StorageRoom>().IsPlayerInside()) {

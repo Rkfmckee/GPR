@@ -1,7 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using static TrapController;
 
 public class TakeButton : MonoBehaviour {
 	#region Properties
@@ -9,8 +7,9 @@ public class TakeButton : MonoBehaviour {
 	private Button takeButton;
 	private Image image;
 	private CraftingMenu craftingMenu;
-	private Sprite buttonUnpressed;
-	private Sprite buttonPressed;
+	private bool buttonPressed; 
+	private Sprite buttonSpriteUnpressed;
+	private Sprite buttonSpritePressed;
 
 	#endregion
 
@@ -22,8 +21,9 @@ public class TakeButton : MonoBehaviour {
 		takeButton.onClick.AddListener(TakeButtonClicked);
 
 		image = GetComponent<Image>();
-		buttonUnpressed = Resources.Load<Sprite>("Images/UI/CraftingMenu/TakeButton");
-		buttonPressed = Resources.Load<Sprite>("Images/UI/CraftingMenu/TakeButtonPressed");
+		buttonPressed = true;
+		buttonSpriteUnpressed = Resources.Load<Sprite>("Images/UI/CraftingMenu/TakeButton");
+		buttonSpritePressed = Resources.Load<Sprite>("Images/UI/CraftingMenu/TakeButtonPressed");
 
 		SetButtonImagePressed(true);
 	}
@@ -32,15 +32,25 @@ public class TakeButton : MonoBehaviour {
 
 	#region Methods
 
-	public void SetButtonImagePressed(bool pressed) {
-		if (pressed) {
-			image.sprite = buttonPressed;
-			takeButton.enabled = false;
-		} else {
-			image.sprite = buttonUnpressed;
-			takeButton.enabled = true;
+		#region Get/Set
+
+		public bool IsButtonPressed() {
+			return buttonPressed;
 		}
-	}
+
+		public void SetButtonImagePressed(bool pressed) {
+			buttonPressed = pressed;
+			
+			if (pressed) {
+				image.sprite = buttonSpritePressed;
+				takeButton.enabled = false;
+			} else {
+				image.sprite = buttonSpriteUnpressed;
+				takeButton.enabled = true;
+			}
+		}
+
+		#endregion
 
 	private void TakeButtonClicked() {
 		GameObject itemSelected = craftingMenu.GetSelectedItem();
