@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static CameraController;
-using static TrapTriggerBase;
+using static ObstacleController;
 
 public class ObstaclePlacementController : MonoBehaviour {
 	#region Properties
@@ -23,7 +23,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 	private GameObject placementObject;
 	private MeshRenderer[] placementObjectRenderers;
 	private Collider placementObjectCollider;
-	private TrapTriggerBase heldObjectTrapController;
+	private ObstacleController heldObjectTrapController;
 
 	#endregion
 
@@ -92,7 +92,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 		CopyColliderToPlacementModel(heldObject);
 
 		placementObjectRenderers = placementObject.GetComponentsInChildren<MeshRenderer>();
-		heldObjectTrapController = heldObject.GetComponent<TrapTriggerBase>();
+		heldObjectTrapController = heldObject.GetComponent<ObstacleController>();
 
 		SetPositionBoundaries();
 
@@ -233,7 +233,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 	private void FinalizePosition() {
 		positionFinalized = true;
 		References.Camera.cameraController.SetControllingState(ControllingState.ControllingSelf);
-		References.UI.Controllers.canvasController.DisableActionText(actionText);
+		References.UI.canvasController.DisableActionText(actionText);
 	}
 
 	private void RotateIfFloorObstacle() {

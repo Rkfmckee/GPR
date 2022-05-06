@@ -9,7 +9,7 @@ public class GlobalObstaclesController : MonoBehaviour {
 	private GameObject trapLinkingLinePrefab;
 	private GameObject trapLinkingLine;
 	private bool inventoryOpen;
-	private bool trapDetailsOpen;
+	private bool trapModificationOpen;
 
 	private CanvasController canvasController;
 
@@ -40,7 +40,7 @@ public class GlobalObstaclesController : MonoBehaviour {
 
 	public void ShouldShowTrapDetails(bool showDetails, GameObject trap) {
 		References.UI.canvas.GetComponent<CanvasController>().SetTrapModificationVisible(showDetails, trap);
-		trapDetailsOpen = showDetails;
+		trapModificationOpen = showDetails;
 	}
 
 	public bool IsInventoryOpen() {
@@ -48,7 +48,7 @@ public class GlobalObstaclesController : MonoBehaviour {
 	}
 
 	public bool IsTrapDetailsOpen() {
-		return trapDetailsOpen;
+		return trapModificationOpen;
 	}
 
 	public bool IsTrapLinkingLineActive() {

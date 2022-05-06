@@ -19,8 +19,8 @@ public class CloseButton : MonoBehaviour {
 				closeButton.onClick.AddListener(CloseInventory);
 				break;
 
-			case MenuType.TrapDetails:
-				closeButton.onClick.AddListener(CloseTrapDetails);
+			case MenuType.TrapModification:
+				closeButton.onClick.AddListener(CloseTrapModification);
 				break;
 		}
 	}
@@ -33,7 +33,7 @@ public class CloseButton : MonoBehaviour {
 		References.Game.globalObstacles.ShouldShowCraftingMenu(false);
 	}
 
-	private void CloseTrapDetails() {
+	private void CloseTrapModification() {
 		References.Game.globalObstacles.ShouldShowTrapDetails(false, null);
 	}
 
@@ -43,7 +43,7 @@ public class CloseButton : MonoBehaviour {
 
 	public enum MenuType {
 		CaveInventory,
-		TrapDetails
+		TrapModification
 	}
 
 	#endregion

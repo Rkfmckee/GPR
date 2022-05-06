@@ -6,7 +6,7 @@ public class TrapModification : MonoBehaviour {
 
 	private GameObject trap;
 	private HealthSystem trapHealth;
-	private TrapTriggerBase trapController;
+	private ObstacleController trapController;
 	private GameObject trapHealthBarAmount;
 	private GameObject trapHealthValue;
 	private Text trapHealthValueText;
@@ -55,9 +55,9 @@ public class TrapModification : MonoBehaviour {
 	public void SetTrap(GameObject trap) {
 		this.trap = trap;
 		trapHealth = trap.GetComponent<HealthSystem>();
-		trapController = trap.GetComponent<TrapTriggerBase>();
+		trapController = trap.GetComponent<ObstacleController>();
 
-		transform.Find("TrapDetails").GetComponent<TrapDetails>().SetTrap(trapController);
+		transform.Find("ObstacleDetails").GetComponent<ObstacleDetails>().SetObstacle(trapController);
 	}
 
 	private void LinkButtonClicked() {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using static PickUpObject;
 
-public abstract class TrapController : TrapTriggerBase {
+public abstract class TrapController : ObstacleController {
 
     #region Properties
 

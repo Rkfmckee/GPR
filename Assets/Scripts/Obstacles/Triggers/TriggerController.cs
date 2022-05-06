@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using static PickUpObject;
 
-public class TriggerController : TrapTriggerBase {
+public class TriggerController : ObstacleController {
 	#region Properties
 
 	public CanTrigger canTrigger;

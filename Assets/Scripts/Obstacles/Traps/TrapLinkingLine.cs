@@ -42,7 +42,7 @@ public class TrapLinkingLine : MonoBehaviour {
 
 	private void Start() {
 		globalObstacles = References.Game.globalObstacles;
-		canvasController = References.UI.Controllers.canvasController;
+		canvasController = References.UI.canvasController;
 		traps = References.Obstacles.traps;
 		triggers = References.Obstacles.triggers;
 

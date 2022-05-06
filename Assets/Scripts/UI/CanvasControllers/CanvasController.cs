@@ -23,7 +23,7 @@ public class CanvasController : MonoBehaviour {
 
 	private void Awake() {
 		References.UI.canvas = gameObject;
-		References.UI.Controllers.canvasController = this;
+		References.UI.canvasController = this;
 		actionTextActive = new List<GameObject>();
 
 		actionTextParent = transform.Find("Action Text");
@@ -47,12 +47,16 @@ public class CanvasController : MonoBehaviour {
 				craftingMenu = Instantiate(craftingMenuPrefab, References.UI.canvas.transform);
 				craftingMenu.GetComponent<CraftingMenu>().CurrentCraftingStation(craftingStation);
 				cameraController.SetControllingState(ControllingState.ControllingMenu);
+
+				References.UI.craftingMenu = craftingMenu.GetComponent<CraftingMenu>();
 			}
 		} else {
 			if (craftingMenu != null) {
 				Destroy(craftingMenu);
 				craftingMenu = null;
 				cameraController.SetControllingState(ControllingState.ControllingSelf);
+
+				References.UI.craftingMenu = null;
 			}
 		}
 	}

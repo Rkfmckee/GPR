@@ -22,7 +22,7 @@ public class FriendlyStateListening : FriendlyState {
 	#region Constructor
 	
 	public FriendlyStateListening(GameObject gameObj) : base(gameObj) {
-		uiController = References.UI.Controllers.friendlyListeningUIController;
+		uiController = References.UI.friendlyListeningUIController;
 		camera = References.Camera.camera;
 		References.Camera.cameraController.SetControllingState(ControllingState.ControllingFriendly);
 
@@ -90,8 +90,8 @@ public class FriendlyStateListening : FriendlyState {
 				currentCommand = hitCommand;
 				uiController.ChangeListeningCommandText(hitCommand.ToString());
 				
-				References.UI.Controllers.canvasController.DisableActionText();
-				References.UI.Controllers.canvasController.EnableActionText($"Left click to {hitCommand.ToString()}");
+				References.UI.canvasController.DisableActionText();
+				References.UI.canvasController.EnableActionText($"Left click to {hitCommand.ToString()}");
 
 				var cursorType = CursorData.ListeningCommandToCursorType(currentCommand.Value);
 				if (cursorType.HasValue) {
@@ -140,7 +140,7 @@ public class FriendlyStateListening : FriendlyState {
 		currentCommand = null;
 		
 		cursor.SetCursor(CursorType.Basic);
-		References.UI.Controllers.canvasController.DisableActionText();
+		References.UI.canvasController.DisableActionText();
 	}
 
 	#endregion

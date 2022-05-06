@@ -18,6 +18,8 @@ public class CraftingMenu : MonoBehaviour {
 	private GameObject triggerItems;
 	private GameObject miscItems;
 	private GameObject takeButton;
+	private GameObject obstacleDetails;
+	private GameObject obstacleDetailsPrefab;
 
 	private CraftingStation craftingStation;
 
@@ -26,6 +28,8 @@ public class CraftingMenu : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
+		obstacleDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/ObstacleDetails/ObstacleDetails");
+
 		takeButton = transform.Find("TakeButton").gameObject;
 
 		var background = transform.Find("Background");
@@ -83,6 +87,21 @@ public class CraftingMenu : MonoBehaviour {
 		}
 
 		#endregion
+
+	public void EnableObstacleDetails(ObstacleController obstacle) {
+		DisableObstacleDetails();
+
+		obstacleDetails = Instantiate(obstacleDetailsPrefab, transform);
+		obstacleDetails.transform.position = Input.mousePosition + obstacleDetailsPrefab.transform.position;
+		obstacleDetails.GetComponent<ObstacleDetails>().SetObstacle(obstacle);
+	}
+
+	public void DisableObstacleDetails() {
+		if (obstacleDetails == null) 
+			return;
+
+		Destroy(obstacleDetails);
+	}
 
 	private void ChangeCategory(Categories categorySelected) {
 		floorTrapItems.SetActive(false);

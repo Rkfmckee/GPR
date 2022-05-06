@@ -33,11 +33,10 @@ public static class References {
     }
 
     public static class UI {
-		public static class Controllers {
-			public static CanvasController canvasController;
-			public static FriendlyListeningUIController friendlyListeningUIController;
-		}
         public static GameObject canvas;
+		public static CanvasController canvasController;
+		public static FriendlyListeningUIController friendlyListeningUIController;
         public static NotificationController notifications;
+		public static CraftingMenu craftingMenu;
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using static NotificationController;
-using static TrapTriggerBase;
+using static ObstacleController;
 
 public class CraftingStation : MonoBehaviour {
 	#region Properties
@@ -65,7 +65,7 @@ public class CraftingStation : MonoBehaviour {
 
 		References.Game.globalObstacles.ShouldShowCraftingMenu(false);
 		var craftingItemController = itemToCraft.GetComponent<CraftingItem>();
-		var trapTriggerBase = itemToCraft.GetComponent<TrapTriggerBase>();
+		var trapTriggerBase = itemToCraft.GetComponent<ObstacleController>();
 		var spawnPosition = transform.Find("Area").position;
 		var spawnRotation = Quaternion.Euler(Vector3.zero);
 		var itemName = itemToCraft.name;

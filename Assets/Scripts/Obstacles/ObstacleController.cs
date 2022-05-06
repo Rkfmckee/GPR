@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class TrapTriggerBase : MonoBehaviour {
+public abstract class ObstacleController : MonoBehaviour {
 	#region Properties
 
 	[SerializeField]

@@ -38,7 +38,7 @@ public abstract class Highlightable : MonoBehaviour {
 
     protected virtual void Start() {
         globalObstacles = References.Game.globalObstacles;
-		canvasController = References.UI.Controllers.canvasController;
+		canvasController = References.UI.canvasController;
 		cursor = References.Game.cursor;
     }
 
