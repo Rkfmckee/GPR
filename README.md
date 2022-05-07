@@ -1,1 +1,1 @@
-Working title: GPR (Goblin Protection something-beginning-with-R)?
+Working title: GPR (Goblin Protection Resolution)?
