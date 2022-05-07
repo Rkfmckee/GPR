@@ -7,6 +7,8 @@ public class ObstacleDetails : MonoBehaviour {
 	protected ObstacleController obstacle;
 	
 	protected TextMeshProUGUI obstacleName;
+	protected TextMeshProUGUI obstacleDescription;
+
 	protected Transform background;
 
 	#endregion
@@ -16,6 +18,7 @@ public class ObstacleDetails : MonoBehaviour {
 	protected virtual void Awake() {
 		background = transform.Find("ObstacleDetailsBackground");
 		obstacleName = background.Find("ObstacleName").GetComponent<TextMeshProUGUI>();
+		obstacleDescription = background.Find("ObstacleDescription").GetComponent<TextMeshProUGUI>();
 	}
 
 	#endregion
@@ -26,6 +29,18 @@ public class ObstacleDetails : MonoBehaviour {
 
 		public void SetObstacle(ObstacleController obstacle) {
 			this.obstacle = obstacle;
+			obstacleDescription.text = obstacle.GetDescription();
+
+			if (obstacle.gameObject.GetComponent<TrapController>()) {
+				obstacleName.text = $"Trap: {obstacle.GetName()}";
+				return;
+			}
+
+			if (obstacle.gameObject.GetComponent<TriggerController>()) {
+				obstacleName.text = $"Trigger: {obstacle.GetName()}";
+				return;
+			}
+
 			obstacleName.text = obstacle.GetName();
 		}
 

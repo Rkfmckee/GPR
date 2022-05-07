@@ -114,7 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfab90b8ccbc0cf43b04d72cbad6c410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Small Fire trap
+  name: Small fire trap
+  description: When triggered, spits fire for 3 seconds. Does less damage than it's
+    bigger compatriot.
   surfaceType: 0
   fireDurationTime: 3
 --- !u!114 &2959424306756218445

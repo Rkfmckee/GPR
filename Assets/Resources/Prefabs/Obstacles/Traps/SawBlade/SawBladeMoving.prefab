@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Moving Saw blade
+  description: Moves and slices things constantly. When linked to a trigger, will
+    stop moving until triggered.
   surfaceType: 0
 --- !u!114 &-7824364085917673809
 MonoBehaviour:

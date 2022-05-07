@@ -15,7 +15,7 @@ public class ObstacleDetailsMove : ObstacleDetails {
 		base.Awake();
 
 		var backgroundTransform = background.GetComponent<RectTransform>();
-		mouseOffset = Resources.Load<GameObject>("Prefabs/UI/ObstacleDetails/ObstacleDetails").transform.position;
+		mouseOffset = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/ObstacleDetails").transform.position;
 	}
 
 	private void Start() {

@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Arrow holes
+  description: When triggered, shoots one arrow from each hole.
   surfaceType: 1
   arrowScale: 5
 --- !u!114 &7444568580084560085
@@ -195,7 +196,6 @@ MonoBehaviour:
   heldPrefab: {fileID: 7968621460233683777, guid: 7fd59d8e0fdc3a04cb706e15156f1c19,
     type: 3}
   heldHeight: 2
-  currentState: 0
 --- !u!114 &7012712637447792019
 MonoBehaviour:
   m_ObjectHideFlags: 0

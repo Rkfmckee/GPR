@@ -124,7 +124,8 @@ public class ObstaclePlacementController : MonoBehaviour {
         if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMasks["Terrain"])) {
 
 			if (heldObjectTrapController != null) {
-				if (heldObjectTrapController.GetSurfaceType().ToString().ToLower() == hitInformation.collider.tag.ToLower()) {
+				if (heldObjectTrapController.GetSurfaceType().ToString().ToLower() == hitInformation.collider.tag.ToLower() ||
+					heldObjectTrapController.GetSurfaceType() == SurfaceType.Any) {
 					validPlacement = true;
 				} else {
 					validPlacement = false;
@@ -144,13 +145,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 		var rotation = transform.rotation;
 		
 		if (heldObjectTrapController == null) {
-			var minY = placementObjectCollider.bounds.size.y / 2;
-
-			if (position.y <= minY) {
-				position.y = minY;
-			}
-
-			return (position, rotation);
+			return (MoveColliderVertically(placementObjectCollider, position), rotation);
 		}
 
 		if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Wall) {
@@ -162,9 +157,25 @@ public class ObstaclePlacementController : MonoBehaviour {
 			} else if (Mathf.Abs(hitNormal.z) == 1) {
 				position.z = hitInformation.point.z;
 			}
+		} else {
+			if (heldObjectTrapController.gameObject.GetComponent<Rigidbody>()) {
+				// If it is a physics object, it's pivot point is likely in the center of it's collider
+				// So adjust it's position to account for that
+				return (MoveColliderVertically(placementObjectCollider, position), rotation);
+			}
 		}
 
         return (position, rotation);
+	}
+
+	private Vector3 MoveColliderVertically(Collider collider, Vector3 position) {
+		var minY = collider.bounds.size.y / 2;
+
+			if (position.y <= minY) {
+				position.y = minY;
+			}
+
+			return position;
 	}
 
 	private void MoveOutOfOverlap() {

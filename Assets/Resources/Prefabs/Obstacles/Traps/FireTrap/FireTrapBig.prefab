@@ -114,7 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfab90b8ccbc0cf43b04d72cbad6c410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Big Fire trap
+  name: Big fire trap
+  description: When triggered, spits fire for 5 seconds. Does more damage than it's
+    smaller compatriot.
   surfaceType: 0
   fireDurationTime: 5
 --- !u!114 &2959424306756218445

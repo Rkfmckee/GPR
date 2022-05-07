@@ -30,7 +30,7 @@ public class CanvasController : MonoBehaviour {
 		actionTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText");
 
 		craftingMenuPrefab = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/CraftingMenu");
-		trapModificationPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapModification");
+		trapModificationPrefab = Resources.Load<GameObject>("Prefabs/UI/ObstacleDetails/TrapModification");
 	}
 
 	private void Start() {

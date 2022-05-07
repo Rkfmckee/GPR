@@ -65,7 +65,7 @@ public class CraftingStation : MonoBehaviour {
 
 		References.Game.globalObstacles.ShouldShowCraftingMenu(false);
 		var craftingItemController = itemToCraft.GetComponent<CraftingItem>();
-		var trapTriggerBase = itemToCraft.GetComponent<ObstacleController>();
+		var obstacleController = itemToCraft.GetComponent<ObstacleController>();
 		var spawnPosition = transform.Find("Area").position;
 		var spawnRotation = Quaternion.Euler(Vector3.zero);
 		var itemName = itemToCraft.name;
@@ -78,16 +78,21 @@ public class CraftingStation : MonoBehaviour {
 
 		GameObject newItem = Instantiate(itemToCraft);
 
-		if (trapTriggerBase != null) {
-			itemName = trapTriggerBase.GetName();
+		if (obstacleController != null) {
+			itemName = obstacleController.GetName();
 
-			if (trapTriggerBase.GetSurfaceType() == SurfaceType.Wall) {
+			if (obstacleController.GetSurfaceType() == SurfaceType.Wall) {
 				spawnPosition += Vector3.up * 0.1f;
 				spawnRotation = Quaternion.Euler(90, 0, 0);
+			} else {
+				if (itemToCraft.GetComponent<Rigidbody>()) {
+					// If it is a physics object, it's pivot point is likely in the center of it's collider
+					// So adjust it's position to account for that
+					spawnPosition += MoveColliderVertically(newItem);
+				}
 			}
 		} else {
-			var collider = newItem.GetComponent<Collider>();
-			spawnPosition += Vector3.up * collider.bounds.extents.y;
+			spawnPosition += MoveColliderVertically(newItem);
 		}
 		
 		newItem.name = itemToCraft.name;
@@ -96,6 +101,11 @@ public class CraftingStation : MonoBehaviour {
 
 		AddNotificationOfCraftedItem(itemName);
 		isCurrentlyCrafting = false;
+	}
+
+	private Vector3 MoveColliderVertically(GameObject newItem) {
+		var collider = newItem.GetComponent<Collider>();
+		return Vector3.up * collider.bounds.extents.y;
 	}
 
 	private void AddNotificationOfCraftedItem(string itemName) {

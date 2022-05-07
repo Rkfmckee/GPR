@@ -22,7 +22,6 @@ public class Fire : MonoBehaviour {
 	}
 
 	private void OnTriggerStay(Collider other) {
-		print(damageAmount);
 		var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
 		if (targetsHealthSystem == null)
 			return;

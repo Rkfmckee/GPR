@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public abstract class ObstacleController : MonoBehaviour {
+public class ObstacleController : MonoBehaviour {
 	#region Properties
 
 	[SerializeField]
 	protected new string name;
+	[SerializeField]
+	protected string description;
 	[SerializeField]
 	protected SurfaceType surfaceType;
 
@@ -25,6 +27,7 @@ public abstract class ObstacleController : MonoBehaviour {
 	#region Methods
 
 	public string GetName() { return name; }
+	public string GetDescription() { return description; }
 	public SurfaceType GetSurfaceType() { return surfaceType; }
 
 	#endregion

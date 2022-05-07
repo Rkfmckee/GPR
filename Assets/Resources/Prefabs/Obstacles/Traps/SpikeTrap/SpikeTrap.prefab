@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8373956781556975192}
-  - component: {fileID: 6186007823008709335}
+  - component: {fileID: 6047954377552987837}
   - component: {fileID: 5952804835265277057}
   - component: {fileID: 276324320935624000}
   - component: {fileID: 3843223975738011081}
@@ -122,7 +122,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6186007823008709335
+--- !u!65 &6047954377552987837
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,8 +133,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9862349, y: 0.15650344, z: 1.9905334}
-  m_Center: {x: -0.006606549, y: 0.057661057, z: -0.0035653114}
+  m_Size: {x: 1.9892268, y: 0.12481335, z: 1.9892268}
+  m_Center: {x: 0, y: 0.05945085, z: 0}
 --- !u!114 &5952804835265277057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Spike plate
+  description: When triggered, extends spikes upwards. Can trigger itself.
   surfaceType: 0
   currentState: 0
   extendingTime: 0.1
@@ -166,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: 
+  description: 
   surfaceType: 0
   canTrigger: 1
 --- !u!114 &3843223975738011081

@@ -28,7 +28,7 @@ public class CraftingMenu : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		obstacleDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/ObstacleDetails/ObstacleDetails");
+		obstacleDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/ObstacleDetails");
 
 		takeButton = transform.Find("TakeButton").gameObject;
 

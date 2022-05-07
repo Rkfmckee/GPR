@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Saw blade
+  description: Will spin in place and slice things which get near. Not triggerable.
   surfaceType: 0
 --- !u!114 &-7889321482038101949
 MonoBehaviour:

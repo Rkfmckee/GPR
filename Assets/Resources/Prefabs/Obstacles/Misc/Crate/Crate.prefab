@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 2443039649801253867}
   - component: {fileID: 952408167272140733}
   - component: {fileID: 1471459200819585701}
-  - component: {fileID: 1654526910218408301}
   - component: {fileID: 7203935981351506233}
+  - component: {fileID: 1287368184566424463}
+  - component: {fileID: 1654526910218408301}
   m_Layer: 8
   m_Name: Crate
   m_TagString: Obstacle
@@ -152,18 +153,6 @@ MonoBehaviour:
   heldPrefab: {fileID: 2443039649801253868, guid: 35ef8aac190595e449a01129759c86db,
     type: 3}
   heldHeight: 3
---- !u!114 &1654526910218408301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2443039649801253868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e28ee2bc1377613409982dda48c7aa92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7203935981351506233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,3 +168,30 @@ MonoBehaviour:
   inventoryIcon: {fileID: 21300000, guid: fb88d444ffdb3e645a881ededdb03585, type: 3}
   resourceCost: 3
   resourceType: 0
+--- !u!114 &1287368184566424463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2443039649801253868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e77ab5d83d73c8d4d90eaeafacedb3a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Wooden crate
+  description: Wooden you know it, it's just a crate
+  surfaceType: 0
+--- !u!114 &1654526910218408301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2443039649801253868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28ee2bc1377613409982dda48c7aa92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

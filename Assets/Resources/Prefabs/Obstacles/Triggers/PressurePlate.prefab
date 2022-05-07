@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Pressure plate
+  description: Reusable trigger. Triggers linked trap one time when stepped on.
   surfaceType: 0
   canTrigger: 2
 --- !u!114 &7931364527580010265
