@@ -39,5 +39,6 @@ public static class References {
 		public static FriendlyListeningUIController friendlyListeningUIController;
         public static NotificationController notifications;
 		public static CraftingMenu craftingMenu;
+		public static ResourcesUI resources;
     }
 }

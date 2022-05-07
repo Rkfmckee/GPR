@@ -88,10 +88,10 @@ public class FriendlyStateListening : FriendlyState {
 
 			if (hitCommand != currentCommand) {
 				currentCommand = hitCommand;
-				uiController.ChangeListeningCommandText(hitCommand.ToString());
+				uiController.ChangeListeningCommandText(hitCommand.GetDescription());
 				
 				References.UI.canvasController.DisableActionText();
-				References.UI.canvasController.EnableActionText($"Left click to {hitCommand.ToString()}");
+				References.UI.canvasController.EnableActionText($"Left click to {hitCommand.GetDescription()}");
 
 				var cursorType = CursorData.ListeningCommandToCursorType(currentCommand.Value);
 				if (cursorType.HasValue) {

@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
+using static ResourceController;
 
 public class CraftingItem : MonoBehaviour {
 	#region Properties
 
 	public Sprite inventoryIcon;
 	public int resourceCost;
-	public ResourceController.ResourceType resourceType;
+	public ResourceType resourceType;
 
 	#endregion
 
 	#region Methods
+
+		#region Get/Set
+
+		public ResourceType GetResourceType() {
+			return resourceType;
+		}
+
+		#endregion
 
 	public bool RemoveResourcesToSpawnItem() {
 		ResourceController resources = References.Game.resources;
