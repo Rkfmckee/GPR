@@ -19,6 +19,7 @@ public static class References {
 	}
 
 	public static class Obstacles {
+		public static Transform parentGroup;
 		public static List<GameObject> trapsAndTriggers = new List<GameObject>();
 		public static List<GameObject> traps = new List<GameObject>();
 		public static List<GameObject> triggers = new List<GameObject>();

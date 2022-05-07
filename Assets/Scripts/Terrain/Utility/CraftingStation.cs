@@ -76,7 +76,7 @@ public class CraftingStation : MonoBehaviour {
 			yield return null;
 		}
 
-		GameObject newItem = Instantiate(itemToCraft);
+		GameObject newItem = Instantiate(itemToCraft, References.Obstacles.parentGroup);
 
 		if (obstacleController != null) {
 			itemName = obstacleController.GetName();

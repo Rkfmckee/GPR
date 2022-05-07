@@ -97,7 +97,6 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 	private void ForgetHeldObject() {
         if (heldObject != null) {
-            heldObject.transform.parent = null;
             heldObject = null;
 
             References.Game.globalObstacles.DisableObstaclePlacement(obstaclePlacement);
