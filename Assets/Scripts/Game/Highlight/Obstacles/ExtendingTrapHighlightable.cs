@@ -1,9 +1,9 @@
-using UnityEngine;
+using static ExtendingTrap;
 
-public class SpikeTrapHighlightable : TrapHighlightable {
+public class ExtendingTrapHighlightable : TrapHighlightable {
 	#region Properties
 
-	private SpikeTrap spikeTrap;
+	private ExtendingTrap extendingTrap;
 
 	#endregion
 	
@@ -12,7 +12,7 @@ public class SpikeTrapHighlightable : TrapHighlightable {
 	protected override void Awake() {
         base.Awake();
 
-		spikeTrap = GetComponent<SpikeTrap>();
+		extendingTrap = GetComponent<ExtendingTrap>();
 	}
 
 	#endregion
@@ -20,7 +20,7 @@ public class SpikeTrapHighlightable : TrapHighlightable {
 	#region Methods
 
 	protected override bool DontHighlight() {
-		var dontHighlight = spikeTrap.currentState != SpikeTrap.SpikeState.SpikesDown;
+		var dontHighlight = extendingTrap.GetCurrentState() != ExtendedState.Retracted;
 		
 		return dontHighlight || base.DontHighlight();
 	}
