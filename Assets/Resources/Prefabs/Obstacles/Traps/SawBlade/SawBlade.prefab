@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryIcon: {fileID: 21300000, guid: b9c96e7b88b1d22458c9111e918b7e60, type: 3}
   resourceCost: 10
-  resourceType: 1
+  resourceType: 0
 --- !u!1 &5532656942198594189
 GameObject:
   m_ObjectHideFlags: 0

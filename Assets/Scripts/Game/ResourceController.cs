@@ -31,10 +31,6 @@ public class ResourceController : MonoBehaviour {
 		resourcesUI = References.UI.resources;
 	}
 
-	private void Update() {
-		print(magicalMaterialQuantity);
-	}
-
 	#endregion
 
 	#region Methods
@@ -97,15 +93,15 @@ public class ResourceController : MonoBehaviour {
 		int currentAmount = 0, maxAmount = 0;
 
 		switch (type) {
-			case ResourceType.PhysicalMaterial:
+			case ResourceType.PhysicalMaterials:
 				currentAmount = physicalMaterialQuantity;
 				maxAmount = physicalMaterialMaximum;
 				break;
-			case ResourceType.MagicalMaterial:
+			case ResourceType.MagicalMaterials:
 				currentAmount = magicalMaterialQuantity;
 				maxAmount = magicalMaterialMaximum;
 				break;	
-			case ResourceType.Valuable:
+			case ResourceType.Valuables:
 				currentAmount = valuableQuantity;
 				maxAmount = valuableMaximum;
 				break;
@@ -127,13 +123,13 @@ public class ResourceController : MonoBehaviour {
 		bool enoughResources;
 
 		switch (type) {
-			case ResourceType.PhysicalMaterial:
+			case ResourceType.PhysicalMaterials:
 				currentAmount = physicalMaterialQuantity;
 				break;
-			case ResourceType.MagicalMaterial:
+			case ResourceType.MagicalMaterials:
 				currentAmount = magicalMaterialQuantity;
 				break;
-			case ResourceType.Valuable:
+			case ResourceType.Valuables:
 				currentAmount = valuableQuantity;
 				break;
 		}
@@ -149,13 +145,13 @@ public class ResourceController : MonoBehaviour {
 		}
 
 		switch (type) {
-			case ResourceType.PhysicalMaterial:
+			case ResourceType.PhysicalMaterials:
 				physicalMaterialQuantity = finalAmount;
 				break;
-			case ResourceType.MagicalMaterial:
+			case ResourceType.MagicalMaterials:
 				magicalMaterialQuantity = finalAmount;
 				break;
-			case ResourceType.Valuable:
+			case ResourceType.Valuables:
 				valuableQuantity = finalAmount;
 				break;
 		}
@@ -185,11 +181,11 @@ public class ResourceController : MonoBehaviour {
 
 	public enum ResourceType {
 		[Description("Physical Materials")]
-		PhysicalMaterial,
+		PhysicalMaterials,
 		[Description("Magical Materials")]
-		MagicalMaterial,
+		MagicalMaterials,
 		[Description("Valuables")]
-		Valuable
+		Valuables
 	}
 
 	#endregion

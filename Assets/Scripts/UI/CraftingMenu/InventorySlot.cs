@@ -33,10 +33,10 @@ public class InventorySlot : MonoBehaviour {
 		var resourceType = itemInSlot.GetComponent<CraftingItem>().GetResourceType();
 
 		switch(resourceType) {
-			case ResourceType.PhysicalMaterial:
+			case ResourceType.PhysicalMaterials:
 				image.sprite = physicalMaterialsSprite;
 				break;
-			case ResourceType.MagicalMaterial:
+			case ResourceType.MagicalMaterials:
 				image.sprite = magicalMaterialsSprite;
 				break;
 		}
