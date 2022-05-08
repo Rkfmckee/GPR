@@ -82,8 +82,7 @@ public class CraftingStation : MonoBehaviour {
 			itemName = obstacleController.GetName();
 
 			if (obstacleController.GetSurfaceType() == SurfaceType.Wall) {
-				spawnPosition += Vector3.up * 0.1f;
-				spawnRotation = Quaternion.Euler(90, 0, 0);
+				spawnRotation = Quaternion.Euler(270, 0, 0);
 			} else {
 				if (itemToCraft.GetComponent<Rigidbody>()) {
 					// If it is a physics object, it's pivot point is likely in the center of it's collider

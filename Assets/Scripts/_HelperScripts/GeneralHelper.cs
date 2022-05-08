@@ -80,7 +80,7 @@ public static class GeneralHelper
 		if (word.ToLower().EndsWith("s")) {
 			determiner = "some";
 		} else {
-			if (Array.IndexOf(vowels, word[0]) > -1) {
+			if (Array.IndexOf(vowels, word[0].ToString().ToLower()) > -1) {
 				determiner = "an";
 			}
 		}

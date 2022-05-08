@@ -25,7 +25,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 37825
+  controlID: 53542
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 37728
+  controlID: 53534
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -397,9 +397,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -3.7609653, y: -1.1634198, z: 2.7974973}
+    m_Target: {x: 1.3087752, y: 2.6584964, z: 0.48888567}
     speed: 2
-    m_Value: {x: -3.7609653, y: -1.1634198, z: 2.7974973}
+    m_Value: {x: 1.3087752, y: 2.6584964, z: 0.48888567}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -446,9 +446,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.015151992, y: -0.7160542, z: -0.014125465, w: 0.6980547}
+    m_Target: {x: 0.07974557, y: 0.0014384955, z: 0.00082481577, w: 0.9970464}
     speed: 2
-    m_Value: {x: -0.015148637, y: -0.71589565, z: -0.014122337, w: 0.6979001}
+    m_Value: {x: 0.07972709, y: 0.0014381622, z: 0.0008246247, w: 0.9968154}
   m_Size:
     m_Target: 3.8455544
     speed: 2
@@ -556,7 +556,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 37785
+  controlID: 53543
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -617,7 +617,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 201ffdff7e1ffdffa02afdffb034ffff0cfbffff880e0300fa0e03005e100300c2150300
+      m_ExpandedIDs: dafff9ff201ffdff7e1ffdffa02afdffb034ffff0cfbffffac100300
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -709,22 +709,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Prefabs/UI
+    - Assets/Resources/Prefabs/Obstacles/Traps/ArrowTrap
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources/Prefabs/UI
+  - Assets/Resources/Prefabs/Obstacles/Traps/ArrowTrap
   m_LastFoldersGridSize: -1
   m_LastProjectPath: G:\Dev\GPR
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 665c0000
-    m_LastClickedID: 23654
-    m_ExpandedIDs: 000000003c5900005e5c0000685c000000ca9a3b
+    scrollPos: {x: 0, y: 56}
+    m_SelectedIDs: 1e620000
+    m_LastClickedID: 25118
+    m_ExpandedIDs: 000000003c5900005e5c0000685c0000785c00001662000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -832,7 +832,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 37826
+  controlID: 53456
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -852,8 +852,8 @@ MonoBehaviour:
     y: 0
     width: 491
     height: 596
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -978,9 +978,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1466
+    x: 1429
     y: 669
-    width: 453
+    width: 490
     height: 324
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -999,22 +999,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Materials/Obstacles/Placement
+    - Assets/Resources/Images/UI/TrapIcons
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Resources/Materials/Obstacles/Placement
+  - Assets/Resources/Images/UI/TrapIcons
   m_LastFoldersGridSize: -1
   m_LastProjectPath: G:\Dev\GPR
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 111}
-    m_SelectedIDs: 6aa10000
-    m_LastClickedID: 41322
-    m_ExpandedIDs: 000000003c59000000ca9a3b
+    m_SelectedIDs: 7ea20000
+    m_LastClickedID: 41598
+    m_ExpandedIDs: 000000003c5900005e5c00006e5c000076a2000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
