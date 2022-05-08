@@ -987,10 +987,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 539570521}
     m_Modifications:
+    - target: {fileID: -8713749507390427903, guid: 96c91754414fb074387b664ae89a72fe,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 26152579743435716, guid: 96c91754414fb074387b664ae89a72fe,
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 77893325343248054, guid: 96c91754414fb074387b664ae89a72fe,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 514136530114280912, guid: 96c91754414fb074387b664ae89a72fe,
         type: 3}
