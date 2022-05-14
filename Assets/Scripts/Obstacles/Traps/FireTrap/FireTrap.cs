@@ -24,7 +24,9 @@ public class FireTrap : TrapController {
 
 	#endregion
 
-	private void Update() {
+	protected override void Update() {
+		base.Update();
+
 		if (fireDurationTimer < fireDurationTime) {
 			fireDurationTimer += Time.deltaTime;
 

@@ -9,6 +9,7 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 	private GameObject obstacleToPickup;
 	private GameObject heldObject;
+	private ObstacleController heldObjectObstacleController;
 	private PickUpObject heldObjectPickup;
 	private GameObject obstaclePlacement;
 	private ObstaclePlacementController obstaclePlacementController;
@@ -78,6 +79,7 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 	private void SetHeldObject() {
 		heldObject = obstacleToPickup;
+		heldObjectObstacleController = heldObject.GetComponent<ObstacleController>();
         heldObjectPickup = heldObject.GetComponent<PickUpObject>();
 
 		isHoldingObject = true;
@@ -85,7 +87,8 @@ public class FriendlyStatePickupObject : FriendlyState {
 		obstacleToPickup = null;
 	}
 
-	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {		
+	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {
+		heldObjectObstacleController.SetObstacleDisabled(false);
 		heldObjectPickup.SetCurrentState(PickUpObject.PickUpState.Idle);
 		heldObject.transform.position = position;
 		heldObject.transform.rotation = rotation;

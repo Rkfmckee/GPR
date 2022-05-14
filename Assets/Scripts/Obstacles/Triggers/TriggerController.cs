@@ -51,7 +51,8 @@ public class TriggerController : ObstacleController {
 		#endregion
 
 	private void ShouldTriggerTrap(Collider triggeredBy) {
-		if (linkedTrap == null) {
+		if (linkedTrap == null ||
+			IsObstacleDisabled()) {
 			return;
 		}
 

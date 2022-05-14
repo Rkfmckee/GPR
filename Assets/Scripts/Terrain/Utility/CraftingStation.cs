@@ -12,6 +12,7 @@ public class CraftingStation : MonoBehaviour {
 	private new Camera camera;
 	private Vector3 craftingAreaMidPoint;
 	private int creaturesAndObstaclesMask;
+	private float ceilingHeight;
 
 	#endregion
 
@@ -27,6 +28,7 @@ public class CraftingStation : MonoBehaviour {
 
 	private void Start() {
 		camera = References.Camera.camera;
+		ceilingHeight = References.Game.globalObstacles.GetMaxObstacleHeight();
 	}
 
 	#endregion
@@ -65,9 +67,8 @@ public class CraftingStation : MonoBehaviour {
 
 		References.Game.globalObstacles.ShouldShowCraftingMenu(false);
 		var craftingItemController = itemToCraft.GetComponent<CraftingItem>();
-		var obstacleController = itemToCraft.GetComponent<ObstacleController>();
 		var spawnPosition = transform.Find("Area").position;
-		var spawnRotation = Quaternion.Euler(Vector3.zero);
+		var spawnRotation = Quaternion.Euler(craftingItemController.spawnRotation);
 		var itemName = itemToCraft.name;
 
 		var progressBar = CreateProgressBar(craftingItemController.resourceCost);
@@ -76,20 +77,19 @@ public class CraftingStation : MonoBehaviour {
 			yield return null;
 		}
 
-		GameObject newItem = Instantiate(itemToCraft, References.Obstacles.parentGroup);
+		var newItem = Instantiate(itemToCraft, References.Obstacles.parentGroup);
+		var newItemObstacleController = newItem.GetComponent<ObstacleController>();
 
-		if (obstacleController != null) {
-			itemName = obstacleController.GetName();
+		if (newItemObstacleController != null) {
+			itemName = newItemObstacleController.GetName();
+			newItemObstacleController.SetObstacleDisabled(true);
 
-			if (obstacleController.GetSurfaceType() == SurfaceType.Wall) {
-				spawnRotation = Quaternion.Euler(270, 0, 0);
-			} else {
-				if (itemToCraft.GetComponent<Rigidbody>()) {
-					// If it is a physics object, it's pivot point is likely in the center of it's collider
-					// So adjust it's position to account for that
-					spawnPosition += MoveColliderVertically(newItem);
-				}
+			if (itemToCraft.GetComponent<Rigidbody>()) {
+				// If it is a physics object, it's pivot point is likely in the center of it's collider
+				// So adjust it's position to account for that
+				spawnPosition += MoveColliderVertically(newItem);
 			}
+			
 		} else {
 			spawnPosition += MoveColliderVertically(newItem);
 		}

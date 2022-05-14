@@ -7,6 +7,7 @@ public class CraftingItem : MonoBehaviour {
 	public Sprite inventoryIcon;
 	public int resourceCost;
 	public ResourceType resourceType;
+	public Vector3 spawnRotation;
 
 	#endregion
 

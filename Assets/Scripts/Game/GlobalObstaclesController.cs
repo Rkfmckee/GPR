@@ -10,6 +10,7 @@ public class GlobalObstaclesController : MonoBehaviour {
 	private GameObject trapLinkingLine;
 	private bool inventoryOpen;
 	private bool trapModificationOpen;
+	private float maxObstacleHeight;
 
 	private CanvasController canvasController;
 
@@ -23,6 +24,8 @@ public class GlobalObstaclesController : MonoBehaviour {
 
 		obstaclePlacementPrefab = Resources.Load("Prefabs/Obstacles/ObstaclePlacement") as GameObject;
 		trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
+
+		maxObstacleHeight = 6;
 	}
 
 	private void Start() {
@@ -32,6 +35,14 @@ public class GlobalObstaclesController : MonoBehaviour {
 	#endregion
 
 	#region Methods
+
+	#region Get/Set
+
+	public float GetMaxObstacleHeight() {
+		return maxObstacleHeight;
+	}
+
+	#endregion
 
 	public void ShouldShowCraftingMenu(bool showMenu, CraftingStation craftingStation = null) {
 		References.UI.canvas.GetComponent<CanvasController>().SetCraftingMenuVisible(showMenu, craftingStation);

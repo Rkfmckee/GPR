@@ -38,7 +38,9 @@ public abstract class ExtendingTrap : TrapController {
 		};
 	}
 
-	private void Update() {
+	protected override void Update() {
+		base.Update();
+
 		extendingStateBehaviour[currentState]();
 	}
 

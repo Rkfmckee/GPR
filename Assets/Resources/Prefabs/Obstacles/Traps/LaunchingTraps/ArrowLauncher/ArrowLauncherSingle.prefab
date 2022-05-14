@@ -107,7 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a76831a87f5d1e4d9c17c982ed1cadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeThrown: 0
   placementPrefab: {fileID: 2920995112458490818, guid: a4ab80f839884104c935d495018f6cce,
     type: 3}
   heldPrefab: {fileID: 7968621460233683777, guid: bc13ae60441033c49be1e6af43f8286d,
@@ -128,6 +127,7 @@ MonoBehaviour:
   inventoryIcon: {fileID: 21300000, guid: 46104eaddf2d9a341843c1649131b06c, type: 3}
   resourceCost: 2
   resourceType: 0
+  spawnRotation: {x: 270, y: 0, z: 0}
 --- !u!1 &7968621461350966291
 GameObject:
   m_ObjectHideFlags: 0

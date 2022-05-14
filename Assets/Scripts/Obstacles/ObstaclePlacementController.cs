@@ -17,20 +17,22 @@ public class ObstaclePlacementController : MonoBehaviour {
 	private Dictionary<string, int> layerMasks;
 	private Vector3 minimumBoundary;
 	private Vector3 maximumBoundary;
+	private float ceilingHeight;
 	private List<string> actionText;
 
 	private new Camera camera;
 	private GameObject placementObject;
 	private MeshRenderer[] placementObjectRenderers;
 	private Collider placementObjectCollider;
-	private ObstacleController heldObjectTrapController;
+	private ObstacleController heldObjectObstacleController;
 
 	#endregion
 
 	#region Events
 
 	private void Awake() {
-		camera = Camera.main;
+		camera = References.Camera.camera;
+		ceilingHeight = References.Game.globalObstacles.GetMaxObstacleHeight();
 
 		positionFinalized = false;
 		validMaterial = Resources.Load("Materials/Obstacles/Placement/ValidPlacement") as Material;
@@ -46,8 +48,9 @@ public class ObstaclePlacementController : MonoBehaviour {
 			CheckForRaycastHit();
 			MoveOutOfOverlap();
 
-			if (validPlacement)
+			if (validPlacement){
 				validPlacement = PositionWithinBoundaries(transform.position);
+			}
 
 			ValidPlacementChangeMaterial();
 
@@ -56,7 +59,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 			}
 
 			if (Input.GetButtonDown("Fire2")) {
-				RotateIfFloorObstacle();
+				RotateIfNotWallObstacle();
 			}
 		}
 	}
@@ -92,15 +95,15 @@ public class ObstaclePlacementController : MonoBehaviour {
 		CopyColliderToPlacementModel(heldObject);
 
 		placementObjectRenderers = placementObject.GetComponentsInChildren<MeshRenderer>();
-		heldObjectTrapController = heldObject.GetComponent<ObstacleController>();
+		heldObjectObstacleController = heldObject.GetComponent<ObstacleController>();
 
 		SetPositionBoundaries();
 
 		actionText = new List<string> {
 			"Left click to Place"
 		};
-		if (heldObjectTrapController != null) {
-			if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Wall) {
+		if (heldObjectObstacleController != null) {
+			if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall) {
 				return;
 			}
 		}
@@ -123,9 +126,10 @@ public class ObstaclePlacementController : MonoBehaviour {
 
         if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMasks["Terrain"])) {
 
-			if (heldObjectTrapController != null) {
-				if (heldObjectTrapController.GetSurfaceType().ToString().ToLower() == hitInformation.collider.tag.ToLower() ||
-					heldObjectTrapController.GetSurfaceType() == SurfaceType.Any) {
+			if (heldObjectObstacleController != null) {
+				if (heldObjectObstacleController.GetSurfaceType().ToString().ToLower() == hitInformation.collider.tag.ToLower() ||
+					(heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling && hitInformation.collider.tag == "Floor") ||
+					heldObjectObstacleController.GetSurfaceType() == SurfaceType.Any) {
 					validPlacement = true;
 				} else {
 					validPlacement = false;
@@ -144,11 +148,17 @@ public class ObstaclePlacementController : MonoBehaviour {
         var position = hitInformation.point;
 		var rotation = transform.rotation;
 		
-		if (heldObjectTrapController == null) {
+		if (heldObjectObstacleController == null) {
 			return (MoveColliderVertically(placementObjectCollider, position), rotation);
 		}
 
-		if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Wall) {
+		if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Floor) {
+			if (heldObjectObstacleController.gameObject.GetComponent<Rigidbody>()) {
+				// If it is a physics object, it's pivot point is likely in the center of it's collider
+				// So adjust it's position to account for that
+				return (MoveColliderVertically(placementObjectCollider, position), rotation);
+			}
+		} else if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall) {
 			Vector3 hitNormal = hitInformation.normal;
 			rotation = Quaternion.LookRotation(hitNormal);
 
@@ -157,15 +167,11 @@ public class ObstaclePlacementController : MonoBehaviour {
 			} else if (Mathf.Abs(hitNormal.z) == 1) {
 				position.z = hitInformation.point.z;
 			}
-		} else {
-			if (heldObjectTrapController.gameObject.GetComponent<Rigidbody>()) {
-				// If it is a physics object, it's pivot point is likely in the center of it's collider
-				// So adjust it's position to account for that
-				return (MoveColliderVertically(placementObjectCollider, position), rotation);
-			}
+		} else if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling) {
+			position.y = ceilingHeight - 0.5f;
 		}
 
-        return (position, rotation);
+		return (position, rotation);
 	}
 
 	private Vector3 MoveColliderVertically(Collider collider, Vector3 position) {
@@ -208,7 +214,10 @@ public class ObstaclePlacementController : MonoBehaviour {
 		zBounds.x += placementObjectCollider.bounds.extents.z + wallThicknessOffset;
 		zBounds.y -= placementObjectCollider.bounds.extents.z + wallThicknessOffset;
 
-		var yBound = 6 - placementObjectCollider.bounds.extents.y;
+		var yBound = ceilingHeight - placementObjectCollider.bounds.extents.y;
+		if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling) {
+			yBound = ceilingHeight;
+		}
 
 		minimumBoundary = new Vector3(xBounds.x, 0, zBounds.x);
 		maximumBoundary = new Vector3(xBounds.y, yBound, zBounds.y);
@@ -223,6 +232,7 @@ public class ObstaclePlacementController : MonoBehaviour {
 		if (position.x > maximumBoundary.x
 		|| position.y > maximumBoundary.y
 		|| position.z > maximumBoundary.z) {
+			print($"max {maximumBoundary}");
 			return false;
 		}
 
@@ -247,9 +257,9 @@ public class ObstaclePlacementController : MonoBehaviour {
 		References.UI.canvasController.DisableActionText(actionText);
 	}
 
-	private void RotateIfFloorObstacle() {
-		if (heldObjectTrapController != null) {
-			if (heldObjectTrapController.GetSurfaceType() == SurfaceType.Wall) {
+	private void RotateIfNotWallObstacle() {
+		if (heldObjectObstacleController != null) {
+			if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall) {
 				return;
 			}
 		}

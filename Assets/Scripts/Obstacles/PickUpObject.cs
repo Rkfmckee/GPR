@@ -4,7 +4,6 @@ using UnityEngine;
 public class PickUpObject : MonoBehaviour {
 	#region Properties
 
-	public bool canBeThrown;
 	public GameObject placementPrefab;
 	public GameObject heldPrefab;
 	[Range(1, 10)]

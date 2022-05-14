@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static PickUpObject;
 
 public abstract class TrapController : ObstacleController {
 
@@ -15,7 +14,7 @@ public abstract class TrapController : ObstacleController {
 		base.Awake();
 		
 		References.Obstacles.traps.Add(gameObject);
-	}
+	}	
 
 	#endregion
 	
@@ -34,6 +33,9 @@ public abstract class TrapController : ObstacleController {
 		#endregion
 
     public virtual void TriggerTrap(Collider triggeredBy) {
+		if (IsObstacleDisabled()) {
+			return;
+		}
 	}
 
     #endregion

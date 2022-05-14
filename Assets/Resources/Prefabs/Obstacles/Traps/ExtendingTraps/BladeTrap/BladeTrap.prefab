@@ -163,7 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a76831a87f5d1e4d9c17c982ed1cadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeThrown: 0
   placementPrefab: {fileID: 1751762237222088878, guid: 2d36f8de8be8f13429ee8ee5abe3ca33,
     type: 3}
   heldPrefab: {fileID: 1751762237222088878, guid: cc5f2bbff47885949b7b4245c4234437,
@@ -184,6 +183,7 @@ MonoBehaviour:
   inventoryIcon: {fileID: 21300000, guid: fb7010b1ed4a7e643908d756274aa1f0, type: 3}
   resourceCost: 13
   resourceType: 0
+  spawnRotation: {x: 270, y: 0, z: 0}
 --- !u!114 &1751762237222315213
 MonoBehaviour:
   m_ObjectHideFlags: 0

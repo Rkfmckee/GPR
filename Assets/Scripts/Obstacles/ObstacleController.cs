@@ -10,6 +10,8 @@ public class ObstacleController : MonoBehaviour {
 	[SerializeField]
 	protected SurfaceType surfaceType;
 
+	private bool obstacleDisabled;
+
 	protected PickUpObject pickUpController;
 
 	#endregion
@@ -20,15 +22,31 @@ public class ObstacleController : MonoBehaviour {
 		References.Obstacles.trapsAndTriggers.Add(gameObject);
 
 		pickUpController = GetComponent<PickUpObject>();
+		obstacleDisabled = false;
+	}
+
+	protected virtual void Update() {
 	}
 
 	#endregion
 
 	#region Methods
 
-	public string GetName() { return name; }
-	public string GetDescription() { return description; }
-	public SurfaceType GetSurfaceType() { return surfaceType; }
+		#region Get/Set
+
+		public bool IsObstacleDisabled() {
+			return obstacleDisabled;
+		}
+
+		public void SetObstacleDisabled(bool disabled) {
+			obstacleDisabled = disabled;
+		}
+
+		public string GetName() { return name; }
+		public string GetDescription() { return description; }
+		public SurfaceType GetSurfaceType() { return surfaceType; }
+
+		#endregion
 
 	#endregion
 
