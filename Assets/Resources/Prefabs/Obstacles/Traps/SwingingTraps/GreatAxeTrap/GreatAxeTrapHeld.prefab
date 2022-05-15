@@ -9,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 791706536223691396}
+  - component: {fileID: -1713113989895725089}
+  - component: {fileID: -2343613017048142571}
+  - component: {fileID: -7521236389795663764}
   m_Layer: 8
   m_Name: GreatAxeTrapHeld
-  m_TagString: Trap
+  m_TagString: HeldObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,6 +36,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+--- !u!65 &-1713113989895725089
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791706536223393444}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.8748097, y: 5.13979, z: 1}
+  m_Center: {x: -0.01890874, y: -2.0698946, z: 0}
+--- !u!114 &-2343613017048142571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791706536223393444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a624f298952a5fc47b7e520f0180bd22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 0}
+--- !u!114 &-7521236389795663764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791706536223393444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28ee2bc1377613409982dda48c7aa92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &791706536223393446
 GameObject:
   m_ObjectHideFlags: 0

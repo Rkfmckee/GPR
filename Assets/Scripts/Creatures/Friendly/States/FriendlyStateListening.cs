@@ -30,7 +30,8 @@ public class FriendlyStateListening : FriendlyState {
 			{"Floor", ListeningCommands.Move},
 			{"Obstacle", ListeningCommands.PickUp},
 			{"Trap", ListeningCommands.PickUp},
-			{"Trigger", ListeningCommands.PickUp}
+			{"Trigger", ListeningCommands.PickUp},
+			{"HeldObstacle", ListeningCommands.PickUpSpawned}
 		};
 		commandUiExists = false;
 		
@@ -115,6 +116,11 @@ public class FriendlyStateListening : FriendlyState {
 				case ListeningCommands.PickUp:
 					PickupCommand(hitInformation.transform.gameObject);
 					break;
+
+				case ListeningCommands.PickUpSpawned:
+					var obstacle = hitInformation.transform.gameObject.GetComponent<ObstacleHeld>().obstacle;
+					PickupCommand(obstacle, hitInformation.transform.gameObject);
+					break;
 			}
 		}
 	}
@@ -127,6 +133,11 @@ public class FriendlyStateListening : FriendlyState {
 	private void PickupCommand(GameObject pickupObject) {
 		DisableListeningCommand();
 		behaviour.SetCurrentState(new FriendlyStatePickupObject(gameObject, pickupObject));
+	}
+
+	private void PickupCommand(GameObject pickupObject, GameObject heldObject) {
+		DisableListeningCommand();
+		behaviour.SetCurrentState(new FriendlyStatePickupObject(gameObject, pickupObject, heldObject));
 	}
 
 	private void EnableListeningCommand() {
@@ -151,7 +162,9 @@ public class FriendlyStateListening : FriendlyState {
 		[Description("Move")]
 		Move,
 		[Description("Pick up")]
-		PickUp
+		PickUp,
+		[Description("Pick up")]
+		PickUpSpawned
 	}
 
 	#endregion

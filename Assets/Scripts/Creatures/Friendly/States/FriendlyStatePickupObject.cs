@@ -13,6 +13,7 @@ public class FriendlyStatePickupObject : FriendlyState {
 	private PickUpObject heldObjectPickup;
 	private GameObject obstaclePlacement;
 	private ObstaclePlacementController obstaclePlacementController;
+	private GameObject spawnObstacle;
 
 	#endregion
 
@@ -28,6 +29,10 @@ public class FriendlyStatePickupObject : FriendlyState {
 		EnableObstaclePlacement(obstacleToPickup);
 	}
 
+	public FriendlyStatePickupObject(GameObject gameObj, GameObject obsToPickup, GameObject spawnObs) : this(gameObj, obsToPickup) {
+		spawnObstacle = spawnObs;
+	}
+
 	#endregion
 
 	#region Events
@@ -40,6 +45,8 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 			if (IsWithinInteractionDistance(transform.position, obstacleToPickup.transform.position)) {
 				navMeshAgent.isStopped = true;
+				behaviour.ShouldFreezeRigidbody(true);
+				
 				SetHeldObject();
 			}
 		} else {
@@ -47,6 +54,10 @@ public class FriendlyStatePickupObject : FriendlyState {
 				return;
 
 			if (obstaclePlacementController.IsPositionFinalized()) {
+				if (rigidbody.isKinematic) {
+					behaviour.ShouldFreezeRigidbody(false);
+				}
+
 				var positionToPlace = obstaclePlacement.transform.position;
 				var rotationToPlace = obstaclePlacement.transform.rotation;
 				navMeshAgent.isStopped = false;
@@ -85,6 +96,10 @@ public class FriendlyStatePickupObject : FriendlyState {
 		isHoldingObject = true;
 		heldObjectPickup.SetCurrentState(PickUpObject.PickUpState.Held, transform);
 		obstacleToPickup = null;
+
+		if (spawnObstacle != null) {
+			GameObject.Destroy(spawnObstacle);
+		}
 	}
 
 	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {

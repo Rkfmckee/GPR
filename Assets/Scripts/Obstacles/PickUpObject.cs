@@ -16,6 +16,7 @@ public class PickUpObject : MonoBehaviour {
 	private GameObject heldObject;
 	private Transform currentlyHeldBy;
 
+	private List<Rigidbody> disabledRigidbodies;
 	private List<Collider> disabledColliders;
 	private List<Renderer> disabledRenderers;
 	private List<Animator> disabledAnimators;
@@ -28,6 +29,7 @@ public class PickUpObject : MonoBehaviour {
 		rigidbody = gameObject.GetComponent<Rigidbody>();
 		animator = gameObject.GetComponent<Animator>();
 
+		disabledRigidbodies = new List<Rigidbody>();
 		disabledColliders = new List<Collider>();
 		disabledRenderers = new List<Renderer>();
 		disabledAnimators = new List<Animator>();
@@ -85,6 +87,11 @@ public class PickUpObject : MonoBehaviour {
 	}
 
 	private void EnableComponents() {
+		foreach(var rigidbody in disabledRigidbodies) {
+			rigidbody.isKinematic = false;
+		}
+		disabledRigidbodies.Clear();
+		
 		foreach(var collider in disabledColliders) {
 			collider.enabled = true;
 		}
@@ -101,11 +108,19 @@ public class PickUpObject : MonoBehaviour {
 		disabledAnimators.Clear();
 	}
 
-	private void DisableComponents() {
+	public void DisableComponents() {
+		var allRigidbodies = GetComponentsInChildren<Rigidbody>();
 		var allColliders = GetComponentsInChildren<Collider>();
 		var allRenderers = GetComponentsInChildren<Renderer>();
 		var allAnimators = GetComponentsInChildren<Animator>();
 
+		foreach(var rigidbody in allRigidbodies) {
+			if (!rigidbody.isKinematic) {
+				rigidbody.isKinematic = true;
+				disabledRigidbodies.Add(rigidbody);
+			}
+		}
+		
 		foreach(var collider in allColliders) {
 			if (collider.enabled) {
 				collider.enabled = false;

@@ -9,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5532656942198820585}
+  - component: {fileID: 5784817757149983756}
+  - component: {fileID: 8400576527492090144}
+  - component: {fileID: 3448375612562297628}
   m_Layer: 8
   m_Name: SawBladeHeld
-  m_TagString: Trap
+  m_TagString: HeldObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,6 +38,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5784817757149983756
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532656942198594185}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8434744, y: 1.016304, z: 3.3985436}
+  m_Center: {x: -0.005247593, y: 0.50547504, z: 0.0018645525}
+--- !u!114 &8400576527492090144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532656942198594185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a624f298952a5fc47b7e520f0180bd22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 0}
+--- !u!114 &3448375612562297628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532656942198594185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28ee2bc1377613409982dda48c7aa92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5532656942198594189
 GameObject:
   m_ObjectHideFlags: 0

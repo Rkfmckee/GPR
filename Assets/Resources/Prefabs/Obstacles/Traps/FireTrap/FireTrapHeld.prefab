@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 452550}
   - component: {fileID: 3352550}
   - component: {fileID: 2352550}
-  m_Layer: 0
+  - component: {fileID: 8029928815846714491}
+  - component: {fileID: 5118413500439593371}
+  - component: {fileID: 1795385366377722469}
+  m_Layer: 8
   m_Name: FireTrapHeld
-  m_TagString: Untagged
+  m_TagString: HeldObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,3 +86,41 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8029928815846714491
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152550}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.07906459, z: 1}
+  m_Center: {x: 0, y: 0.039532296, z: 0}
+--- !u!114 &5118413500439593371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a624f298952a5fc47b7e520f0180bd22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 0}
+--- !u!114 &1795385366377722469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28ee2bc1377613409982dda48c7aa92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

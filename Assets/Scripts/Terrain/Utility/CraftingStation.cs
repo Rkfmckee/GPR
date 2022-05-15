@@ -78,7 +78,11 @@ public class CraftingStation : MonoBehaviour {
 		}
 
 		var newItem = Instantiate(itemToCraft, References.Obstacles.parentGroup);
+		var newItemPickup = newItem.GetComponent<PickUpObject>();
 		var newItemObstacleController = newItem.GetComponent<ObstacleController>();
+
+		var newItemHeld = Instantiate(newItemPickup.heldPrefab, References.Obstacles.parentGroup);
+		newItemHeld.GetComponent<ObstacleHeld>().obstacle = newItem;
 
 		if (newItemObstacleController != null) {
 			itemName = newItemObstacleController.GetName();
@@ -97,6 +101,10 @@ public class CraftingStation : MonoBehaviour {
 		newItem.name = itemToCraft.name;
 		newItem.transform.position = spawnPosition;
 		newItem.transform.rotation = spawnRotation;
+		newItemPickup.DisableComponents();
+
+		newItemHeld.transform.position = spawnPosition;
+		newItemHeld.transform.rotation = spawnRotation;
 
 		AddNotificationOfCraftedItem(itemName);
 		isCurrentlyCrafting = false;

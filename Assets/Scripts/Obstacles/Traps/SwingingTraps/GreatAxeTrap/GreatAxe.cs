@@ -25,7 +25,6 @@ public class GreatAxe : MonoBehaviour {
 		// Only take damage if we collide in the same direction the blade is facing
 		var absoluteDot = Mathf.Abs(Vector3.Dot(other.contacts[0].normal, transform.parent.right));
 		
-		print(absoluteDot);
 		if (absoluteDot > rotationThreshold) {
 			var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
 			if (targetsHealthSystem != null) {

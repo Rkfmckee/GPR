@@ -9211,11 +9211,6 @@ PrefabInstance:
       propertyPath: canTrigger
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 276324320935624000, guid: 7ce9941c439fa264f88765044e38756e,
-        type: 3}
-      propertyPath: canTrigger
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3583657183557119658, guid: 7ce9941c439fa264f88765044e38756e,
         type: 3}
       propertyPath: m_Layer

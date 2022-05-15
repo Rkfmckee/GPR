@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 4095922709850232269}
   - component: {fileID: 4095922709850232266}
   - component: {fileID: 4095922709850232267}
+  - component: {fileID: 2334290925700972556}
+  - component: {fileID: 3651983911803441134}
+  - component: {fileID: 3576990777772412628}
   m_Layer: 8
   m_Name: PressurePlateHeld
-  m_TagString: Trigger
+  m_TagString: HeldObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,3 +86,41 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2334290925700972556
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4095922709850232265}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.050059937, z: 1}
+  m_Center: {x: 0, y: 0.024999984, z: 0.000000029802322}
+--- !u!114 &3651983911803441134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4095922709850232265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a624f298952a5fc47b7e520f0180bd22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 0}
+--- !u!114 &3576990777772412628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4095922709850232265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28ee2bc1377613409982dda48c7aa92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

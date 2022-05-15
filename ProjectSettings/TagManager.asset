@@ -15,6 +15,7 @@ TagManager:
   - FriendlyCreature
   - HostileCreature
   - Enemy
+  - HeldObstacle
   layers:
   - Default
   - TransparentFX
