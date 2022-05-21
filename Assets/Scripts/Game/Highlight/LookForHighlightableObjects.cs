@@ -8,7 +8,7 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
 	private new Camera camera;
     private CanvasController canvasController;
-	private GameTrapsController gameTrapsController;
+	private GlobalObstaclesController gameTrapsController;
 
     #endregion
 
@@ -16,14 +16,14 @@ public class LookForHighlightableObjects : MonoBehaviour {
 
     private void Awake() {
         camera = Camera.main;
-		var wallHidden = 1 << LayerMask.NameToLayer("WallHidden");
-		var ignoreRaycast = 1 << LayerMask.NameToLayer("Ignore Raycast");
-		layerMask = ~(wallHidden | ignoreRaycast);
+		
+		var layerMasks = GeneralHelper.GetLayerMasks();
+		layerMask = ~(layerMasks["WallHidden"] | layerMasks["Ignore Raycast"]);
     }
 
 	private void Start() {
-		canvasController = References.UI.Controllers.canvasController;
-		gameTrapsController = References.Game.gameTraps;
+		canvasController = References.UI.canvasController;
+		gameTrapsController = References.Game.globalObstacles;
 	}
 
     private void Update() {

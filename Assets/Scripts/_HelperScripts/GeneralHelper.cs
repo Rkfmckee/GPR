@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public static class GeneralHelper
@@ -77,11 +80,48 @@ public static class GeneralHelper
 		if (word.ToLower().EndsWith("s")) {
 			determiner = "some";
 		} else {
-			if (Array.IndexOf(vowels, word[0]) > -1) {
+			if (Array.IndexOf(vowels, word[0].ToString().ToLower()) > -1) {
 				determiner = "an";
 			}
 		}
 
 		return determiner;
+	}
+
+	public static Dictionary<string, int> GetLayerMasks() {
+		var layerMasks = new Dictionary<string, int>();
+
+		layerMasks.Add("FriendlyCreature", 1 << LayerMask.NameToLayer("FriendlyCreature"));
+		layerMasks.Add("HostileCreature", 1 << LayerMask.NameToLayer("HostileCreature"));
+		layerMasks.Add("Creature", layerMasks["FriendlyCreature"] | layerMasks["HostileCreature"]);
+		layerMasks.Add("Obstacle", 1 << LayerMask.NameToLayer("Obstacle"));
+
+		layerMasks.Add("Ignore Raycast", 1 << LayerMask.NameToLayer("Ignore Raycast"));
+		layerMasks.Add("Highlightable", 1 << LayerMask.NameToLayer("Highlightable"));
+
+		layerMasks.Add("WallHidden", 1 << LayerMask.NameToLayer("WallHidden"));
+		layerMasks.Add("WallShouldHide", 1 << LayerMask.NameToLayer("WallShouldHide"));
+		layerMasks.Add("Wall", 1 << LayerMask.NameToLayer("Wall") | layerMasks["WallShouldHide"]);
+		layerMasks.Add("WallDecoration", 1 << LayerMask.NameToLayer("WallDecoration"));
+		layerMasks.Add("WallWithDecoration", layerMasks["Wall"] | layerMasks["WallDecoration"]);
+
+		layerMasks.Add("Floor", 1 << LayerMask.NameToLayer("Floor"));
+		layerMasks.Add("Terrain", layerMasks["Floor"] | layerMasks["WallWithDecoration"]);
+		layerMasks.Add("TerrainWithWallHidden", layerMasks["Terrain"] | layerMasks["WallHidden"]);
+
+		// layerMasks = GeneralHelper.GetLayerMasks();
+		return layerMasks;
+	}
+
+	public static string GetDescription(this Enum GenericEnum) {
+		Type genericEnumType = GenericEnum.GetType();
+		MemberInfo[] memberInfo = genericEnumType.GetMember(GenericEnum.ToString());
+		if ((memberInfo != null && memberInfo.Length > 0)) {
+			var _Attribs = memberInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false);
+			if ((_Attribs != null && _Attribs.Count() > 0)) {
+				return ((System.ComponentModel.DescriptionAttribute)_Attribs.ElementAt(0)).Description;
+			}
+		}
+		return GenericEnum.ToString();
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static NotificationController;
 
 public class PreparingStage : Stage {
 
@@ -24,7 +25,7 @@ public class PreparingStage : Stage {
     }
 
     public override void StageEnd() {
-        References.UI.notifications.AddNotification("Defend your allies and valuables!");
+        References.UI.notifications.AddNotification("Defend your allies and valuables!", NotificationType.Info);
     }
 
     #endregion

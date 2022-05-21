@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class CraftingMenu : MonoBehaviour {
@@ -10,11 +11,19 @@ public class CraftingMenu : MonoBehaviour {
 	private GameObject itemSelected;
 	private GameObject floorTrapButton;
 	private GameObject wallTrapButton;
+	private GameObject ceilingTrapButton;
 	private GameObject triggerButton;
+	private GameObject miscButton;
+
 	private GameObject floorTrapItems;
 	private GameObject wallTrapItems;
+	private GameObject ceilingTrapItems;
 	private GameObject triggerItems;
+	private GameObject miscItems;
+
 	private GameObject takeButton;
+	private GameObject obstacleDetails;
+	private GameObject obstacleDetailsPrefab;
 
 	private CraftingStation craftingStation;
 
@@ -23,27 +32,39 @@ public class CraftingMenu : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
+		obstacleDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/ObstacleDetails");
+
 		takeButton = transform.Find("TakeButton").gameObject;
 
-		floorTrapButton = transform.Find("FloorTraps").gameObject;
-		wallTrapButton = transform.Find("WallTraps").gameObject;
-		triggerButton = transform.Find("Triggers").gameObject;
+		var background = transform.Find("Background");
+		var categories = background.Find("Categories");
+
+		floorTrapButton = categories.Find("FloorTraps").gameObject;
+		wallTrapButton = categories.Find("WallTraps").gameObject;
+		ceilingTrapButton = categories.Find("CeilingTraps").gameObject;
+		triggerButton = categories.Find("Triggers").gameObject;
+		miscButton = categories.Find("Misc").gameObject;
 
 		floorTrapButton.GetComponent<Button>().onClick.AddListener(() => ChangeCategory(Categories.FloorTrap));
 		wallTrapButton.GetComponent<Button>().onClick.AddListener(() => ChangeCategory(Categories.WallTrap));
+		ceilingTrapButton.GetComponent<Button>().onClick.AddListener(() => ChangeCategory(Categories.CeilingTrap));
 		triggerButton.GetComponent<Button>().onClick.AddListener(() => ChangeCategory(Categories.Trigger));
-
-		Transform background = transform.Find("Background");
+		miscButton.GetComponent<Button>().onClick.AddListener(() => ChangeCategory(Categories.Misc));
+		
 		floorTrapItems = background.Find("FloorTrapItems").gameObject;
 		wallTrapItems = background.Find("WallTrapItems").gameObject;
+		ceilingTrapItems = background.Find("CeilingTrapItems").gameObject;
 		triggerItems = background.Find("TriggerItems").gameObject;
+		miscItems = background.Find("MiscItems").gameObject;
 
-		titleInitialColour = floorTrapButton.GetComponent<Image>().color;
+		titleInitialColour = floorTrapButton.GetComponent<TextMeshProUGUI>().color;
 		titleTransparentColor = titleInitialColour;
 		titleTransparentColor.a = 0.5f;
 
-		wallTrapButton.GetComponent<Image>().color = titleTransparentColor;
-		triggerButton.GetComponent<Image>().color = titleTransparentColor;
+		wallTrapButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
+		ceilingTrapButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
+		triggerButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
+		miscButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
 	}
 
 	#endregion
@@ -75,26 +96,53 @@ public class CraftingMenu : MonoBehaviour {
 
 		#endregion
 
+	public void EnableObstacleDetails(ObstacleController obstacle) {
+		DisableObstacleDetails();
+
+		obstacleDetails = Instantiate(obstacleDetailsPrefab, transform);
+		obstacleDetails.transform.position = Input.mousePosition + obstacleDetailsPrefab.transform.position;
+		obstacleDetails.GetComponent<ObstacleDetails>().SetObstacle(obstacle);
+	}
+
+	public void DisableObstacleDetails() {
+		if (obstacleDetails == null) 
+			return;
+
+		Destroy(obstacleDetails);
+	}
+
 	private void ChangeCategory(Categories categorySelected) {
 		floorTrapItems.SetActive(false);
-		floorTrapButton.GetComponent<Image>().color = titleTransparentColor;
+		floorTrapButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
 		wallTrapItems.SetActive(false);
-		wallTrapButton.GetComponent<Image>().color = titleTransparentColor;
+		wallTrapButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
+		ceilingTrapItems.SetActive(false);
+		ceilingTrapButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
 		triggerItems.SetActive(false);
-		triggerButton.GetComponent<Image>().color = titleTransparentColor;
+		triggerButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
+		miscItems.SetActive(false);
+		miscButton.GetComponent<TextMeshProUGUI>().color = titleTransparentColor;
 
 		switch (categorySelected) {
 			case Categories.FloorTrap:
 				floorTrapItems.SetActive(true);
-				floorTrapButton.GetComponent<Image>().color = titleInitialColour;
+				floorTrapButton.GetComponent<TextMeshProUGUI>().color = titleInitialColour;
 				break;
 			case Categories.WallTrap:
 				wallTrapItems.SetActive(true);
-				wallTrapButton.GetComponent<Image>().color = titleInitialColour;
+				wallTrapButton.GetComponent<TextMeshProUGUI>().color = titleInitialColour;
+				break;
+			case Categories.CeilingTrap:
+				ceilingTrapItems.SetActive(true);
+				ceilingTrapButton.GetComponent<TextMeshProUGUI>().color = titleInitialColour;
 				break;
 			case Categories.Trigger:
 				triggerItems.SetActive(true);
-				triggerButton.GetComponent<Image>().color = titleInitialColour;
+				triggerButton.GetComponent<TextMeshProUGUI>().color = titleInitialColour;
+				break;
+			case Categories.Misc:
+				miscItems.SetActive(true);
+				miscButton.GetComponent<TextMeshProUGUI>().color = titleInitialColour;
 				break;
 		}
 
@@ -108,7 +156,9 @@ public class CraftingMenu : MonoBehaviour {
 	public enum Categories {
 		FloorTrap,
 		WallTrap,
-		Trigger
+		CeilingTrap,
+		Trigger,
+		Misc
 	}
 
 	#endregion

@@ -12,7 +12,7 @@ public abstract class Highlightable : MonoBehaviour {
 	protected Dictionary<ControllingState, List<string>> statesAndUiText;
 	protected CursorType? highlightCursor;
 
-    protected GameTrapsController gameTraps;
+    protected GlobalObstaclesController globalObstacles;
 	protected CameraController cameraController;
 	private CanvasController canvasController;
 	private CursorController cursor;
@@ -37,8 +37,8 @@ public abstract class Highlightable : MonoBehaviour {
     }
 
     protected virtual void Start() {
-        gameTraps = References.Game.gameTraps;
-		canvasController = References.UI.Controllers.canvasController;
+        globalObstacles = References.Game.globalObstacles;
+		canvasController = References.UI.canvasController;
 		cursor = References.Game.cursor;
     }
 
@@ -62,7 +62,7 @@ public abstract class Highlightable : MonoBehaviour {
 				canvasController.EnableActionText(statesAndUiText);
 		}
 
-		if (gameTraps.IsTrapLinkingLineActive()) {
+		if (globalObstacles.IsTrapLinkingLineActive()) {
 			return;
 		}
 

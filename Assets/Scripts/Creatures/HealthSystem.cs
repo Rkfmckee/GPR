@@ -8,11 +8,15 @@ public class HealthSystem : MonoBehaviour {
 	public float healthBarHeightOffset;
 
 	private float currentHealth;
+
 	private new Camera camera;
 	private GameObject canvas;
 	private GameObject healthBarPrefab;
 	private GameObject healthBar;
 	private HealthBar healthBarController;
+	private GameObject bloodPrefab;
+	private GameObject firePrefab;
+	private new Collider collider;
 
 
 	#endregion
@@ -20,11 +24,18 @@ public class HealthSystem : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		SetupInstanceVariables();
+		collider = GetComponentInChildren<Collider>();
+
+		healthBarPrefab = Resources.Load<GameObject>("Prefabs/UI/HealthBar");
+		bloodPrefab = Resources.Load<GameObject>("Prefabs/Misc/Effects/BloodSplat");
+		firePrefab = Resources.Load<GameObject>("Prefabs/Misc/Effects/Fire");
+
+		currentHealth = maxHealth;
 	}
 
 	private void Start() {
 		canvas = References.UI.canvas;
+		camera = References.Camera.camera;
 		Transform healthBarParent = canvas.transform.Find("HealthBars").transform;
 
 		healthBar = Instantiate(healthBarPrefab, healthBarParent);
@@ -57,13 +68,6 @@ public class HealthSystem : MonoBehaviour {
 		return healthBar;
 	}
 
-	private void SetupInstanceVariables() {
-		currentHealth = maxHealth;
-
-		camera = Camera.main;
-		healthBarPrefab = Resources.Load("Prefabs/UI/HealthBar") as GameObject;
-	}
-
 	public void Heal(float amount) {
 		float newHealth = currentHealth += amount;
 
@@ -80,8 +84,8 @@ public class HealthSystem : MonoBehaviour {
 		CheckIfNoHealth();
 	}
 
-	public void TakeDamageOverTime(float totalDamage, float timeInSeconds) {
-		StartCoroutine(DamageOverTime(totalDamage, timeInSeconds));
+	public void TakeDamageOverTime(float totalDamage, float timeInSeconds, bool fireDamage) {
+		StartCoroutine(DamageOverTime(totalDamage, timeInSeconds, fireDamage));
 	}
 
 	private void CheckIfNoHealth() {
@@ -94,7 +98,16 @@ public class HealthSystem : MonoBehaviour {
 
 	#region Coroutines
 
-	private IEnumerator DamageOverTime(float totalDamage, float timeInSeconds) {
+	private IEnumerator DamageOverTime(float totalDamage, float timeInSeconds, bool fireDamage) {
+		GameObject damageEffect;
+		if (fireDamage) {
+			damageEffect = Instantiate(firePrefab, transform);
+		} else {
+			damageEffect = Instantiate(bloodPrefab, transform);
+		}
+
+		damageEffect.transform.localPosition = Vector3.up * collider.bounds.extents.y;
+
 		float targetHealth = currentHealth - totalDamage;
 		if (targetHealth < 0) { targetHealth = 0; }
 
@@ -110,6 +123,7 @@ public class HealthSystem : MonoBehaviour {
 			yield return null;
 		}
 
+		Destroy(damageEffect);
 		CheckIfNoHealth();
 	}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static NotificationController;
 
 public class TrapLinkingLine : MonoBehaviour {
 	#region Properties
@@ -8,12 +9,13 @@ public class TrapLinkingLine : MonoBehaviour {
 	private new Camera camera;
 	private RaycastHit hit;
 	private int trapLinkingLineLayerMask;
-	private GameObject firstObjectBeingLinked;
-	private GameObject secondObjectBeingLinked;
+	private GameObject firstBeingLinked;
 	private List<string> actionText;
 
-	private GameTrapsController gameTraps;
+	private GlobalObstaclesController globalObstacles;
 	private CanvasController canvasController;
+	private List<GameObject> traps;
+	private List<GameObject> triggers;
 
 	#endregion
 
@@ -25,26 +27,24 @@ public class TrapLinkingLine : MonoBehaviour {
 
 		lineRenderer.SetPosition(0, Vector3.zero);
 		lineRenderer.SetPosition(1, Vector3.zero);
+		lineRenderer.startColor = Color.yellow;
 
-		int highlightableObjectLayerMask = 1 << LayerMask.NameToLayer("Highlightable");
-		int obstacleLayerMask = 1 << LayerMask.NameToLayer("Obstacle");
-		int wallLayerMask = 1 << LayerMask.NameToLayer("Wall");
-		int floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
-		trapLinkingLineLayerMask = highlightableObjectLayerMask | obstacleLayerMask | wallLayerMask | floorLayerMask;
+		var layerMasks = GeneralHelper.GetLayerMasks();
+		trapLinkingLineLayerMask = layerMasks["Highlightable"]
+								| layerMasks["Obstacle"] 
+								| layerMasks["Terrain"];
 
 		actionText = new List<string> {
-			"Left click to Link"
+			"Left click trap/trigger to Link",
+			"Left click anywhere else to Cancel"
 		};
-		// if (!gameTraps.IsLinkingTextActive()) {
-		// 	gameTraps.EnableLinkingItemText(true);
-
-		// 	canvasController.DisableActionText();
-		// }
 	}
 
 	private void Start() {
-		gameTraps = References.Game.gameTraps;
-		canvasController = References.UI.Controllers.canvasController;
+		globalObstacles = References.Game.globalObstacles;
+		canvasController = References.UI.canvasController;
+		traps = References.Obstacles.traps;
+		triggers = References.Obstacles.triggers;
 
 		canvasController.EnableActionText(actionText);
 	}
@@ -53,24 +53,14 @@ public class TrapLinkingLine : MonoBehaviour {
 		Ray cameraToMouse = camera.ScreenPointToRay(Input.mousePosition);
 
 		if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity, trapLinkingLineLayerMask)) {
-			if (hit.transform.tag == "Trap" || hit.transform.tag == "Trigger") {
-				lineRenderer.SetPosition(1, hit.transform.position);
-
-				if (secondObjectBeingLinked == null) {
-					secondObjectBeingLinked = hit.transform.gameObject;
-				}
-
-				if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) {
-					LinkObjects();
-				}
+			if (References.Obstacles.trapsAndTriggers.Contains(hit.transform.gameObject)) {
+				StickLineToTarget(hit.transform);
+				ChangeLineColour(hit.transform.gameObject);
 			} else {
 				lineRenderer.SetPosition(1, hit.point);
+				ChangeLineColour(null);
 
-				if (secondObjectBeingLinked != null) {
-					secondObjectBeingLinked = null;
-				}
-
-				if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) {
+				if (Input.GetButtonDown("Fire1")) {
 					Destroy(gameObject);
 				}
 			}
@@ -87,63 +77,76 @@ public class TrapLinkingLine : MonoBehaviour {
 
 	public void SetStartValue(Transform startTransform) {
 		lineRenderer.SetPosition(0, startTransform.position + (Vector3.up * (startTransform.GetComponent<Collider>().bounds.size.y / 2)));
-		firstObjectBeingLinked = startTransform.gameObject;
+		firstBeingLinked = startTransform.gameObject;
 	}
 
-	private void LinkObjects() {
-		if (firstObjectBeingLinked == null || secondObjectBeingLinked == null) {
-			print("One of the objects you are trying to link doesn't exist");
+	public void StickLineToTarget(Transform target) {
+		lineRenderer.SetPosition(1, target.position);
+
+		if (Input.GetButtonDown("Fire1")) {
+			LinkWithFirst(target.gameObject);
+		}
+	}
+
+	private void LinkWithFirst(GameObject secondBeingLinked) {
+		TrapController firstTrap = firstBeingLinked.GetComponent<TrapController>();
+		TriggerController firstTrigger = firstBeingLinked.GetComponent<TriggerController>();
+		TrapController secondTrap = secondBeingLinked.GetComponent<TrapController>();
+		TriggerController secondTrigger = secondBeingLinked.GetComponent<TriggerController>();
+		
+		if (firstBeingLinked == null || secondBeingLinked == null) {
+			References.UI.notifications.AddNotification("The trap or trigger you are trying to link doesn't exist", NotificationType.Error);
 			return;
 		}
 
-		if (firstObjectBeingLinked == secondObjectBeingLinked) {
-			print("You can't link an object to itself");
+		if (firstBeingLinked == secondBeingLinked) {
+			References.UI.notifications.AddNotification("You can't link a trap or trigger to itself", NotificationType.Error);
 			return;
 		}
 
-		if (firstObjectBeingLinked.tag == "Trap") {
-			if (secondObjectBeingLinked.tag == "Trigger") {
-				TriggerController controller = FindTriggerController(secondObjectBeingLinked);
-				controller.trapToTrigger = FindTrapController(firstObjectBeingLinked);
+		if (firstTrap != null && secondTrap != null) {
+			References.UI.notifications.AddNotification("You can't link two traps together", NotificationType.Error);
+			return;
+		}
 
-				References.UI.notifications.AddNotification($"Linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
+		if ((firstTrigger != null && firstTrap == null) && (secondTrigger != null && secondTrap == null)) {
+			References.UI.notifications.AddNotification("You can't link two triggers together", NotificationType.Error);
+			return;
+		}
 
-				References.Game.gameTraps.RemoveTrapLinkingLine();
-				return;
-			} else {
-				print("Traps can only be linked to Triggers");
-				return;
-			}
-		} else if (firstObjectBeingLinked.tag == "Trigger") {
-			if (secondObjectBeingLinked.tag == "Trap") {
-				TriggerController controller = FindTriggerController(firstObjectBeingLinked);
-				controller.trapToTrigger = FindTrapController(secondObjectBeingLinked);
+		if (firstTrap != null) {
+			// The first object is a trap
+			Link(firstTrap, secondTrigger);
+		} else {
+			// Otherwise the second object must be the trap
+			Link(secondTrap, firstTrigger);
+		}
+	}
 
-				print($"Successfully linked {firstObjectBeingLinked.name} to {secondObjectBeingLinked.name}");
+	private void Link(TrapController trap, TriggerController trigger) {
+		trap.SetLinkedTrigger(trigger);
+		trigger.SetLinkedTrap(trap);
 
-				References.Game.gameTraps.RemoveTrapLinkingLine();
-				return;
-			} else {
-				print("Triggers can only be linked to Traps");
+		References.UI.notifications.AddNotification($"Linked {trap.GetName()} to {trigger.GetName()}", NotificationType.Success);
+		References.Game.globalObstacles.RemoveTrapLinkingLine();
+	}
+
+	private void ChangeLineColour(GameObject target) {
+		if (traps.Contains(firstBeingLinked)) {
+			if (triggers.Contains(target)) {
+				lineRenderer.endColor = Color.green;
 				return;
 			}
 		}
 
+		if (triggers.Contains(firstBeingLinked)) {
+			if (traps.Contains(target)) {
+				lineRenderer.endColor = Color.green;
+				return;
+			}
+		}
 
-	}
-
-	private TrapController FindTrapController(GameObject target) {
-		TrapController controller = target.GetComponent<TrapController>();
-
-		//print($"TrapController: {controller}");
-		return controller;
-	}
-
-	private TriggerController FindTriggerController(GameObject target) {
-		TriggerController controller = target.GetComponent<TriggerController>();
-
-		//print($"TriggerController: {controller}");
-		return controller;
+		lineRenderer.endColor = Color.red;
 	}
 
 	#endregion

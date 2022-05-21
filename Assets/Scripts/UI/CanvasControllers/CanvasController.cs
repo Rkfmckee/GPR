@@ -9,8 +9,8 @@ public class CanvasController : MonoBehaviour {
 	private GameObject craftingMenu;
 	private GameObject craftingMenuPrefab;
 
-	private GameObject trapDetails;
-	private GameObject trapDetailsPrefab;
+	private GameObject trapModification;
+	private GameObject trapModificationPrefab;
 
 	private Transform actionTextParent;
 	private GameObject actionTextPrefab;
@@ -23,14 +23,14 @@ public class CanvasController : MonoBehaviour {
 
 	private void Awake() {
 		References.UI.canvas = gameObject;
-		References.UI.Controllers.canvasController = this;
+		References.UI.canvasController = this;
 		actionTextActive = new List<GameObject>();
 
 		actionTextParent = transform.Find("Action Text");
 		actionTextPrefab = Resources.Load<GameObject>("Prefabs/UI/ActionText");
 
 		craftingMenuPrefab = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/CraftingMenu");
-		trapDetailsPrefab = Resources.Load<GameObject>("Prefabs/UI/TrapDetails");
+		trapModificationPrefab = Resources.Load<GameObject>("Prefabs/UI/ObstacleDetails/TrapModification");
 	}
 
 	private void Start() {
@@ -47,26 +47,32 @@ public class CanvasController : MonoBehaviour {
 				craftingMenu = Instantiate(craftingMenuPrefab, References.UI.canvas.transform);
 				craftingMenu.GetComponent<CraftingMenu>().CurrentCraftingStation(craftingStation);
 				cameraController.SetControllingState(ControllingState.ControllingMenu);
+
+				References.UI.craftingMenu = craftingMenu.GetComponent<CraftingMenu>();
 			}
 		} else {
 			if (craftingMenu != null) {
 				Destroy(craftingMenu);
 				craftingMenu = null;
 				cameraController.SetControllingState(ControllingState.ControllingSelf);
+
+				References.UI.craftingMenu = null;
 			}
 		}
 	}
 
-	public void SetTrapDetailsVisible(bool visible, GameObject trap) {
+	public void SetTrapModificationVisible(bool visible, GameObject trap) {
 		if (visible) {
-			if (trapDetails == null) {
-				trapDetails = Instantiate(trapDetailsPrefab, References.UI.canvas.transform);
-				trapDetails.GetComponent<TrapDetails>().SetTrapShowing(trap);
+			if (trapModification == null) {
+				trapModification = Instantiate(trapModificationPrefab, References.UI.canvas.transform);
+				trapModification.GetComponent<TrapModification>().SetTrap(trap);
+				cameraController.SetControllingState(ControllingState.ControllingMenu);
 			}
 		} else {
-			if (trapDetails != null) {
-				Destroy(trapDetails);
-				trapDetails = null;
+			if (trapModification != null) {
+				Destroy(trapModification);
+				trapModification = null;
+				cameraController.SetControllingState(ControllingState.ControllingSelf);
 			}
 		}
 	}
@@ -93,9 +99,9 @@ public class CanvasController : MonoBehaviour {
 		var startPosition = Vector3.zero;
 		var amountToChangePosition = new Vector3(0, 30, 0);
 		
-		foreach(var text in actionText) {
+		for(int i = actionText.Count - 1; i >= 0; i--) {
 			GameObject textObject = Instantiate(actionTextPrefab, actionTextParent);
-			textObject.GetComponent<TextMeshProUGUI>().text = text;
+			textObject.GetComponent<TextMeshProUGUI>().text = actionText[i];
 			textObject.transform.localPosition = startPosition;
 
 			startPosition += amountToChangePosition;

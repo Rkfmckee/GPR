@@ -22,7 +22,7 @@ public class FriendlyStateListening : FriendlyState {
 	#region Constructor
 	
 	public FriendlyStateListening(GameObject gameObj) : base(gameObj) {
-		uiController = References.UI.Controllers.friendlyListeningUIController;
+		uiController = References.UI.friendlyListeningUIController;
 		camera = References.Camera.camera;
 		References.Camera.cameraController.SetControllingState(ControllingState.ControllingFriendly);
 
@@ -30,13 +30,13 @@ public class FriendlyStateListening : FriendlyState {
 			{"Floor", ListeningCommands.Move},
 			{"Obstacle", ListeningCommands.PickUp},
 			{"Trap", ListeningCommands.PickUp},
-			{"Trigger", ListeningCommands.PickUp}
+			{"Trigger", ListeningCommands.PickUp},
+			{"HeldObstacle", ListeningCommands.PickUpSpawned}
 		};
 		commandUiExists = false;
 		
-		var wallHidden = 1 << LayerMask.NameToLayer("WallHidden");
-		var ignoreRaycast = 1 << LayerMask.NameToLayer("Ignore Raycast");
-		layerMask = ~(wallHidden | ignoreRaycast);
+		var layerMasks = GeneralHelper.GetLayerMasks();
+		layerMask = ~(layerMasks["WallHidden"] | layerMasks["Ignore Raycast"]);
 
 		ResetIgnoreMouseClickTimer();
 	}
@@ -89,10 +89,10 @@ public class FriendlyStateListening : FriendlyState {
 
 			if (hitCommand != currentCommand) {
 				currentCommand = hitCommand;
-				uiController.ChangeListeningCommandText(hitCommand.ToString());
+				uiController.ChangeListeningCommandText(hitCommand.GetDescription());
 				
-				References.UI.Controllers.canvasController.DisableActionText();
-				References.UI.Controllers.canvasController.EnableActionText($"Left click to {hitCommand.ToString()}");
+				References.UI.canvasController.DisableActionText();
+				References.UI.canvasController.EnableActionText($"Left click to {hitCommand.GetDescription()}");
 
 				var cursorType = CursorData.ListeningCommandToCursorType(currentCommand.Value);
 				if (cursorType.HasValue) {
@@ -116,6 +116,11 @@ public class FriendlyStateListening : FriendlyState {
 				case ListeningCommands.PickUp:
 					PickupCommand(hitInformation.transform.gameObject);
 					break;
+
+				case ListeningCommands.PickUpSpawned:
+					var obstacle = hitInformation.transform.gameObject.GetComponent<ObstacleHeld>().obstacle;
+					PickupCommand(obstacle, hitInformation.transform.gameObject);
+					break;
 			}
 		}
 	}
@@ -130,6 +135,11 @@ public class FriendlyStateListening : FriendlyState {
 		behaviour.SetCurrentState(new FriendlyStatePickupObject(gameObject, pickupObject));
 	}
 
+	private void PickupCommand(GameObject pickupObject, GameObject heldObject) {
+		DisableListeningCommand();
+		behaviour.SetCurrentState(new FriendlyStatePickupObject(gameObject, pickupObject, heldObject));
+	}
+
 	private void EnableListeningCommand() {
 		uiController.EnableListeningCommand();
 		commandUiExists = true;
@@ -141,7 +151,7 @@ public class FriendlyStateListening : FriendlyState {
 		currentCommand = null;
 		
 		cursor.SetCursor(CursorType.Basic);
-		References.UI.Controllers.canvasController.DisableActionText();
+		References.UI.canvasController.DisableActionText();
 	}
 
 	#endregion
@@ -152,7 +162,9 @@ public class FriendlyStateListening : FriendlyState {
 		[Description("Move")]
 		Move,
 		[Description("Pick up")]
-		PickUp
+		PickUp,
+		[Description("Pick up")]
+		PickUpSpawned
 	}
 
 	#endregion

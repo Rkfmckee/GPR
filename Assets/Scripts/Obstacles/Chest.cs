@@ -11,7 +11,7 @@ public class Chest : MonoBehaviour {
 	private float currentOpeningTime;
 	private GameObject chestLid;
 
-	private GameTrapsController gameTraps;
+	private GlobalObstaclesController globalObstacles;
 
 	#endregion
 
@@ -25,12 +25,12 @@ public class Chest : MonoBehaviour {
 	}
 
 	private void Start() {
-		gameTraps = References.Game.gameTraps;
+		globalObstacles = References.Game.globalObstacles;
 	}
 
 	private void Update() {
 		if (currentState == ChestState.Open) {
-			if (!gameTraps.IsInventoryOpen()) {
+			if (!globalObstacles.IsInventoryOpen()) {
 				Close();
 			}
 		}

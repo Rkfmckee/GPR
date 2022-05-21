@@ -12,7 +12,7 @@ public class FriendlyListeningUIController : MonoBehaviour {
 	#region Events
 
 	private void Awake() {
-		References.UI.Controllers.friendlyListeningUIController = this;
+		References.UI.friendlyListeningUIController = this;
 		listeningCommandPrefab = Resources.Load<GameObject>("Prefabs/UI/FriendlyListeningCommand");
 	}
 

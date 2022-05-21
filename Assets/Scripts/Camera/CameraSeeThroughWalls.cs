@@ -8,6 +8,7 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 
 	private List<GameObject> hiddenObjects;
 	private int hiddenLayers;
+	private int floorLayer;
 
 	private CameraController cameraController;
 	private CameraOrientationController orientationController;
@@ -22,9 +23,9 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 		
 		hiddenObjects = new List<GameObject>();
 
-		int wallMask = 1 << LayerMask.NameToLayer("WallShouldHide");
-		int wallHiddenMask = 1 << LayerMask.NameToLayer("WallHidden");
-		hiddenLayers = wallMask | wallHiddenMask;
+		var layerMasks = GeneralHelper.GetLayerMasks();
+		floorLayer = layerMasks["Floor"];
+		hiddenLayers = layerMasks["WallShouldHide"] | layerMasks["WallHidden"] | floorLayer;
 	}
 
 	private void Update() {
@@ -49,13 +50,20 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 	}
 
 	private void SeeThroughWalls() {
-		var direction = transform.forward;
+		var cameraForwardRay = new Ray(transform.position, transform.forward);
+		RaycastHit hitInformation;
+		GameObject currentHit = null;
 
-		var hits = Physics.RaycastAll(transform.position, direction, Mathf.Infinity, hiddenLayers);
-		Debug.DrawRay(transform.position, direction, Color.yellow);
-
-		foreach (RaycastHit hit in hits) {
-			GameObject currentHit = hit.transform.gameObject;
+		if (Physics.Raycast(cameraForwardRay, out hitInformation, Mathf.Infinity, hiddenLayers)) {
+			if (hitInformation.transform.gameObject.tag == "Floor") {
+				// Only include this so the Raycast won't hit the wall colliders
+				// which extend below the floor level
+				CheckForNoLongerHiddenObjects(currentHit);
+				return;
+			}
+			
+			Debug.DrawLine(transform.position, hitInformation.point, Color.yellow);
+			currentHit = hitInformation.transform.gameObject;
 
 			if (!hiddenObjects.Contains(currentHit)) {
 				hiddenObjects.Add(currentHit);
@@ -64,18 +72,16 @@ public class CameraSeeThroughWalls : MonoBehaviour {
 			}
 		}
 
-		CheckForNoLongerHiddenObjects(hits);
+		CheckForNoLongerHiddenObjects(currentHit);
 	}
 
-	private void CheckForNoLongerHiddenObjects(RaycastHit[] hits) {
+	private void CheckForNoLongerHiddenObjects(GameObject currentHit) {
 		for (int i = 0; i < hiddenObjects.Count; i++) {
 			bool isHit = false;
 
-			for (int j = 0; j < hits.Length; j++) {
-				if (hits[j].transform.gameObject == hiddenObjects[i]) {
-					isHit = true;
-					break;
-				}
+			if (currentHit == hiddenObjects[i]) {
+				isHit = true;
+				break;
 			}
 
 			if (!isHit) {

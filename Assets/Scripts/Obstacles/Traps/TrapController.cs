@@ -1,10 +1,42 @@
 ﻿using UnityEngine;
 
-public abstract class TrapController : TrapTriggerBase {
+public abstract class TrapController : ObstacleController {
 
-    #region Methods
+    #region Properties
 
-    public abstract void TriggerTrap(Collider triggeredBy);
+	private TriggerController linkedTrigger;
+
+	#endregion
+
+	#region Events
+
+	protected override void Awake() {
+		base.Awake();
+		
+		References.Obstacles.traps.Add(gameObject);
+	}	
+
+	#endregion
+	
+	#region Methods
+
+		#region Get/Set
+
+		public TriggerController GetLinkedTrigger() {
+			return linkedTrigger;
+		}
+
+		public virtual void SetLinkedTrigger(TriggerController trigger) {
+			linkedTrigger = trigger;
+		}
+
+		#endregion
+
+    public virtual void TriggerTrap(Collider triggeredBy) {
+		if (IsObstacleDisabled()) {
+			return;
+		}
+	}
 
     #endregion
 }

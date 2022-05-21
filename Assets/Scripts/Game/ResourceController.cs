@@ -1,13 +1,19 @@
-﻿using UnityEngine;
+﻿using System.ComponentModel;
+using UnityEngine;
+using static NotificationController;
 
 public class ResourceController : MonoBehaviour {
 	#region Properties
 
 	public int physicalMaterialQuantity;
+	public int magicalMaterialQuantity;
 	public int valuableQuantity;
 
 	private int physicalMaterialMaximum;
+	private int magicalMaterialMaximum;
 	private int valuableMaximum;
+
+	private ResourcesUI resourcesUI;
 
 	#endregion
 
@@ -17,7 +23,12 @@ public class ResourceController : MonoBehaviour {
 		References.Game.resources = this;
 
 		physicalMaterialMaximum = 100;
+		magicalMaterialMaximum = 100;
 		valuableMaximum = 100;
+	}
+
+	private void Start() {
+		resourcesUI = References.UI.resources;
 	}
 
 	#endregion
@@ -30,12 +41,20 @@ public class ResourceController : MonoBehaviour {
 		return physicalMaterialQuantity;
 	}
 
+	public int GetMagicalMaterialAmount() {
+		return magicalMaterialQuantity;
+	}
+
 	public int GetValuableAmount() {
 		return valuableQuantity;
 	}
 
 	public int GetPhysicalMaterialMaximum() {
 		return physicalMaterialMaximum;
+	}
+
+	public int GetMagicalMaterialMaximum() {
+		return magicalMaterialMaximum;
 	}
 
 	public int GetValuableMaximum() {
@@ -46,16 +65,24 @@ public class ResourceController : MonoBehaviour {
 		physicalMaterialQuantity = amount;
 	}
 
+	public void SetMagicalMaterialAmount(int amount) {
+		magicalMaterialQuantity = amount;
+	}
+
 	public void SetValuableAmount(int amount) {
 		valuableQuantity = amount;
 	}
 
 	public void SetPhysicalMaterialMaximum(int amount) {
-		physicalMaterialQuantity = amount;
+		physicalMaterialMaximum = amount;
+	}
+
+	public void SetMagicalMaterialMaximum(int amount) {
+		magicalMaterialMaximum = amount;
 	}
 
 	public void SetValuableMaximum(int amount) {
-		valuableQuantity = amount;
+		valuableMaximum = amount;
 	}
 
 	#endregion
@@ -66,20 +93,26 @@ public class ResourceController : MonoBehaviour {
 		int currentAmount = 0, maxAmount = 0;
 
 		switch (type) {
-			case ResourceType.PhysicalMaterial:
+			case ResourceType.PhysicalMaterials:
 				currentAmount = physicalMaterialQuantity;
 				maxAmount = physicalMaterialMaximum;
 				break;
-			case ResourceType.Valuable:
+			case ResourceType.MagicalMaterials:
+				currentAmount = magicalMaterialQuantity;
+				maxAmount = magicalMaterialMaximum;
+				break;	
+			case ResourceType.Valuables:
 				currentAmount = valuableQuantity;
 				maxAmount = valuableMaximum;
 				break;
 		}
 
 		if (currentAmount + amountToAdd >= maxAmount) {
-			print($"You have MAX {type}");
+			References.UI.notifications.AddNotification($"You can't store any more {type.GetDescription()}", NotificationType.Info);
 			return maxAmount;
 		}
+
+		resourcesUI.UpdateResourcesUI();
 
 		return currentAmount += amountToAdd;
 	}
@@ -90,10 +123,13 @@ public class ResourceController : MonoBehaviour {
 		bool enoughResources;
 
 		switch (type) {
-			case ResourceType.PhysicalMaterial:
+			case ResourceType.PhysicalMaterials:
 				currentAmount = physicalMaterialQuantity;
 				break;
-			case ResourceType.Valuable:
+			case ResourceType.MagicalMaterials:
+				currentAmount = magicalMaterialQuantity;
+				break;
+			case ResourceType.Valuables:
 				currentAmount = valuableQuantity;
 				break;
 		}
@@ -102,19 +138,25 @@ public class ResourceController : MonoBehaviour {
 			finalAmount = currentAmount -= amountToRemove;
 			enoughResources = true;
 		} else {
-			print($"You don't have enough {type}");
+			References.UI.notifications.AddNotification($"You don't have enough {type.GetDescription()}", NotificationType.Error);
+
 			finalAmount = currentAmount;
 			enoughResources = false;
 		}
 
 		switch (type) {
-			case ResourceType.PhysicalMaterial:
+			case ResourceType.PhysicalMaterials:
 				physicalMaterialQuantity = finalAmount;
 				break;
-			case ResourceType.Valuable:
+			case ResourceType.MagicalMaterials:
+				magicalMaterialQuantity = finalAmount;
+				break;
+			case ResourceType.Valuables:
 				valuableQuantity = finalAmount;
 				break;
 		}
+
+		resourcesUI.UpdateResourcesUI();
 
 		return enoughResources;
 	}
@@ -138,8 +180,12 @@ public class ResourceController : MonoBehaviour {
 	#region Enums
 
 	public enum ResourceType {
-		PhysicalMaterial,
-		Valuable
+		[Description("Physical Materials")]
+		PhysicalMaterials,
+		[Description("Magical Materials")]
+		MagicalMaterials,
+		[Description("Valuables")]
+		Valuables
 	}
 
 	#endregion

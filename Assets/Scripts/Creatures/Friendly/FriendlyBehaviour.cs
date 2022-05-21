@@ -31,7 +31,10 @@ public class FriendlyBehaviour : MonoBehaviour {
 		}
 
 		public void SetCurrentState(FriendlyState state) {
-			ShouldFreezeRigidbody(state is FriendlyStateIdle);
+			var shouldFreeze = state is FriendlyStateIdle ||
+								state is FriendlyStateListening;
+			ShouldFreezeRigidbody(shouldFreeze);
+
 			currentState = state;
 		}
 
@@ -46,13 +49,9 @@ public class FriendlyBehaviour : MonoBehaviour {
 
 		#endregion
 
-	private void ShouldFreezeRigidbody(bool shouldFreeze) {
-		if (shouldFreeze) {
-			rigidbody.freezeRotation = true;
-			rigidbody.velocity = Vector3.zero;
-		} else {
-			rigidbody.freezeRotation = false;
-		}
+	public void ShouldFreezeRigidbody(bool shouldFreeze) {
+		rigidbody.isKinematic = shouldFreeze;
+		rigidbody.freezeRotation = shouldFreeze;
 	}
 
 	#endregion

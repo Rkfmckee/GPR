@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static NotificationController;
 
 public abstract class DefendingStage : Stage {
     
@@ -31,7 +32,7 @@ public abstract class DefendingStage : Stage {
     }
 
     public override void StageEnd() {
-        References.UI.notifications.AddNotification("Cave defended successfully");
+        References.UI.notifications.AddNotification("Cave defended successfully", NotificationType.Success);
     }
 
     #endregion

@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using static CameraController;
-using static TrapTriggerBase;
 
 public class FriendlyStatePickupObject : FriendlyState {
 	#region Properties
@@ -11,9 +9,11 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 	private GameObject obstacleToPickup;
 	private GameObject heldObject;
+	private ObstacleController heldObjectObstacleController;
 	private PickUpObject heldObjectPickup;
 	private GameObject obstaclePlacement;
 	private ObstaclePlacementController obstaclePlacementController;
+	private GameObject spawnObstacle;
 
 	#endregion
 
@@ -29,6 +29,10 @@ public class FriendlyStatePickupObject : FriendlyState {
 		EnableObstaclePlacement(obstacleToPickup);
 	}
 
+	public FriendlyStatePickupObject(GameObject gameObj, GameObject obsToPickup, GameObject spawnObs) : this(gameObj, obsToPickup) {
+		spawnObstacle = spawnObs;
+	}
+
 	#endregion
 
 	#region Events
@@ -41,6 +45,8 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 			if (IsWithinInteractionDistance(transform.position, obstacleToPickup.transform.position)) {
 				navMeshAgent.isStopped = true;
+				behaviour.ShouldFreezeRigidbody(true);
+				
 				SetHeldObject();
 			}
 		} else {
@@ -48,6 +54,10 @@ public class FriendlyStatePickupObject : FriendlyState {
 				return;
 
 			if (obstaclePlacementController.IsPositionFinalized()) {
+				if (rigidbody.isKinematic) {
+					behaviour.ShouldFreezeRigidbody(false);
+				}
+
 				var positionToPlace = obstaclePlacement.transform.position;
 				var rotationToPlace = obstaclePlacement.transform.rotation;
 				navMeshAgent.isStopped = false;
@@ -67,7 +77,7 @@ public class FriendlyStatePickupObject : FriendlyState {
 	#region Methods
 
 	private void EnableObstaclePlacement(GameObject obstacle) {
-		obstaclePlacement = References.Game.gameTraps.EnableObstaclePlacement(obstacle);
+		obstaclePlacement = References.Game.globalObstacles.EnableObstaclePlacement(obstacle);
 		obstaclePlacementController = obstaclePlacement.GetComponent<ObstaclePlacementController>();
 
 		obstaclePlacementController.SetHeldObject(obstacle);
@@ -80,16 +90,21 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 	private void SetHeldObject() {
 		heldObject = obstacleToPickup;
-        heldObject.transform.parent = transform;
+		heldObjectObstacleController = heldObject.GetComponent<ObstacleController>();
         heldObjectPickup = heldObject.GetComponent<PickUpObject>();
 
 		isHoldingObject = true;
-		heldObjectPickup.SetCurrentState(PickUpObject.State.Held);
+		heldObjectPickup.SetCurrentState(PickUpObject.PickUpState.Held, transform);
 		obstacleToPickup = null;
+
+		if (spawnObstacle != null) {
+			GameObject.Destroy(spawnObstacle);
+		}
 	}
 
-	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {		
-		heldObjectPickup.SetCurrentState(PickUpObject.State.Idle);
+	private void PlaceHeldObject(Vector3 position, Quaternion rotation) {
+		heldObjectObstacleController.SetObstacleDisabled(false);
+		heldObjectPickup.SetCurrentState(PickUpObject.PickUpState.Idle);
 		heldObject.transform.position = position;
 		heldObject.transform.rotation = rotation;
 
@@ -100,10 +115,9 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 	private void ForgetHeldObject() {
         if (heldObject != null) {
-            heldObject.transform.parent = null;
             heldObject = null;
 
-            References.Game.gameTraps.DisableObstaclePlacement(obstaclePlacement);
+            References.Game.globalObstacles.DisableObstaclePlacement(obstaclePlacement);
         }
     }
 

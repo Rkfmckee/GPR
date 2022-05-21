@@ -8,8 +8,9 @@ public class ResourcesUI : MonoBehaviour {
 	private int valuablesPercentage;
 	private float barWidth;
 	private float barHeight;
-	private float physicalMaterialsPercentageModifier;
-	private float valuablesPercentageModifier;
+	private float physicalBarWidthOnePercent;
+	private float magicalBarWidthOnePercent;
+	private float valuableBarWidthOnePercent;
 
 	private ResourceController resourceController;
 
@@ -18,17 +19,23 @@ public class ResourcesUI : MonoBehaviour {
 	private RectTransform physicalMaterialsBarRect;
 	private Text physicalMaterialsValue;
 
+	private GameObject magicalMaterialsGroup;
+	private GameObject magicalMaterialsBar;
+	private RectTransform magicalMaterialsBarRect;
+	private Text magicalMaterialsValue;
+
 	private GameObject valuablesGroup;
 	private GameObject valuablesBar;
 	private RectTransform valuablesBarRect;
 	private Text valuablesValue;
 
-
-
-
 	#endregion
 
 	#region Events
+
+	private void Awake() {
+		References.UI.resources = this;
+	}
 
 	private void Start() {
 		resourceController = References.Game.resources;
@@ -38,6 +45,11 @@ public class ResourcesUI : MonoBehaviour {
 		physicalMaterialsBarRect = physicalMaterialsBar.GetComponent<RectTransform>();
 		physicalMaterialsValue = physicalMaterialsGroup.transform.Find("PhysicalMaterialsValue").GetComponent<Text>();
 
+		magicalMaterialsGroup = References.UI.canvas.transform.Find("Resources").Find("MagicalMaterials").gameObject;
+		magicalMaterialsBar = magicalMaterialsGroup.transform.Find("MagicalMaterialsBarAmount").gameObject;
+		magicalMaterialsBarRect = magicalMaterialsBar.GetComponent<RectTransform>();
+		magicalMaterialsValue = magicalMaterialsGroup.transform.Find("MagicalMaterialsValue").GetComponent<Text>();
+
 		valuablesGroup = References.UI.canvas.transform.Find("Resources").Find("Valuables").gameObject;
 		valuablesBar = valuablesGroup.transform.Find("ValuablesBarAmount").gameObject;
 		valuablesBarRect = valuablesBar.GetComponent<RectTransform>();
@@ -46,18 +58,28 @@ public class ResourcesUI : MonoBehaviour {
 		barWidth = physicalMaterialsBar.GetComponent<RectTransform>().sizeDelta.x;
 		barHeight = physicalMaterialsBar.GetComponent<RectTransform>().sizeDelta.y;
 
-		physicalMaterialsPercentageModifier = (1f / resourceController.GetPhysicalMaterialMaximum()) * barWidth;
-		valuablesPercentageModifier = (1f / resourceController.GetValuableMaximum()) * barWidth;
+		physicalBarWidthOnePercent = (1f / resourceController.GetPhysicalMaterialMaximum()) * barWidth;
+		magicalBarWidthOnePercent = (1f / resourceController.GetMagicalMaterialMaximum()) * barWidth;
+		valuableBarWidthOnePercent = (1f / resourceController.GetValuableMaximum()) * barWidth;
+
+		UpdateResourcesUI();
 	}
 
-	private void Update() {
-		int physicalMaterialsAmount = resourceController.GetPhysicalMaterialAmount();
-		int valuablesAmount = resourceController.GetValuableAmount();
+	#endregion
 
-		physicalMaterialsBarRect.sizeDelta = new Vector2(physicalMaterialsAmount * physicalMaterialsPercentageModifier, barHeight);
-		valuablesBarRect.sizeDelta = new Vector2(valuablesAmount * valuablesPercentageModifier, barHeight);
+	#region Methods
+
+	public void UpdateResourcesUI() {
+		var physicalMaterialsAmount = resourceController.GetPhysicalMaterialAmount();
+		var magicalMaterialsAmount = resourceController.GetMagicalMaterialAmount();
+		var valuablesAmount = resourceController.GetValuableAmount();
+
+		physicalMaterialsBarRect.sizeDelta = new Vector2(physicalMaterialsAmount * physicalBarWidthOnePercent, barHeight);
+		magicalMaterialsBarRect.sizeDelta = new Vector2(magicalMaterialsAmount * magicalBarWidthOnePercent, barHeight);
+		valuablesBarRect.sizeDelta = new Vector2(valuablesAmount * valuableBarWidthOnePercent, barHeight);
 
 		physicalMaterialsValue.text = physicalMaterialsAmount.ToString();
+		magicalMaterialsValue.text = magicalMaterialsAmount.ToString();
 		valuablesValue.text = valuablesAmount.ToString();
 	}
 
