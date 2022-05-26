@@ -26,7 +26,7 @@ public abstract class Highlightable : MonoBehaviour {
 		cameraController = Camera.main.GetComponent<CameraController>();
 
 		outline = gameObject.AddComponent<Outline>();
-        outline.OutlineMode = Outline.Mode.OutlineAndSilhouette;
+        outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.OutlineColor = Color.yellow;
         outline.OutlineWidth = 5f;
         outline.enabled = false;

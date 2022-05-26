@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2389836631158793063}
   - component: {fileID: 2389836631158793057}
   - component: {fileID: 2389836631158793062}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MagicIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4821,10 +4821,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2389836631637451230}
+  - component: {fileID: 1142106871791110379}
   - component: {fileID: 7213002652075822615}
-  m_Layer: 0
+  - component: {fileID: 5357098566333820420}
+  - component: {fileID: -7083534916970807433}
+  - component: {fileID: 8707772534009419487}
+  m_Layer: 8
   m_Name: FireRune
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4847,6 +4851,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1142106871791110379
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389836631637451231}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.1, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7213002652075822615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4860,10 +4877,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Explosive fire rune
-  description: boom
+  description: Explodes in a fiery blast, hurting all creatures within it's radius.
+    Can trigger itself.
   surfaceType: 0
   explosionEffect: {fileID: 1979462112036181567, guid: 1f62acb395829c44a8f3ff574af19d4e,
     type: 3}
+--- !u!114 &5357098566333820420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389836631637451231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a76831a87f5d1e4d9c17c982ed1cadb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementPrefab: {fileID: 2632120828644167198, guid: 1431a53be9fcc9a488790ea9d3ac92a9,
+    type: 3}
+  heldPrefab: {fileID: 5156838890994186592, guid: 5799d297e35ff124bb8a01947ecfdfcb,
+    type: 3}
+  heldHeight: 2
+--- !u!114 &-7083534916970807433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389836631637451231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807119aca2bb4e943844b6e5a167f863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryIcon: {fileID: 21300000, guid: a891626df3cbd144d871eda74ca8af51, type: 3}
+  resourceCost: 5
+  resourceType: 1
+  spawnRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &8707772534009419487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389836631637451231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a85470987c8a94ca437620613f01e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2389836632821019460
 GameObject:
   m_ObjectHideFlags: 0
@@ -4875,7 +4938,7 @@ GameObject:
   - component: {fileID: 2389836632821019463}
   - component: {fileID: 2389836632821019457}
   - component: {fileID: 2389836632821019462}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9687,7 +9750,7 @@ GameObject:
   - component: {fileID: 2389836632998887378}
   - component: {fileID: 2389836632998887388}
   - component: {fileID: 2389836632998887389}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
