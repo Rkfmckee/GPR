@@ -6,31 +6,36 @@ using UnityEngine;
 
 public static class GeneralHelper
 {
-    public static Vector3 NormaliseVectorToKeepDeceleration(Vector3 vector) {
+	public static Vector3 NormaliseVectorToKeepDeceleration(Vector3 vector)
+	{
 		// Normalizing a decimal vector rounds it to 1, which causes weird deceleration
 		// So don't do that if it's between 1 and -1
 
-		if (Mathf.Abs(vector.magnitude) > 1) {
+		if (Mathf.Abs(vector.magnitude) > 1)
+		{
 			vector = vector.normalized;
 		}
 
 		return vector;
 	}
 
-	public static (Vector2, Vector2) GetFloorObjectBoundaries(bool getColliderEdge) {
+	public static (Vector2, Vector2) GetFloorObjectBoundaries(bool getColliderEdge)
+	{
 		GameObject[] allFloorObjects = GameObject.FindGameObjectsWithTag("Floor");
 		var xBounds = new Vector2();
 		var zBounds = new Vector2();
 		float minX, maxX, minZ, maxZ;
 		float colliderOffsetX = 0, colliderOffsetZ = 0;
-		
+
 		minX = maxX = allFloorObjects[0].transform.position.x;
 		minZ = maxZ = allFloorObjects[0].transform.position.z;
 
-		foreach(var floor in allFloorObjects) {
+		foreach (var floor in allFloorObjects)
+		{
 			var position = floor.transform.position;
-			
-			if (getColliderEdge) {
+
+			if (getColliderEdge)
+			{
 				var colliderSize = floor.GetComponent<Collider>().bounds.size;
 				colliderOffsetX = colliderSize.x / 2;
 				colliderOffsetZ = colliderSize.z / 2;
@@ -38,13 +43,13 @@ public static class GeneralHelper
 
 			if (position.x < minX)
 				minX = position.x;
-			
+
 			if (position.x > maxX)
 				maxX = position.x;
 
 			if (position.z < minZ)
 				minZ = position.z;
-			
+
 			if (position.z > maxZ)
 				maxZ = position.z;
 		}
@@ -57,7 +62,8 @@ public static class GeneralHelper
 		return (xBounds, zBounds);
 	}
 
-	public static (Vector2, Vector2) GetLevelSize() {
+	public static (Vector2, Vector2) GetLevelSize()
+	{
 		var xBounds = new Vector2();
 		var zBounds = new Vector2();
 		(xBounds, zBounds) = GetFloorObjectBoundaries(true);
@@ -73,14 +79,19 @@ public static class GeneralHelper
 		return (size, midPoint);
 	}
 
-	public static string GetDeterminer(string word) {
+	public static string GetDeterminer(string word)
+	{
 		string[] vowels = { "a", "e", "i", "o", "u" };
 		string determiner = "a";
 
-		if (word.ToLower().EndsWith("s")) {
+		if (word.ToLower().EndsWith("s"))
+		{
 			determiner = "some";
-		} else {
-			if (Array.IndexOf(vowels, word[0].ToString().ToLower()) > -1) {
+		}
+		else
+		{
+			if (Array.IndexOf(vowels, word[0].ToString().ToLower()) > -1)
+			{
 				determiner = "an";
 			}
 		}
@@ -88,7 +99,8 @@ public static class GeneralHelper
 		return determiner;
 	}
 
-	public static Dictionary<string, int> GetLayerMasks() {
+	public static Dictionary<string, int> GetLayerMasks()
+	{
 		var layerMasks = new Dictionary<string, int>();
 
 		layerMasks.Add("FriendlyCreature", 1 << LayerMask.NameToLayer("FriendlyCreature"));
@@ -113,12 +125,15 @@ public static class GeneralHelper
 		return layerMasks;
 	}
 
-	public static string GetDescription(this Enum GenericEnum) {
+	public static string GetDescription(this Enum GenericEnum)
+	{
 		Type genericEnumType = GenericEnum.GetType();
 		MemberInfo[] memberInfo = genericEnumType.GetMember(GenericEnum.ToString());
-		if ((memberInfo != null && memberInfo.Length > 0)) {
+		if ((memberInfo != null && memberInfo.Length > 0))
+		{
 			var _Attribs = memberInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false);
-			if ((_Attribs != null && _Attribs.Count() > 0)) {
+			if ((_Attribs != null && _Attribs.Count() > 0))
+			{
 				return ((System.ComponentModel.DescriptionAttribute)_Attribs.ElementAt(0)).Description;
 			}
 		}
