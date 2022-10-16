@@ -3,118 +3,134 @@ using UnityEngine;
 using static CameraController;
 using static CursorData;
 
-public abstract class Highlightable : MonoBehaviour {
-    #region Properties
+public abstract class Highlightable : MonoBehaviour
+{
+	#region Properties
 
-    private bool highlightingMe;
+	private bool highlightingMe;
 	private bool cameraInHighlightableState;
-    protected Outline outline;
-	protected Dictionary<ControllingState, List<string>> statesAndUiText;
+	protected Outline outline;
+	protected Dictionary<CameraControllingState, List<string>> statesAndUiText;
 	protected CursorType? highlightCursor;
 
-    protected GlobalObstaclesController globalObstacles;
+	protected GlobalObstaclesController globalObstacles;
 	protected CameraController cameraController;
 	private CanvasController canvasController;
 	private CursorController cursor;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    protected virtual void Awake() {
-		statesAndUiText = new Dictionary<ControllingState, List<string>>();
+	protected virtual void Awake()
+	{
+		statesAndUiText  = new Dictionary<CameraControllingState, List<string>>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 
-		outline = gameObject.AddComponent<Outline>();
-        outline.OutlineMode = Outline.Mode.OutlineVisible;
-        outline.OutlineColor = Color.yellow;
-        outline.OutlineWidth = 5f;
-        outline.enabled = false;
-		
+		outline              = gameObject.AddComponent<Outline>();
+		outline.OutlineMode  = Outline.Mode.OutlineVisible;
+		outline.OutlineColor = Color.yellow;
+		outline.OutlineWidth = 5f;
+		outline.enabled      = false;
+
 		highlightCursor = null;
 
-        SetHighlightingMe(false);
-    }
+		SetHighlightingMe(false);
+	}
 
-    protected virtual void Start() {
-        globalObstacles = References.Game.globalObstacles;
+	protected virtual void Start()
+	{
+		globalObstacles  = References.Game.globalObstacles;
 		canvasController = References.UI.canvasController;
-		cursor = References.Game.cursor;
-    }
+		cursor           = References.Game.cursor;
+	}
 
-    protected virtual void Update() {
-        if (DontHighlight())
+	protected virtual void Update()
+	{
+		if (DontHighlight())
 			SetHighlightingMe(false);
 
-		if (!IsHighlightingMe()) {
-			if (outline.enabled) {
-                outline.enabled = false;
-				
+		if (!IsHighlightingMe())
+		{
+			if (outline.enabled)
+			{
+				outline.enabled = false;
+
 				canvasController.DisableActionText(statesAndUiText);
-            }
+			}
 			return;
 		}
 
-		if (!outline.enabled) {
+		if (!outline.enabled)
+		{
 			outline.enabled = true;
 
 			if (!canvasController.IsActionTextActive())
 				canvasController.EnableActionText(statesAndUiText);
 		}
 
-		if (globalObstacles.IsTrapLinkingLineActive()) {
+		if (globalObstacles.IsTrapLinkingLineActive())
+		{
 			return;
 		}
 
-		if (Input.GetButtonDown("Fire1")) {
+		if (Input.GetButtonDown("Fire1"))
+		{
 			LeftClicked();
 		}
 
-		if (Input.GetButtonDown("Fire2")) {
+		if (Input.GetButtonDown("Fire2"))
+		{
 			RightClicked();
 		}
-    }
-
-    #endregion
-
-    #region Methods
-
-		#region Get/Set
-
-		public bool IsHighlightingMe() {
-			return highlightingMe;
-		}
-
-		public void SetHighlightingMe(bool highlighting) {
-			highlightingMe = highlighting;
-
-			if (!highlightCursor.HasValue || !IsCameraInHighlightableState())
-				return;
-
-			if (highlighting)
-				cursor.SetCursor(highlightCursor.Value);
-			else
-				cursor.SetCursor(CursorType.Basic);
-		}
-
-		public bool IsCameraInHighlightableState() {
-			return cameraInHighlightableState;
-		}
-
-		#endregion
-
-    protected virtual void LeftClicked() {
-		canvasController.DisableActionText(statesAndUiText);
-	}
-	protected virtual void RightClicked() {
-		canvasController.DisableActionText(statesAndUiText);
 	}
 
-	protected virtual bool DontHighlight() {
-		cameraInHighlightableState = statesAndUiText.ContainsKey(cameraController.GetControllingState());
-		
+	#endregion
+
+	#region Methods
+
+	#region Get/Set
+
+	public bool IsHighlightingMe()
+	{
+		return highlightingMe;
+	}
+
+	public void SetHighlightingMe(bool highlighting)
+	{
+		highlightingMe = highlighting;
+
+		if (!highlightCursor.HasValue || !IsCameraInHighlightableState())
+			return;
+
+		if (highlighting)
+			cursor.SetCursor(highlightCursor.Value);
+		else
+			cursor.SetCursor(CursorType.Basic);
+	}
+
+	public bool IsCameraInHighlightableState()
+	{
+		return cameraInHighlightableState;
+	}
+
+	#endregion
+
+	protected virtual void LeftClicked()
+	{
+		canvasController.DisableActionText(statesAndUiText);
+	}
+	protected virtual void RightClicked()
+	{
+		canvasController.DisableActionText(statesAndUiText);
+	}
+
+	protected virtual bool DontHighlight()
+	{
+		cameraInHighlightableState = statesAndUiText.ContainsKey(cameraController.ControllingState);
+
 		return !cameraInHighlightableState;
 	}
 
-    #endregion
+	#endregion
 }

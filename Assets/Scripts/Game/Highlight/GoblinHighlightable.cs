@@ -16,9 +16,9 @@ public class GoblinHighlightable : Highlightable {
 
 		goblinBehaviour = GetComponent<GoblinBehaviour>();
 
-		statesAndUiText = new Dictionary<ControllingState, List<string>> {
+		statesAndUiText = new Dictionary<CameraControllingState, List<string>> {
 			{
-				ControllingState.ControllingSelf, new List<string>{
+				CameraControllingState.ControllingSelf, new List<string>{
 					"Left click to Control"
 				}
 			}

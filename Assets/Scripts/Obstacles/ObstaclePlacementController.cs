@@ -3,7 +3,8 @@ using UnityEngine;
 using static CameraController;
 using static ObstacleController;
 
-public class ObstaclePlacementController : MonoBehaviour {
+public class ObstaclePlacementController : MonoBehaviour
+{
 	#region Properties
 
 	[HideInInspector]
@@ -30,35 +31,41 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 	#region Events
 
-	private void Awake() {
-		camera = References.Camera.camera;
+	private void Awake()
+	{
+		camera        = References.Camera.camera;
 		ceilingHeight = References.Game.globalObstacles.GetMaxObstacleHeight();
 
 		positionFinalized = false;
-		validMaterial = Resources.Load("Materials/Obstacles/Placement/ValidPlacement") as Material;
-		invalidMaterial = Resources.Load("Materials/Obstacles/Placement/InvalidPlacement") as Material;
+		validMaterial     = Resources.Load("Materials/Obstacles/Placement/ValidPlacement") as Material;
+		invalidMaterial   = Resources.Load("Materials/Obstacles/Placement/InvalidPlacement") as Material;
 
 		validPlacement = true;
 
 		layerMasks = GeneralHelper.GetLayerMasks();
 	}
 
-	private void Update() {
-		if (!positionFinalized) {
+	private void Update()
+	{
+		if (!positionFinalized)
+		{
 			CheckForRaycastHit();
 			MoveOutOfOverlap();
 
-			if (validPlacement){
+			if (validPlacement)
+			{
 				validPlacement = PositionWithinBoundaries(transform.position);
 			}
 
 			ValidPlacementChangeMaterial();
 
-			if (Input.GetButtonDown("Fire1") && validPlacement) {
+			if (Input.GetButtonDown("Fire1") && validPlacement)
+			{
 				FinalizePosition();
 			}
 
-			if (Input.GetButtonDown("Fire2")) {
+			if (Input.GetButtonDown("Fire2"))
+			{
 				RotateIfNotWallObstacle();
 			}
 		}
@@ -68,33 +75,37 @@ public class ObstaclePlacementController : MonoBehaviour {
 
 	#region Methods
 
-		#region Get/Set
+	#region Get/Set
 
-		public bool IsPositionFinalized() {
-			return positionFinalized;
-		}
+	public bool IsPositionFinalized()
+	{
+		return positionFinalized;
+	}
 
-		public List<string> GetActionText() {
-			return actionText;
-		}
+	public List<string> GetActionText()
+	{
+		return actionText;
+	}
 
-		#endregion
-	
-	public void SetHeldObject(GameObject heldObject) {
+	#endregion
+
+	public void SetHeldObject(GameObject heldObject)
+	{
 		PickUpObject pickUpController = heldObject.GetComponent<PickUpObject>();
 
-		if (pickUpController == null) {
+		if (pickUpController == null)
+		{
 			print($"{heldObject.name} can't be picked up");
 			return;
 		}
 
-		placementObject = Instantiate(pickUpController.placementPrefab) as GameObject;
-		placementObject.transform.parent = transform;
+		placementObject                         = Instantiate(pickUpController.placementPrefab) as GameObject;
+		placementObject.transform.parent        = transform;
 		placementObject.transform.localPosition = pickUpController.placementPrefab.transform.position;
 
 		CopyColliderToPlacementModel(heldObject);
 
-		placementObjectRenderers = placementObject.GetComponentsInChildren<MeshRenderer>();
+		placementObjectRenderers     = placementObject.GetComponentsInChildren<MeshRenderer>();
 		heldObjectObstacleController = heldObject.GetComponent<ObstacleController>();
 
 		SetPositionBoundaries();
@@ -102,92 +113,121 @@ public class ObstaclePlacementController : MonoBehaviour {
 		actionText = new List<string> {
 			"Left click to Place"
 		};
-		if (heldObjectObstacleController != null) {
-			if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall) {
+		if (heldObjectObstacleController != null)
+		{
+			if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall)
+			{
 				return;
 			}
 		}
 		actionText.Add("Right click to Rotate");
 	}
 
-	private void CopyColliderToPlacementModel(GameObject heldObject) {
+	private void CopyColliderToPlacementModel(GameObject heldObject)
+	{
 		var colliderToCopy = heldObject.GetComponent<BoxCollider>();
 
-		if (colliderToCopy != null) {
-			placementObjectCollider = placementObject.AddComponent<BoxCollider>(colliderToCopy);
+		if (colliderToCopy != null)
+		{
+			placementObjectCollider           = placementObject.AddComponent<BoxCollider>(colliderToCopy);
 			placementObjectCollider.isTrigger = true;
-		} else {
+		}
+		else
+		{
 			print($"{gameObject.name} doesn't have a box collider");
 		}
 	}
 
-	private void CheckForRaycastHit() {
-        var cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
+	private void CheckForRaycastHit()
+	{
+		var cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMasks["Terrain"])) {
+		if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMasks["Terrain"]))
+		{
 
-			if (heldObjectObstacleController != null) {
+			if (heldObjectObstacleController != null)
+			{
 				if (heldObjectObstacleController.GetSurfaceType().ToString().ToLower() == hitInformation.collider.tag.ToLower() ||
 					(heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling && hitInformation.collider.tag == "Floor") ||
-					heldObjectObstacleController.GetSurfaceType() == SurfaceType.Any) {
+					heldObjectObstacleController.GetSurfaceType() == SurfaceType.Any)
+				{
 					validPlacement = true;
-				} else {
+				}
+				else
+				{
 					validPlacement = false;
 				}
-			} else {
+			}
+			else
+			{
 				validPlacement = true;
 			}
-	
+
 			var (position, rotation) = GetValidPositionAndRotation(hitInformation);
 			transform.position = position;
 			transform.rotation = rotation;
-        }
+		}
 	}
 
-	private (Vector3, Quaternion) GetValidPositionAndRotation(RaycastHit hitInformation) {
-        var position = hitInformation.point;
+	private (Vector3, Quaternion) GetValidPositionAndRotation(RaycastHit hitInformation)
+	{
+		var position = hitInformation.point;
 		var rotation = transform.rotation;
-		
-		if (heldObjectObstacleController == null) {
+
+		if (heldObjectObstacleController == null)
+		{
 			return (MoveColliderVertically(placementObjectCollider, position), rotation);
 		}
 
-		if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Floor) {
-			if (heldObjectObstacleController.gameObject.GetComponent<Rigidbody>()) {
+		if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Floor)
+		{
+			if (heldObjectObstacleController.gameObject.GetComponent<Rigidbody>())
+			{
 				// If it is a physics object, it's pivot point is likely in the center of it's collider
 				// So adjust it's position to account for that
 				return (MoveColliderVertically(placementObjectCollider, position), rotation);
 			}
-		} else if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall) {
+		}
+		else if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall)
+		{
 			Vector3 hitNormal = hitInformation.normal;
 			rotation = Quaternion.LookRotation(hitNormal);
 
-			if (Mathf.Abs(hitNormal.x) == 1) {
+			if (Mathf.Abs(hitNormal.x) == 1)
+			{
 				position.x = hitInformation.point.x;
-			} else if (Mathf.Abs(hitNormal.z) == 1) {
+			}
+			else if (Mathf.Abs(hitNormal.z) == 1)
+			{
 				position.z = hitInformation.point.z;
 			}
-		} else if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling) {
+		}
+		else if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling)
+		{
 			position.y = ceilingHeight - 0.5f;
 		}
 
 		return (position, rotation);
 	}
 
-	private Vector3 MoveColliderVertically(Collider collider, Vector3 position) {
+	private Vector3 MoveColliderVertically(Collider collider, Vector3 position)
+	{
 		var minY = collider.bounds.size.y / 2;
 
-			if (position.y <= minY) {
-				position.y = minY;
-			}
+		if (position.y <= minY)
+		{
+			position.y = minY;
+		}
 
-			return position;
+		return position;
 	}
 
-	private void MoveOutOfOverlap() {
+	private void MoveOutOfOverlap()
+	{
 		Collider[] colliders = Physics.OverlapBox(placementObject.transform.position, placementObjectCollider.bounds.size / 2, Quaternion.identity, layerMasks["TerrainWithWallHidden"]);
 
-		foreach (Collider overlappedCollider in colliders) {
+		foreach (Collider overlappedCollider in colliders)
+		{
 			Transform overlappedTransform = overlappedCollider.gameObject.transform;
 			Vector3 direction;
 			float distance;
@@ -198,24 +238,27 @@ public class ObstaclePlacementController : MonoBehaviour {
 				out direction, out distance
 			);
 
-			if (overlapped) {
+			if (overlapped)
+			{
 				transform.position += (direction * distance);
 			}
 		}
 	}
 
-	private void SetPositionBoundaries() {
+	private void SetPositionBoundaries()
+	{
 		(var xBounds, var zBounds) = GeneralHelper.GetFloorObjectBoundaries(true);
 		var wallThicknessOffset = 0.8f;
 
 		xBounds.x += placementObjectCollider.bounds.extents.x + wallThicknessOffset;
-		xBounds.y -= placementObjectCollider.bounds.extents.x  + wallThicknessOffset;
+		xBounds.y -= placementObjectCollider.bounds.extents.x + wallThicknessOffset;
 
 		zBounds.x += placementObjectCollider.bounds.extents.z + wallThicknessOffset;
 		zBounds.y -= placementObjectCollider.bounds.extents.z + wallThicknessOffset;
 
 		var yBound = ceilingHeight - placementObjectCollider.bounds.extents.y;
-		if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling) {
+		if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling)
+		{
 			yBound = ceilingHeight;
 		}
 
@@ -223,15 +266,18 @@ public class ObstaclePlacementController : MonoBehaviour {
 		maximumBoundary = new Vector3(xBounds.y, yBound, zBounds.y);
 	}
 
-	private bool PositionWithinBoundaries(Vector3 position) {
+	private bool PositionWithinBoundaries(Vector3 position)
+	{
 		if (position.x < minimumBoundary.x
-		|| position.z < minimumBoundary.z) {
+		|| position.z < minimumBoundary.z)
+		{
 			return false;
 		}
 
 		if (position.x > maximumBoundary.x
 		|| position.y > maximumBoundary.y
-		|| position.z > maximumBoundary.z) {
+		|| position.z > maximumBoundary.z)
+		{
 			print($"max {maximumBoundary}");
 			return false;
 		}
@@ -239,27 +285,34 @@ public class ObstaclePlacementController : MonoBehaviour {
 		return true;
 	}
 
-	private void ValidPlacementChangeMaterial() {
+	private void ValidPlacementChangeMaterial()
+	{
 		Material newMaterial;
 		if (validPlacement) newMaterial = validMaterial;
 		else newMaterial = invalidMaterial;
-		
-		if (placementObjectRenderers.Length > 0) {
-			foreach(var renderer in placementObjectRenderers) {
+
+		if (placementObjectRenderers.Length > 0)
+		{
+			foreach (var renderer in placementObjectRenderers)
+			{
 				renderer.material = newMaterial;
 			}
 		}
 	}
 
-	private void FinalizePosition() {
+	private void FinalizePosition()
+	{
 		positionFinalized = true;
-		References.Camera.cameraController.SetControllingState(ControllingState.ControllingSelf);
+		References.Camera.cameraController.ControllingState = CameraControllingState.ControllingSelf;
 		References.UI.canvasController.DisableActionText(actionText);
 	}
 
-	private void RotateIfNotWallObstacle() {
-		if (heldObjectObstacleController != null) {
-			if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall) {
+	private void RotateIfNotWallObstacle()
+	{
+		if (heldObjectObstacleController != null)
+		{
+			if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall)
+			{
 				return;
 			}
 		}

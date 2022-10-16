@@ -2,68 +2,80 @@
 using UnityEngine;
 using static CameraController;
 
-public class TrapHighlightable : ObstacleHighlightable {
-    #region Properties
+public class TrapHighlightable : ObstacleHighlightable
+{
+	#region Properties
 
-    private HealthSystem healthSystem;
-    private GameObject healthBar;
+	private HealthSystem healthSystem;
+	private GameObject healthBar;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    protected override void Awake() {
-        base.Awake();
+	protected override void Awake()
+	{
+		base.Awake();
 
-        healthSystem = GetComponent<HealthSystem>();
+		healthSystem = GetComponent<HealthSystem>();
 
-		statesAndUiText = new Dictionary<ControllingState, List<string>> {
+		statesAndUiText = new Dictionary<CameraControllingState, List<string>> {
 			{
-				ControllingState.ControllingSelf, new List<string>{
+				CameraControllingState.ControllingSelf, new List<string>{
 					"Right click to Modify",
 				}
 			},
 			{
-				ControllingState.ControllingFriendly, new List<string>{
+				CameraControllingState.ControllingFriendly, new List<string>{
 					"Left click to Pick up"
 				}
 			}
 		};
-    }
+	}
 
-    protected override void Update() {		
+	protected override void Update()
+	{
 		base.Update();
 
-        if (healthSystem != null) {
+		if (healthSystem != null)
+		{
 			healthBar = healthSystem.GetHealthBar();
 
-			if (IsHighlightingMe()) {
-				if (!healthBar.activeSelf) {
+			if (IsHighlightingMe())
+			{
+				if (!healthBar.activeSelf)
+				{
 					healthBar.SetActive(true);
 				}
-			} else {
-				if (healthBar.activeSelf) {
+			}
+			else
+			{
+				if (healthBar.activeSelf)
+				{
 					healthBar.SetActive(false);
 				}
 			}
 		}
-    }
+	}
 
 	#endregion
 
 	#region Methods
 
-	protected override void RightClicked() {
-		if (cameraController.GetControllingState() == ControllingState.ControllingSelf) {
+	protected override void RightClicked()
+	{
+		if (cameraController.ControllingState == CameraControllingState.ControllingSelf)
+		{
 			base.RightClicked();
-			
+
 			globalObstacles.ShouldShowTrapDetails(true, gameObject);
 		}
 	}
 
-	protected override bool DontHighlight() {
+	protected override bool DontHighlight()
+	{
 		var dontHighlight = globalObstacles.IsTrapDetailsOpen();
-		
+
 		return dontHighlight || base.DontHighlight();
 	}
 

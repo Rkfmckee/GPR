@@ -4,7 +4,8 @@ using UnityEngine;
 using static CameraController;
 using static CursorData;
 
-public class FriendlyStateListening : FriendlyState {
+public class FriendlyStateListening : FriendlyState
+{
 	#region Properties
 
 	private float ignoreMouseClickTimer;
@@ -18,13 +19,14 @@ public class FriendlyStateListening : FriendlyState {
 	private FriendlyListeningUIController uiController;
 
 	#endregion
-	
+
 	#region Constructor
-	
-	public FriendlyStateListening(GameObject gameObj) : base(gameObj) {
+
+	public FriendlyStateListening(GameObject gameObj) : base(gameObj)
+	{
 		uiController = References.UI.friendlyListeningUIController;
-		camera = References.Camera.camera;
-		References.Camera.cameraController.SetControllingState(ControllingState.ControllingFriendly);
+		camera 		 = References.Camera.camera;
+		References.Camera.cameraController.ControllingState = CameraControllingState.ControllingFriendly;
 
 		tagsToListeningCommands = new Dictionary<string, ListeningCommands> {
 			{"Floor", ListeningCommands.Move},
@@ -34,9 +36,9 @@ public class FriendlyStateListening : FriendlyState {
 			{"HeldObstacle", ListeningCommands.PickUpSpawned}
 		};
 		commandUiExists = false;
-		
+
 		var layerMasks = GeneralHelper.GetLayerMasks();
-		layerMask = ~(layerMasks["WallHidden"] | layerMasks["Ignore Raycast"]);
+		layerMask  	   = ~(layerMasks["WallHidden"] | layerMasks["Ignore Raycast"]);
 
 		ResetIgnoreMouseClickTimer();
 	}
@@ -45,7 +47,8 @@ public class FriendlyStateListening : FriendlyState {
 
 	#region Events
 
-	public override void Update() {
+	public override void Update()
+	{
 		base.Update();
 
 		GetPointTargeted();
@@ -55,8 +58,10 @@ public class FriendlyStateListening : FriendlyState {
 
 	#region Methods
 
-	private bool ShouldIgnoreMouseClick() {
-		if (ignoreMouseClickTimer < ignoreMouseClickTime) {
+	private bool ShouldIgnoreMouseClick()
+	{
+		if (ignoreMouseClickTimer < ignoreMouseClickTime)
+		{
 			ignoreMouseClickTimer += Time.deltaTime;
 			return true;
 		}
@@ -64,38 +69,45 @@ public class FriendlyStateListening : FriendlyState {
 		return false;
 	}
 
-	private void ResetIgnoreMouseClickTimer() {
+	private void ResetIgnoreMouseClickTimer()
+	{
 		ignoreMouseClickTimer = 0;
-		ignoreMouseClickTime = 0.5f;
+		ignoreMouseClickTime  = 0.5f;
 	}
 
-	private void GetPointTargeted() {
+	private void GetPointTargeted()
+	{
 		Ray cameraToMouseRay = camera.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hitInformation;
 
-		if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMask)) {
+		if (Physics.Raycast(cameraToMouseRay, out hitInformation, Mathf.Infinity, layerMask))
+		{
 			var hitTag = hitInformation.transform.tag;
 
-			if (!tagsToListeningCommands.ContainsKey(hitTag)) {
+			if (!tagsToListeningCommands.ContainsKey(hitTag))
+			{
 				DisableListeningCommand();
 				return;
 			}
 
 			var hitCommand = tagsToListeningCommands[hitTag];
 
-			if (!commandUiExists) {
+			if (!commandUiExists)
+			{
 				EnableListeningCommand();
 			}
 
-			if (hitCommand != currentCommand) {
+			if (hitCommand != currentCommand)
+			{
 				currentCommand = hitCommand;
 				uiController.ChangeListeningCommandText(hitCommand.GetDescription());
-				
+
 				References.UI.canvasController.DisableActionText();
 				References.UI.canvasController.EnableActionText($"Left click to {hitCommand.GetDescription()}");
 
 				var cursorType = CursorData.ListeningCommandToCursorType(currentCommand.Value);
-				if (cursorType.HasValue) {
+				if (cursorType.HasValue)
+				{
 					cursor.SetCursor(cursorType.Value);
 				}
 			}
@@ -104,11 +116,14 @@ public class FriendlyStateListening : FriendlyState {
 		}
 	}
 
-	private void PerformCommandOnClick(ListeningCommands command, RaycastHit hitInformation) {
+	private void PerformCommandOnClick(ListeningCommands command, RaycastHit hitInformation)
+	{
 		if (ShouldIgnoreMouseClick()) return;
 
-		if (Input.GetButtonDown("Fire1")) {
-			switch (command) {
+		if (Input.GetButtonDown("Fire1"))
+		{
+			switch (command)
+			{
 				case ListeningCommands.Move:
 					MoveCommand(hitInformation.point);
 					break;
@@ -125,31 +140,36 @@ public class FriendlyStateListening : FriendlyState {
 		}
 	}
 
-	private void MoveCommand(Vector3 targetPosition) {
+	private void MoveCommand(Vector3 targetPosition)
+	{
 		DisableListeningCommand();
 		behaviour.CurrentState = new FriendlyStateGoTo(gameObject, targetPosition);
 	}
 
-	private void PickupCommand(GameObject pickupObject) {
+	private void PickupCommand(GameObject pickupObject)
+	{
 		DisableListeningCommand();
 		behaviour.CurrentState = new FriendlyStatePickupObject(gameObject, pickupObject);
 	}
 
-	private void PickupCommand(GameObject pickupObject, GameObject heldObject) {
+	private void PickupCommand(GameObject pickupObject, GameObject heldObject)
+	{
 		DisableListeningCommand();
 		behaviour.CurrentState = new FriendlyStatePickupObject(gameObject, pickupObject, heldObject);
 	}
 
-	private void EnableListeningCommand() {
+	private void EnableListeningCommand()
+	{
 		uiController.EnableListeningCommand();
 		commandUiExists = true;
 	}
 
-	private void DisableListeningCommand() {
+	private void DisableListeningCommand()
+	{
 		uiController.DisableListeningCommand();
 		commandUiExists = false;
 		currentCommand = null;
-		
+
 		cursor.SetCursor(CursorType.Basic);
 		References.UI.canvasController.DisableActionText();
 	}
@@ -158,7 +178,8 @@ public class FriendlyStateListening : FriendlyState {
 
 	#region Enums
 
-	public enum ListeningCommands {
+	public enum ListeningCommands
+	{
 		[Description("Move")]
 		Move,
 		[Description("Pick up")]

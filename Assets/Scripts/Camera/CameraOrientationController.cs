@@ -2,10 +2,12 @@ using System.Collections;
 using UnityEngine;
 using static CameraController;
 
-public class CameraOrientationController : MonoBehaviour {
-	#region Properties
+public class CameraOrientationController : MonoBehaviour
+{
+	#region Fields
 
-	public float orientationChangeTime;
+	[SerializeField]
+	private float orientationChangeTime;
 
 	private CameraOrientation currentOrientation;
 	private Quaternion angledRotation;
@@ -18,23 +20,32 @@ public class CameraOrientationController : MonoBehaviour {
 
 	#endregion
 
+	#region Properties
+
+	public CameraOrientation CurrentOrientation { get => currentOrientation; set => currentOrientation = value; }
+
+	#endregion
+
 	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		cameraController = GetComponent<CameraController>();
-		seeThroughWalls = GetComponent<CameraSeeThroughWalls>();
-		
-		angledRotation = transform.rotation;
-		topDownRotation = Quaternion.Euler(90, 0, 0);
-		angledHeight = transform.position.y;
+		seeThroughWalls  = GetComponent<CameraSeeThroughWalls>();
+
+		angledRotation     = transform.rotation;
+		topDownRotation    = Quaternion.Euler(90, 0, 0);
+		angledHeight       = transform.position.y;
 		currentOrientation = CameraOrientation.ANGLED;
 	}
 
-	private void Update() {
-		if (cameraController.GetMovementState() == CameraMovementState.Transitioning)
-		return;
+	private void Update()
+	{
+		if (cameraController.MovementState == CameraMovementState.Transitioning)
+			return;
 
-		if (Input.GetButtonDown("Jump")) {
+		if (Input.GetButtonDown("Jump"))
+		{
 			ChangeOrientation();
 		}
 	}
@@ -43,22 +54,12 @@ public class CameraOrientationController : MonoBehaviour {
 
 	#region Methods
 
-		#region Get/Set
-
-		public CameraOrientation GetCurrentOrientation() {
-			return currentOrientation;
-		}
-
-		public void SetCurrentOrientation(CameraOrientation orientation) {
-			currentOrientation = orientation;
-		}
-
-		#endregion
-
-	private void ChangeOrientation() {
+	private void ChangeOrientation()
+	{
 		CameraOrientation orientation = CameraOrientation.TOP_DOWN;
 
-		if (currentOrientation == CameraOrientation.TOP_DOWN) {
+		if (currentOrientation == CameraOrientation.TOP_DOWN)
+		{
 			orientation = CameraOrientation.ANGLED;
 		}
 
@@ -69,43 +70,50 @@ public class CameraOrientationController : MonoBehaviour {
 
 	#region Coroutine
 
-	private IEnumerator TransitionOrientation(CameraOrientation orientation) {
-		cameraController.SetMovementState(CameraMovementState.Transitioning);
+	private IEnumerator TransitionOrientation(CameraOrientation orientation)
+	{
+		cameraController.MovementState = CameraMovementState.Transitioning;
 		float topDownHeight = angledHeight + 7;
 
 		orientationChangeTimeCurrent = 0;
-		Quaternion rotationFrom = angledRotation;
-		Quaternion rotationTo = topDownRotation;
-		Vector3 heightFrom = new Vector3(transform.position.x, angledHeight, transform.position.z);
-		Vector3 heightTo = new Vector3(transform.position.x, topDownHeight, transform.position.z);
+		Quaternion rotationFrom      = angledRotation;
+		Quaternion rotationTo        = topDownRotation;
+		Vector3 heightFrom           = new Vector3(transform.position.x, angledHeight, transform.position.z);
+		Vector3 heightTo             = new Vector3(transform.position.x, topDownHeight, transform.position.z);
 
-		Vector2 zBounds = cameraController.GetZBounds();
-		float clampZOffset = cameraController.GetClampZOffset();
+		Vector2 zBounds = cameraController.ZBounds;
+		float clampZOffset = cameraController.ClampZOffset;
 
-		if (orientation == CameraOrientation.ANGLED) {	
-			rotationFrom = topDownRotation;
-			rotationTo = angledRotation;
+		if (orientation == CameraOrientation.ANGLED)
+		{
+			rotationFrom  = topDownRotation;
+			rotationTo    = angledRotation;
 			topDownHeight = transform.position.y;
-			heightFrom = new Vector3(transform.position.x, topDownHeight, transform.position.z);
-			heightTo = new Vector3(transform.position.x, angledHeight, transform.position.z);
+			heightFrom    = new Vector3(transform.position.x, topDownHeight, transform.position.z);
+			heightTo      = new Vector3(transform.position.x, angledHeight, transform.position.z);
 
 			// Accomodate for the zOffset at the top
 			var maxZ = zBounds.y - clampZOffset;
-			if (transform.position.z > maxZ) {
+			if (transform.position.z > maxZ)
+			{
 				heightTo.z = maxZ;
 			}
-		} else {
+		}
+		else
+		{
 			// Accomodate for the zOffset at the bottom
-			if (transform.position.z < zBounds.x) {
+			if (transform.position.z < zBounds.x)
+			{
 				heightTo.z = zBounds.x;
 			}
 		}
 
-		while (orientationChangeTimeCurrent < orientationChangeTime) {
+		while (orientationChangeTimeCurrent < orientationChangeTime)
+		{
 			float time = orientationChangeTimeCurrent / orientationChangeTime;
 
-			transform.rotation = Quaternion.Lerp(rotationFrom, rotationTo, time);
-			transform.position = Vector3.Lerp(heightFrom, heightTo, time);
+			transform.rotation            = Quaternion.Lerp(rotationFrom, rotationTo, time);
+			transform.position            = Vector3.Lerp(heightFrom, heightTo, time);
 			orientationChangeTimeCurrent += Time.deltaTime;
 
 			yield return null;
@@ -113,22 +121,26 @@ public class CameraOrientationController : MonoBehaviour {
 
 		transform.position = heightTo;
 
-		if (orientation == CameraOrientation.ANGLED) {
+		if (orientation == CameraOrientation.ANGLED)
+		{
 			transform.rotation = angledRotation;
-		} else {
+		}
+		else
+		{
 			transform.rotation = topDownRotation;
 			seeThroughWalls.ClearAllHiddenObjects();
 		}
 
-		currentOrientation = orientation;
-		cameraController.SetMovementState(CameraMovementState.ControlledByPlayer);
+		currentOrientation             = orientation;
+		cameraController.MovementState = CameraMovementState.ControlledByPlayer;
 	}
 
 	#endregion
 
 	#region Enums
 
-	public enum CameraOrientation {
+	public enum CameraOrientation
+	{
 		TOP_DOWN,
 		ANGLED
 	}

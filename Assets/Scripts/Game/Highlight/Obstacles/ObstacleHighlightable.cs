@@ -13,9 +13,9 @@ public class ObstacleHighlightable : Highlightable {
     protected override void Awake() {
         base.Awake();
 
-		statesAndUiText = new Dictionary<ControllingState, List<string>> {
+		statesAndUiText = new Dictionary<CameraControllingState, List<string>> {
 			{
-				ControllingState.ControllingFriendly, new List<string>{
+				CameraControllingState.ControllingFriendly, new List<string>{
 					"Left click to Pick up"
 				}
 			}

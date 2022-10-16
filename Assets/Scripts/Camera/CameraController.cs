@@ -2,44 +2,62 @@
 using static GeneralHelper;
 using static CameraOrientationController;
 
-public class CameraController : MonoBehaviour {
-	#region Properties
+public class CameraController : MonoBehaviour
+{
+	#region Fields
 
-	public float cameraTransitionTime;
-	public float movementSpeed;
-	[VectorLabels("Minimum", "Maximum")]
-	public Vector2 yBounds;
+	[SerializeField]
+	private float cameraTransitionTime;
+	[SerializeField]
+	private float movementSpeed;
+	[SerializeField][VectorLabels("Minimum", "Maximum")]
+	private Vector2 yBounds;
 
 	private Vector2 xBounds;
 	private Vector2 zBounds;
 	private Vector3 velocity;
-	private ControllingState controllingState;
-	private CameraMovementState movementState;
 	private float clampZOffset;
+	private CameraControllingState controllingState;
+	private CameraMovementState movementState;
 
 	private CameraOrientationController orientationController;
 
 	#endregion
 
+	#region Properties
+
+	public Vector2 ZBounds { get => zBounds; }
+
+	public float ClampZOffset { get => clampZOffset; }
+
+	public CameraControllingState ControllingState { get => controllingState; set => controllingState = value; }
+
+	public CameraMovementState MovementState { get => movementState; set => movementState = value; }
+
+	#endregion
+
 	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		References.Camera.camera = GetComponent<Camera>();
 		References.Camera.cameraController = this;
-		
+
 		orientationController = GetComponent<CameraOrientationController>();
 
 		clampZOffset = 6;
-		controllingState = ControllingState.ControllingSelf;
+		controllingState = CameraControllingState.ControllingSelf;
 		movementState = CameraMovementState.ControlledByPlayer;
 
 		(xBounds, zBounds) = GeneralHelper.GetFloorObjectBoundaries(false);
 		GeneralHelper.GetLevelSize();
 	}
 
-	void Update() {
+	void Update()
+	{
 		if (movementState == CameraMovementState.Transitioning
-			|| controllingState == ControllingState.ControllingMenu) {
+			|| controllingState == CameraControllingState.ControllingMenu)
+		{
 			return;
 		}
 
@@ -50,44 +68,18 @@ public class CameraController : MonoBehaviour {
 
 	#region Methods
 
-		#region Get/Set
-
-		public ControllingState GetControllingState() {
-			return controllingState;
-		}
-
-		public void SetControllingState(ControllingState state) {
-			controllingState = state;
-		}
-
-		public CameraMovementState GetMovementState() {
-			return movementState;
-		}
-
-		public void SetMovementState(CameraMovementState state) {
-			movementState = state;
-		}
-
-		public Vector2 GetZBounds() {
-			return zBounds;
-		}
-
-		public float GetClampZOffset() {
-			return clampZOffset;
-		}
-
-		#endregion
-
-	private void HandleMovement() {
-		float verticalAxis = Input.GetAxis("Vertical");
+	private void HandleMovement()
+	{
+		float verticalAxis   = Input.GetAxis("Vertical");
 		float horizontalAxis = Input.GetAxis("Horizontal");
-		Vector3 direction = new Vector3(horizontalAxis, verticalAxis, 0);
+		Vector3 direction    = new Vector3(horizontalAxis, verticalAxis, 0);
 
-		if (orientationController.GetCurrentOrientation() == CameraOrientation.ANGLED) {
+		if (orientationController.CurrentOrientation == CameraOrientation.ANGLED)
+		{
 			direction = new Vector3(horizontalAxis, verticalAxis, verticalAxis);
 		}
 
-		direction = NormaliseVectorToKeepDeceleration(direction);
+		direction  = NormaliseVectorToKeepDeceleration(direction);
 		direction += AddScrollMovement();
 
 		Vector3 movementAmount = direction * movementSpeed * Time.deltaTime;
@@ -95,31 +87,36 @@ public class CameraController : MonoBehaviour {
 		ClampPositionBoundaries();
 	}
 
-	private Vector3 AddScrollMovement() {
-		if (orientationController.GetCurrentOrientation() != CameraOrientation.TOP_DOWN)
+	private Vector3 AddScrollMovement()
+	{
+		if (orientationController.CurrentOrientation != CameraOrientation.TOP_DOWN)
 			return Vector3.zero;
-		
+
 		float scrollAxis = Input.GetAxis("Mouse ScrollWheel");
 		return Vector3.forward * scrollAxis * 50;
 	}
 
-	private void ClampPositionBoundaries() {
+	private void ClampPositionBoundaries()
+	{
 		// Positions stored as Vector2's
 		// X = minimum, Y = maximum
-		
-		Vector3 clampedPosition = transform.position;
-		float zOffset = 0;
 
-		if (orientationController.GetCurrentOrientation() == CameraOrientation.TOP_DOWN) {
-			float clampedY = Mathf.Clamp(clampedPosition.y, yBounds.x, yBounds.y);
+		var clampedPosition = transform.position;
+		var zOffset         = 0f;
+
+		if (orientationController.CurrentOrientation == CameraOrientation.TOP_DOWN)
+		{
+			var clampedY = Mathf.Clamp(clampedPosition.y, yBounds.x, yBounds.y);
 			clampedPosition.y = clampedY;
-		} else {
+		}
+		else
+		{
 			zOffset = -clampZOffset;
 		}
 
-		float clampedX = Mathf.Clamp(clampedPosition.x, xBounds.x, xBounds.y);
+		var clampedX      = Mathf.Clamp(clampedPosition.x, xBounds.x, xBounds.y);
 		clampedPosition.x = clampedX;
-		float clampedZ = Mathf.Clamp(clampedPosition.z, zBounds.x + zOffset, zBounds.y + zOffset);
+		var clampedZ      = Mathf.Clamp(clampedPosition.z, zBounds.x + zOffset, zBounds.y + zOffset);
 		clampedPosition.z = clampedZ;
 
 		transform.position = clampedPosition;
@@ -150,14 +147,16 @@ public class CameraController : MonoBehaviour {
 
 	#region Enums
 
-		public enum ControllingState {
+	public enum CameraControllingState
+	{
 		ControllingSelf,
 		ControllingFriendly,
 		ControllingObstaclePlacement,
 		ControllingMenu
 	}
-	
-	public enum CameraMovementState {
+
+	public enum CameraMovementState
+	{
 		Transitioning,
 		ControlledByPlayer
 	}
