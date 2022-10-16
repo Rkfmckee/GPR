@@ -4,7 +4,7 @@ using static CameraController;
 
 public class TrapHighlightable : ObstacleHighlightable
 {
-	#region Properties
+	#region Fields
 
 	private HealthSystem healthSystem;
 	private GameObject healthBar;
@@ -41,7 +41,7 @@ public class TrapHighlightable : ObstacleHighlightable
 		{
 			healthBar = healthSystem.GetHealthBar();
 
-			if (IsHighlightingMe())
+			if (HighlightingMe)
 			{
 				if (!healthBar.activeSelf)
 				{

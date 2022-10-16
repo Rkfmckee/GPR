@@ -1,16 +1,18 @@
 using static ExtendingTrap;
 
-public class ExtendingTrapHighlightable : TrapHighlightable {
-	#region Properties
+public class ExtendingTrapHighlightable : TrapHighlightable
+{
+	#region Fields
 
 	private ExtendingTrap extendingTrap;
 
 	#endregion
-	
+
 	#region Events
 
-	protected override void Awake() {
-        base.Awake();
+	protected override void Awake()
+	{
+		base.Awake();
 
 		extendingTrap = GetComponent<ExtendingTrap>();
 	}
@@ -19,9 +21,10 @@ public class ExtendingTrapHighlightable : TrapHighlightable {
 
 	#region Methods
 
-	protected override bool DontHighlight() {
+	protected override bool DontHighlight()
+	{
 		var dontHighlight = extendingTrap.GetCurrentState() != ExtendedState.Retracted;
-		
+
 		return dontHighlight || base.DontHighlight();
 	}
 

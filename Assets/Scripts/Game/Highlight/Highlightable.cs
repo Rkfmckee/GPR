@@ -5,7 +5,7 @@ using static CursorData;
 
 public abstract class Highlightable : MonoBehaviour
 {
-	#region Properties
+	#region Fields
 
 	private bool highlightingMe;
 	private bool cameraInHighlightableState;
@@ -17,6 +17,28 @@ public abstract class Highlightable : MonoBehaviour
 	protected CameraController cameraController;
 	private CanvasController canvasController;
 	private CursorController cursor;
+
+	#endregion
+
+	#region Properties
+
+	public bool HighlightingMe {
+		get => highlightingMe;
+		set
+		{
+			highlightingMe = value;
+
+			if (!highlightCursor.HasValue || !CameraInHighlightableState)
+				return;
+
+			if (value)
+				cursor.SetCursor(highlightCursor.Value);
+			else
+				cursor.SetCursor(CursorType.Basic);
+		}
+	}
+
+	public bool CameraInHighlightableState { get => cameraInHighlightableState; }
 
 	#endregion
 
@@ -35,7 +57,7 @@ public abstract class Highlightable : MonoBehaviour
 
 		highlightCursor = null;
 
-		SetHighlightingMe(false);
+		HighlightingMe = false;
 	}
 
 	protected virtual void Start()
@@ -48,9 +70,9 @@ public abstract class Highlightable : MonoBehaviour
 	protected virtual void Update()
 	{
 		if (DontHighlight())
-			SetHighlightingMe(false);
+			HighlightingMe = false;
 
-		if (!IsHighlightingMe())
+		if (!HighlightingMe)
 		{
 			if (outline.enabled)
 			{
@@ -88,33 +110,6 @@ public abstract class Highlightable : MonoBehaviour
 	#endregion
 
 	#region Methods
-
-	#region Get/Set
-
-	public bool IsHighlightingMe()
-	{
-		return highlightingMe;
-	}
-
-	public void SetHighlightingMe(bool highlighting)
-	{
-		highlightingMe = highlighting;
-
-		if (!highlightCursor.HasValue || !IsCameraInHighlightableState())
-			return;
-
-		if (highlighting)
-			cursor.SetCursor(highlightCursor.Value);
-		else
-			cursor.SetCursor(CursorType.Basic);
-	}
-
-	public bool IsCameraInHighlightableState()
-	{
-		return cameraInHighlightableState;
-	}
-
-	#endregion
 
 	protected virtual void LeftClicked()
 	{

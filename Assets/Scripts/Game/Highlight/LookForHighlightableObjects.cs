@@ -1,72 +1,83 @@
 ﻿using UnityEngine;
 
-public class LookForHighlightableObjects : MonoBehaviour {
-    #region Properties
+public class LookForHighlightableObjects : MonoBehaviour
+{
+	#region Field
 
-    private GameObject lastHighlighted;
+	private GameObject lastHighlighted;
 	private int layerMask;
 
 	private new Camera camera;
-    private CanvasController canvasController;
+	private CanvasController canvasController;
 	private GlobalObstaclesController gameTrapsController;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    private void Awake() {
-        camera = Camera.main;
-		
+	private void Awake()
+	{
+		camera = Camera.main;
+
 		var layerMasks = GeneralHelper.GetLayerMasks();
 		layerMask = ~(layerMasks["WallHidden"] | layerMasks["Ignore Raycast"]);
-    }
+	}
 
-	private void Start() {
+	private void Start()
+	{
 		canvasController = References.UI.canvasController;
 		gameTrapsController = References.Game.globalObstacles;
 	}
 
-    private void Update() {
-		if (gameTrapsController.IsInventoryOpen()) {
+	private void Update()
+	{
+		if (gameTrapsController.IsInventoryOpen())
+		{
 			ClearLastHighlighted();
 			return;
 		}
 
 		LookForObjects();
-    }
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    private void LookForObjects() {
-        RaycastHit hit;
-        Ray cameraToMouse = camera.ScreenPointToRay(Input.mousePosition);
+	private void LookForObjects()
+	{
+		RaycastHit hit;
+		Ray cameraToMouse = camera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity, layerMask)) {
-            GameObject currentHit = hit.transform.gameObject;
-            Highlightable highlightScript = currentHit.GetComponent<Highlightable>();
-			
-			if (highlightScript == null) {
+		if (Physics.Raycast(cameraToMouse, out hit, Mathf.Infinity, layerMask))
+		{
+			GameObject currentHit = hit.transform.gameObject;
+			Highlightable highlightScript = currentHit.GetComponent<Highlightable>();
+
+			if (highlightScript == null)
+			{
 				ClearLastHighlighted();
 				return;
 			}
 
-			if (currentHit != lastHighlighted) {
+			if (currentHit != lastHighlighted)
+			{
 				ClearLastHighlighted();
 
-				highlightScript.SetHighlightingMe(true);
+				highlightScript.HighlightingMe = true;
 				lastHighlighted = currentHit;
 			}
-        }
-    }
+		}
+	}
 
-    private void ClearLastHighlighted() {
-        if (lastHighlighted != null) {
-            lastHighlighted.GetComponent<Highlightable>().SetHighlightingMe(false);
-            lastHighlighted = null;
-        }
-    }
+	private void ClearLastHighlighted()
+	{
+		if (lastHighlighted != null)
+		{
+			lastHighlighted.GetComponent<Highlightable>().HighlightingMe = false;
+			lastHighlighted = null;
+		}
+	}
 
-    #endregion
+	#endregion
 }

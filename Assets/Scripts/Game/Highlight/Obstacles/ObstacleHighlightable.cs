@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using static CameraController;
 
-public class ObstacleHighlightable : Highlightable {
-    #region Properties
+public class ObstacleHighlightable : Highlightable
+{
+	#region Fields
 
-    private PickUpObject pickupController;
+	private PickUpObject pickupController;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    protected override void Awake() {
-        base.Awake();
+	protected override void Awake()
+	{
+		base.Awake();
 
 		statesAndUiText = new Dictionary<CameraControllingState, List<string>> {
 			{
@@ -21,18 +23,20 @@ public class ObstacleHighlightable : Highlightable {
 			}
 		};
 
-        pickupController = GetComponent<PickUpObject>();
-    }
+		pickupController = GetComponent<PickUpObject>();
+	}
 
 	#endregion
 
 	#region Methods
 
-	protected override void LeftClicked() {
+	protected override void LeftClicked()
+	{
 		base.LeftClicked();
 	}
 
-	protected override void RightClicked() {
+	protected override void RightClicked()
+	{
 		base.RightClicked();
 	}
 

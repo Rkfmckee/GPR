@@ -1,18 +1,19 @@
 using System.Collections.Generic;
-using UnityEngine;
 using static CameraController;
 using static NotificationController;
 
-public class CraftingStationHighlightable : Highlightable {
-	#region Properties
+public class CraftingStationHighlightable : Highlightable
+{
+	#region Fields
 
 	private CraftingStation craftingStation;
 
 	#endregion
-	
+
 	#region Events
 
-	protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
 
 		craftingStation = GetComponent<CraftingStation>();
@@ -28,18 +29,21 @@ public class CraftingStationHighlightable : Highlightable {
 		highlightCursor = CursorData.CursorType.Craft;
 	}
 
-	protected override void Update() {
+	protected override void Update()
+	{
 		base.Update();
 	}
 
 	#endregion
-	
+
 	#region Methods
-	
-	protected override void LeftClicked() {
+
+	protected override void LeftClicked()
+	{
 		base.LeftClicked();
 
-		if (!craftingStation.CheckCraftingAreaIsClear()) {
+		if (!craftingStation.CheckCraftingAreaIsClear())
+		{
 			References.UI.notifications.AddNotification("Cannot craft until crafting area is clear", NotificationType.Error);
 			return;
 		}
@@ -47,11 +51,13 @@ public class CraftingStationHighlightable : Highlightable {
 		globalObstacles.ShouldShowCraftingMenu(true, craftingStation);
 	}
 
-	protected override void RightClicked() {
+	protected override void RightClicked()
+	{
 		base.RightClicked();
 	}
 
-	protected override bool DontHighlight() {
+	protected override bool DontHighlight()
+	{
 		return base.DontHighlight() || craftingStation.IsCurrentlyCrafting();
 	}
 

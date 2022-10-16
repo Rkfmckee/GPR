@@ -1,31 +1,36 @@
-﻿public class ChestHighlightable : Highlightable {
-    #region Properties
+﻿public class ChestHighlightable : Highlightable
+{
+	#region Fields
 
-    private Chest chestController;
+	private Chest chestController;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    protected override void Awake() {
-        base.Awake();
+	protected override void Awake()
+	{
+		base.Awake();
 
-        chestController = GetComponent<Chest>();
-    }
+		chestController = GetComponent<Chest>();
+	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    protected override void LeftClicked() {
-        if (chestController.GetCurrentState() == Chest.ChestState.Closed) {
-            chestController.Open();
+	protected override void LeftClicked()
+	{
+		if (chestController.GetCurrentState() == Chest.ChestState.Closed)
+		{
+			chestController.Open();
 
-            globalObstacles.ShouldShowCraftingMenu(true);
-        }
-    }
+			globalObstacles.ShouldShowCraftingMenu(true);
+		}
+	}
 
-	protected override void RightClicked() {
+	protected override void RightClicked()
+	{
 	}
 
 	#endregion

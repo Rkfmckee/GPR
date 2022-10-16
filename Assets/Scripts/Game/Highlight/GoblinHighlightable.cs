@@ -1,18 +1,19 @@
 using System.Collections.Generic;
-using UnityEngine;
 using static CameraController;
 
-public class GoblinHighlightable : Highlightable {
-    #region Properties
+public class GoblinHighlightable : Highlightable
+{
+	#region Fields
 
-    private GoblinBehaviour goblinBehaviour;
+	private GoblinBehaviour goblinBehaviour;
 
-    #endregion
+	#endregion
 
-    #region Events
+	#region Events
 
-    protected override void Awake() {
-        base.Awake();
+	protected override void Awake()
+	{
+		base.Awake();
 
 		goblinBehaviour = GetComponent<GoblinBehaviour>();
 
@@ -25,32 +26,37 @@ public class GoblinHighlightable : Highlightable {
 		};
 
 		highlightCursor = CursorData.CursorType.BasicGreen;
-    }
+	}
 
-	protected override void Update() {
+	protected override void Update()
+	{
 		base.Update();
 	}
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    protected override void LeftClicked() {
+	protected override void LeftClicked()
+	{
 		base.LeftClicked();
 
-        if (goblinBehaviour == null) {
-            print($"{gameObject} doesn't have a GoblinBehaviour");
-            return;
-        }
+		if (goblinBehaviour == null)
+		{
+			print($"{gameObject} doesn't have a GoblinBehaviour");
+			return;
+		}
 
 		goblinBehaviour.CurrentlyControlled = true;
-    }
+	}
 
-	protected override void RightClicked() {
+	protected override void RightClicked()
+	{
 		base.RightClicked();
 	}
 
-	protected override bool DontHighlight() {
+	protected override bool DontHighlight()
+	{
 		return base.DontHighlight() || goblinBehaviour.CurrentState is FriendlyStatePickupObject;
 	}
 
