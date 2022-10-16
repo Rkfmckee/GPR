@@ -1,32 +1,36 @@
 ﻿using UnityEngine;
 using static NotificationController;
 
-public class PreparingStage : Stage {
+public class PreparingStage : Stage
+{
+	#region Methods
 
-    #region Methods
+	public override void StageStart()
+	{
+		var storageRoom = References.storageRoom.GetComponent<StorageRoom>();
+		stageID = "PREP";
 
-    public override void StageStart() {
-        stageID = "PREP";
-        StorageRoom storageRoom = References.storageRoom.GetComponent<StorageRoom>();
+		if (!storageRoom.IsDoorOpen())
+		{
+			storageRoom.Open();
+		}
+	}
 
-        if (!storageRoom.IsDoorOpen()) {
-            storageRoom.Open();
-        }
-    }
+	public override void StageUISetup()
+	{
+		var canvas               = References.UI.canvas.transform;
+		var roundStageBackground = canvas.Find("RoundStage").Find("RoundStageBackground").transform;
+		var startButton          = canvas.transform.Find("RoundStage").Find("RoundStageBackground").Find("StartRoundButton").GetComponent<StartRoundButton>();
 
-    public override void StageUISetup() {
-        Transform canvas = References.UI.canvas.transform;
-        Transform roundStageBackground = canvas.Find("RoundStage").Find("RoundStageBackground").transform;
-        StartRoundButton startButton = canvas.transform.Find("RoundStage").Find("RoundStageBackground").Find("StartRoundButton").GetComponent<StartRoundButton>();
+		roundStageBackground.Find("PlanningStage").gameObject.SetActive(true);
+		roundStageBackground.Find("DefendingStage").gameObject.SetActive(false);
+		startButton.SetStartButtonPressed(false);
+	}
 
-        roundStageBackground.Find("PlanningStage").gameObject.SetActive(true);
-        roundStageBackground.Find("DefendingStage").gameObject.SetActive(false);
-        startButton.SetStartButtonPressed(false);
-    }
+	public override void StageEnd()
+	{
+		References.UI.notifications.AddNotification("Defend your allies and valuables!", NotificationType.Info);
+	}
 
-    public override void StageEnd() {
-        References.UI.notifications.AddNotification("Defend your allies and valuables!", NotificationType.Info);
-    }
-
-    #endregion
+	#endregion
 }

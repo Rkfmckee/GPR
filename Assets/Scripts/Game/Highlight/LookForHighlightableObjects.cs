@@ -2,7 +2,7 @@
 
 public class LookForHighlightableObjects : MonoBehaviour
 {
-	#region Field
+	#region Fields
 
 	private GameObject lastHighlighted;
 	private int layerMask;

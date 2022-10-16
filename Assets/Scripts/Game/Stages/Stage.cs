@@ -1,23 +1,25 @@
-﻿public abstract class Stage {
+﻿public abstract class Stage
+{
+	#region Fields
 
-    #region Properties
+	protected string stageID = "NULL";
 
-    protected string stageID = "NULL";
+	#endregion
 
-    #endregion
+	#region Properties
 
-    #region Methods
+	public string StageID { get => stageID; }
 
-    public string GetStageID() {
-        return stageID;
-    }
+	#endregion
 
-    public abstract void StageStart();
+	#region Methods
 
-    public abstract void StageUISetup();
+	public abstract void StageStart();
 
-    public abstract void StageEnd();
+	public abstract void StageUISetup();
 
-    #endregion
+	public abstract void StageEnd();
+
+	#endregion
 
 }

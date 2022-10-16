@@ -1,27 +1,29 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class DefendingAgainstHeroStage : DefendingStage {
-    #region Properties
+public class DefendingAgainstHeroStage : DefendingStage
+{
+	#region Fields
 
-    protected GameObject enemyPrefab;
+	protected GameObject enemyPrefab;
 
-    #endregion
+	#endregion
 
-    #region Methods
+	#region Methods
 
-    public override void StageStart() {
-        base.StageStart();
-        stageID += "_HERO";
+	public override void StageStart()
+	{
+		base.StageStart();
+		stageID += "_HERO";
 
-        enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
-        Transform enemySpawnArea = References.HostileCreature.spawnArea.transform;
+		enemyPrefab    	   = Resources.Load<GameObject>("Prefabs/Enemy");
+		var enemySpawnArea = References.HostileCreature.spawnArea.transform;
 
-        enemies = new List<GameObject>();
-        enemies.Add(Object.Instantiate(enemyPrefab, enemySpawnArea.position, Quaternion.LookRotation(-Vector3.forward)));
+		enemies = new List<GameObject>();
+		enemies.Add(Object.Instantiate(enemyPrefab, enemySpawnArea.position, Quaternion.LookRotation(-Vector3.forward)));
 
-        References.HostileCreature.enemies = enemies;
-    }
+		References.HostileCreature.enemies = enemies;
+	}
 
-    #endregion
+	#endregion
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-public class RoundStageController : MonoBehaviour {
-	#region Properties
+public class RoundStageController : MonoBehaviour
+{
+	#region Fields
 
 	private Stage currentStage;
 
@@ -9,9 +10,11 @@ public class RoundStageController : MonoBehaviour {
 
 	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		References.Game.globalGameObject = gameObject;
-		References.Game.roundStage = this;
+		References.Game.roundStage       = this;
+
 		currentStage = new PreparingStage();
 		currentStage.StageStart();
 	}
@@ -20,11 +23,13 @@ public class RoundStageController : MonoBehaviour {
 
 	#region Methods
 
-	public Stage GetCurrentStage() {
+	public Stage GetCurrentStage()
+	{
 		return currentStage;
 	}
 
-	public void SetCurrentStage(Stage stage) {
+	public void SetCurrentStage(Stage stage)
+	{
 		currentStage.StageEnd();
 		currentStage = stage;
 		currentStage.StageStart();
