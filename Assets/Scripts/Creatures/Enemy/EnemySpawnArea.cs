@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
-public class EnemySpawnArea : MonoBehaviour {
-	#region Properties
+public class EnemySpawnArea : MonoBehaviour
+{
+	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		References.HostileCreature.spawnArea = gameObject;
 	}
 

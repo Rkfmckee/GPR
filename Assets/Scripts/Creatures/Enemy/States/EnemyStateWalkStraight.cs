@@ -1,52 +1,59 @@
 using UnityEngine;
 
-public class EnemyStateWalkStraight : EnemyState {
+public class EnemyStateWalkStraight : EnemyState
+{
+	#region Constructor
 
-    #region Constructor
+	public EnemyStateWalkStraight(GameObject gameObj) : base(gameObj)
+	{
+	}
 
-    public EnemyStateWalkStraight(GameObject gameObj) : base(gameObj) {
-    }
+	#endregion
 
-    #endregion
+	#region Events
 
-    #region Events
+	public override void Update()
+	{
+		ChaseTargetIfInFieldOfView();
+	}
 
-    public override void Update() {
-        ChaseTargetIfInFieldOfView();
-    }
+	public override void FixedUpdate()
+	{
+		movementDirection = WalkForward();
 
-    public override void FixedUpdate() {
-        movementDirection = WalkForward();
+		var movementAmount = movementDirection * (movementSpeed * Time.deltaTime);
+		var newPosition    = transform.position + movementAmount;
+		rigidbody.MovePosition(newPosition);
+		transform.LookAt(newPosition);
+	}
 
-        Vector3 movementAmount = movementDirection * (movementSpeed * Time.deltaTime);
-        Vector3 newPosition = transform.position + movementAmount;
-        rigidbody.MovePosition(newPosition);
-        transform.LookAt(newPosition);
-    }
+	public override void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "WallDecoration")
+		{
+			ChangeDirectionAfterHittingWall(collision);
+		}
+	}
 
-    public override void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "WallDecoration") {
-            ChangeDirectionAfterHittingWall(collision);
-        }
-    }
+	#endregion
 
-    #endregion
+	#region Methods
 
-    #region Methods
+	private Vector3 WalkForward()
+	{
+		var directionToTarget = transform.forward;
+		return directionToTarget;
+	}
 
-    private Vector3 WalkForward() {
-        var directionToTarget = transform.forward;
-        return directionToTarget;
-    }
+	public void ChangeDirectionAfterHittingWall(Collision collision)
+	{
+		var direction = collision.contacts[0].normal;
 
-    public void ChangeDirectionAfterHittingWall(Collision collision) {
-        var direction = collision.contacts[0].normal;
+		direction = Quaternion.AngleAxis(Random.Range(-70.0f, 70.0f), Vector3.up) * direction;
 
-        direction = Quaternion.AngleAxis(Random.Range(-70.0f, 70.0f), Vector3.up) * direction;
+		movementDirection  = direction;
+		transform.rotation = Quaternion.LookRotation(movementDirection);
+	}
 
-        movementDirection = direction;
-        transform.rotation = Quaternion.LookRotation(movementDirection);
-    }
-
-    #endregion
+	#endregion
 }

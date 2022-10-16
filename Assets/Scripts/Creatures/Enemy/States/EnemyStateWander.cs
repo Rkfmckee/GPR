@@ -1,63 +1,69 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyStateWander : EnemyState {
-    
-    #region Properties
+public class EnemyStateWander : EnemyState
+{
+	#region Fields
 
-	private int DISTANCE_TO_STOP = 1;
-
+	private int distanceToStop = 1;
 	private NavMeshAgent navMeshAgent;
 	private Transform movementTarget;
 	private GameObject[] wanderPoints;
 
 	#endregion
-	
+
 	#region Constructor
 
-    public EnemyStateWander(GameObject gameObj) : base(gameObj) {
+	public EnemyStateWander(GameObject gameObj) : base(gameObj)
+	{
 		wanderPoints = GameObject.FindGameObjectsWithTag("WanderPoint");
 		movementTarget = null;
 		navMeshAgent.speed = movementSpeed;
-    }
+	}
 
-    #endregion
+	#endregion
 
-    #region Actions
+	#region Actions
 
-    public override void Update() {
+	public override void Update()
+	{
 		var distanceToTarget = movementTarget != null ? Vector3.Distance(transform.position, movementTarget.position) : 0;
 
 		// If we don't have a target, or have arrived at our target
-		if (movementTarget == null || distanceToTarget < DISTANCE_TO_STOP) {
+		if (movementTarget == null || distanceToTarget < distanceToStop)
+		{
 			ChooseNewMovementTarget();
 		}
 
 		ChaseTargetIfInFieldOfView();
-    }
-    
-    public override void FixedUpdate() {
-    }
+	}
 
-    public override void OnCollisionEnter(Collision collision) {
-    }
+	public override void FixedUpdate()
+	{
+	}
 
-    #endregion
+	public override void OnCollisionEnter(Collision collision)
+	{
+	}
+
+	#endregion
 
 	#region Methods
 
-	public void ChooseNewMovementTarget() {
+	public void ChooseNewMovementTarget()
+	{
 		var pointsWithProbability = new List<Transform>();
 
 		// If a point is farther away, add it to the list more times
 		// so it's more likely to be chosen
-		foreach (var point in wanderPoints) {
+		foreach (var point in wanderPoints)
+		{
 			var pointTransform = point.transform;
-			var distanceToPoint = (int) Vector3.Distance(transform.position, pointTransform.position);
+			var distanceToPoint = (int)Vector3.Distance(transform.position, pointTransform.position);
 
-			for (int i = 0; i < distanceToPoint; i++) {
+			for (int i = 0; i < distanceToPoint; i++)
+			{
 				pointsWithProbability.Add(pointTransform);
 			}
 		}
@@ -66,11 +72,12 @@ public class EnemyStateWander : EnemyState {
 		navMeshAgent.SetDestination(movementTarget.position);
 	}
 
-	protected override void SetupProperties() {
-        base.SetupProperties();
+	protected override void SetupProperties()
+	{
+		base.SetupProperties();
 
 		navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-    }
+	}
 
 	#endregion
 }

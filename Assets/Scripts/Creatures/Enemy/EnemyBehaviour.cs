@@ -2,77 +2,86 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyBehaviour : MonoBehaviour {
-	#region Properties
+public class EnemyBehaviour : MonoBehaviour
+{
+	#region Fields
 
-	public float movementSpeed;
+	[SerializeField]
+	private float movementSpeed;
+
+	private EnemyState currentState;
+	private List<GameObject> allPlayers;
+	private GameObject targetPlayer;
+	private Vector3 movementDirection;
 
 	private new Rigidbody rigidbody;
 	private FieldOfView fieldOfView;
 	private NavMeshAgent navMeshAgent;
 
-	private List<GameObject> allPlayers;
-	private GameObject targetPlayer;
-	private Vector3 movementDirection;
-	private EnemyState currentState;
+	#endregion
+
+	#region Properties
+
+	public float MovementSpeed { get => movementSpeed; }
+
+	public EnemyState CurrentState
+	{
+		get => currentState;
+		set
+		{
+			navMeshAgent.enabled = value is EnemyStateWander;
+			currentState = value;
+		}
+	}
 
 	#endregion
 
 	#region Events
 
-	private void Awake() {
-		rigidbody = GetComponent<Rigidbody>();
-		fieldOfView = GetComponent<FieldOfView>();
+	private void Awake()
+	{
+		rigidbody    = GetComponent<Rigidbody>();
+		fieldOfView  = GetComponent<FieldOfView>();
 		navMeshAgent = GetComponent<NavMeshAgent>();
 
 		movementDirection = transform.forward;
-		SetCurrentState(new EnemyStateWander(gameObject));
+		CurrentState      = new EnemyStateWander(gameObject);
 	}
 
-	private void Start() {
+	private void Start()
+	{
 		allPlayers = References.FriendlyCreature.goblins;
 	}
 
-	private void Update() {
+	private void Update()
+	{
 		if (currentState != null) currentState.Update();
 	}
 
-	private void FixedUpdate() {
+	private void FixedUpdate()
+	{
 		if (currentState != null) currentState.FixedUpdate();
 	}
 
-	private void OnDestroy() {
-		if (References.HostileCreature.enemies.Contains(gameObject)) {
+	private void OnDestroy()
+	{
+		if (References.HostileCreature.enemies.Contains(gameObject))
+		{
 			References.HostileCreature.enemies.Remove(gameObject);
 		}
 
-		if (References.HostileCreature.enemies.Count <= 0) {
-			if (References.Game.roundStage != null) {
+		if (References.HostileCreature.enemies.Count <= 0)
+		{
+			if (References.Game.roundStage != null)
+			{
 				References.Game.roundStage.SetCurrentStage(new PreparingStage());
 			}
 		}
 	}
 
-	private void OnCollisionEnter(Collision collision) {
+	private void OnCollisionEnter(Collision collision)
+	{
 		if (currentState != null) currentState.OnCollisionEnter(collision);
-	}
-
-	#endregion
-
-	#region Methods
-
-	public EnemyState GetCurrentState() {
-		return currentState;
-	}
-
-	public void SetCurrentState(EnemyState state) {
-		if (state is EnemyStateWander) {
-			navMeshAgent.enabled = true;
-		} else {
-			navMeshAgent.enabled = false;
-		}
-
-		currentState = state;
 	}
 
 	#endregion
