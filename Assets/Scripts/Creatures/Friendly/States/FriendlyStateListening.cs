@@ -127,17 +127,17 @@ public class FriendlyStateListening : FriendlyState {
 
 	private void MoveCommand(Vector3 targetPosition) {
 		DisableListeningCommand();
-		behaviour.SetCurrentState(new FriendlyStateGoTo(gameObject, targetPosition));
+		behaviour.CurrentState = new FriendlyStateGoTo(gameObject, targetPosition);
 	}
 
 	private void PickupCommand(GameObject pickupObject) {
 		DisableListeningCommand();
-		behaviour.SetCurrentState(new FriendlyStatePickupObject(gameObject, pickupObject));
+		behaviour.CurrentState = new FriendlyStatePickupObject(gameObject, pickupObject);
 	}
 
 	private void PickupCommand(GameObject pickupObject, GameObject heldObject) {
 		DisableListeningCommand();
-		behaviour.SetCurrentState(new FriendlyStatePickupObject(gameObject, pickupObject, heldObject));
+		behaviour.CurrentState = new FriendlyStatePickupObject(gameObject, pickupObject, heldObject);
 	}
 
 	private void EnableListeningCommand() {

@@ -26,7 +26,7 @@ public class FriendlyStateGoTo : FriendlyState {
 		base.Update();
 
 		if (HasReachedDestination()) {
-			behaviour.SetCurrentState(new FriendlyStateIdle(gameObject));
+			behaviour.CurrentState = new FriendlyStateIdle(gameObject);
 		}
 	}
 

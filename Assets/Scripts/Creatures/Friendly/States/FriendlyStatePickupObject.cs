@@ -110,7 +110,7 @@ public class FriendlyStatePickupObject : FriendlyState {
 
 		ForgetHeldObject();
 
-		behaviour.SetCurrentState(new FriendlyStateIdle(gameObject));
+		behaviour.CurrentState = new FriendlyStateIdle(gameObject);
 	}
 
 	private void ForgetHeldObject() {

@@ -43,7 +43,7 @@ public class GoblinHighlightable : Highlightable {
             return;
         }
 
-		goblinBehaviour.SetCurrentlyControlled(true);
+		goblinBehaviour.CurrentlyControlled = true;
     }
 
 	protected override void RightClicked() {
@@ -51,7 +51,7 @@ public class GoblinHighlightable : Highlightable {
 	}
 
 	protected override bool DontHighlight() {
-		return base.DontHighlight() || goblinBehaviour.GetCurrentState() is FriendlyStatePickupObject;
+		return base.DontHighlight() || goblinBehaviour.CurrentState is FriendlyStatePickupObject;
 	}
 
 	#endregion

@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class FriendlyBehaviour : MonoBehaviour {
-	#region Properties
+public class FriendlyBehaviour : MonoBehaviour
+{
+	#region Fields
 
-	public float movementSpeed;
-
+	[SerializeField]
+	private float movementSpeed;
+	
 	private FriendlyState currentState;
 	private bool currentlyControlled;
 
@@ -13,9 +15,37 @@ public class FriendlyBehaviour : MonoBehaviour {
 
 	#endregion
 
+	#region Properties
+
+	public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
+
+	public FriendlyState CurrentState
+	{
+		get => currentState;
+		set {
+			var shouldFreeze = value is FriendlyStateIdle ||
+							   value is FriendlyStateListening;
+			ShouldFreezeRigidbody(shouldFreeze);
+
+			currentState = value;
+		}
+	}
+
+	public bool CurrentlyControlled
+	{
+		get => currentlyControlled;
+		set {
+			currentlyControlled = value;
+			CurrentState = new FriendlyStateListening(gameObject);
+		}
+	}
+
+	#endregion
+
 	#region Events
 
-	protected virtual void Awake() {
+	protected virtual void Awake()
+	{
 		rigidbody = GetComponent<Rigidbody>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 	}
@@ -24,32 +54,8 @@ public class FriendlyBehaviour : MonoBehaviour {
 
 	#region Methods
 
-		#region Get/Set
-
-		public FriendlyState GetCurrentState() {
-			return currentState;
-		}
-
-		public void SetCurrentState(FriendlyState state) {
-			var shouldFreeze = state is FriendlyStateIdle ||
-								state is FriendlyStateListening;
-			ShouldFreezeRigidbody(shouldFreeze);
-
-			currentState = state;
-		}
-
-		public bool IsCurrentlyControlled() {
-			return currentlyControlled;
-		}
-
-		public void SetCurrentlyControlled(bool controlled) {
-			currentlyControlled = controlled;
-			SetCurrentState(new FriendlyStateListening(gameObject));
-		}
-
-		#endregion
-
-	public void ShouldFreezeRigidbody(bool shouldFreeze) {
+	public void ShouldFreezeRigidbody(bool shouldFreeze)
+	{
 		rigidbody.isKinematic = shouldFreeze;
 		rigidbody.freezeRotation = shouldFreeze;
 	}

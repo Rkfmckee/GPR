@@ -7,11 +7,11 @@
 		
 		References.FriendlyCreature.goblins.Add(gameObject);
 
-		SetCurrentState(new FriendlyStateIdle(gameObject));
+		CurrentState = new FriendlyStateIdle(gameObject);
 	}
 
 	private void Update() {
-		GetCurrentState().Update();
+		CurrentState.Update();
 	}
 
 	#endregion
