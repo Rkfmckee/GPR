@@ -34,7 +34,7 @@ public class ObstaclePlacementController : MonoBehaviour
 	private void Awake()
 	{
 		camera        = References.Camera.camera;
-		ceilingHeight = References.Game.globalObstacles.GetMaxObstacleHeight();
+		ceilingHeight = References.Game.globalObstacles.MaxObstacleHeight;
 
 		positionFinalized = false;
 		validMaterial     = Resources.Load("Materials/Obstacles/Placement/ValidPlacement") as Material;

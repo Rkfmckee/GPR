@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class GlobalObstaclesController : MonoBehaviour {
-	#region Properties
+public class GlobalObstaclesController : MonoBehaviour
+{
+	#region Fields
 
 	private List<GameObject> obstaclePlacements;
 	private GameObject obstaclePlacementPrefab;
@@ -16,19 +17,27 @@ public class GlobalObstaclesController : MonoBehaviour {
 
 	#endregion
 
+	#region Properties
+
+	public float MaxObstacleHeight { get => maxObstacleHeight; }
+
+	#endregion
+
 	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		References.Game.globalObstacles = this;
-		obstaclePlacements = new List<GameObject>();
+		obstaclePlacements              = new List<GameObject>();
 
 		obstaclePlacementPrefab = Resources.Load("Prefabs/Obstacles/ObstaclePlacement") as GameObject;
-		trapLinkingLinePrefab = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
+		trapLinkingLinePrefab   = Resources.Load("Prefabs/UI/TrapLinkingLine") as GameObject;
 
 		maxObstacleHeight = 6;
 	}
 
-	private void Start() {
+	private void Start()
+	{
 		canvasController = References.UI.canvas.GetComponent<CanvasController>();
 	}
 
@@ -36,51 +45,53 @@ public class GlobalObstaclesController : MonoBehaviour {
 
 	#region Methods
 
-	#region Get/Set
-
-	public float GetMaxObstacleHeight() {
-		return maxObstacleHeight;
-	}
-
-	#endregion
-
-	public void ShouldShowCraftingMenu(bool showMenu, CraftingStation craftingStation = null) {
+	public void ShouldShowCraftingMenu(bool showMenu, CraftingStation craftingStation = null)
+	{
 		References.UI.canvas.GetComponent<CanvasController>().SetCraftingMenuVisible(showMenu, craftingStation);
 		inventoryOpen = showMenu;
 	}
 
-	public void ShouldShowTrapDetails(bool showDetails, GameObject trap) {
+	public void ShouldShowTrapDetails(bool showDetails, GameObject trap)
+	{
 		References.UI.canvas.GetComponent<CanvasController>().SetTrapModificationVisible(showDetails, trap);
 		trapModificationOpen = showDetails;
 	}
 
-	public bool IsInventoryOpen() {
+	public bool IsInventoryOpen()
+	{
 		return inventoryOpen;
 	}
 
-	public bool IsTrapDetailsOpen() {
+	public bool IsTrapDetailsOpen()
+	{
 		return trapModificationOpen;
 	}
 
-	public bool IsTrapLinkingLineActive() {
+	public bool IsTrapLinkingLineActive()
+	{
 		return trapLinkingLine != null;
 	}
 
-	public void RemoveTrapLinkingLine() {
-		if (trapLinkingLine != null) {
+	public void RemoveTrapLinkingLine()
+	{
+		if (trapLinkingLine != null)
+		{
 			Destroy(trapLinkingLine);
 		}
 	}
 
-	public void CreateTrapLinkingLine(Transform startTransform) {
-		if (trapLinkingLine == null) {
+	public void CreateTrapLinkingLine(Transform startTransform)
+	{
+		if (trapLinkingLine == null)
+		{
 			trapLinkingLine = Instantiate(trapLinkingLinePrefab);
 			trapLinkingLine.GetComponent<TrapLinkingLine>().SetStartValue(startTransform);
 		}
 	}
 
-	public GameObject EnableObstaclePlacement(GameObject heldObject) {
-		var obstaclePlacement = Instantiate(obstaclePlacementPrefab);
+	public GameObject EnableObstaclePlacement(GameObject heldObject)
+	{
+		var obstaclePlacement           = Instantiate(obstaclePlacementPrefab);
 		var obstaclePlacementController = obstaclePlacement.GetComponent<ObstaclePlacementController>();
 
 		obstaclePlacement.transform.parent = gameObject.transform;
@@ -91,7 +102,8 @@ public class GlobalObstaclesController : MonoBehaviour {
 		return obstaclePlacement;
 	}
 
-	public void DisableObstaclePlacement(GameObject obstaclePlacement) {
+	public void DisableObstaclePlacement(GameObject obstaclePlacement)
+	{
 		if (obstaclePlacement != null) Destroy(obstaclePlacement);
 		obstaclePlacements.Remove(obstaclePlacement);
 	}

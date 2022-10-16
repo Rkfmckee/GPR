@@ -58,9 +58,9 @@ public class ResourcesUI : MonoBehaviour {
 		barWidth = physicalMaterialsBar.GetComponent<RectTransform>().sizeDelta.x;
 		barHeight = physicalMaterialsBar.GetComponent<RectTransform>().sizeDelta.y;
 
-		physicalBarWidthOnePercent = (1f / resourceController.GetPhysicalMaterialMaximum()) * barWidth;
-		magicalBarWidthOnePercent = (1f / resourceController.GetMagicalMaterialMaximum()) * barWidth;
-		valuableBarWidthOnePercent = (1f / resourceController.GetValuableMaximum()) * barWidth;
+		physicalBarWidthOnePercent = (1f / resourceController.PhysicalMaterialMaximum) * barWidth;
+		magicalBarWidthOnePercent = (1f / resourceController.MagicalMaterialMaximum) * barWidth;
+		valuableBarWidthOnePercent = (1f / resourceController.ValuableMaximum) * barWidth;
 
 		UpdateResourcesUI();
 	}
@@ -70,9 +70,9 @@ public class ResourcesUI : MonoBehaviour {
 	#region Methods
 
 	public void UpdateResourcesUI() {
-		var physicalMaterialsAmount = resourceController.GetPhysicalMaterialAmount();
-		var magicalMaterialsAmount = resourceController.GetMagicalMaterialAmount();
-		var valuablesAmount = resourceController.GetValuableAmount();
+		var physicalMaterialsAmount = resourceController.PhysicalMaterialQuantity;
+		var magicalMaterialsAmount = resourceController.MagicalMaterialQuantity;
+		var valuablesAmount = resourceController.ValuableQuantity;
 
 		physicalMaterialsBarRect.sizeDelta = new Vector2(physicalMaterialsAmount * physicalBarWidthOnePercent, barHeight);
 		magicalMaterialsBarRect.sizeDelta = new Vector2(magicalMaterialsAmount * magicalBarWidthOnePercent, barHeight);

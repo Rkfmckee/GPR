@@ -107,11 +107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea30ac699fddb843a87f92723de1fbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxReduction: 0.15
-  MaxIncrease: 0.15
-  RateDamping: 0.1
-  Strength: 300
-  StopFlickering: 0
+  maxReduction: 0.15
+  maxIncrease: 0.15
+  rateDamping: 0.1
+  strength: 300
+  stopFlickering: 0
 --- !u!1 &6758337317441033693
 GameObject:
   m_ObjectHideFlags: 0

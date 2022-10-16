@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class StorageRoom : MonoBehaviour {
-	#region Properties
+public class StorageRoom : MonoBehaviour
+{
+	#region Fields
 
-	public float doorTimeToOpen;
+	[SerializeField]
+	private float doorTimeToOpen;
 
 	private bool playerInStorageRoom;
 	private DoorState doorOpenState;
@@ -18,25 +20,30 @@ public class StorageRoom : MonoBehaviour {
 
 	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		storageRoomCollider = GetComponent<Collider>();
 
 		References.storageRoom = gameObject;
-		storageRoomDoor = transform.Find("StorageRoomDoor").gameObject;
-		doorOpenState = DoorState.Open;
+		storageRoomDoor        = transform.Find("StorageRoomDoor").gameObject;
+		doorOpenState          = DoorState.Open;
 
 		openedRotation = Quaternion.Euler(new Vector3(0, 180, 0));
 		closedRotation = Quaternion.Euler(new Vector3(0, 270, 0));
 	}
 
-	private void OnTriggerEnter(Collider other) {
-		if (other.tag == "Player") {
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "Player")
+		{
 			playerInStorageRoom = true;
 		}
 	}
 
-	private void OnTriggerExit(Collider other) {
-		if (other.tag == "Player") {
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.tag == "Player")
+		{
 			playerInStorageRoom = false;
 		}
 	}
@@ -45,21 +52,25 @@ public class StorageRoom : MonoBehaviour {
 
 	#region Methods
 
-	public void Open() {
+	public void Open()
+	{
 		storageRoomCollider.isTrigger = true;
 		StartCoroutine(OpeningDoor());
 	}
 
-	public void Close() {
+	public void Close()
+	{
 		storageRoomCollider.isTrigger = false;
 		StartCoroutine(ClosingDoor());
 	}
 
-	public bool IsDoorOpen() {
+	public bool IsDoorOpen()
+	{
 		return doorOpenState == DoorState.Open;
 	}
 
-	public bool IsPlayerInside() {
+	public bool IsPlayerInside()
+	{
 		return playerInStorageRoom;
 	}
 
@@ -67,13 +78,15 @@ public class StorageRoom : MonoBehaviour {
 
 	#region Coroutines
 
-	private IEnumerator OpeningDoor() {
+	private IEnumerator OpeningDoor()
+	{
 		print("Opening Storage Room");
 		doorCurrentMovingTime = 0;
 
-		while (doorCurrentMovingTime < doorTimeToOpen) {
-			storageRoomDoor.transform.localRotation = Quaternion.Lerp(closedRotation, openedRotation, doorCurrentMovingTime / doorTimeToOpen);
-			doorCurrentMovingTime += Time.deltaTime;
+		while (doorCurrentMovingTime < doorTimeToOpen)
+		{
+			storageRoomDoor.transform.localRotation  = Quaternion.Lerp(closedRotation, openedRotation, doorCurrentMovingTime / doorTimeToOpen);
+			doorCurrentMovingTime                   += Time.deltaTime;
 
 			yield return null;
 		}
@@ -81,13 +94,15 @@ public class StorageRoom : MonoBehaviour {
 		doorOpenState = DoorState.Open;
 	}
 
-	private IEnumerator ClosingDoor() {
+	private IEnumerator ClosingDoor()
+	{
 		print("Closing Storage Room");
 		doorCurrentMovingTime = 0;
 
-		while (doorCurrentMovingTime < doorTimeToOpen) {
-			storageRoomDoor.transform.localRotation = Quaternion.Lerp(openedRotation, closedRotation, doorCurrentMovingTime / doorTimeToOpen);
-			doorCurrentMovingTime += Time.deltaTime;
+		while (doorCurrentMovingTime < doorTimeToOpen)
+		{
+			storageRoomDoor.transform.localRotation  = Quaternion.Lerp(openedRotation, closedRotation, doorCurrentMovingTime / doorTimeToOpen);
+			doorCurrentMovingTime                   += Time.deltaTime;
 
 			yield return null;
 		}
@@ -99,7 +114,8 @@ public class StorageRoom : MonoBehaviour {
 
 	#region Enums
 
-	public enum DoorState {
+	public enum DoorState
+	{
 		Open,
 		Closed
 	}

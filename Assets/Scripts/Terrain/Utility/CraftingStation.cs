@@ -28,7 +28,7 @@ public class CraftingStation : MonoBehaviour {
 
 	private void Start() {
 		camera = References.Camera.camera;
-		ceilingHeight = References.Game.globalObstacles.GetMaxObstacleHeight();
+		ceilingHeight = References.Game.globalObstacles.MaxObstacleHeight;
 	}
 
 	#endregion
