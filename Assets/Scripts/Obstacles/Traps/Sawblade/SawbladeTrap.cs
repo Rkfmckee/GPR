@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class SawbladeTrap : TrapController {
-	#region Properties
+public class SawbladeTrap : TrapController
+{
+	#region Fields
 
-	private bool canMove;	
-	private bool constantlyTriggered;
+	private bool canMove;
+	private bool constantlyMoving;
 
 	private Animator animator;
 
@@ -12,16 +13,18 @@ public class SawbladeTrap : TrapController {
 
 	#region Events
 
-	protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
-		
+
 		animator = GetComponent<Animator>();
 
 		canMove = name.Contains("Moving");
 		SetConstantlyMoving(canMove);
 	}
 
-	protected override void Update() {
+	protected override void Update()
+	{
 		base.Update();
 
 		if (!canMove)
@@ -32,35 +35,39 @@ public class SawbladeTrap : TrapController {
 
 	#region Methods
 
-		#region Get/Set
+	#region Get/Set
 
-		public bool? IsConstantlyMoving() {
-			if (!canMove)
-				return null;
-			
-			return constantlyTriggered;
-		}
+	public bool? IsConstantlyMoving()
+	{
+		if (!canMove)
+			return null;
 
-		public void SetConstantlyMoving(bool shouldMove) {
-			if (!canMove)
-				return;
+		return constantlyMoving;
+	}
 
-			constantlyTriggered = shouldMove;
-			animator.SetBool("constantlyMoving", shouldMove);
-		}
+	public void SetConstantlyMoving(bool shouldMove)
+	{
+		if (!canMove)
+			return;
 
-		#endregion
+		constantlyMoving = shouldMove;
+		animator.SetBool("constantlyMoving", shouldMove);
+	}
 
-	public override void TriggerTrap(Collider triggeredBy) {
+	#endregion
+
+	public override void TriggerTrap(Collider triggeredBy)
+	{
 		base.TriggerTrap(triggeredBy);
-		
-		if (constantlyTriggered || !canMove)
+
+		if (constantlyMoving || !canMove)
 			return;
 
 		animator.Play("SawBladeMovingOnce");
 	}
 
-	public override void SetLinkedTrigger(TriggerController trigger) {
+	public override void SetLinkedTrigger(TriggerController trigger)
+	{
 		base.SetLinkedTrigger(trigger);
 		SetConstantlyMoving(false);
 	}

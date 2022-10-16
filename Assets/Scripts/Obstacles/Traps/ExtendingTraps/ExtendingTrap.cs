@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ExtendingTrap : TrapController {
-	public float extendingTime;
-	public float retractingTime;
-	public float timeToStayExtended;
+public abstract class ExtendingTrap : TrapController
+{
+	#region Fields
+
+	[SerializeField]
+	private float extendingTime;
+	[SerializeField]
+	private float retractingTime;
+	[SerializeField]
+	private float timeToStayExtended;
 
 	protected Vector3 extendedScale;
 	protected Vector3 retractedScale;
@@ -19,14 +25,23 @@ public abstract class ExtendingTrap : TrapController {
 
 	private Transform extendingChild;
 
+	#endregion
+
+	#region Properties
+
+	public ExtendedState CurrentState { get => currentState; }
+
+	#endregion
+
 	#region Events
 
-	protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
 
-		currentTimeExtending = 0;
+		currentTimeExtending  = 0;
 		currentTimeRetracting = 0;
-		currentTimeExtended = 0;
+		currentTimeExtended   = 0;
 
 		currentState = ExtendedState.Retracted;
 
@@ -38,7 +53,8 @@ public abstract class ExtendingTrap : TrapController {
 		};
 	}
 
-	protected override void Update() {
+	protected override void Update()
+	{
 		base.Update();
 
 		extendingStateBehaviour[currentState]();
@@ -48,53 +64,55 @@ public abstract class ExtendingTrap : TrapController {
 
 	#region Methods
 
-		#region Get/Set
-
-		public ExtendedState GetCurrentState() {
-			return currentState;
-		}
-
-		#endregion
-
-	public override void TriggerTrap(Collider triggeredBy) {
+	public override void TriggerTrap(Collider triggeredBy)
+	{
 		base.TriggerTrap(triggeredBy);
-		
-		if (currentState == ExtendedState.Retracted) {
+
+		if (currentState == ExtendedState.Retracted)
+		{
 			extendingChild = Instantiate(extendingChildPrefab, transform).transform;
 
 			currentState = ExtendedState.Extending;
 		}
 	}
 
-	private void Extending() {
+	private void Extending()
+	{
 		currentTimeExtending += Time.deltaTime;
 		ExtendOrRetractChild(retractedScale, extendedScale, ref currentTimeExtending, extendingTime, ExtendedState.Extended);
 	}
 
-	private void Extended() {
+	private void Extended()
+	{
 		currentTimeExtended += Time.deltaTime;
 
-		if (currentTimeExtended >= timeToStayExtended) {
+		if (currentTimeExtended >= timeToStayExtended)
+		{
 			currentState = ExtendedState.Retracting;
 			currentTimeExtended = 0;
 		}
 	}
 
-	private void Retracting() {
+	private void Retracting()
+	{
 		currentTimeRetracting += Time.deltaTime;
 		ExtendOrRetractChild(extendedScale, retractedScale, ref currentTimeRetracting, retractingTime, ExtendedState.Retracted);
 	}
 
-	private void Retracted() {
-		if (extendingChild != null) {
+	private void Retracted()
+	{
+		if (extendingChild != null)
+		{
 			Destroy(extendingChild.gameObject);
 		}
 	}
 
-	private void ExtendOrRetractChild(Vector3 startScale, Vector3 finishScale, ref float timer, float totalTime, ExtendedState finishState) {
+	private void ExtendOrRetractChild(Vector3 startScale, Vector3 finishScale, ref float timer, float totalTime, ExtendedState finishState)
+	{
 		extendingChild.localScale = Vector3.Lerp(startScale, finishScale, timer / totalTime);
 
-		if (extendingChild.localScale == finishScale) {
+		if (extendingChild.localScale == finishScale)
+		{
 			currentState = finishState;
 			timer = 0;
 		}
@@ -104,7 +122,8 @@ public abstract class ExtendingTrap : TrapController {
 
 	#region Enums
 
-	public enum ExtendedState {
+	public enum ExtendedState
+	{
 		Extended,
 		Extending,
 		Retracted,

@@ -1,27 +1,33 @@
 using UnityEngine;
 
-public class Fire : MonoBehaviour {
-	#region Properties
+public class Fire : MonoBehaviour
+{
+	#region Fields
 
 	private float damageAmount;
 
 	private TrapController trapController;
 
 	#endregion
-	
+
 	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		trapController = GetComponentInParent<TrapController>();
 
-		if (trapController.GetName().Contains("Big")) {
+		if (trapController.GetName().Contains("Big"))
+		{
 			damageAmount = 2;
-		} else {
+		}
+		else
+		{
 			damageAmount = 1;
 		}
 	}
 
-	private void OnTriggerStay(Collider other) {
+	private void OnTriggerStay(Collider other)
+	{
 		var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
 		if (targetsHealthSystem == null)
 			return;
@@ -29,7 +35,8 @@ public class Fire : MonoBehaviour {
 		targetsHealthSystem.TakeDamage(damageAmount * Time.deltaTime);
 	}
 
-	private void OnTriggerExit(Collider other) {
+	private void OnTriggerExit(Collider other)
+	{
 		var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
 		if (targetsHealthSystem == null)
 			return;

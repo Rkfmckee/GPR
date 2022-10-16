@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LaunchingAmmoPiece : MonoBehaviour
 {
-	#region Properties
+	#region Fields
 
     private bool shouldShrink;
 	private float shrinkTarget;
@@ -10,11 +10,17 @@ public class LaunchingAmmoPiece : MonoBehaviour
 
 	#endregion
 
+	#region Properties
+
+	public bool ShouldShrink { set => shouldShrink = value; }
+
+	#endregion
+
 	#region Events
 
 	private void Awake() {
 		shrinkTarget = 0.2f;
-		shrinkRate = 5;
+		shrinkRate   = 5;
 	}
 
 	private void Update() {
@@ -26,18 +32,6 @@ public class LaunchingAmmoPiece : MonoBehaviour
 			}
 		}
 	}
-
-	#endregion
-
-	#region Methods
-
-		#region Get/Set
-
-		public void SetShouldShrink(bool shrink) {
-			shouldShrink = shrink;
-		}
-
-		#endregion
 
 	#endregion
 }

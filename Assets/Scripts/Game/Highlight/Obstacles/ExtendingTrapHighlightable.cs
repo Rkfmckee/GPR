@@ -23,7 +23,7 @@ public class ExtendingTrapHighlightable : TrapHighlightable
 
 	protected override bool DontHighlight()
 	{
-		var dontHighlight = extendingTrap.GetCurrentState() != ExtendedState.Retracted;
+		var dontHighlight = extendingTrap.CurrentState != ExtendedState.Retracted;
 
 		return dontHighlight || base.DontHighlight();
 	}

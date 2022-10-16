@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 
-public class Blade : MonoBehaviour {
+public class Blade : MonoBehaviour
+{
 	#region Events
 
-	private void OnCollisionEnter(Collision collision) {
+	private void OnCollisionEnter(Collision collision)
+	{
 		var other = collision.collider;
-		
+
 		var targetsHealthSystem = other.gameObject.GetComponent<HealthSystem>();
-		if (targetsHealthSystem != null) {
+		if (targetsHealthSystem != null)
+		{
 			targetsHealthSystem.TakeDamageOverTime(5, 1, false);
 		}
 	}

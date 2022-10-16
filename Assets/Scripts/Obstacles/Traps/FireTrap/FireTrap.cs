@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class FireTrap : TrapController {
-
-	#region Properties
+public class FireTrap : TrapController
+{
+	#region Fields
 
 	public float fireDurationTime;
 
@@ -14,25 +14,29 @@ public class FireTrap : TrapController {
 
 	#region Events
 
-	protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
 
-		fire = transform.Find("Fire").gameObject;
-
+		fire              = transform.Find("Fire").gameObject;
 		fireDurationTimer = fireDurationTime;
 	}
 
 	#endregion
 
-	protected override void Update() {
+	protected override void Update()
+	{
 		base.Update();
 
-		if (fireDurationTimer < fireDurationTime) {
+		if (fireDurationTimer < fireDurationTime)
+		{
 			fireDurationTimer += Time.deltaTime;
 
 			if (!fire.activeSelf)
 				fire.SetActive(true);
-		} else {
+		}
+		else
+		{
 			if (fire.activeSelf)
 				fire.SetActive(false);
 		}
@@ -40,7 +44,8 @@ public class FireTrap : TrapController {
 
 	#region Methods
 
-	public override void TriggerTrap(Collider triggeredBy) {
+	public override void TriggerTrap(Collider triggeredBy)
+	{
 		base.TriggerTrap(triggeredBy);
 
 		fireDurationTimer = 0;

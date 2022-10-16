@@ -1,15 +1,16 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpearLauncher : LaunchingTrap {
+public class SpearLauncher : LaunchingTrap
+{
 
-    #region Events
+	#region Events
 
-    protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
-		
-        ammoPrefab = Resources.Load("Prefabs/Obstacles/Traps/LaunchingTraps/SpearLauncher/Spear") as GameObject;
-    }
 
-    #endregion
+		ammoPrefab = Resources.Load("Prefabs/Obstacles/Traps/LaunchingTraps/SpearLauncher/Spear") as GameObject;
+	}
+
+	#endregion
 }

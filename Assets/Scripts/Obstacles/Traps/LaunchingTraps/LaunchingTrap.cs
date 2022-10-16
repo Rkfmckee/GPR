@@ -1,57 +1,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaunchingTrap : TrapController {
-
-    #region Properties
+public class LaunchingTrap : TrapController
+{
+	#region Fields
 
 	[SerializeField]
 	protected float ammoSpeed;
 	[SerializeField]
 	protected float ammoScale;
 
-    protected GameObject ammoPrefab;
+	protected GameObject ammoPrefab;
 	private List<GameObject> launchingSlots;
 
-    #endregion
+	#endregion
 
 	#region Events
 
-	protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
 
 		launchingSlots = new List<GameObject>();
-        foreach(Transform child in transform) {
-            launchingSlots.Add(child.gameObject);
-        }
+		foreach (Transform child in transform)
+		{
+			launchingSlots.Add(child.gameObject);
+		}
 	}
 
 	#endregion
 
 	#region Methods
 
-    public override void TriggerTrap(Collider triggeredBy) {
+	public override void TriggerTrap(Collider triggeredBy)
+	{
 		base.TriggerTrap(triggeredBy);
 
-        foreach(GameObject slot in launchingSlots) {
-            GameObject ammo = Instantiate(ammoPrefab);
-            LaunchingAmmo ammoController = ammo.GetComponent<LaunchingAmmo>();
-            Rigidbody ammoRigidbody = ammo.GetComponent<Rigidbody>();
+		foreach (GameObject slot in launchingSlots)
+		{
+			var ammo           = Instantiate(ammoPrefab);
+			var ammoController = ammo.GetComponent<LaunchingAmmo>();
+			var ammoRigidbody  = ammo.GetComponent<Rigidbody>();
 
-            ammo.transform.parent = transform;
+			ammo.transform.parent        = transform;
 			ammo.transform.localRotation = Quaternion.Euler(Vector3.zero);
-			ammo.transform.localScale = Vector3.one * ammoScale;
-            ammo.transform.position = slot.transform.position;
+			ammo.transform.localScale    = Vector3.one * ammoScale;
+			ammo.transform.position      = slot.transform.position;
 
-            if (ammoController != null) {
-                ammoController.SetCollidersToIgnore(Physics.OverlapSphere(ammo.transform.position, 1));
-            }
+			if (ammoController != null)
+			{
+				ammoController.SetCollidersToIgnore(Physics.OverlapSphere(ammo.transform.position, 1));
+			}
 
-            if (ammoRigidbody != null) {
+			if (ammoRigidbody != null)
+			{
 				ammoRigidbody.AddForce(ammo.transform.forward * ammoSpeed, ForceMode.Impulse);
-            }
-        }
-    }
+			}
+		}
+	}
 
 	#endregion
 }

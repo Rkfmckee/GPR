@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Sawblade : MonoBehaviour
 {
-	#region Properties
+	#region Fields
 
 	private float rotationThreshold;
 

@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 
-public class ArrowLauncher : LaunchingTrap {
+public class ArrowLauncher : LaunchingTrap
+{
 
-    #region Events
+	#region Events
 
-    protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
-		
-        ammoPrefab = Resources.Load("Prefabs/Obstacles/Traps/LaunchingTraps/ArrowLauncher/Arrow") as GameObject;
-    }
 
-    #endregion
+		ammoPrefab = Resources.Load("Prefabs/Obstacles/Traps/LaunchingTraps/ArrowLauncher/Arrow") as GameObject;
+	}
+
+	#endregion
 }

@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
-public class Arrow : LaunchingAmmo {
+public class Arrow : LaunchingAmmo
+{
 	#region Events
 
-	protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
 
 		damage = 2;
