@@ -6,7 +6,7 @@ using static CursorData;
 
 public class FriendlyStateListening : FriendlyState
 {
-	#region Properties
+	#region Fields
 
 	private float ignoreMouseClickTimer;
 	private float ignoreMouseClickTime;
@@ -168,7 +168,7 @@ public class FriendlyStateListening : FriendlyState
 	{
 		uiController.DisableListeningCommand();
 		commandUiExists = false;
-		currentCommand = null;
+		currentCommand  = null;
 
 		cursor.SetCursor(CursorType.Basic);
 		References.UI.canvasController.DisableActionText();

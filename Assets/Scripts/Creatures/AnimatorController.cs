@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class AnimatorController : MonoBehaviour {
-	#region Properties
+public class AnimatorController : MonoBehaviour
+{
+	#region Fields
 
 	private int vertical;
 	private int horizontal;
@@ -12,9 +13,10 @@ public class AnimatorController : MonoBehaviour {
 
 	#region Events
 
-	private void Awake() {
-		animator = GetComponentInChildren<Animator>();
-		vertical = Animator.StringToHash("Vertical");
+	private void Awake()
+	{
+		animator   = GetComponentInChildren<Animator>();
+		vertical   = Animator.StringToHash("Vertical");
 		horizontal = Animator.StringToHash("Horizontal");
 	}
 
@@ -22,32 +24,51 @@ public class AnimatorController : MonoBehaviour {
 
 	#region Methods
 
-	public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement) {
+	public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement)
+	{
 		float v = 0;
 
-		if (verticalMovement > 0 && verticalMovement < 0.55f) {
+		if (verticalMovement > 0 && verticalMovement < 0.55f)
+		{
 			v = 0.5f;
-		} else if (verticalMovement > 0.55f) {
+		}
+		else if (verticalMovement > 0.55f)
+		{
 			v = 1;
-		} else if (verticalMovement < 0 && verticalMovement > -0.55f) {
+		}
+		else if (verticalMovement < 0 && verticalMovement > -0.55f)
+		{
 			v = -0.5f;
-		} else if (verticalMovement < -0.55f) {
+		}
+		else if (verticalMovement < -0.55f)
+		{
 			v = -1;
-		} else {
+		}
+		else
+		{
 			v = 0;
 		}
 
 		float h = 0;
 
-		if (horizontalMovement > 0 && horizontalMovement < 0.55f) {
+		if (horizontalMovement > 0 && horizontalMovement < 0.55f)
+		{
 			h = 0.5f;
-		} else if (horizontalMovement > 0.55f) {
+		}
+		else if (horizontalMovement > 0.55f)
+		{
 			h = 1;
-		} else if (horizontalMovement < 0 && horizontalMovement > -0.55f) {
+		}
+		else if (horizontalMovement < 0 && horizontalMovement > -0.55f)
+		{
 			h = -0.5f;
-		} else if (horizontalMovement < -0.55f) {
+		}
+		else if (horizontalMovement < -0.55f)
+		{
 			h = -1;
-		} else {
+		}
+		else
+		{
 			h = 0;
 		}
 

@@ -41,7 +41,7 @@ public class TrapModification : MonoBehaviour {
 			return;
 		}
 		float currentHealth = Mathf.Round(trapHealth.GetCurrentHealth());
-		float maxHealth = trapHealth.maxHealth;
+		float maxHealth = trapHealth.MaxHealth;
 
 		trapHealthValueText.text = $"Health: {currentHealth.ToString()}";
 		trapHealthBarAmount.transform.localScale = new Vector3(currentHealth / maxHealth, 1, 1);

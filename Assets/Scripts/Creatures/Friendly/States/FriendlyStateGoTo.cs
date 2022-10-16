@@ -4,7 +4,7 @@ using static CameraController;
 
 public class FriendlyStateGoTo : FriendlyState
 {
-	#region Properties
+	#region Fields
 
 	private Vector3 targetPosition;
 

@@ -3,7 +3,7 @@ using static CameraController;
 
 public class FriendlyStatePickupObject : FriendlyState
 {
-	#region Properties
+	#region Fields
 
 	private bool isHoldingObject;
 	private float interactionDistance;
@@ -68,8 +68,8 @@ public class FriendlyStatePickupObject : FriendlyState
 					behaviour.ShouldFreezeRigidbody(false);
 				}
 
-				var positionToPlace = obstaclePlacement.transform.position;
-				var rotationToPlace = obstaclePlacement.transform.rotation;
+				var positionToPlace    = obstaclePlacement.transform.position;
+				var rotationToPlace    = obstaclePlacement.transform.rotation;
 				navMeshAgent.isStopped = false;
 				navMeshAgent.SetDestination(positionToPlace);
 
@@ -89,7 +89,7 @@ public class FriendlyStatePickupObject : FriendlyState
 
 	private void EnableObstaclePlacement(GameObject obstacle)
 	{
-		obstaclePlacement = References.Game.globalObstacles.EnableObstaclePlacement(obstacle);
+		obstaclePlacement           = References.Game.globalObstacles.EnableObstaclePlacement(obstacle);
 		obstaclePlacementController = obstaclePlacement.GetComponent<ObstaclePlacementController>();
 
 		obstaclePlacementController.SetHeldObject(obstacle);
@@ -103,9 +103,9 @@ public class FriendlyStatePickupObject : FriendlyState
 
 	private void SetHeldObject()
 	{
-		heldObject = obstacleToPickup;
+		heldObject                   = obstacleToPickup;
 		heldObjectObstacleController = heldObject.GetComponent<ObstacleController>();
-		heldObjectPickup = heldObject.GetComponent<PickUpObject>();
+		heldObjectPickup             = heldObject.GetComponent<PickUpObject>();
 
 		isHoldingObject = true;
 		heldObjectPickup.SetCurrentState(PickUpObject.PickUpState.Held, transform);

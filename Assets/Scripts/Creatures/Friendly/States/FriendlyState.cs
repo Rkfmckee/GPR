@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public abstract class FriendlyState
 {
-	#region Properties
+	#region Fields
 
 	protected float movementSpeed;
 
@@ -13,7 +13,6 @@ public abstract class FriendlyState
 	protected NavMeshAgent navMeshAgent;
 	protected AnimatorController animatorController;
 	protected FriendlyBehaviour behaviour;
-
 	protected CursorController cursor;
 
 	#endregion
@@ -24,14 +23,14 @@ public abstract class FriendlyState
 	{
 		gameObject = gameObj;
 
-		transform = gameObject.transform;
-		rigidbody = gameObject.GetComponent<Rigidbody>();
-		navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+		transform          = gameObject.transform;
+		rigidbody          = gameObject.GetComponent<Rigidbody>();
+		navMeshAgent       = gameObject.GetComponent<NavMeshAgent>();
 		animatorController = gameObject.GetComponent<AnimatorController>();
-		behaviour = gameObject.GetComponent<FriendlyBehaviour>();
-		cursor = References.Game.cursor;
+		behaviour          = gameObject.GetComponent<FriendlyBehaviour>();
+		cursor             = References.Game.cursor;
 
-		movementSpeed = behaviour.MovementSpeed;
+		movementSpeed      = behaviour.MovementSpeed;
 		navMeshAgent.speed = movementSpeed;
 		navMeshAgent.ResetPath();
 		navMeshAgent.velocity = Vector3.zero;

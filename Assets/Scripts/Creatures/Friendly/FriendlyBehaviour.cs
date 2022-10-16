@@ -6,7 +6,7 @@ public class FriendlyBehaviour : MonoBehaviour
 
 	[SerializeField]
 	private float movementSpeed;
-	
+
 	private FriendlyState currentState;
 	private bool currentlyControlled;
 
@@ -22,7 +22,8 @@ public class FriendlyBehaviour : MonoBehaviour
 	public FriendlyState CurrentState
 	{
 		get => currentState;
-		set {
+		set
+		{
 			var shouldFreeze = value is FriendlyStateIdle ||
 							   value is FriendlyStateListening;
 			ShouldFreezeRigidbody(shouldFreeze);
@@ -34,9 +35,10 @@ public class FriendlyBehaviour : MonoBehaviour
 	public bool CurrentlyControlled
 	{
 		get => currentlyControlled;
-		set {
+		set
+		{
 			currentlyControlled = value;
-			CurrentState = new FriendlyStateListening(gameObject);
+			CurrentState        = new FriendlyStateListening(gameObject);
 		}
 	}
 
@@ -46,7 +48,7 @@ public class FriendlyBehaviour : MonoBehaviour
 
 	protected virtual void Awake()
 	{
-		rigidbody = GetComponent<Rigidbody>();
+		rigidbody        = GetComponent<Rigidbody>();
 		cameraController = Camera.main.GetComponent<CameraController>();
 	}
 
@@ -56,7 +58,7 @@ public class FriendlyBehaviour : MonoBehaviour
 
 	public void ShouldFreezeRigidbody(bool shouldFreeze)
 	{
-		rigidbody.isKinematic = shouldFreeze;
+		rigidbody.isKinematic    = shouldFreeze;
 		rigidbody.freezeRotation = shouldFreeze;
 	}
 
