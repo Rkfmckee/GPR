@@ -1,28 +1,32 @@
 using UnityEngine.EventSystems;
 
-public class TakeButtonHover : ButtonHover {
-	#region Properties
+public class TakeButtonHover : ButtonHover
+{
+	#region Fields
 
 	private TakeButton button;
 
 	#endregion
-	
+
 	#region Events
 
-	protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
 
 		button = GetComponent<TakeButton>();
 	}
 
-	public override void OnPointerEnter(PointerEventData eventData) {
+	public override void OnPointerEnter(PointerEventData eventData)
+	{
 		if (button.ButtonPressed)
 			return;
 
 		base.OnPointerEnter(eventData);
 	}
 
-	public override void OnPointerExit(PointerEventData eventData) {
+	public override void OnPointerExit(PointerEventData eventData)
+	{
 		if (button.ButtonPressed)
 			return;
 

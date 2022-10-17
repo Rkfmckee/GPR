@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
-	#region Properties
+public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+	#region Fields
 
 	public Sprite regularSprite;
 	public Sprite highlightSprite;
@@ -11,18 +12,21 @@ public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	private Image image;
 
 	#endregion
-	
+
 	#region Events
 
-	protected virtual void Awake() {
+	protected virtual void Awake()
+	{
 		image = GetComponent<Image>();
 	}
 
-	public virtual void OnPointerEnter(PointerEventData eventData) {
+	public virtual void OnPointerEnter(PointerEventData eventData)
+	{
 		image.sprite = highlightSprite;
 	}
 
-	public virtual void OnPointerExit(PointerEventData eventData) {
+	public virtual void OnPointerExit(PointerEventData eventData)
+	{
 		image.sprite = regularSprite;
 	}
 

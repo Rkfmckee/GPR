@@ -1,28 +1,33 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventorySlotHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
-	#region Properties
+public class InventorySlotHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+	#region Fields
 
 	private InventorySlot inventorySlot;
 
 	#endregion
-	
+
 	#region Events
-	
-	private void Awake() {
+
+	private void Awake()
+	{
 		inventorySlot = GetComponent<InventorySlot>();
 	}
 
-	public void OnPointerEnter(PointerEventData eventData) {
-		if (inventorySlot == null) {
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		if (inventorySlot == null)
+		{
 			return;
 		}
 
 		References.UI.craftingMenu.EnableObstacleDetails(inventorySlot.ItemInSlot.GetComponent<ObstacleController>());
 	}
 
-	public void OnPointerExit(PointerEventData eventData) {
+	public void OnPointerExit(PointerEventData eventData)
+	{
 		References.UI.craftingMenu.DisableObstacleDetails();
 	}
 

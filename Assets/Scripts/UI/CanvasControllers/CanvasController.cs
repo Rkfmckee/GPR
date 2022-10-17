@@ -77,7 +77,7 @@ public class CanvasController : MonoBehaviour
 			if (trapModification == null)
 			{
 				trapModification = Instantiate(trapModificationPrefab, References.UI.canvas.transform);
-				trapModification.GetComponent<TrapModification>().SetTrap(trap);
+				trapModification.GetComponent<TrapModification>().Trap = trap;
 				cameraController.ControllingState = CameraControllingState.ControllingMenu;
 			}
 		}

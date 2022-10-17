@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class ObstacleDetailsMove : ObstacleDetails {
-	#region Properties
+public class ObstacleDetailsMove : ObstacleDetails
+{
+	#region Fields
 
 	private Vector3 mouseOffset;
 
@@ -11,18 +12,22 @@ public class ObstacleDetailsMove : ObstacleDetails {
 
 	#region Events
 
-	protected override void Awake() {
+	protected override void Awake()
+	{
 		base.Awake();
 
 		var backgroundTransform = background.GetComponent<RectTransform>();
+		
 		mouseOffset = Resources.Load<GameObject>("Prefabs/UI/CraftingMenu/ObstacleDetails").transform.position;
 	}
 
-	private void Start() {
+	private void Start()
+	{
 		camera = References.Camera.camera;
 	}
 
-	private void Update() {
+	private void Update()
+	{
 		transform.position = Input.mousePosition + mouseOffset;
 	}
 

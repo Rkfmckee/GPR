@@ -96,7 +96,7 @@ public class CraftingMenu : MonoBehaviour
 		obstacleDetails                    = Instantiate(obstacleDetailsPrefab, transform);
 		obstacleDetails.transform.position = Input.mousePosition + obstacleDetailsPrefab.transform.position;
 
-		obstacleDetails.GetComponent<ObstacleDetails>().SetObstacle(obstacle);
+		obstacleDetails.GetComponent<ObstacleDetails>().Obstacle = obstacle;
 	}
 
 	public void DisableObstacleDetails()
