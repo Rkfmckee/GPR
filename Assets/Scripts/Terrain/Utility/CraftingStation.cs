@@ -1,13 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using static NotificationController;
-using static ObstacleController;
 
-public class CraftingStation : MonoBehaviour {
-	#region Properties
+public class CraftingStation : MonoBehaviour
+{
+	#region Fields
 
 	private GameObject progressBarPrefab;
-	private bool isCurrentlyCrafting;
+	private bool currentlyCrafting;
 
 	private new Camera camera;
 	private Vector3 craftingAreaMidPoint;
@@ -16,18 +16,26 @@ public class CraftingStation : MonoBehaviour {
 
 	#endregion
 
+	#region Properties
+
+	public bool CurrentlyCrafting { get => currentlyCrafting; }
+
+	#endregion
+
 	#region Events
 
-	private void Awake() {
-		progressBarPrefab = Resources.Load<GameObject>("Prefabs/UI/ProgressBar");
+	private void Awake()
+	{
+		progressBarPrefab    = Resources.Load<GameObject>("Prefabs/UI/ProgressBar");
 		craftingAreaMidPoint = transform.Find("Area").position;
 
-		var layerMasks = GeneralHelper.GetLayerMasks();
+		var layerMasks            = GeneralHelper.GetLayerMasks();
 		creaturesAndObstaclesMask = layerMasks["Creature"] | layerMasks["Obstacle"];
 	}
 
-	private void Start() {
-		camera = References.Camera.camera;
+	private void Start()
+	{
+		camera        = References.Camera.camera;
 		ceilingHeight = References.Game.globalObstacles.MaxObstacleHeight;
 	}
 
@@ -35,70 +43,72 @@ public class CraftingStation : MonoBehaviour {
 
 	#region Methods
 
-		#region Get/Set
-
-		public bool IsCurrentlyCrafting() {
-			return isCurrentlyCrafting;
-		}
-
-		#endregion
-
-	public bool CheckCraftingAreaIsClear() {
+	public bool CheckCraftingAreaIsClear()
+	{
 		var objectsInCraftArea = Physics.OverlapSphere(craftingAreaMidPoint, 2, creaturesAndObstaclesMask);
 		return objectsInCraftArea.Length == 0;
 	}
-	
-	public ProgressBar CreateProgressBar(float timeInSeconds) {
-		var parent = References.UI.canvas.transform;
 
+	public ProgressBar CreateProgressBar(float timeInSeconds)
+	{
+		var parent            = References.UI.canvas.transform;
 		var progressBarObject = Instantiate(progressBarPrefab, parent);
-		var progressBar = progressBarObject.GetComponent<ProgressBar>();
+		var progressBar       = progressBarObject.GetComponent<ProgressBar>();
+
 		progressBar.SetProgressBar("Crafting", timeInSeconds, transform);
 
 		return progressBar;
 	}
 
-	public void CraftItem(GameObject itemToCraft) {
+	public void CraftItem(GameObject itemToCraft)
+	{
 		StartCoroutine(CraftingItem(itemToCraft));
 	}
 
-	public IEnumerator CraftingItem(GameObject itemToCraft) {
-		isCurrentlyCrafting = true;
+	public IEnumerator CraftingItem(GameObject itemToCraft)
+	{
+		currentlyCrafting = true;
 
 		References.Game.globalObstacles.ShouldShowCraftingMenu(false);
+
 		var craftingItemController = itemToCraft.GetComponent<CraftingItem>();
-		var spawnPosition = transform.Find("Area").position;
-		var spawnRotation = Quaternion.Euler(craftingItemController.spawnRotation);
-		var itemName = itemToCraft.name;
+		var spawnPosition          = transform.Find("Area").position;
+		var spawnRotation          = Quaternion.Euler(craftingItemController.spawnRotation);
+		var itemName               = itemToCraft.name;
 
 		var progressBar = CreateProgressBar(craftingItemController.resourceCost);
-		
-		while(!progressBar.IsProgressFinished()) {
+
+		while (!progressBar.IsProgressFinished())
+		{
 			yield return null;
 		}
 
-		var newItem = Instantiate(itemToCraft, References.Obstacles.parentGroup);
-		var newItemPickup = newItem.GetComponent<PickUpObject>();
+		var newItem                   = Instantiate(itemToCraft, References.Obstacles.parentGroup);
+		var newItemPickup             = newItem.GetComponent<PickUpObject>();
 		var newItemObstacleController = newItem.GetComponent<ObstacleController>();
 
 		var newItemHeld = Instantiate(newItemPickup.HeldPrefab, References.Obstacles.parentGroup);
 		newItemHeld.GetComponent<ObstacleHeld>().obstacle = newItem;
 
-		if (newItemObstacleController != null) {
+		if (newItemObstacleController != null)
+		{
 			itemName = newItemObstacleController.Name;
 			newItemObstacleController.ObstacleDisabled = true;
 
-			if (itemToCraft.GetComponent<Rigidbody>()) {
+			if (itemToCraft.GetComponent<Rigidbody>())
+			{
 				// If it is a physics object, it's pivot point is likely in the center of it's collider
 				// So adjust it's position to account for that
 				spawnPosition += MoveColliderVertically(newItem);
 			}
-			
-		} else {
+
+		}
+		else
+		{
 			spawnPosition += MoveColliderVertically(newItem);
 		}
-		
-		newItem.name = itemToCraft.name;
+
+		newItem.name               = itemToCraft.name;
 		newItem.transform.position = spawnPosition;
 		newItem.transform.rotation = spawnRotation;
 		newItemPickup.DisableComponents();
@@ -107,16 +117,18 @@ public class CraftingStation : MonoBehaviour {
 		newItemHeld.transform.rotation = spawnRotation;
 
 		AddNotificationOfCraftedItem(itemName);
-		isCurrentlyCrafting = false;
+		currentlyCrafting = false;
 	}
 
-	private Vector3 MoveColliderVertically(GameObject newItem) {
+	private Vector3 MoveColliderVertically(GameObject newItem)
+	{
 		var collider = newItem.GetComponent<Collider>();
 		return Vector3.up * collider.bounds.extents.y;
 	}
 
-	private void AddNotificationOfCraftedItem(string itemName) {
-		var determiner = GeneralHelper.GetDeterminer(itemName);	
+	private void AddNotificationOfCraftedItem(string itemName)
+	{
+		var determiner = GeneralHelper.GetDeterminer(itemName);
 		References.UI.notifications.AddNotification($"Crafted {determiner} {itemName}", NotificationType.Success);
 	}
 

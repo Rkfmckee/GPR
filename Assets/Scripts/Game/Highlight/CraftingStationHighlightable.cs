@@ -58,7 +58,7 @@ public class CraftingStationHighlightable : Highlightable
 
 	protected override bool DontHighlight()
 	{
-		return base.DontHighlight() || craftingStation.IsCurrentlyCrafting();
+		return base.DontHighlight() || craftingStation.CurrentlyCrafting;
 	}
 
 	#endregion
