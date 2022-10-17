@@ -16,14 +16,14 @@ public class TakeButtonHover : ButtonHover {
 	}
 
 	public override void OnPointerEnter(PointerEventData eventData) {
-		if (button.IsButtonPressed())
+		if (button.ButtonPressed)
 			return;
 
 		base.OnPointerEnter(eventData);
 	}
 
 	public override void OnPointerExit(PointerEventData eventData) {
-		if (button.IsButtonPressed())
+		if (button.ButtonPressed)
 			return;
 
 		base.OnPointerExit(eventData);

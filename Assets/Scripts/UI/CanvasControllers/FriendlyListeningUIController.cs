@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FriendlyListeningUIController : MonoBehaviour {
-	#region Properties
-	
+public class FriendlyListeningUIController : MonoBehaviour
+{
+	#region Fields
+
 	private GameObject listeningCommand;
 	private GameObject listeningCommandPrefab;
 
@@ -11,12 +12,15 @@ public class FriendlyListeningUIController : MonoBehaviour {
 
 	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		References.UI.friendlyListeningUIController = this;
+
 		listeningCommandPrefab = Resources.Load<GameObject>("Prefabs/UI/FriendlyListeningCommand");
 	}
 
-	private void LateUpdate() {
+	private void LateUpdate()
+	{
 		ListeningCommandFollowMouse();
 	}
 
@@ -24,28 +28,33 @@ public class FriendlyListeningUIController : MonoBehaviour {
 
 	#region Methods
 
-	public void EnableListeningCommand() {
-		listeningCommand = Instantiate(listeningCommandPrefab, transform);
+	public void EnableListeningCommand()
+	{
+		listeningCommand                    = Instantiate(listeningCommandPrefab, transform);
 		listeningCommand.transform.position = ListeningCommandFollowMouse().Value;
 	}
 
-	public void DisableListeningCommand() {
+	public void DisableListeningCommand()
+	{
 		if (listeningCommand == null)
 			return;
 
 		Destroy(listeningCommand);
 	}
 
-	public void ChangeListeningCommandText(string command) {
+	public void ChangeListeningCommandText(string command)
+	{
 		listeningCommand.GetComponentInChildren<Text>().text = command;
 	}
 
-	private Vector3? ListeningCommandFollowMouse() {
+	private Vector3? ListeningCommandFollowMouse()
+	{
 		if (listeningCommand == null)
 			return null;
 
-		Vector3 position = Input.mousePosition;
+		var position = Input.mousePosition;
 		listeningCommand.transform.position = position;
+		
 		return position;
 	}
 

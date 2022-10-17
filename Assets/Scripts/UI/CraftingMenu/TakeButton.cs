@@ -1,67 +1,67 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class TakeButton : MonoBehaviour {
-	#region Properties
+public class TakeButton : MonoBehaviour
+{
+	#region Fields
 
 	private Button takeButton;
 	private Image image;
 	private CraftingMenu craftingMenu;
-	private bool buttonPressed; 
+	private bool buttonPressed;
 	private Sprite buttonSpriteUnpressed;
 	private Sprite buttonSpritePressed;
 
 	#endregion
 
+	#region Properties
+
+	public bool ButtonPressed 
+	{
+		get => buttonPressed;
+		set
+		{
+			buttonPressed      = value;
+			image.sprite       = value ? buttonSpritePressed : buttonSpriteUnpressed;
+			takeButton.enabled = !value;
+		}
+	}
+
+	#endregion
+
 	#region Events
 
-	private void Awake() {
+	private void Awake()
+	{
 		craftingMenu = GetComponentInParent<CraftingMenu>();
-		takeButton = GetComponent<Button>();
+		takeButton   = GetComponent<Button>();
 		takeButton.onClick.AddListener(TakeButtonClicked);
 
-		image = GetComponent<Image>();
-		buttonPressed = true;
+		image                 = GetComponent<Image>();
+		buttonPressed         = true;
 		buttonSpriteUnpressed = Resources.Load<Sprite>("Images/UI/CraftingMenu/TakeButton");
-		buttonSpritePressed = Resources.Load<Sprite>("Images/UI/CraftingMenu/TakeButtonPressed");
+		buttonSpritePressed   = Resources.Load<Sprite>("Images/UI/CraftingMenu/TakeButtonPressed");
 
-		SetButtonImagePressed(true);
+		ButtonPressed = true;
 	}
 
 	#endregion
 
 	#region Methods
 
-		#region Get/Set
-
-		public bool IsButtonPressed() {
-			return buttonPressed;
-		}
-
-		public void SetButtonImagePressed(bool pressed) {
-			buttonPressed = pressed;
-			
-			if (pressed) {
-				image.sprite = buttonSpritePressed;
-				takeButton.enabled = false;
-			} else {
-				image.sprite = buttonSpriteUnpressed;
-				takeButton.enabled = true;
-			}
-		}
-
-		#endregion
-
-	private void TakeButtonClicked() {
-		GameObject itemSelected = craftingMenu.GetSelectedItem();
-		if (itemSelected == null) {
+	private void TakeButtonClicked()
+	{
+		var itemSelected = craftingMenu.SelectedItem;
+		if (itemSelected == null)
+		{
 			return;
 		}
 
 		var craftingItemController = itemSelected.GetComponent<CraftingItem>();
 
-		if (craftingItemController.RemoveResourcesToSpawnItem()) {
-			craftingMenu.GetCraftingStation().CraftItem(itemSelected);
+		if (craftingItemController.RemoveResourcesToSpawnItem())
+		{
+			craftingMenu.CraftingStation.CraftItem(itemSelected);
 		}
 	}
 

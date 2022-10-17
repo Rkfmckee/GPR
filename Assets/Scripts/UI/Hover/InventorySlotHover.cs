@@ -19,7 +19,7 @@ public class InventorySlotHover : MonoBehaviour, IPointerEnterHandler, IPointerE
 			return;
 		}
 
-		References.UI.craftingMenu.EnableObstacleDetails(inventorySlot.itemInSlot.GetComponent<ObstacleController>());
+		References.UI.craftingMenu.EnableObstacleDetails(inventorySlot.ItemInSlot.GetComponent<ObstacleController>());
 	}
 
 	public void OnPointerExit(PointerEventData eventData) {

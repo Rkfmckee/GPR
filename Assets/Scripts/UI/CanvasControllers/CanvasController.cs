@@ -5,7 +5,7 @@ using static CameraController;
 
 public class CanvasController : MonoBehaviour
 {
-	#region Properties
+	#region Fields
 
 	private GameObject craftingMenu;
 	private GameObject craftingMenuPrefab;
@@ -51,7 +51,7 @@ public class CanvasController : MonoBehaviour
 			if (craftingMenu == null)
 			{
 				craftingMenu = Instantiate(craftingMenuPrefab, References.UI.canvas.transform);
-				craftingMenu.GetComponent<CraftingMenu>().CurrentCraftingStation(craftingStation);
+				craftingMenu.GetComponent<CraftingMenu>().CraftingStation = craftingStation;
 				cameraController.ControllingState = CameraControllingState.ControllingMenu;
 
 				References.UI.craftingMenu = craftingMenu.GetComponent<CraftingMenu>();
@@ -116,12 +116,12 @@ public class CanvasController : MonoBehaviour
 			return;
 		}
 
-		var startPosition = Vector3.zero;
+		var startPosition          = Vector3.zero;
 		var amountToChangePosition = new Vector3(0, 30, 0);
 
 		for (int i = actionText.Count - 1; i >= 0; i--)
 		{
-			GameObject textObject = Instantiate(actionTextPrefab, actionTextParent);
+			var textObject = Instantiate(actionTextPrefab, actionTextParent);
 			textObject.GetComponent<TextMeshProUGUI>().text = actionText[i];
 			textObject.transform.localPosition = startPosition;
 

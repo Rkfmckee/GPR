@@ -1,8 +1,7 @@
-﻿using System.ComponentModel;
-using UnityEngine;
+﻿using UnityEngine;
 using static NotificationController;
 
-public class ResourceController : MonoBehaviour
+public partial class ResourceController : MonoBehaviour
 {
 	#region Fields
 
@@ -145,20 +144,6 @@ public class ResourceController : MonoBehaviour
 	public bool HaveEnoughResources(int currentAmount, int amountToRemove)
 	{
 		return currentAmount - amountToRemove >= 0;
-	}
-
-	#endregion
-
-	#region Enums
-
-	public enum ResourceType
-	{
-		[Description("Physical Materials")]
-		PhysicalMaterials,
-		[Description("Magical Materials")]
-		MagicalMaterials,
-		[Description("Valuables")]
-		Valuables
 	}
 
 	#endregion
