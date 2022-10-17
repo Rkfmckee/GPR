@@ -49,13 +49,12 @@ public class TriggerController : ObstacleController
 
 	private void ShouldTriggerTrap(Collider triggeredBy)
 	{
-		if (linkedTrap == null ||
-			IsObstacleDisabled())
+		if (linkedTrap == null || ObstacleDisabled)
 		{
 			return;
 		}
 
-		if (linkedTrap.GetComponent<PickUpObject>().GetCurrentState() == PickUpState.Held)
+		if (linkedTrap.GetComponent<PickUpObject>().CurrentState == PickUpState.Held)
 		{
 			return;
 		}

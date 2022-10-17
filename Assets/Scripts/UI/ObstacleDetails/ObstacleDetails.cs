@@ -29,19 +29,19 @@ public class ObstacleDetails : MonoBehaviour {
 
 		public void SetObstacle(ObstacleController obstacle) {
 			this.obstacle = obstacle;
-			obstacleDescription.text = obstacle.GetDescription();
+			obstacleDescription.text = obstacle.Description;
 
 			if (obstacle.gameObject.GetComponent<TrapController>()) {
-				obstacleName.text = $"Trap: {obstacle.GetName()}";
+				obstacleName.text = $"Trap: {obstacle.Name}";
 				return;
 			}
 
 			if (obstacle.gameObject.GetComponent<TriggerController>()) {
-				obstacleName.text = $"Trigger: {obstacle.GetName()}";
+				obstacleName.text = $"Trigger: {obstacle.Name}";
 				return;
 			}
 
-			obstacleName.text = obstacle.GetName();
+			obstacleName.text = obstacle.Name;
 		}
 
 		#endregion

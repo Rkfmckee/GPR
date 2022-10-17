@@ -42,7 +42,7 @@ public class SwingingTrap : TrapController
 
 	protected override void Update()
 	{
-		if (IsObstacleDisabled())
+		if (ObstacleDisabled)
 		{
 			return;
 		}

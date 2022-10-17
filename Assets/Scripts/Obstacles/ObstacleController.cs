@@ -1,14 +1,15 @@
 using UnityEngine;
 
-public class ObstacleController : MonoBehaviour {
-	#region Properties
+public class ObstacleController : MonoBehaviour
+{
+	#region Fields
 
 	[SerializeField]
 	protected new string name;
 	[SerializeField]
 	protected string description;
 	[SerializeField]
-	protected SurfaceType surfaceType;
+	protected ObstacleSurfaceType surfaceType;
 
 	private bool obstacleDisabled;
 
@@ -16,43 +17,38 @@ public class ObstacleController : MonoBehaviour {
 
 	#endregion
 
+	#region Properties
+
+	public string Name { get => name; }
+
+	public string Description { get => description; }
+
+	public ObstacleSurfaceType SurfaceType { get => surfaceType; }
+
+	public bool ObstacleDisabled { get => obstacleDisabled; set => obstacleDisabled = value; }
+
+	#endregion
+
 	#region Events
 
-	protected virtual void Awake() {
+	protected virtual void Awake()
+	{
 		References.Obstacles.trapsAndTriggers.Add(gameObject);
 
 		pickUpController = GetComponent<PickUpObject>();
 		obstacleDisabled = false;
 	}
 
-	protected virtual void Update() {
+	protected virtual void Update()
+	{
 	}
-
-	#endregion
-
-	#region Methods
-
-		#region Get/Set
-
-		public bool IsObstacleDisabled() {
-			return obstacleDisabled;
-		}
-
-		public void SetObstacleDisabled(bool disabled) {
-			obstacleDisabled = disabled;
-		}
-
-		public string GetName() { return name; }
-		public string GetDescription() { return description; }
-		public SurfaceType GetSurfaceType() { return surfaceType; }
-
-		#endregion
 
 	#endregion
 
 	#region Enums
 
-	public enum SurfaceType {
+	public enum ObstacleSurfaceType
+	{
 		Floor,
 		Wall,
 		Ceiling,

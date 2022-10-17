@@ -61,7 +61,7 @@ public class FriendlyStatePickupObject : FriendlyState
 			if (obstaclePlacement == null || obstaclePlacementController == null)
 				return;
 
-			if (obstaclePlacementController.IsPositionFinalized())
+			if (obstaclePlacementController.PositionFinalized)
 			{
 				if (rigidbody.isKinematic)
 				{
@@ -119,7 +119,7 @@ public class FriendlyStatePickupObject : FriendlyState
 
 	private void PlaceHeldObject(Vector3 position, Quaternion rotation)
 	{
-		heldObjectObstacleController.SetObstacleDisabled(false);
+		heldObjectObstacleController.ObstacleDisabled = false;
 		heldObjectPickup.SetCurrentState(PickUpObject.PickUpState.Idle);
 		heldObject.transform.position = position;
 		heldObject.transform.rotation = rotation;

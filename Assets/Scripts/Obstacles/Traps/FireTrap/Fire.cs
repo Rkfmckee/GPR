@@ -16,7 +16,7 @@ public class Fire : MonoBehaviour
 	{
 		trapController = GetComponentInParent<TrapController>();
 
-		if (trapController.GetName().Contains("Big"))
+		if (trapController.Name.Contains("Big"))
 		{
 			damageAmount = 2;
 		}

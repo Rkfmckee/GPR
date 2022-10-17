@@ -5,13 +5,10 @@ using static ObstacleController;
 
 public class ObstaclePlacementController : MonoBehaviour
 {
-	#region Properties
+	#region Fields
 
-	[HideInInspector]
-	public bool validPlacement;
-	[HideInInspector]
-	public RaycastHit hitInformation;
-
+	private bool validPlacement;
+	private RaycastHit hitInformation;
 	private bool positionFinalized;
 	private Material validMaterial;
 	private Material invalidMaterial;
@@ -26,6 +23,14 @@ public class ObstaclePlacementController : MonoBehaviour
 	private MeshRenderer[] placementObjectRenderers;
 	private Collider placementObjectCollider;
 	private ObstacleController heldObjectObstacleController;
+
+	#endregion
+
+	#region Properties
+
+	public bool PositionFinalized { get => positionFinalized; }
+
+	public List<string> ActionText { get => actionText; }
 
 	#endregion
 
@@ -75,20 +80,6 @@ public class ObstaclePlacementController : MonoBehaviour
 
 	#region Methods
 
-	#region Get/Set
-
-	public bool IsPositionFinalized()
-	{
-		return positionFinalized;
-	}
-
-	public List<string> GetActionText()
-	{
-		return actionText;
-	}
-
-	#endregion
-
 	public void SetHeldObject(GameObject heldObject)
 	{
 		PickUpObject pickUpController = heldObject.GetComponent<PickUpObject>();
@@ -99,9 +90,9 @@ public class ObstaclePlacementController : MonoBehaviour
 			return;
 		}
 
-		placementObject                         = Instantiate(pickUpController.placementPrefab) as GameObject;
+		placementObject                         = Instantiate(pickUpController.PlacementPrefab) as GameObject;
 		placementObject.transform.parent        = transform;
-		placementObject.transform.localPosition = pickUpController.placementPrefab.transform.position;
+		placementObject.transform.localPosition = pickUpController.PlacementPrefab.transform.position;
 
 		CopyColliderToPlacementModel(heldObject);
 
@@ -115,7 +106,7 @@ public class ObstaclePlacementController : MonoBehaviour
 		};
 		if (heldObjectObstacleController != null)
 		{
-			if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall)
+			if (heldObjectObstacleController.SurfaceType == ObstacleSurfaceType.Wall)
 			{
 				return;
 			}
@@ -147,9 +138,9 @@ public class ObstaclePlacementController : MonoBehaviour
 
 			if (heldObjectObstacleController != null)
 			{
-				if (heldObjectObstacleController.GetSurfaceType().ToString().ToLower() == hitInformation.collider.tag.ToLower() ||
-					(heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling && hitInformation.collider.tag == "Floor") ||
-					heldObjectObstacleController.GetSurfaceType() == SurfaceType.Any)
+				if (heldObjectObstacleController.SurfaceType.ToString().ToLower() == hitInformation.collider.tag.ToLower() ||
+					(heldObjectObstacleController.SurfaceType == ObstacleSurfaceType.Ceiling && hitInformation.collider.tag == "Floor") ||
+					heldObjectObstacleController.SurfaceType == ObstacleSurfaceType.Any)
 				{
 					validPlacement = true;
 				}
@@ -179,7 +170,7 @@ public class ObstaclePlacementController : MonoBehaviour
 			return (MoveColliderVertically(placementObjectCollider, position), rotation);
 		}
 
-		if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Floor)
+		if (heldObjectObstacleController.SurfaceType == ObstacleSurfaceType.Floor)
 		{
 			if (heldObjectObstacleController.gameObject.GetComponent<Rigidbody>())
 			{
@@ -188,9 +179,9 @@ public class ObstaclePlacementController : MonoBehaviour
 				return (MoveColliderVertically(placementObjectCollider, position), rotation);
 			}
 		}
-		else if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall)
+		else if (heldObjectObstacleController.SurfaceType == ObstacleSurfaceType.Wall)
 		{
-			Vector3 hitNormal = hitInformation.normal;
+			var hitNormal = hitInformation.normal;
 			rotation = Quaternion.LookRotation(hitNormal);
 
 			if (Mathf.Abs(hitNormal.x) == 1)
@@ -202,7 +193,7 @@ public class ObstaclePlacementController : MonoBehaviour
 				position.z = hitInformation.point.z;
 			}
 		}
-		else if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling)
+		else if (heldObjectObstacleController.SurfaceType == ObstacleSurfaceType.Ceiling)
 		{
 			position.y = ceilingHeight - 0.5f;
 		}
@@ -224,13 +215,13 @@ public class ObstaclePlacementController : MonoBehaviour
 
 	private void MoveOutOfOverlap()
 	{
-		Collider[] colliders = Physics.OverlapBox(placementObject.transform.position, placementObjectCollider.bounds.size / 2, Quaternion.identity, layerMasks["TerrainWithWallHidden"]);
+		var colliders = Physics.OverlapBox(placementObject.transform.position, placementObjectCollider.bounds.size / 2, Quaternion.identity, layerMasks["TerrainWithWallHidden"]);
 
 		foreach (Collider overlappedCollider in colliders)
 		{
-			Transform overlappedTransform = overlappedCollider.gameObject.transform;
-			Vector3 direction;
-			float distance;
+			var overlappedTransform = overlappedCollider.gameObject.transform;
+			var direction           = Vector3.zero;
+			var distance            = 0f;
 
 			bool overlapped = Physics.ComputePenetration(
 				placementObjectCollider, placementObject.transform.position, placementObject.transform.rotation,
@@ -257,7 +248,7 @@ public class ObstaclePlacementController : MonoBehaviour
 		zBounds.y -= placementObjectCollider.bounds.extents.z + wallThicknessOffset;
 
 		var yBound = ceilingHeight - placementObjectCollider.bounds.extents.y;
-		if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Ceiling)
+		if (heldObjectObstacleController.SurfaceType == ObstacleSurfaceType.Ceiling)
 		{
 			yBound = ceilingHeight;
 		}
@@ -287,9 +278,7 @@ public class ObstaclePlacementController : MonoBehaviour
 
 	private void ValidPlacementChangeMaterial()
 	{
-		Material newMaterial;
-		if (validPlacement) newMaterial = validMaterial;
-		else newMaterial = invalidMaterial;
+		var newMaterial = validPlacement ? validMaterial : invalidMaterial;
 
 		if (placementObjectRenderers.Length > 0)
 		{
@@ -311,7 +300,7 @@ public class ObstaclePlacementController : MonoBehaviour
 	{
 		if (heldObjectObstacleController != null)
 		{
-			if (heldObjectObstacleController.GetSurfaceType() == SurfaceType.Wall)
+			if (heldObjectObstacleController.SurfaceType == ObstacleSurfaceType.Wall)
 			{
 				return;
 			}

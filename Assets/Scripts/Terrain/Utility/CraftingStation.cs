@@ -81,12 +81,12 @@ public class CraftingStation : MonoBehaviour {
 		var newItemPickup = newItem.GetComponent<PickUpObject>();
 		var newItemObstacleController = newItem.GetComponent<ObstacleController>();
 
-		var newItemHeld = Instantiate(newItemPickup.heldPrefab, References.Obstacles.parentGroup);
+		var newItemHeld = Instantiate(newItemPickup.HeldPrefab, References.Obstacles.parentGroup);
 		newItemHeld.GetComponent<ObstacleHeld>().obstacle = newItem;
 
 		if (newItemObstacleController != null) {
-			itemName = newItemObstacleController.GetName();
-			newItemObstacleController.SetObstacleDisabled(true);
+			itemName = newItemObstacleController.Name;
+			newItemObstacleController.ObstacleDisabled = true;
 
 			if (itemToCraft.GetComponent<Rigidbody>()) {
 				// If it is a physics object, it's pivot point is likely in the center of it's collider

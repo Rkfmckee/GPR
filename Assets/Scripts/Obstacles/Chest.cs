@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Chest : MonoBehaviour {
-	#region Properties
-	public float timeToOpen;
-	public float openAngle;
+public class Chest : MonoBehaviour
+{
+	#region Fields
+	
+	[SerializeField]
+	private float timeToOpen;
+	[SerializeField]
+	private float openAngle;
 
 	private ChestState currentState;
 	private Quaternion openedRotation;
@@ -17,20 +21,25 @@ public class Chest : MonoBehaviour {
 
 	#region Events
 
-	private void Awake() {
-		currentState = ChestState.Closed;
+	private void Awake()
+	{
+		currentState   = ChestState.Closed;
 		openedRotation = Quaternion.Euler(-openAngle, 0, 0);
 
 		chestLid = transform.Find("ChestTop").gameObject;
 	}
 
-	private void Start() {
+	private void Start()
+	{
 		globalObstacles = References.Game.globalObstacles;
 	}
 
-	private void Update() {
-		if (currentState == ChestState.Open) {
-			if (!globalObstacles.IsInventoryOpen()) {
+	private void Update()
+	{
+		if (currentState == ChestState.Open)
+		{
+			if (!globalObstacles.IsInventoryOpen())
+			{
 				Close();
 			}
 		}
@@ -40,16 +49,19 @@ public class Chest : MonoBehaviour {
 
 	#region Methods
 
-	public ChestState GetCurrentState() {
+	public ChestState GetCurrentState()
+	{
 		return currentState;
 	}
 
-	public void Open() {
+	public void Open()
+	{
 		currentState = ChestState.Opening;
 		StartCoroutine(OpeningChest());
 	}
 
-	private void Close() {
+	private void Close()
+	{
 		currentState = ChestState.Closing;
 		StartCoroutine(ClosingChest());
 	}
@@ -58,7 +70,8 @@ public class Chest : MonoBehaviour {
 
 	#region Enums
 
-	public enum ChestState {
+	public enum ChestState
+	{
 		Open,
 		Opening,
 		Closed,
@@ -69,13 +82,15 @@ public class Chest : MonoBehaviour {
 
 	#region Coroutines
 
-	private IEnumerator OpeningChest() {
+	private IEnumerator OpeningChest()
+	{
 		print("Opening Chest");
 		currentOpeningTime = 0;
 
-		while (currentOpeningTime < timeToOpen) {
-			chestLid.transform.localRotation = Quaternion.Lerp(Quaternion.Euler(Vector3.zero), openedRotation, currentOpeningTime / timeToOpen);
-			currentOpeningTime += Time.deltaTime;
+		while (currentOpeningTime < timeToOpen)
+		{
+			chestLid.transform.localRotation  = Quaternion.Lerp(Quaternion.Euler(Vector3.zero), openedRotation, currentOpeningTime / timeToOpen);
+			currentOpeningTime               += Time.deltaTime;
 
 			yield return null;
 		}
@@ -83,14 +98,16 @@ public class Chest : MonoBehaviour {
 		currentState = ChestState.Open;
 	}
 
-	private IEnumerator ClosingChest() {
+	private IEnumerator ClosingChest()
+	{
 		// Use openingTime here, since the closing time will always be the same as opening time
 		print("Closing Chest");
 		currentOpeningTime = 0;
 
-		while (currentOpeningTime < timeToOpen) {
-			chestLid.transform.localRotation = Quaternion.Lerp(openedRotation, Quaternion.Euler(Vector3.zero), currentOpeningTime / timeToOpen);
-			currentOpeningTime += Time.deltaTime;
+		while (currentOpeningTime < timeToOpen)
+		{
+			chestLid.transform.localRotation  = Quaternion.Lerp(openedRotation, Quaternion.Euler(Vector3.zero), currentOpeningTime / timeToOpen);
+			currentOpeningTime               += Time.deltaTime;
 
 			yield return null;
 		}

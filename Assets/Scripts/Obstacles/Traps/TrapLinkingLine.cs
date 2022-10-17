@@ -149,7 +149,7 @@ public class TrapLinkingLine : MonoBehaviour
 		trap.SetLinkedTrigger(trigger);
 		trigger.LinkedTrap = trap;
 
-		References.UI.notifications.AddNotification($"Linked {trap.GetName()} to {trigger.GetName()}", NotificationType.Success);
+		References.UI.notifications.AddNotification($"Linked {trap.Name} to {trigger.Name}", NotificationType.Success);
 		References.Game.globalObstacles.RemoveTrapLinkingLine();
 	}
 

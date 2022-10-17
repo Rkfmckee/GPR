@@ -34,7 +34,7 @@ public abstract class TrapController : ObstacleController
 
 	public virtual void TriggerTrap(Collider triggeredBy)
 	{
-		if (IsObstacleDisabled())
+		if (ObstacleDisabled)
 		{
 			return;
 		}

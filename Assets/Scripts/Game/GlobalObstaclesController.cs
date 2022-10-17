@@ -98,7 +98,7 @@ public class GlobalObstaclesController : MonoBehaviour
 		obstaclePlacementController.SetHeldObject(heldObject);
 		obstaclePlacements.Add(obstaclePlacement);
 
-		canvasController.EnableActionText(obstaclePlacementController.GetActionText());
+		canvasController.EnableActionText(obstaclePlacementController.ActionText);
 		return obstaclePlacement;
 	}
 

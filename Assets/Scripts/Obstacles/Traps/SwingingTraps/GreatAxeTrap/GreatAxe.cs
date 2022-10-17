@@ -21,7 +21,7 @@ public class GreatAxe : MonoBehaviour
 
 	private void OnCollisionStay(Collision other)
 	{
-		if (trapController.IsObstacleDisabled())
+		if (trapController.ObstacleDisabled)
 		{
 			return;
 		}
